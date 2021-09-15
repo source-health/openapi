@@ -1,6 +1,6 @@
 # Catalyst's OpenAPI Specification
 
-This repository contains [OpenAPI specifications][openapi] for the Catalyst's API.
+This repository contains OpenAPI specifications for the Catalyst's API.
 
 Files can be found in the `openapi/` directory:
 
