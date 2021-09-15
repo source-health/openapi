@@ -1967,247 +1967,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/order"
-  /v1/tasks:
-    post:
-      summary: Create a Task
-      description: Creates a new task and registers it with Catalyst. Once a task is
-        created you cannot update the definition or member associated with that
-        task.
-      tags:
-        - Tasks
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                definition:
-                  type: string
-                  description: The task definition that this task models. You may provide either
-                    the definition ID or key.
-                  example: tskd_vlTxSr3ldEgbgX0RiQSk
-                member:
-                  type: string
-                  description: The member to which this task belongs.
-                  example: mem_JAfPRRc59eh2YQ1aeL3D
-                assignee:
-                  type: string
-                  description: The user to which this task is assigned.
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
-                description:
-                  type: string
-                  minLength: 1
-                  description: Short text that describes the work to be done.
-                  example: Call the member to check up on medications
-                status:
-                  type: string
-                  enum:
-                    - open
-                    - resolved
-                  description: The status of the task
-                  example: open
-                due_at:
-                  type: string
-                  format: date-time
-                  description: The time by which this task should be completed. If no due_at date
-                    is supplied, the due_at date will automatically be 24 hours
-                    after the task was created. The due_at date must be in the
-                    future.'
-                  example: 2021-05-13T16:33:00.000Z
-              required:
-                - definition
-                - member
-                - assignee
-                - description
-                - status
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/task"
-    get:
-      summary: List all Tasks
-      description: >-
-        Returns a list of tasks within the current account.
-
-
-        The tasks returned are sorted by creation date, with the most recently added task appearing first.
-      tags:
-        - Tasks
-      parameters:
-        - in: query
-          style: form
-          explode: true
-          name: ending_before
-          schema:
-            type: string
-            description: A cursor for use in pagination. `ending_before` is an object ID
-              that defines your place in the list. For instance, if you make a
-              list request and receive 100 objects, starting with obj_bar, your
-              subsequent call can include ending_before=obj_bar in order to
-              fetch the previous page of the list.
-          required: false
-          description: A cursor for use in pagination. `ending_before` is an object ID
-            that defines your place in the list. For instance, if you make a
-            list request and receive 100 objects, starting with obj_bar, your
-            subsequent call can include ending_before=obj_bar in order to fetch
-            the previous page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: starting_after
-          schema:
-            type: string
-            description: A cursor for use in pagination. `starting_after` is an object ID
-              that defines your place in the list. For instance, if you make a
-              list request and receive 100 objects, ending with obj_foo, your
-              subsequent call can include starting_after=obj_foo in order to
-              fetch the next page of the list.
-          required: false
-          description: A cursor for use in pagination. `starting_after` is an object ID
-            that defines your place in the list. For instance, if you make a
-            list request and receive 100 objects, ending with obj_foo, your
-            subsequent call can include starting_after=obj_foo in order to fetch
-            the next page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: limit
-          schema:
-            type: number
-            minimum: 1
-            maximum: 100
-            description: A limit on the number of objects to be returned. Limit can range
-              between 1 and 100.
-          required: false
-          description: A limit on the number of objects to be returned. Limit can range
-            between 1 and 100.
-        - in: query
-          style: form
-          explode: true
-          name: status
-          schema:
-            type: array
-            items:
-              type: string
-              enum:
-                - open
-                - resolved
-            description: Filter results by status. If multiple statuses are provided, tasks
-              matching any of the provided statuses will be returned.
-          required: false
-          description: Filter results by status. If multiple statuses are provided, tasks
-            matching any of the provided statuses will be returned.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    default: list
-                    enum:
-                      - list
-                    example: list
-                    description: Always `list`.
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/task"
-                    description: Array of results
-                  has_more:
-                    type: boolean
-                    description: Contains `true` if there is another page of results available.
-                required:
-                  - object
-                  - data
-                  - has_more
-  "/v1/tasks/{id}":
-    post:
-      summary: Update a Task
-      description: >-
-        Updates the specified task by setting the values of the parameters
-        passed.
-
-
-        Any parameters not provided will be left unchanged. For example, if you pass the assignee parameter, that assigns the task to the given user.
-      tags:
-        - Tasks
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            description: Unique ID of the task
-          required: true
-          description: Unique ID of the task
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                assignee:
-                  type: string
-                  description: The user to which this task is assigned.
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
-                description:
-                  type: string
-                  minLength: 1
-                  description: Short text that describes the work to be done.
-                  example: Call the member to check up on medications
-                status:
-                  type: string
-                  enum:
-                    - open
-                    - resolved
-                  description: The status of the task
-                  example: open
-                due_at:
-                  type: string
-                  format: date-time
-                  description: The time by which this task should be completed. If no due_at date
-                    is supplied, the due_at date will automatically be 24 hours
-                    after the task was created. The due_at date must be in the
-                    future.'
-                  example: 2021-05-13T16:33:00.000Z
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/task"
-    get:
-      summary: Retrieve a Task
-      description: Retrieves the details of an existing task. You need only supply the
-        unique task identifier that was returned upon creation.
-      tags:
-        - Tasks
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            description: Unique ID of the task
-          required: true
-          description: Unique ID of the task
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/task"
   /v1/task_definitions:
     post:
       summary: Create a Task Definition
@@ -2506,6 +2265,247 @@ paths:
                   - object
                   - data
                   - has_more
+  /v1/tasks:
+    post:
+      summary: Create a Task
+      description: Creates a new task and registers it with Catalyst. Once a task is
+        created you cannot update the definition or member associated with that
+        task.
+      tags:
+        - Tasks
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                definition:
+                  type: string
+                  description: The task definition that this task models. You may provide either
+                    the definition ID or key.
+                  example: tskd_vlTxSr3ldEgbgX0RiQSk
+                member:
+                  type: string
+                  description: The member to which this task belongs.
+                  example: mem_JAfPRRc59eh2YQ1aeL3D
+                assignee:
+                  type: string
+                  description: The user to which this task is assigned.
+                  example: usr_NC6MQ3FyxddKoJJpfSVL
+                description:
+                  type: string
+                  minLength: 1
+                  description: Short text that describes the work to be done.
+                  example: Call the member to check up on medications
+                status:
+                  type: string
+                  enum:
+                    - open
+                    - resolved
+                  description: The status of the task
+                  example: open
+                due_at:
+                  type: string
+                  format: date-time
+                  description: The time by which this task should be completed. If no due_at date
+                    is supplied, the due_at date will automatically be 24 hours
+                    after the task was created. The due_at date must be in the
+                    future.'
+                  example: 2021-05-13T16:33:00.000Z
+              required:
+                - definition
+                - member
+                - assignee
+                - description
+                - status
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+    get:
+      summary: List all Tasks
+      description: >-
+        Returns a list of tasks within the current account.
+
+
+        The tasks returned are sorted by creation date, with the most recently added task appearing first.
+      tags:
+        - Tasks
+      parameters:
+        - in: query
+          style: form
+          explode: true
+          name: ending_before
+          schema:
+            type: string
+            description: A cursor for use in pagination. `ending_before` is an object ID
+              that defines your place in the list. For instance, if you make a
+              list request and receive 100 objects, starting with obj_bar, your
+              subsequent call can include ending_before=obj_bar in order to
+              fetch the previous page of the list.
+          required: false
+          description: A cursor for use in pagination. `ending_before` is an object ID
+            that defines your place in the list. For instance, if you make a
+            list request and receive 100 objects, starting with obj_bar, your
+            subsequent call can include ending_before=obj_bar in order to fetch
+            the previous page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: starting_after
+          schema:
+            type: string
+            description: A cursor for use in pagination. `starting_after` is an object ID
+              that defines your place in the list. For instance, if you make a
+              list request and receive 100 objects, ending with obj_foo, your
+              subsequent call can include starting_after=obj_foo in order to
+              fetch the next page of the list.
+          required: false
+          description: A cursor for use in pagination. `starting_after` is an object ID
+            that defines your place in the list. For instance, if you make a
+            list request and receive 100 objects, ending with obj_foo, your
+            subsequent call can include starting_after=obj_foo in order to fetch
+            the next page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: limit
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            description: A limit on the number of objects to be returned. Limit can range
+              between 1 and 100.
+          required: false
+          description: A limit on the number of objects to be returned. Limit can range
+            between 1 and 100.
+        - in: query
+          style: form
+          explode: true
+          name: status
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - open
+                - resolved
+            description: Filter results by status. If multiple statuses are provided, tasks
+              matching any of the provided statuses will be returned.
+          required: false
+          description: Filter results by status. If multiple statuses are provided, tasks
+            matching any of the provided statuses will be returned.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                    enum:
+                      - list
+                    example: list
+                    description: Always `list`.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/task"
+                    description: Array of results
+                  has_more:
+                    type: boolean
+                    description: Contains `true` if there is another page of results available.
+                required:
+                  - object
+                  - data
+                  - has_more
+  "/v1/tasks/{id}":
+    post:
+      summary: Update a Task
+      description: >-
+        Updates the specified task by setting the values of the parameters
+        passed.
+
+
+        Any parameters not provided will be left unchanged. For example, if you pass the assignee parameter, that assigns the task to the given user.
+      tags:
+        - Tasks
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the task
+          required: true
+          description: Unique ID of the task
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                assignee:
+                  type: string
+                  description: The user to which this task is assigned.
+                  example: usr_NC6MQ3FyxddKoJJpfSVL
+                description:
+                  type: string
+                  minLength: 1
+                  description: Short text that describes the work to be done.
+                  example: Call the member to check up on medications
+                status:
+                  type: string
+                  enum:
+                    - open
+                    - resolved
+                  description: The status of the task
+                  example: open
+                due_at:
+                  type: string
+                  format: date-time
+                  description: The time by which this task should be completed. If no due_at date
+                    is supplied, the due_at date will automatically be 24 hours
+                    after the task was created. The due_at date must be in the
+                    future.'
+                  example: 2021-05-13T16:33:00.000Z
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
+    get:
+      summary: Retrieve a Task
+      description: Retrieves the details of an existing task. You need only supply the
+        unique task identifier that was returned upon creation.
+      tags:
+        - Tasks
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the task
+          required: true
+          description: Unique ID of the task
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/task"
 components:
   securitySchemes:
     basic:
@@ -3669,6 +3669,85 @@ components:
         - capabilities
         - connectivity
       title: Device Model
+    task_definition:
+      type: object
+      properties:
+        object:
+          type: string
+          default: task_definition
+          enum:
+            - task_definition
+          example: task_definition
+          description: Always `task_definition`.
+        id:
+          type: string
+          description: Unique ID of the task definition.
+          example: tskd_vlTxSr3ldEgbgX0RiQSk
+        key:
+          type: string
+          description: Unique identifier for the task definition that can be used when
+            creating tasks.
+          example: follow-up
+        name:
+          type: string
+          description: Human readable name of the task definition.
+          example: Follow Up
+        participantRole:
+          type: string
+          enum:
+            - clinician
+            - nurse
+            - dietician
+            - ob-gyn
+          description: The default care team role that tasks should be assigned to.
+          example: nurse
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the task definition was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the task definition was last updated.
+          example: 2021-05-13T16:33:00.000Z
+      required:
+        - object
+        - id
+        - key
+        - name
+        - participantRole
+        - created_at
+        - updated_at
+      title: Task Definition
+      description: >-
+        Task definitions inform the structure of individual tasks.
+
+
+        When creating a task definition, you can specify a key which can be used when creating new tasks.
+    task_queue_entry:
+      type: object
+      properties:
+        object:
+          type: string
+          description: Always `task_queue_entry`
+        member:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/member"
+          x-expandable:
+            $ref: "#/components/schemas/member"
+          description: The member to which the tasks belong.
+          example: mem_JAfPRRc59eh2YQ1aeL3D
+        tasks:
+          type: array
+          items:
+            $ref: "#/components/schemas/task"
+          description: List of open tasks outstanding for the member.
+      required:
+        - object
+        - member
+        - tasks
     task:
       type: object
       properties:
@@ -3754,85 +3833,6 @@ components:
 
 
         Tasks can be created from any number of sources, including the API. The Catalyst platform will generate tasks itself in many cases, such as when a member sends a mesasge to their care team. When Catalyst generates a task automatically, we will also resolve it automatically when the work has been completed (for example, when the care team replies to the member.)
-    task_definition:
-      type: object
-      properties:
-        object:
-          type: string
-          default: task_definition
-          enum:
-            - task_definition
-          example: task_definition
-          description: Always `task_definition`.
-        id:
-          type: string
-          description: Unique ID of the task definition.
-          example: tskd_vlTxSr3ldEgbgX0RiQSk
-        key:
-          type: string
-          description: Unique identifier for the task definition that can be used when
-            creating tasks.
-          example: follow-up
-        name:
-          type: string
-          description: Human readable name of the task definition.
-          example: Follow Up
-        participantRole:
-          type: string
-          enum:
-            - clinician
-            - nurse
-            - dietician
-            - ob-gyn
-          description: The default care team role that tasks should be assigned to.
-          example: nurse
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the task definition was created.
-          example: 2021-05-13T16:33:00.000Z
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the task definition was last updated.
-          example: 2021-05-13T16:33:00.000Z
-      required:
-        - object
-        - id
-        - key
-        - name
-        - participantRole
-        - created_at
-        - updated_at
-      title: Task Definition
-      description: >-
-        Task definitions inform the structure of individual tasks.
-
-
-        When creating a task definition, you can specify a key which can be used when creating new tasks.
-    task_queue_entry:
-      type: object
-      properties:
-        object:
-          type: string
-          description: Always `task_queue_entry`
-        member:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/member"
-          x-expandable:
-            $ref: "#/components/schemas/member"
-          description: The member to which the tasks belong.
-          example: mem_JAfPRRc59eh2YQ1aeL3D
-        tasks:
-          type: array
-          items:
-            $ref: "#/components/schemas/task"
-          description: List of open tasks outstanding for the member.
-      required:
-        - object
-        - member
-        - tasks
     error:
       type: object
       properties:
