@@ -1,0 +1,20 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  clinical:
+    name: Release OpenAPI Specification
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+      - name: Bump Version
+        uses: 'phips28/gh-action-bump-version@master'
+        with:
+          tag-prefix: 'v'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
