@@ -1988,7 +1988,7 @@ paths:
                   type: string
                   description: Human readable name of the task definition
                   example: Medication Request
-                participantRole:
+                participant_role:
                   type: string
                   enum:
                     - clinician
@@ -2000,7 +2000,7 @@ paths:
               required:
                 - key
                 - name
-                - participantRole
+                - participant_role
       responses:
         default:
           description: Successful response.
@@ -2127,7 +2127,7 @@ paths:
                   type: string
                   description: Human readable name of the task definition
                   example: Medication Request
-                participantRole:
+                participant_role:
                   type: string
                   enum:
                     - clinician
@@ -3692,7 +3692,7 @@ components:
           type: string
           description: Human readable name of the task definition.
           example: Follow Up
-        participantRole:
+        participant_role:
           type: string
           enum:
             - clinician
@@ -3716,7 +3716,7 @@ components:
         - id
         - key
         - name
-        - participantRole
+        - participant_role
         - created_at
         - updated_at
       title: Task Definition
