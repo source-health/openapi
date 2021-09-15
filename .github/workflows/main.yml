@@ -12,6 +12,11 @@ jobs:
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '12.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@catalysthealth'
       - name: Bump Version
         uses: 'phips28/gh-action-bump-version@master'
         with:
@@ -22,4 +27,4 @@ jobs:
         run: |
           npm publish
         env:
-          NPM_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
