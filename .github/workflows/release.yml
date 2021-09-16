@@ -1,8 +1,7 @@
 name: Release
 
 on:
-  push:
-    tags: v*
+- workflow_dispatch
 
 jobs:
   deploy:
@@ -13,5 +12,5 @@ jobs:
       with:
         fail_on_unmatched_files: true
         files: |
-          openapi/spec3.yml
-          openapi/spec3.json
+          **/*.yml
+          **/*.json
