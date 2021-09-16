@@ -23,6 +23,19 @@ jobs:
           tag-prefix: 'v'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Export Tag
+        id: tag_name
+        run: |
+          echo ::set-output name=TAG::`cat package.json | jq -r .version`
+        shell: bash
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          name: ${{ steps.tag_name.outputs.TAG }}
+          files: |
+            openapi/spec3.yml
+            openapi/spec3.json
+
       - name: Publish Package
         run: |
           npm publish
