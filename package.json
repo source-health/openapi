@@ -1,6 +1,6 @@
 {
   "name": "@catalysthealth/openapi",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "main": "openapi/spec3.json",
   "license": "MIT",
   "files": [
