@@ -15,5 +15,5 @@ jobs:
       with:
         fail_on_unmatched_files: true
         files: |
-          **/*.yml
-          **/*.json
+          openapi/spec3.yml
+          openapi/spec3.json
