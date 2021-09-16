@@ -3575,7 +3575,6 @@ components:
         - created_at
         - updated_at
       title: Order
-      description: Orders are requests to send devices to your members.
     product:
       type: object
       properties:
