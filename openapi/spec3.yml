@@ -332,7 +332,7 @@ paths:
                 first_name:
                   type: string
                   description: First name of the member
-                  example: Evie
+                  example: Catherine
                 middle_name:
                   type: string
                   nullable: true
@@ -342,6 +342,13 @@ paths:
                   type: string
                   description: Last name of the member
                   example: Parker
+                preferred_name:
+                  type: string
+                  nullable: true
+                  description: Preferred name of the member. This could be a shortened or
+                    alternate name that the member typically prefers to be
+                    called.
+                  example: Cathy
                 email:
                   type: string
                   nullable: true
@@ -561,7 +568,7 @@ paths:
                 first_name:
                   type: string
                   description: First name of the member
-                  example: Evie
+                  example: Catherine
                 middle_name:
                   type: string
                   nullable: true
@@ -571,6 +578,13 @@ paths:
                   type: string
                   description: Last name of the member
                   example: Parker
+                preferred_name:
+                  type: string
+                  nullable: true
+                  description: Preferred name of the member. This could be a shortened or
+                    alternate name that the member typically prefers to be
+                    called.
+                  example: Cathy
                 email:
                   type: string
                   nullable: true
@@ -2733,7 +2747,7 @@ components:
         first_name:
           type: string
           description: First name of the member.
-          example: Evie
+          example: Catherine
         middle_name:
           type: string
           nullable: true
@@ -2743,6 +2757,12 @@ components:
           type: string
           description: Last name of the member.
           example: Parker
+        preferred_name:
+          type: string
+          nullable: true
+          description: The member's preferred name. This could be a shortened or alternate
+            name that the member typically prefers to be called.
+          example: Cathy
         email:
           type: string
           nullable: true
@@ -2825,6 +2845,7 @@ components:
         - first_name
         - middle_name
         - last_name
+        - preferred_name
         - email
         - date_of_birth
         - biological_sex
@@ -3141,9 +3162,10 @@ components:
                 object: member
                 id: mem_JAfPRRc59eh2YQ1aeL3D
                 title: null
-                first_name: Evie
+                first_name: Catherine
                 middle_name: null
                 last_name: Parker
+                preferred_name: Cathy
                 email: evieparker@example.org
                 biological_sex: female
                 date_of_birth: 1964-10-01T00:00:00.000Z
