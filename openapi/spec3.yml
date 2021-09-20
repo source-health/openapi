@@ -3817,6 +3817,16 @@ components:
             - open
             - resolved
           description: Status the task is currently in
+        assignment_method:
+          type: string
+          enum:
+            - direct
+            - indirect
+          description: This property allows you to see how the task was assigned. When we
+            automatically assign tasks based on your pre-defined routing rules,
+            the value of this property will be `indirect`. When an assignee is
+            specified through the API or by a user in the interface, the value
+            of this property will be `direct`.
         created_at:
           type: string
           format: date-time
@@ -3840,6 +3850,7 @@ components:
         - assignee
         - description
         - status
+        - assignment_method
         - created_at
         - updated_at
         - due_at
