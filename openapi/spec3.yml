@@ -2329,7 +2329,6 @@ paths:
               required:
                 - definition
                 - member
-                - assignee
                 - description
                 - status
       responses:
@@ -3807,6 +3806,7 @@ components:
             $ref: "#/components/schemas/user"
           description: User on the care team to which this task is assigned.
           example: usr_NC6MQ3FyxddKoJJpfSVL
+          nullable: true
         description:
           type: string
           description: A human-readable string that describes the task at a high level.
