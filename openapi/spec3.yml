@@ -2246,12 +2246,14 @@ paths:
             description: Shows the queue for the provided user. By default when not provided
               the queue will include all  tasks assigned to all users. When
               authenticated as a user you can specify the value 'current'
-              to  show the current users task queue.
+              to  show the current users task queue. Providing `unassigned` will
+              show a global queue of all  tasks that are unassigned.
           required: false
           description: Shows the queue for the provided user. By default when not provided
             the queue will include all  tasks assigned to all users. When
             authenticated as a user you can specify the value 'current' to  show
-            the current users task queue.
+            the current users task queue. Providing `unassigned` will show a
+            global queue of all  tasks that are unassigned.
       responses:
         default:
           description: Successful response.
