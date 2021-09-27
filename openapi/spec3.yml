@@ -2893,18 +2893,18 @@ components:
           anyOf:
             - oneOf:
                 - type: string
-                - $ref: "#/components/schemas/user"
-              x-expandable:
-                $ref: "#/components/schemas/user"
-              description: Expandable reference to a User
-              example: usr_NC6MQ3FyxddKoJJpfSVL
-            - oneOf:
-                - type: string
                 - $ref: "#/components/schemas/member"
               x-expandable:
                 $ref: "#/components/schemas/member"
               description: Expandable reference to a Member
               example: mem_JAfPRRc59eh2YQ1aeL3D
+            - oneOf:
+                - type: string
+                - $ref: "#/components/schemas/user"
+              x-expandable:
+                $ref: "#/components/schemas/user"
+              description: Expandable reference to a User
+              example: usr_NC6MQ3FyxddKoJJpfSVL
           description: The person who sent this message.
         sent_at:
           type: string
