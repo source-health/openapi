@@ -815,8 +815,12 @@ paths:
                 subject:
                   type: string
                   description: The thread subject.
+                text:
+                  type: string
+                  description: Contents of the initial message in this thread.
               required:
                 - member
+                - text
       responses:
         default:
           description: Successful response.
