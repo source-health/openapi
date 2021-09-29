@@ -1362,7 +1362,7 @@ paths:
   /v1/tasks:
     post:
       summary: Create a Task
-      description: Creates a new task and registers it with Catalyst. Once a task is
+      description: Creates a new task and registers it with Source. Once a task is
         created you cannot update the definition or member associated with that
         task.
       tags:
@@ -1731,10 +1731,10 @@ paths:
   "/v1/events/{id}":
     get:
       summary: Retrieve an Event
-      description: Each event data is rendered according to Catalyst API version at
-        its creation time,       specified in event object api_version attribute
-        (not according to your current Catalyst       API version or
-        Catalyst-Version header).
+      description: Each event data is rendered according to Source API version at its
+        creation time,       specified in event object api_version attribute
+        (not according to your current Source       API version or
+        Source-Version header).
       tags: []
       parameters:
         - in: path
@@ -1759,9 +1759,9 @@ paths:
     get:
       summary: List all Events
       description: List all stored events. Each event data is rendered according to
-        Catalyst API       version at its creation time, specified in event
-        object api_version attribute (not according       to your current
-        Catalyst API version or Catalyst-Version header).
+        Source API       version at its creation time, specified in event object
+        api_version attribute (not according       to your current Source API
+        version or Source-Version header).
       tags: []
       parameters:
         - in: query
@@ -2089,11 +2089,11 @@ paths:
     post:
       summary: Upload a File
       description: >-
-        Uploads a file to Catalyst by sending a `multipart/form-data` request
+        Uploads a file to Source by sending a `multipart/form-data` request
         containing the file to upload and any additional metadata.
 
 
-        Files must be uploaded through the files API before they can be attached to messages, set as profile photos, or otherwise used by the Catalyst platform.
+        Files must be uploaded through the files API before they can be attached to messages, set as profile photos, or otherwise used by the Source platform.
       tags:
         - File
       parameters: []
@@ -3683,10 +3683,10 @@ components:
         - url_expires_at
         - created_at
       title: File
-      description: This resource represents a file hosted on Catalyst's servers. You
-        can upload files to use throughout the platform, such as sending
-        attachments on messages. Once a file has been uploaded, you can access
-        it by accessing the `url` property of the file resource .
+      description: This resource represents a file hosted on Source's servers. You can
+        upload files to use throughout the platform, such as sending attachments
+        on messages. Once a file has been uploaded, you can access it by
+        accessing the `url` property of the file resource .
       x-resourceId: file
       x-package: null
     measurement:
@@ -3733,7 +3733,7 @@ components:
         value:
           type: string
           description: Numeric value of this measurement (non-numeric not supported at
-            this time). Catalyst always returns measurements as strings to avoid
+            this time). Source always returns measurements as strings to avoid
             floating-point precision issues.
           example: "100.45"
         unit:
