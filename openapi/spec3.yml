@@ -1,15 +1,15 @@
 openapi: 3.0.0
 info:
   version: "1.0"
-  title: Catalyst API
-  description: The Catalyst HTTP API
+  title: Source Health API
+  description: The Source HTTP API
   contact:
-    name: Catalyst Support
-    email: support@withcatalyst.com
-    url: https://docs.withcatalyst.com
+    name: Source Support
+    email: support@sourcehealth.com
+    url: https://sourcehealth.com/docs/api
 servers:
   - url: https://api.withcatalyst.com
-    description: Catalyst Production
+    description: Source Production
 security:
   - bearer: []
   - basic: []
@@ -32,9 +32,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the account
+            description: Unique ID of the account.
           required: true
-          description: Unique ID of the account
+          description: Unique ID of the account.
       responses:
         default:
           description: Successful response.
@@ -42,6 +42,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/account"
+      x-methodName: retrieve
+      x-belongsToResource: account
     post:
       summary: Update an Account
       description: >-
@@ -59,9 +61,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the account
+            description: Unique ID of the account.
           required: true
-          description: Unique ID of the account
+          description: Unique ID of the account.
       requestBody:
         content:
           application/json:
@@ -83,9 +85,11 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/account"
+      x-methodName: update
+      x-belongsToResource: account
   "/v1/users/{id}":
     get:
-      summary: Find a User
+      summary: Retrieve a User
       description: Retrieve a user by their unique identifier.
       tags:
         - User
@@ -96,9 +100,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the user
+            description: Unique ID of the user.
           required: true
-          description: Unique ID of the user
+          description: Unique ID of the user.
       responses:
         default:
           description: Successful response.
@@ -106,6 +110,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
+      x-methodName: retrieve
+      x-belongsToResource: user
   /v1/users:
     get:
       summary: List all Users
@@ -233,6 +239,8 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: user
   "/v1/care_teams/{id}":
     post:
       summary: Update a Care Team
@@ -243,7 +251,7 @@ paths:
 
         Any parameters not provided will be left unchanged. For example, if you pass the member parameter, that assigns the care team to the given member.
       tags:
-        - Care Teams
+        - Care Team
       parameters:
         - in: path
           style: simple
@@ -251,9 +259,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the care team
+            description: Unique ID of the care_team.
           required: true
-          description: Unique ID of the care team
+          description: Unique ID of the care_team.
       requestBody:
         content:
           application/json:
@@ -288,12 +296,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/care_team"
+      x-methodName: update
+      x-belongsToResource: care_team
     get:
       summary: Retrieve a Care Team
       description: Retrieves the details of an existing care team. You need only
         supply the unique care team identifier that was returned upon creation.
       tags:
-        - Care Teams
+        - Care Team
       parameters:
         - in: path
           style: simple
@@ -301,9 +311,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the care team
+            description: Unique ID of the care_team.
           required: true
-          description: Unique ID of the care team
+          description: Unique ID of the care_team.
       responses:
         default:
           description: Successful response.
@@ -311,13 +321,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/care_team"
+      x-methodName: retrieve
+      x-belongsToResource: care_team
   /v1/members:
     post:
       summary: Create a Member
       description: Creates a new member and registers them with Catalyst. Members must
         be created in order to ship devices or track measurements.
       tags:
-        - Members
+        - Member
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -417,6 +430,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/member"
+      x-methodName: create
+      x-belongsToResource: member
     get:
       summary: List all Members
       description: >-
@@ -425,7 +440,7 @@ paths:
 
         The members returned are sorted by creation date, with the most recently added members appearing first.
       tags:
-        - Members
+        - Member
       parameters:
         - in: query
           style: form
@@ -510,13 +525,15 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: member
   "/v1/members/{id}":
     get:
       summary: Retrieve a Member
       description: Retrieves the details of an existing member. You need only supply
         the unique member identifier that was returned upon member creation.
       tags:
-        - Members
+        - Member
       parameters:
         - in: path
           style: simple
@@ -524,9 +541,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the member
+            description: Unique ID of the member.
           required: true
-          description: Unique ID of the member
+          description: Unique ID of the member.
       responses:
         default:
           description: Successful response.
@@ -534,6 +551,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/member"
+      x-methodName: retrieve
+      x-belongsToResource: member
     post:
       summary: Update a Member
       description: >-
@@ -543,7 +562,7 @@ paths:
 
         Any parameters not provided will be left unchanged. For example, if you pass the email parameter, that becomes the member's active email to be used.
       tags:
-        - Members
+        - Member
       parameters:
         - in: path
           style: simple
@@ -551,9 +570,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the member
+            description: Unique ID of the member.
           required: true
-          description: Unique ID of the member
+          description: Unique ID of the member.
       requestBody:
         content:
           application/json:
@@ -648,12 +667,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/member"
+      x-methodName: update
+      x-belongsToResource: member
   /v1/communication/messages:
     post:
       summary: Create a Message
       description: Creates a message within a thread.
       tags:
-        - Communication
+        - Message
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -676,6 +698,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/message"
+      x-methodName: create
+      x-belongsToResource: message
     get:
       summary: List all Messages
       description: >-
@@ -684,7 +708,7 @@ paths:
 
         The threads returned are sorted with the most recently updated appearing first.
       tags:
-        - Communication
+        - Message
       parameters:
         - in: query
           style: form
@@ -769,13 +793,15 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: message
   "/v1/communication/messages/{id}":
     get:
       summary: Retrieve a Message
       description: Retrieves the details of an Message. You need only supply the
         unique message identifier that was returned upon creation.
       tags:
-        - Communication
+        - Message
       parameters:
         - in: path
           style: simple
@@ -783,9 +809,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the message
+            description: Unique ID of the message.
           required: true
-          description: Unique ID of the message
+          description: Unique ID of the message.
       responses:
         default:
           description: Successful response.
@@ -793,12 +819,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/message"
+      x-methodName: retrieve
+      x-belongsToResource: message
   /v1/communication/threads:
     post:
       summary: Create a Thread
       description: Creates a new messaging thread.
       tags:
-        - Communication
+        - Thread
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -828,6 +857,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/thread"
+      x-methodName: create
+      x-belongsToResource: thread
     get:
       summary: List all Threads
       description: >-
@@ -836,7 +867,7 @@ paths:
 
         The threads returned are sorted with the most recently updated appearing first.
       tags:
-        - Communication
+        - Thread
       parameters:
         - in: query
           style: form
@@ -944,13 +975,15 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: thread
   "/v1/communication/threads/{id}":
     get:
       summary: Retrieve a Thread
       description: Retrieves the details of an existing thread. You need only supply
         the unique thread identifier that was returned upon creation.
       tags:
-        - Communication
+        - Thread
       parameters:
         - in: path
           style: simple
@@ -958,9 +991,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the thread
+            description: Unique ID of the thread.
           required: true
-          description: Unique ID of the thread
+          description: Unique ID of the thread.
       responses:
         default:
           description: Successful response.
@@ -968,12 +1001,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/thread"
+      x-methodName: retrieve
+      x-belongsToResource: thread
     post:
       summary: Update a Thread
       description: Change the thread status or subject, and re-assign the thread to a
         different member of the Care Team.
       tags:
-        - Communication
+        - Thread
       parameters:
         - in: path
           style: simple
@@ -981,9 +1016,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the thread
+            description: Unique ID of the thread.
           required: true
-          description: Unique ID of the thread
+          description: Unique ID of the thread.
       requestBody:
         content:
           application/json:
@@ -1013,13 +1048,16 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/thread"
+      x-methodName: update
+      x-belongsToResource: thread
   /v1/task_definitions:
     post:
       summary: Create a Task Definition
       description: Creates a new task definition and registers it with Catalyst. Task
         defiitions must be created in order to create tasks of that type
       tags:
-        - Task Definitions
+        - Task Definition
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -1054,6 +1092,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task_definition"
+      x-methodName: create
+      x-belongsToResource: task_definition
     get:
       summary: List all Task Definitions
       description: >-
@@ -1062,7 +1102,7 @@ paths:
 
         The task definitions returned are sorted by creation date, with the most recently added task definitions appearing first.
       tags:
-        - Task Definitions
+        - Task Definition
       parameters:
         - in: query
           style: form
@@ -1138,6 +1178,8 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: task_definition
   "/v1/task_definitions/{id}":
     post:
       summary: Update a Task Definition
@@ -1148,7 +1190,7 @@ paths:
 
         Any parameters not provided will be left unchanged. For example, if you pass the name parameter, that becomes the task definitions's active name that is used in the API and interface.
       tags:
-        - Task Definitions
+        - Task Definition
       parameters:
         - in: path
           style: simple
@@ -1156,9 +1198,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the task definition
+            description: Unique ID of the task_definition.
           required: true
-          description: Unique ID of the task definition
+          description: Unique ID of the task_definition.
       requestBody:
         content:
           application/json:
@@ -1189,13 +1231,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task_definition"
+      x-methodName: update
+      x-belongsToResource: task_definition
     get:
       summary: Retrieve a Task Definition
       description: Retrieves the details of an existing task definition. You need only
         supply the unique task definition identifier that was returned upon
         creation.
       tags:
-        - Task Definitions
+        - Task Definition
       parameters:
         - in: path
           style: simple
@@ -1203,9 +1247,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the task definition
+            description: Unique ID of the task_definition.
           required: true
-          description: Unique ID of the task definition
+          description: Unique ID of the task_definition.
       responses:
         default:
           description: Successful response.
@@ -1213,6 +1257,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task_definition"
+      x-methodName: retrieve
+      x-belongsToResource: task_definition
   /v1/workflow/queue:
     get:
       summary: Get all Task Queue Entries
@@ -1320,7 +1366,8 @@ paths:
         created you cannot update the definition or member associated with that
         task.
       tags:
-        - Tasks
+        - Task
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -1372,6 +1419,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task"
+      x-methodName: create
+      x-belongsToResource: task
     get:
       summary: List all Tasks
       description: >-
@@ -1380,7 +1429,7 @@ paths:
 
         The tasks returned are sorted by creation date, with the most recently added task appearing first.
       tags:
-        - Tasks
+        - Task
       parameters:
         - in: query
           style: form
@@ -1472,6 +1521,8 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: task
   "/v1/tasks/{id}":
     post:
       summary: Update a Task
@@ -1482,7 +1533,7 @@ paths:
 
         Any parameters not provided will be left unchanged. For example, if you pass the assignee parameter, that assigns the task to the given user.
       tags:
-        - Tasks
+        - Task
       parameters:
         - in: path
           style: simple
@@ -1490,9 +1541,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the task
+            description: Unique ID of the task.
           required: true
-          description: Unique ID of the task
+          description: Unique ID of the task.
       requestBody:
         content:
           application/json:
@@ -1530,12 +1581,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task"
+      x-methodName: update
+      x-belongsToResource: task
     get:
       summary: Retrieve a Task
       description: Retrieves the details of an existing task. You need only supply the
         unique task identifier that was returned upon creation.
       tags:
-        - Tasks
+        - Task
       parameters:
         - in: path
           style: simple
@@ -1543,9 +1596,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the task
+            description: Unique ID of the task.
           required: true
-          description: Unique ID of the task
+          description: Unique ID of the task.
       responses:
         default:
           description: Successful response.
@@ -1553,13 +1606,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/task"
+      x-methodName: retrieve
+      x-belongsToResource: task
   "/v1/devices/{id}":
     get:
       summary: Retrieve a Device
       description: Retrieves the details of an existing device. You need only supply
         the unique device identifier that was returned upon device creation.
       tags:
-        - Devices
+        - Device
       parameters:
         - in: path
           style: simple
@@ -1567,9 +1622,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the device
+            description: Unique ID of the device.
           required: true
-          description: Unique ID of the device
+          description: Unique ID of the device.
       responses:
         default:
           description: Successful response.
@@ -1577,6 +1632,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/device"
+      x-methodName: retrieve
+      x-belongsToResource: device
   /v1/devices:
     get:
       summary: List all Devices
@@ -1584,7 +1641,7 @@ paths:
         returned are sorted by creation date, with the most recently added
         devices appearing first.
       tags:
-        - Devices
+        - Device
       parameters:
         - in: query
           style: form
@@ -1669,29 +1726,8 @@ paths:
                   - object
                   - data
                   - has_more
-  "/v1/devices/{id}/deactivate":
-    post:
-      summary: Deactivate a Device
-      description: Deactivates a device, disabling its communication with Catalyst.
-      tags:
-        - Devices
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            description: Unique ID of the device
-          required: true
-          description: Unique ID of the device
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/device"
+      x-methodName: list
+      x-belongsToResource: device
   "/v1/events/{id}":
     get:
       summary: Retrieve an Event
@@ -1699,8 +1735,7 @@ paths:
         its creation time,       specified in event object api_version attribute
         (not according to your current Catalyst       API version or
         Catalyst-Version header).
-      tags:
-        - Events
+      tags: []
       parameters:
         - in: path
           style: simple
@@ -1708,9 +1743,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the event
+            description: Unique ID of the event.
           required: true
-          description: Unique ID of the event
+          description: Unique ID of the event.
       responses:
         default:
           description: Successful response.
@@ -1718,6 +1753,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/event"
+      x-methodName: retrieve
+      x-belongsToResource: event
   /v1/events:
     get:
       summary: List all Events
@@ -1725,8 +1762,7 @@ paths:
         Catalyst API       version at its creation time, specified in event
         object api_version attribute (not according       to your current
         Catalyst API version or Catalyst-Version header).
-      tags:
-        - Events
+      tags: []
       parameters:
         - in: query
           style: form
@@ -1784,11 +1820,11 @@ paths:
             items:
               type: string
             description: Filter results by event type. Repeat this parameter to filter by
-              multiple event types,       e.g.
+              multiple event types,         e.g.
               `?type=member.created&type=member.updated`
           required: false
           description: Filter results by event type. Repeat this parameter to filter by
-            multiple event types,       e.g.
+            multiple event types,         e.g.
             `?type=member.created&type=member.updated`
       responses:
         default:
@@ -1817,12 +1853,14 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: event
   /v1/webhooks:
     post:
       summary: Create a Webhook
       description: A webhook endpoint must have a URL and a list of events.
-      tags:
-        - Webhooks
+      tags: []
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -1855,13 +1893,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webhook"
+      x-methodName: create
+      x-belongsToResource: webhook
     get:
       summary: List all Webhooks
       description: Lists all webhooks for the current account. The webhooks returned
         are sorted by creation date, with the most recently created webhooks
         appearing first.
-      tags:
-        - Webhooks
+      tags: []
       parameters:
         - in: query
           style: form
@@ -1950,13 +1989,14 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: webhook
   "/v1/webhooks/{id}":
     post:
       summary: Update a Webhook
       description: Updates the webhook endpoint. You may edit the URL and list of
         events for the webhook.
-      tags:
-        - Webhooks
+      tags: []
       parameters:
         - in: path
           style: simple
@@ -1964,9 +2004,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the webhook
+            description: Unique ID of the webhook.
           required: true
-          description: Unique ID of the webhook
+          description: Unique ID of the webhook.
       requestBody:
         content:
           application/json:
@@ -1996,11 +2036,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webhook"
+      x-methodName: update
+      x-belongsToResource: webhook
     get:
       summary: Retrieve a Webhook
       description: A webhook endpoint must have a url and a list of events.
-      tags:
-        - Webhooks
+      tags: []
       parameters:
         - in: path
           style: simple
@@ -2008,9 +2049,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the webhook
+            description: Unique ID of the webhook.
           required: true
-          description: Unique ID of the webhook
+          description: Unique ID of the webhook.
       responses:
         default:
           description: Successful response.
@@ -2018,12 +2059,13 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webhook"
+      x-methodName: retrieve
+      x-belongsToResource: webhook
     delete:
       summary: Delete a Webhook
       description: Removes a webhook from your account, which will stop sending events
         to your endpoint
-      tags:
-        - Webhooks
+      tags: []
       parameters:
         - in: path
           style: simple
@@ -2031,9 +2073,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the webhook
+            description: Unique ID of the webhook.
           required: true
-          description: Unique ID of the webhook
+          description: Unique ID of the webhook.
       responses:
         default:
           description: Successful response.
@@ -2041,6 +2083,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/webhook"
+      x-methodName: delete
+      x-belongsToResource: webhook
   /v1/files:
     post:
       summary: Upload a File
@@ -2051,7 +2095,8 @@ paths:
 
         Files must be uploaded through the files API before they can be attached to messages, set as profile photos, or otherwise used by the Catalyst platform.
       tags:
-        - Files
+        - File
+      parameters: []
       requestBody:
         content:
           multipart/form-data:
@@ -2080,13 +2125,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/file"
+      x-methodName: create
+      x-belongsToResource: file
   "/v1/files/{id}":
     get:
       summary: Retrieve a File
       description: Retrieves the details of an existing file. You need only supply the
         unique file identifier that was returned upon file creation.
       tags:
-        - Files
+        - File
       parameters:
         - in: path
           style: simple
@@ -2094,9 +2141,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the file
+            description: Unique ID of the file.
           required: true
-          description: Unique ID of the file
+          description: Unique ID of the file.
       responses:
         default:
           description: Successful response.
@@ -2104,6 +2151,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/file"
+      x-methodName: retrieve
+      x-belongsToResource: file
   /v1/measurements:
     post:
       summary: Create a Measurement
@@ -2112,7 +2161,8 @@ paths:
         inseparable values (such as a     blood pressure reading). The shapes of
         these requests are different.
       tags:
-        - Measurements
+        - Measurement
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -2219,13 +2269,15 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/measurement"
+      x-methodName: create
+      x-belongsToResource: measurement
     get:
       summary: List all Measurements
       description: Lists all measurements for the current account. The measurements
         returned are sorted by     their timestamp, with the most recently
         created measurements appearing first.
       tags:
-        - Measurements
+        - Measurement
       parameters:
         - in: query
           style: form
@@ -2361,12 +2413,14 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: measurement
   "/v1/measurements/{id}":
     get:
       summary: Retrieve a Measurement
       description: Return the details of a measurement (a reading from a Device)
       tags:
-        - Measurements
+        - Measurement
       parameters:
         - in: path
           style: simple
@@ -2384,6 +2438,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/measurement"
+      x-methodName: retrieve
+      x-belongsToResource: measurement
   /v1/orders:
     post:
       summary: Create an Order
@@ -2404,7 +2460,8 @@ paths:
 
         Blood Pressure Monitor: `prod_1rqijtxD3sjkVVQPRRFC`
       tags:
-        - Orders
+        - Order
+      parameters: []
       requestBody:
         content:
           application/json:
@@ -2474,12 +2531,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/order"
+      x-methodName: create
+      x-belongsToResource: order
     get:
       summary: List all Orders
       description: Retrieves the details of an order. Supply the unique identifier of
         the order, which you might have received in a webhook.
       tags:
-        - Orders
+        - Order
       parameters:
         - in: query
           style: form
@@ -2564,13 +2623,15 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: list
+      x-belongsToResource: order
   "/v1/orders/{id}":
     get:
       summary: Retrieve an Order
       description: Retrieves the details of an order. Supply the unique identifier of
         the order, which you might have received in a webhook.
       tags:
-        - Orders
+        - Order
       parameters:
         - in: path
           style: simple
@@ -2578,9 +2639,9 @@ paths:
           name: id
           schema:
             type: string
-            description: Unique ID of the order
+            description: Unique ID of the order.
           required: true
-          description: Unique ID of the order
+          description: Unique ID of the order.
       responses:
         default:
           description: Successful response.
@@ -2588,6 +2649,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/order"
+      x-methodName: retrieve
+      x-belongsToResource: order
 components:
   securitySchemes:
     basic:
@@ -2651,6 +2714,8 @@ components:
       description: This is an object representing a Catalyst account. You can retrieve
         it to see account-level properties like business name, subdomain, and
         live mode status.
+      x-resourceId: account
+      x-package: null
     user:
       type: object
       properties:
@@ -2722,6 +2787,8 @@ components:
 
 
         You can manage users in the Catalyst Console, and control their role which determines which resources they're able to access on the platform.
+      x-resourceId: user
+      x-package: null
     care_team:
       type: object
       properties:
@@ -2740,6 +2807,7 @@ components:
           type: string
           nullable: true
           description: Member to which this care team is assigned.
+          example: mem_JAfPRRc59eh2YQ1aeL3D
         participants:
           type: array
           items:
@@ -2794,6 +2862,8 @@ components:
 
 
         Remember that tasks, communications, and other workflow requirements will leverage the care team to determine how they're routed.
+      x-resourceId: care_team
+      x-package: null
     member:
       type: object
       properties:
@@ -2927,11 +2997,17 @@ components:
 
 
         Most operations in the Catalyst platform center around a particular member. You can create new members at any time.
+      x-resourceId: member
+      x-package: null
     message:
       type: object
       properties:
         object:
           type: string
+          default: message
+          enum:
+            - message
+          example: message
           description: Always `message`.
         id:
           type: string
@@ -2991,6 +3067,8 @@ components:
 
 
         Each thread in the communications product consists of individual messagese. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.
+      x-resourceId: message
+      x-package: communications
     thread:
       type: object
       properties:
@@ -3103,6 +3181,8 @@ components:
 
 
         Threads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.
+      x-resourceId: thread
+      x-package: communications
     thread_status:
       type: string
       enum:
@@ -3166,6 +3246,8 @@ components:
 
 
         When creating a task definition, you can specify a key which can be used when creating new tasks.
+      x-resourceId: task_definition
+      x-package: null
     task_queue_entry:
       type: object
       properties:
@@ -3201,7 +3283,8 @@ components:
           description: Always `task`.
         id:
           type: string
-          description: Unique ID of the task
+          description: Unique ID of the task.
+          example: task_ptG2CR0v5d2gYXm9lAEV
         definition:
           oneOf:
             - type: string
@@ -3231,12 +3314,14 @@ components:
           type: string
           description: A human-readable string that describes the task at a high level.
             For system created tasks this field will be populated by the system.
+          example: Please follow up with patient
         status:
           type: string
           enum:
             - open
             - resolved
           description: Status the task is currently in
+          example: open
         assignment_method:
           type: string
           enum:
@@ -3247,6 +3332,7 @@ components:
             the value of this property will be `indirect`. When an assignee is
             specified through the API or by a user in the interface, the value
             of this property will be `direct`.
+          example: direct
         created_at:
           type: string
           format: date-time
@@ -3286,6 +3372,8 @@ components:
 
 
         Tasks can be created from any number of sources, including the API. The Catalyst platform will generate tasks itself in many cases, such as when a member sends a mesasge to their care team. When Catalyst generates a task automatically, we will also resolve it automatically when the work has been completed (for example, when the care team replies to the member.)
+      x-resourceId: task
+      x-package: null
     device:
       type: object
       properties:
@@ -3379,6 +3467,8 @@ components:
 
 
         Catalyst is able to send devices to members by placing orders using the ordering API. Each time an order is fulfilled, a new device is registered on the platform. As users take measurements with their devices, those readings create new measurement resources.
+      x-resourceId: device
+      x-package: monitoring
     event:
       type: object
       properties:
@@ -3441,6 +3531,8 @@ components:
 
 
         Note that some actions may cause multiple events to be created. For example, when a device order is fulfilled you will receive both an order.fulfilled event and a device.created event for each device sent in the order.
+      x-resourceId: event
+      x-package: null
     webhook_events:
       type: string
       enum:
@@ -3528,6 +3620,8 @@ components:
 
 
         Once a webhook is registered and enabled, each event matching the list of subscribed events will be delivered to the endpoint you choose.
+      x-resourceId: webhook
+      x-package: null
     file:
       type: object
       properties:
@@ -3593,6 +3687,8 @@ components:
         can upload files to use throughout the platform, such as sending
         attachments on messages. Once a file has been uploaded, you can access
         it by accessing the `url` property of the file resource .
+      x-resourceId: file
+      x-package: null
     measurement:
       type: object
       properties:
@@ -3701,6 +3797,8 @@ components:
 
 
         Measurements are often created by devices that have been sent to the member, but can also be created directly via the API. Either way, measurements are stored for the member and can be viewed by clinicians with access to health data.
+      x-resourceId: measurement
+      x-package: monitoring
     order:
       type: object
       properties:
@@ -3785,9 +3883,75 @@ components:
               product:
                 oneOf:
                   - type: string
-                  - $ref: "#/components/schemas/product"
+                  - type: object
+                    properties:
+                      object:
+                        type: string
+                        default: product
+                        enum:
+                          - product
+                        example: product
+                        description: Always product.
+                      id:
+                        type: string
+                        description: Unique ID of the product
+                      name:
+                        type: string
+                        description: The human-readable name of the product
+                      unit_price:
+                        type: number
+                        description: Unit price of this product (in cents).
+                        example: 1500
+                      device_model:
+                        oneOf:
+                          - type: string
+                          - $ref: "#/components/schemas/device_model"
+                        x-expandable:
+                          $ref: "#/components/schemas/device_model"
+                        description: Expandable reference to the DeviceModel
+                        example: devm_i34fkCzQpZM0vatw9fMn
+                        nullable: true
+                    required:
+                      - object
+                      - id
+                      - name
+                      - unit_price
+                      - device_model
                 x-expandable:
-                  $ref: "#/components/schemas/product"
+                  type: object
+                  properties:
+                    object:
+                      type: string
+                      default: product
+                      enum:
+                        - product
+                      example: product
+                      description: Always product.
+                    id:
+                      type: string
+                      description: Unique ID of the product
+                    name:
+                      type: string
+                      description: The human-readable name of the product
+                    unit_price:
+                      type: number
+                      description: Unit price of this product (in cents).
+                      example: 1500
+                    device_model:
+                      oneOf:
+                        - type: string
+                        - $ref: "#/components/schemas/device_model"
+                      x-expandable:
+                        $ref: "#/components/schemas/device_model"
+                      description: Expandable reference to the DeviceModel
+                      example: devm_i34fkCzQpZM0vatw9fMn
+                      nullable: true
+                  required:
+                    - object
+                    - id
+                    - name
+                    - unit_price
+                    - device_model
                 description: Expandable reference to a Product
                 example: prod_m0zvh4UpfvtRZasxVUwE
               quantity:
@@ -3907,41 +4071,8 @@ components:
         - created_at
         - updated_at
       title: Order
-    product:
-      type: object
-      properties:
-        object:
-          type: string
-          default: product
-          enum:
-            - product
-          example: product
-          description: Always product.
-        id:
-          type: string
-          description: Unique ID of the product
-        name:
-          type: string
-          description: The human-readable name of the product
-        unit_price:
-          type: number
-          description: Unit price of this product (in cents).
-          example: 1500
-        device_model:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/device_model"
-          x-expandable:
-            $ref: "#/components/schemas/device_model"
-          description: Expandable reference to the DeviceModel
-          example: devm_i34fkCzQpZM0vatw9fMn
-          nullable: true
-      required:
-        - object
-        - id
-        - name
-        - unit_price
-        - device_model
+      x-resourceId: order
+      x-package: monitoring
     device_model:
       type: object
       properties:
@@ -4001,6 +4132,8 @@ components:
         - capabilities
         - connectivity
       title: Device Model
+      x-resourceId: device_model
+      x-package: monitoring
     error:
       type: object
       properties:
@@ -4042,6 +4175,8 @@ components:
         - message
         - request_id
       title: Error
+      x-resourceId: error
+      x-package: null
 x-readme:
   samples-languages:
     - curl
