@@ -2553,6 +2553,31 @@
             }
           }
         },
+        "x-overrideRequestBodyCodec": {
+          "options": {},
+          "props": {
+            "file": {
+              "options": {
+                "description": "A file to upload. This field must be provided in a `multipart/form-data` request."
+              },
+              "_tag": "FileCodec"
+            },
+            "purpose": {
+              "options": {
+                "description": "The purpose of the uploaded file. Each purpose imposes restrictions on supported file types and use cases.",
+                "example": "message_attachment"
+              },
+              "enumObject": [
+                "message_attachment"
+              ],
+              "_tag": "EnumCodec",
+              "enumValues": {}
+            }
+          },
+          "_tag": "ObjectCodec",
+          "properties": {},
+          "requiredProperties": {}
+        },
         "x-methodName": "create",
         "x-belongsToResource": "file"
       }

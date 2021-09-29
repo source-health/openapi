@@ -2125,6 +2125,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/file"
+      x-overrideRequestBodyCodec:
+        options: {}
+        props:
+          file:
+            options:
+              description: A file to upload. This field must be provided in a
+                `multipart/form-data` request.
+            _tag: FileCodec
+          purpose:
+            options:
+              description: The purpose of the uploaded file. Each purpose imposes restrictions
+                on supported file types and use cases.
+              example: message_attachment
+            enumObject:
+              - message_attachment
+            _tag: EnumCodec
+            enumValues:
+              - message_attachment
+        _tag: ObjectCodec
+        properties:
+          - file
+          - purpose
+        requiredProperties:
+          - file
+          - purpose
       x-methodName: create
       x-belongsToResource: file
   "/v1/files/{id}":
