@@ -843,6 +843,22 @@
                   "text": {
                     "type": "string",
                     "description": "Contents of the message to send."
+                  },
+                  "thread_actions": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "awaiting_care_team",
+                          "awaiting_member",
+                          "closed"
+                        ],
+                        "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
+                        "example": "closed"
+                      }
+                    },
+                    "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
                   }
                 },
                 "required": [
@@ -1253,7 +1269,8 @@
                   "assignee": {
                     "type": "string",
                     "nullable": true,
-                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user."
+                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user.",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                   },
                   "status": {
                     "type": "string",
@@ -1262,12 +1279,14 @@
                       "awaiting_member",
                       "closed"
                     ],
-                    "description": "New status for the thread."
+                    "description": "New status for the thread.",
+                    "example": "awaiting_care_team"
                   },
                   "subject": {
                     "type": "string",
                     "nullable": true,
-                    "description": "New subject for the thread."
+                    "description": "New subject for the thread.",
+                    "example": "Lower back pain."
                   }
                 }
               }
@@ -3836,7 +3855,7 @@
               "sent_at"
             ],
             "nullable": true,
-            "description": "Preview of the "
+            "description": "Preview of the most recent text message in the thread."
           },
           "created_at": {
             "type": "string",
