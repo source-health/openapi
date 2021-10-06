@@ -1894,6 +1894,15 @@
                     "format": "date-time",
                     "description": "The time by which this task should be completed. If no due_at date is supplied, the due_at date will automatically be 24 hours after the task was created. The due_at date must be in the future.'",
                     "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "related": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Unique identifier for the related resource.",
+                      "example": "thrd_7BqeKrhbVU7c4Cigqs60"
+                    },
+                    "description": "A list of object IDs, such as threads, that are related to the task."
                   }
                 },
                 "required": [
@@ -2081,6 +2090,15 @@
                     "format": "date-time",
                     "description": "The time by which this task should be completed. If no due_at date is supplied, the due_at date will automatically be 24 hours after the task was created. The due_at date must be in the future.'",
                     "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "related": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "description": "Unique identifier for the related resource.",
+                      "example": "thrd_7BqeKrhbVU7c4Cigqs60"
+                    },
+                    "description": "A list of object IDs, such as threads, that are related to the task."
                   }
                 }
               }
@@ -4322,6 +4340,42 @@
             "format": "date-time",
             "description": "The time by which this task should be completed",
             "example": "2021-10-10T00:10:00.000Z"
+          },
+          "related": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "resource_type": {
+                  "type": "string",
+                  "enum": [
+                    "0"
+                  ],
+                  "description": "Related object type",
+                  "example": "thread"
+                },
+                "resource": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/thread"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/thread"
+                  },
+                  "description": "Unique identifier for the related resource.",
+                  "example": "thrd_7BqeKrhbVU7c4Cigqs60"
+                }
+              },
+              "required": [
+                "resource_type",
+                "resource"
+              ]
+            },
+            "description": "A list of related resources, such as open threads. The resource can be expanded with e.g. '&expand=related.resource'."
           }
         },
         "required": [
@@ -4335,7 +4389,8 @@
           "assignment_method",
           "created_at",
           "updated_at",
-          "due_at"
+          "due_at",
+          "related"
         ],
         "title": "Task",
         "description": "A Task represents a request for the care team to perform an action on behalf of a member. Tasks are the fundamental backbone of workflow in Source. Any time you need to surface information to a member of the care team, tasks should probably be your default choice.\n\nEach task is backed by a task definition which gives information about the structure of the work to be done, which you can read about in the documentation for task definitions.\n\nTasks can be created from any number of sources, including the API. The Source platform will generate tasks itself in many cases, such as when a member sends a mesasge to their care team. When Source generates a task automatically, we will also resolve it automatically when the work has been completed (for example, when the care team replies to the member.)",
