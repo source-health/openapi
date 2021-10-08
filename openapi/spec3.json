@@ -1993,6 +1993,18 @@
             },
             "required": false,
             "description": "Filter results by status. If multiple statuses are provided, tasks matching any of the provided statuses will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "string",
+              "description": "Filter results by member."
+            },
+            "required": false,
+            "description": "Filter results by member."
           }
         ],
         "responses": {
