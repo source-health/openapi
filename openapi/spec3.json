@@ -822,562 +822,6 @@
         "x-belongsToResource": "member"
       }
     },
-    "/v1/communication/messages": {
-      "post": {
-        "summary": "Create a Message",
-        "description": "Creates a message within a thread.",
-        "tags": [
-          "Message"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "thread": {
-                    "type": "string",
-                    "description": "Unique ID of the thread to which the message belongs."
-                  },
-                  "text": {
-                    "type": "string",
-                    "description": "Contents of the message to send."
-                  },
-                  "thread_actions": {
-                    "type": "object",
-                    "properties": {
-                      "status": {
-                        "type": "string",
-                        "enum": [
-                          "awaiting_care_team",
-                          "awaiting_member",
-                          "closed"
-                        ],
-                        "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
-                        "example": "closed"
-                      }
-                    },
-                    "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
-                  },
-                  "attachments": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "file"
-                          ]
-                        },
-                        "resource": {
-                          "type": "string",
-                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
-                        }
-                      },
-                      "required": [
-                        "type",
-                        "resource"
-                      ]
-                    }
-                  }
-                },
-                "required": [
-                  "thread",
-                  "text"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/message"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "create",
-        "x-belongsToResource": "message"
-      },
-      "get": {
-        "summary": "List all Messages",
-        "description": "Returns a list of threads within the current account.\n\nThe threads returned are sorted with the most recently updated appearing first.",
-        "tags": [
-          "Message"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "ending_before",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "starting_after",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "limit",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100,
-              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-            },
-            "required": false,
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "thread",
-            "schema": {
-              "type": "string",
-              "description": "Unique ID of the thread whose messages should be shown."
-            },
-            "required": true,
-            "description": "Unique ID of the thread whose messages should be shown."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "object": {
-                      "type": "string",
-                      "default": "list",
-                      "enum": [
-                        "list"
-                      ],
-                      "example": "list",
-                      "description": "Always `list`."
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/message"
-                      },
-                      "description": "Array of results"
-                    },
-                    "has_more": {
-                      "type": "boolean",
-                      "description": "Contains `true` if there is another page of results available."
-                    }
-                  },
-                  "required": [
-                    "object",
-                    "data",
-                    "has_more"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "list",
-        "x-belongsToResource": "message"
-      }
-    },
-    "/v1/communication/messages/{id}": {
-      "get": {
-        "summary": "Retrieve a Message",
-        "description": "Retrieves the details of an Message. You need only supply the unique message identifier that was returned upon creation.",
-        "tags": [
-          "Message"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "description": "Unique ID of the message."
-            },
-            "required": true,
-            "description": "Unique ID of the message."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/message"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "retrieve",
-        "x-belongsToResource": "message"
-      }
-    },
-    "/v1/communication/threads": {
-      "post": {
-        "summary": "Create a Thread",
-        "description": "Creates a new messaging thread.",
-        "tags": [
-          "Thread"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "member": {
-                    "type": "string",
-                    "description": "The ID of the member to which this thread belongs"
-                  },
-                  "assignee": {
-                    "type": "string",
-                    "description": "The ID of the care team user to which this thread is currently assigned, if any."
-                  },
-                  "subject": {
-                    "type": "string",
-                    "description": "The thread subject."
-                  },
-                  "message": {
-                    "type": "object",
-                    "properties": {
-                      "text": {
-                        "type": "string",
-                        "description": "Contents of the message to send."
-                      },
-                      "thread_actions": {
-                        "type": "object",
-                        "properties": {
-                          "status": {
-                            "type": "string",
-                            "enum": [
-                              "awaiting_care_team",
-                              "awaiting_member",
-                              "closed"
-                            ],
-                            "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
-                            "example": "closed"
-                          }
-                        },
-                        "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
-                      },
-                      "attachments": {
-                        "type": "array",
-                        "items": {
-                          "type": "object",
-                          "properties": {
-                            "type": {
-                              "type": "string",
-                              "enum": [
-                                "file"
-                              ]
-                            },
-                            "resource": {
-                              "type": "string",
-                              "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
-                            }
-                          },
-                          "required": [
-                            "type",
-                            "resource"
-                          ]
-                        }
-                      }
-                    },
-                    "required": [
-                      "text"
-                    ],
-                    "description": "The initial message to send when creating this thread."
-                  }
-                },
-                "required": [
-                  "member",
-                  "message"
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/thread"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "create",
-        "x-belongsToResource": "thread"
-      },
-      "get": {
-        "summary": "List all Threads",
-        "description": "Returns a list of threads within the current account.\n\nThe threads returned are sorted with the most recently updated appearing first.",
-        "tags": [
-          "Thread"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "ending_before",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "starting_after",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "limit",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100,
-              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-            },
-            "required": false,
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "member",
-            "schema": {
-              "type": "string",
-              "description": "Filter threads to only those belonging to the given member."
-            },
-            "required": false,
-            "description": "Filter threads to only those belonging to the given member."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "assignee",
-            "schema": {
-              "type": "string",
-              "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
-            },
-            "required": false,
-            "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "status",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/components/schemas/thread_status"
-              },
-              "description": "Filter threads by status"
-            },
-            "required": false,
-            "description": "Filter threads by status"
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "object": {
-                      "type": "string",
-                      "default": "list",
-                      "enum": [
-                        "list"
-                      ],
-                      "example": "list",
-                      "description": "Always `list`."
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/thread"
-                      },
-                      "description": "Array of results"
-                    },
-                    "has_more": {
-                      "type": "boolean",
-                      "description": "Contains `true` if there is another page of results available."
-                    }
-                  },
-                  "required": [
-                    "object",
-                    "data",
-                    "has_more"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "list",
-        "x-belongsToResource": "thread"
-      }
-    },
-    "/v1/communication/threads/{id}": {
-      "get": {
-        "summary": "Retrieve a Thread",
-        "description": "Retrieves the details of an existing thread. You need only supply the unique thread identifier that was returned upon creation.",
-        "tags": [
-          "Thread"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "description": "Unique ID of the thread."
-            },
-            "required": true,
-            "description": "Unique ID of the thread."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/thread"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "retrieve",
-        "x-belongsToResource": "thread"
-      },
-      "post": {
-        "summary": "Update a Thread",
-        "description": "Change the thread status or subject, and re-assign the thread to a different member of the Care Team.",
-        "tags": [
-          "Thread"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "description": "Unique ID of the thread."
-            },
-            "required": true,
-            "description": "Unique ID of the thread."
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "assignee": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user.",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-                  },
-                  "status": {
-                    "type": "string",
-                    "enum": [
-                      "awaiting_care_team",
-                      "awaiting_member",
-                      "closed"
-                    ],
-                    "description": "New status for the thread.",
-                    "example": "awaiting_care_team"
-                  },
-                  "subject": {
-                    "type": "string",
-                    "nullable": true,
-                    "description": "New subject for the thread.",
-                    "example": "Lower back pain."
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/thread"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "update",
-        "x-belongsToResource": "thread"
-      }
-    },
     "/v1/files": {
       "post": {
         "summary": "Upload a File",
@@ -2187,145 +1631,6 @@
         "x-belongsToResource": "task"
       }
     },
-    "/v1/devices/{id}": {
-      "get": {
-        "summary": "Retrieve a Device",
-        "description": "Retrieves the details of an existing device. You need only supply the unique device identifier that was returned upon device creation.",
-        "tags": [
-          "Device"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "description": "Unique ID of the device."
-            },
-            "required": true,
-            "description": "Unique ID of the device."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/device"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "retrieve",
-        "x-belongsToResource": "device"
-      }
-    },
-    "/v1/devices": {
-      "get": {
-        "summary": "List all Devices",
-        "description": "Returns a list of devices within the current account. The devices returned are sorted by creation date, with the most recently added devices appearing first.",
-        "tags": [
-          "Device"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "ending_before",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "starting_after",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "limit",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100,
-              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-            },
-            "required": false,
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "member",
-            "schema": {
-              "type": "string",
-              "description": "The ID of the member whose devices should be returned."
-            },
-            "required": false,
-            "description": "The ID of the member whose devices should be returned."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "object": {
-                      "type": "string",
-                      "default": "list",
-                      "enum": [
-                        "list"
-                      ],
-                      "example": "list",
-                      "description": "Always `list`."
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/device"
-                      },
-                      "description": "Array of results"
-                    },
-                    "has_more": {
-                      "type": "boolean",
-                      "description": "Contains `true` if there is another page of results available."
-                    }
-                  },
-                  "required": [
-                    "object",
-                    "data",
-                    "has_more"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "list",
-        "x-belongsToResource": "device"
-      }
-    },
     "/v1/events/{id}": {
       "get": {
         "summary": "Retrieve an Event",
@@ -2756,6 +2061,145 @@
         "x-belongsToResource": "webhook"
       }
     },
+    "/v1/devices/{id}": {
+      "get": {
+        "summary": "Retrieve a Device",
+        "description": "Retrieves the details of an existing device. You need only supply the unique device identifier that was returned upon device creation.",
+        "tags": [
+          "Device"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the device."
+            },
+            "required": true,
+            "description": "Unique ID of the device."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/device"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "device"
+      }
+    },
+    "/v1/devices": {
+      "get": {
+        "summary": "List all Devices",
+        "description": "Returns a list of devices within the current account. The devices returned are sorted by creation date, with the most recently added devices appearing first.",
+        "tags": [
+          "Device"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "string",
+              "description": "The ID of the member whose devices should be returned."
+            },
+            "required": false,
+            "description": "The ID of the member whose devices should be returned."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/device"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "device"
+      }
+    },
     "/v1/measurements": {
       "post": {
         "summary": "Create a Measurement",
@@ -3107,6 +2551,228 @@
         "x-belongsToResource": "measurement"
       }
     },
+    "/v1/communication/messages": {
+      "post": {
+        "summary": "Create a Message",
+        "description": "Creates a message within a thread.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "thread": {
+                    "type": "string",
+                    "description": "Unique ID of the thread to which the message belongs."
+                  },
+                  "text": {
+                    "type": "string",
+                    "description": "Contents of the message to send."
+                  },
+                  "thread_actions": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "awaiting_care_team",
+                          "awaiting_member",
+                          "closed"
+                        ],
+                        "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
+                        "example": "closed"
+                      }
+                    },
+                    "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
+                  },
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "file"
+                          ]
+                        },
+                        "resource": {
+                          "type": "string",
+                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "resource"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "thread",
+                  "text"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "message"
+      },
+      "get": {
+        "summary": "List all Messages",
+        "description": "Returns a list of threads within the current account.\n\nThe threads returned are sorted with the most recently updated appearing first.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "thread",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the thread whose messages should be shown."
+            },
+            "required": true,
+            "description": "Unique ID of the thread whose messages should be shown."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/message"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "message"
+      }
+    },
+    "/v1/communication/messages/{id}": {
+      "get": {
+        "summary": "Retrieve a Message",
+        "description": "Retrieves the details of an Message. You need only supply the unique message identifier that was returned upon creation.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the message."
+            },
+            "required": true,
+            "description": "Unique ID of the message."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "message"
+      }
+    },
     "/v1/orders": {
       "post": {
         "summary": "Create an Order",
@@ -3345,6 +3011,340 @@
         },
         "x-methodName": "retrieve",
         "x-belongsToResource": "order"
+      }
+    },
+    "/v1/communication/threads": {
+      "post": {
+        "summary": "Create a Thread",
+        "description": "Creates a new messaging thread.",
+        "tags": [
+          "Thread"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "type": "string",
+                    "description": "The ID of the member to which this thread belongs"
+                  },
+                  "assignee": {
+                    "type": "string",
+                    "description": "The ID of the care team user to which this thread is currently assigned, if any."
+                  },
+                  "subject": {
+                    "type": "string",
+                    "description": "The thread subject."
+                  },
+                  "message": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string",
+                        "description": "Contents of the message to send."
+                      },
+                      "thread_actions": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string",
+                            "enum": [
+                              "awaiting_care_team",
+                              "awaiting_member",
+                              "closed"
+                            ],
+                            "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
+                            "example": "closed"
+                          }
+                        },
+                        "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
+                      },
+                      "attachments": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "type": {
+                              "type": "string",
+                              "enum": [
+                                "file"
+                              ]
+                            },
+                            "resource": {
+                              "type": "string",
+                              "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
+                            }
+                          },
+                          "required": [
+                            "type",
+                            "resource"
+                          ]
+                        }
+                      }
+                    },
+                    "required": [
+                      "text"
+                    ],
+                    "description": "The initial message to send when creating this thread."
+                  }
+                },
+                "required": [
+                  "member",
+                  "message"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/thread"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "thread"
+      },
+      "get": {
+        "summary": "List all Threads",
+        "description": "Returns a list of threads within the current account.\n\nThe threads returned are sorted with the most recently updated appearing first.",
+        "tags": [
+          "Thread"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "string",
+              "description": "Filter threads to only those belonging to the given member."
+            },
+            "required": false,
+            "description": "Filter threads to only those belonging to the given member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "assignee",
+            "schema": {
+              "type": "string",
+              "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
+            },
+            "required": false,
+            "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/thread_status"
+              },
+              "description": "Filter threads by status"
+            },
+            "required": false,
+            "description": "Filter threads by status"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/thread"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "thread"
+      }
+    },
+    "/v1/communication/threads/{id}": {
+      "get": {
+        "summary": "Retrieve a Thread",
+        "description": "Retrieves the details of an existing thread. You need only supply the unique thread identifier that was returned upon creation.",
+        "tags": [
+          "Thread"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the thread."
+            },
+            "required": true,
+            "description": "Unique ID of the thread."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/thread"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "thread"
+      },
+      "post": {
+        "summary": "Update a Thread",
+        "description": "Change the thread status or subject, and re-assign the thread to a different member of the Care Team.",
+        "tags": [
+          "Thread"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the thread."
+            },
+            "required": true,
+            "description": "Unique ID of the thread."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "assignee": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user.",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "awaiting_care_team",
+                      "awaiting_member",
+                      "closed"
+                    ],
+                    "description": "New status for the thread.",
+                    "example": "awaiting_care_team"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "New subject for the thread.",
+                    "example": "Lower back pain."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/thread"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "thread"
       }
     }
   },
@@ -3755,344 +3755,6 @@
         "x-resourceId": "member",
         "x-package": null
       },
-      "message": {
-        "type": "object",
-        "properties": {
-          "object": {
-            "type": "string",
-            "default": "message",
-            "enum": [
-              "message"
-            ],
-            "example": "message",
-            "description": "Always `message`."
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique ID of this Message."
-          },
-          "type": {
-            "type": "string",
-            "enum": [
-              "text",
-              "system"
-            ],
-            "description": "The type of message that was sent. Text messages are messages from one user to another, and represent most messages sent on the platform. System messages are automatically generated when notable thread events occur (such as reassignments and status changes)."
-          },
-          "thread": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/thread"
-              }
-            ],
-            "x-expandable": {
-              "$ref": "#/components/schemas/thread"
-            },
-            "description": "Thread to which the message belongs.",
-            "example": "thrd_7BqeKrhbVU7c4Cigqs60"
-          },
-          "text": {
-            "type": "string",
-            "description": "Plain text contents of the message."
-          },
-          "sender": {
-            "anyOf": [
-              {
-                "oneOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/components/schemas/member"
-                  }
-                ],
-                "x-expandable": {
-                  "$ref": "#/components/schemas/member"
-                },
-                "description": "Expandable reference to a Member",
-                "example": "mem_JAfPRRc59eh2YQ1aeL3D"
-              },
-              {
-                "oneOf": [
-                  {
-                    "type": "string"
-                  },
-                  {
-                    "$ref": "#/components/schemas/user"
-                  }
-                ],
-                "x-expandable": {
-                  "$ref": "#/components/schemas/user"
-                },
-                "description": "Expandable reference to a User",
-                "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-              }
-            ],
-            "description": "The person who sent this message."
-          },
-          "sent_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "The time at which this message was sent."
-          },
-          "attachments": {
-            "type": "array",
-            "items": {
-              "type": "object",
-              "properties": {
-                "type": {
-                  "type": "string",
-                  "enum": [
-                    "file"
-                  ],
-                  "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
-                },
-                "resource": {
-                  "oneOf": [
-                    {
-                      "type": "string"
-                    },
-                    {
-                      "$ref": "#/components/schemas/file"
-                    }
-                  ],
-                  "x-expandable": {
-                    "$ref": "#/components/schemas/file"
-                  },
-                  "description": "The resource which is attached to the message",
-                  "example": "fil_gdIyXM9d4LKGnewOV4OM"
-                }
-              },
-              "required": [
-                "type",
-                "resource"
-              ]
-            },
-            "description": "Any attachments to the message, such as files."
-          }
-        },
-        "required": [
-          "object",
-          "id",
-          "type",
-          "thread",
-          "text",
-          "sender",
-          "sent_at",
-          "attachments"
-        ],
-        "title": "Message",
-        "description": "Messages are exchanged between patients and their care team.\n\nEach thread in the communications product consists of individual messagese. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.",
-        "x-resourceId": "message",
-        "x-package": "communications"
-      },
-      "thread": {
-        "type": "object",
-        "properties": {
-          "object": {
-            "type": "string",
-            "default": "thread",
-            "enum": [
-              "thread"
-            ],
-            "example": "thread",
-            "description": "Always `thread`."
-          },
-          "id": {
-            "type": "string",
-            "description": "Unique ID of the thread.",
-            "example": "thrd_7BqeKrhbVU7c4Cigqs60"
-          },
-          "member": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/member"
-              }
-            ],
-            "x-expandable": {
-              "$ref": "#/components/schemas/member"
-            },
-            "description": "The member to which this thread belongs.",
-            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
-          },
-          "assignee": {
-            "oneOf": [
-              {
-                "type": "string"
-              },
-              {
-                "$ref": "#/components/schemas/user"
-              }
-            ],
-            "x-expandable": {
-              "$ref": "#/components/schemas/user"
-            },
-            "description": "The user who is assigned to the thread and will be notified of new messages.",
-            "example": "usr_NC6MQ3FyxddKoJJpfSVL",
-            "nullable": true
-          },
-          "status": {
-            "oneOf": [
-              {
-                "$ref": "#/components/schemas/thread_status"
-              }
-            ],
-            "x-wrapped": true,
-            "description": "Current status of the thread.",
-            "example": "awaiting_care_team"
-          },
-          "subject": {
-            "type": "string",
-            "nullable": true,
-            "description": "Subject of the thread.",
-            "example": "Not feeling well"
-          },
-          "last_message": {
-            "type": "object",
-            "properties": {
-              "text": {
-                "type": "string",
-                "description": "Plain text contents of the message.",
-                "example": "I have been feeling nauseous since yesterday afternoon."
-              },
-              "attachments": {
-                "type": "array",
-                "items": {
-                  "type": "object",
-                  "properties": {
-                    "type": {
-                      "type": "string",
-                      "enum": [
-                        "file"
-                      ],
-                      "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
-                    },
-                    "resource": {
-                      "oneOf": [
-                        {
-                          "type": "string"
-                        },
-                        {
-                          "$ref": "#/components/schemas/file"
-                        }
-                      ],
-                      "x-expandable": {
-                        "$ref": "#/components/schemas/file"
-                      },
-                      "description": "The resource which is attached to the message",
-                      "example": "fil_gdIyXM9d4LKGnewOV4OM"
-                    }
-                  },
-                  "required": [
-                    "type",
-                    "resource"
-                  ]
-                },
-                "description": "Any attachments to the message, such as files."
-              },
-              "sender": {
-                "anyOf": [
-                  {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "#/components/schemas/user"
-                      }
-                    ],
-                    "x-expandable": {
-                      "$ref": "#/components/schemas/user"
-                    },
-                    "description": "Expandable reference to a User",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-                  },
-                  {
-                    "oneOf": [
-                      {
-                        "type": "string"
-                      },
-                      {
-                        "$ref": "#/components/schemas/member"
-                      }
-                    ],
-                    "x-expandable": {
-                      "$ref": "#/components/schemas/member"
-                    },
-                    "description": "Expandable reference to a Member",
-                    "example": "mem_JAfPRRc59eh2YQ1aeL3D"
-                  }
-                ],
-                "description": "The person who sent this message."
-              },
-              "sent_at": {
-                "type": "string",
-                "format": "date-time",
-                "description": "The time at which this message was sent.",
-                "example": "2021-05-13T16:33:00.000Z"
-              }
-            },
-            "required": [
-              "text",
-              "attachments",
-              "sender",
-              "sent_at"
-            ],
-            "nullable": true,
-            "description": "Preview of the most recent text message in the thread."
-          },
-          "created_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of when the thread was created.",
-            "example": "2021-05-13T16:33:00.000Z"
-          },
-          "updated_at": {
-            "type": "string",
-            "format": "date-time",
-            "description": "Timestamp of when the thread was last updated.",
-            "example": "2021-05-13T16:33:00.000Z"
-          },
-          "closed_at": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true,
-            "description": "Timestamp of when the thread was last closed.",
-            "example": null
-          }
-        },
-        "required": [
-          "object",
-          "id",
-          "member",
-          "assignee",
-          "status",
-          "subject",
-          "last_message",
-          "created_at",
-          "updated_at",
-          "closed_at"
-        ],
-        "title": "Thread",
-        "description": "The Thread resource represents a conversation between a member and/or their care team.\n\nThreads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.",
-        "x-resourceId": "thread",
-        "x-package": "communications"
-      },
-      "thread_status": {
-        "type": "string",
-        "enum": [
-          "awaiting_care_team",
-          "awaiting_member",
-          "closed"
-        ],
-        "x-namespace": "thread"
-      },
       "file": {
         "type": "object",
         "properties": {
@@ -4428,22 +4090,22 @@
         "x-resourceId": "task",
         "x-package": null
       },
-      "device": {
+      "thread": {
         "type": "object",
         "properties": {
           "object": {
             "type": "string",
-            "default": "device",
+            "default": "thread",
             "enum": [
-              "device"
+              "thread"
             ],
-            "example": "device",
-            "description": "Always `device`."
+            "example": "thread",
+            "description": "Always `thread`."
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of the device.",
-            "example": "dev_kTRoWd1awPhUoRwL78uH"
+            "description": "Unique ID of the thread.",
+            "example": "thrd_7BqeKrhbVU7c4Cigqs60"
           },
           "member": {
             "oneOf": [
@@ -4457,90 +4119,180 @@
             "x-expandable": {
               "$ref": "#/components/schemas/member"
             },
-            "description": "Member to which this device belongs.",
+            "description": "The member to which this thread belongs.",
             "example": "mem_JAfPRRc59eh2YQ1aeL3D"
           },
-          "status": {
-            "type": "string",
-            "enum": [
-              "pending",
-              "active",
-              "deactivated"
+          "assignee": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
             ],
-            "description": "Current status of the device.",
-            "example": "active"
-          },
-          "name": {
-            "type": "string",
-            "description": "Display name of the device.",
-            "example": "BodyTrace BT-105"
-          },
-          "hardware_address": {
-            "type": "string",
-            "nullable": true,
-            "description": "Hardware ID of the device (e.g. IMEI or MAC address)",
-            "example": "490154203237518"
-          },
-          "capabilities": {
-            "type": "array",
-            "items": {
-              "type": "string",
-              "enum": [
-                "blood_pressure",
-                "body_weight",
-                "diastolic_blood_pressure",
-                "heart_rate",
-                "systolic_blood_pressure"
-              ]
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
             },
-            "description": "Capabilities for the device, determined by types of measurements the device can report.",
-            "example": [
-              "blood_pressure"
-            ]
+            "description": "The user who is assigned to the thread and will be notified of new messages.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+            "nullable": true
           },
-          "last_seen_at": {
+          "status": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/thread_status"
+              }
+            ],
+            "x-wrapped": true,
+            "description": "Current status of the thread.",
+            "example": "awaiting_care_team"
+          },
+          "subject": {
             "type": "string",
-            "format": "date-time",
             "nullable": true,
-            "description": "Last time we received any data or heartbeat from the device.",
-            "example": "2021-05-13T16:33:00.000Z"
+            "description": "Subject of the thread.",
+            "example": "Not feeling well"
           },
-          "battery_level": {
-            "type": "number",
+          "last_message": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "Plain text contents of the message.",
+                "example": "I have been feeling nauseous since yesterday afternoon."
+              },
+              "attachments": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": [
+                        "file"
+                      ],
+                      "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
+                    },
+                    "resource": {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/components/schemas/file"
+                        }
+                      ],
+                      "x-expandable": {
+                        "$ref": "#/components/schemas/file"
+                      },
+                      "description": "The resource which is attached to the message",
+                      "example": "fil_gdIyXM9d4LKGnewOV4OM"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "resource"
+                  ]
+                },
+                "description": "Any attachments to the message, such as files."
+              },
+              "sender": {
+                "anyOf": [
+                  {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/components/schemas/user"
+                      }
+                    ],
+                    "x-expandable": {
+                      "$ref": "#/components/schemas/user"
+                    },
+                    "description": "Expandable reference to a User",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                  },
+                  {
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/components/schemas/member"
+                      }
+                    ],
+                    "x-expandable": {
+                      "$ref": "#/components/schemas/member"
+                    },
+                    "description": "Expandable reference to a Member",
+                    "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+                  }
+                ],
+                "description": "The person who sent this message."
+              },
+              "sent_at": {
+                "type": "string",
+                "format": "date-time",
+                "description": "The time at which this message was sent.",
+                "example": "2021-05-13T16:33:00.000Z"
+              }
+            },
+            "required": [
+              "text",
+              "attachments",
+              "sender",
+              "sent_at"
+            ],
             "nullable": true,
-            "description": "Last known battery level from the device, if available.",
-            "example": 99
+            "description": "Preview of the most recent text message in the thread."
           },
           "created_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Timestamp when the device was created.",
+            "description": "Timestamp of when the thread was created.",
             "example": "2021-05-13T16:33:00.000Z"
           },
           "updated_at": {
             "type": "string",
             "format": "date-time",
-            "description": "Timestamp when the device was last updated.",
+            "description": "Timestamp of when the thread was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
+          },
+          "closed_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of when the thread was last closed.",
+            "example": null
           }
         },
         "required": [
           "object",
           "id",
           "member",
+          "assignee",
           "status",
-          "name",
-          "hardware_address",
-          "capabilities",
-          "last_seen_at",
-          "battery_level",
+          "subject",
+          "last_message",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "closed_at"
         ],
-        "title": "Device",
-        "description": "Devices are physical hardware capable of monitoring the health of a member.\n\nSource is able to send devices to members by placing orders using the ordering API. Each time an order is fulfilled, a new device is registered on the platform. As users take measurements with their devices, those readings create new measurement resources.",
-        "x-resourceId": "device",
-        "x-package": "monitoring"
+        "title": "Thread",
+        "description": "The Thread resource represents a conversation between a member and/or their care team.\n\nThreads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.",
+        "x-resourceId": "thread",
+        "x-package": "communications"
+      },
+      "thread_status": {
+        "type": "string",
+        "enum": [
+          "awaiting_care_team",
+          "awaiting_member",
+          "closed"
+        ],
+        "x-namespace": "thread"
       },
       "event": {
         "type": "object",
@@ -4711,6 +4463,120 @@
         "x-resourceId": "webhook",
         "x-package": null
       },
+      "device": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "device",
+            "enum": [
+              "device"
+            ],
+            "example": "device",
+            "description": "Always `device`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the device.",
+            "example": "dev_kTRoWd1awPhUoRwL78uH"
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "Member to which this device belongs.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "active",
+              "deactivated"
+            ],
+            "description": "Current status of the device.",
+            "example": "active"
+          },
+          "name": {
+            "type": "string",
+            "description": "Display name of the device.",
+            "example": "BodyTrace BT-105"
+          },
+          "hardware_address": {
+            "type": "string",
+            "nullable": true,
+            "description": "Hardware ID of the device (e.g. IMEI or MAC address)",
+            "example": "490154203237518"
+          },
+          "capabilities": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "blood_pressure",
+                "body_weight",
+                "diastolic_blood_pressure",
+                "heart_rate",
+                "systolic_blood_pressure"
+              ]
+            },
+            "description": "Capabilities for the device, determined by types of measurements the device can report.",
+            "example": [
+              "blood_pressure"
+            ]
+          },
+          "last_seen_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Last time we received any data or heartbeat from the device.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "battery_level": {
+            "type": "number",
+            "nullable": true,
+            "description": "Last known battery level from the device, if available.",
+            "example": 99
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the device was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the device was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "member",
+          "status",
+          "name",
+          "hardware_address",
+          "capabilities",
+          "last_seen_at",
+          "battery_level",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Device",
+        "description": "Devices are physical hardware capable of monitoring the health of a member.\n\nSource is able to send devices to members by placing orders using the ordering API. Each time an order is fulfilled, a new device is registered on the platform. As users take measurements with their devices, those readings create new measurement resources.",
+        "x-resourceId": "device",
+        "x-package": "monitoring"
+      },
       "measurement": {
         "type": "object",
         "properties": {
@@ -4839,6 +4705,140 @@
         "description": "Measurements are reports of objective physiological markers on a member, such as blood pressure, body weight, or blood glucose.\n\nMeasurements are often created by devices that have been sent to the member, but can also be created directly via the API. Either way, measurements are stored for the member and can be viewed by clinicians with access to health data.",
         "x-resourceId": "measurement",
         "x-package": "monitoring"
+      },
+      "message": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "message",
+            "enum": [
+              "message"
+            ],
+            "example": "message",
+            "description": "Always `message`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of this Message."
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "system"
+            ],
+            "description": "The type of message that was sent. Text messages are messages from one user to another, and represent most messages sent on the platform. System messages are automatically generated when notable thread events occur (such as reassignments and status changes)."
+          },
+          "thread": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/thread"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/thread"
+            },
+            "description": "Thread to which the message belongs.",
+            "example": "thrd_7BqeKrhbVU7c4Cigqs60"
+          },
+          "text": {
+            "type": "string",
+            "description": "Plain text contents of the message."
+          },
+          "sender": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/member"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/member"
+                },
+                "description": "Expandable reference to a Member",
+                "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+              },
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/user"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "description": "Expandable reference to a User",
+                "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+              }
+            ],
+            "description": "The person who sent this message."
+          },
+          "sent_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time at which this message was sent."
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "enum": [
+                    "file"
+                  ],
+                  "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
+                },
+                "resource": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/file"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/file"
+                  },
+                  "description": "The resource which is attached to the message",
+                  "example": "fil_gdIyXM9d4LKGnewOV4OM"
+                }
+              },
+              "required": [
+                "type",
+                "resource"
+              ]
+            },
+            "description": "Any attachments to the message, such as files."
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "type",
+          "thread",
+          "text",
+          "sender",
+          "sent_at",
+          "attachments"
+        ],
+        "title": "Message",
+        "description": "Messages are exchanged between patients and their care team.\n\nEach thread in the communications product consists of individual messagese. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.",
+        "x-resourceId": "message",
+        "x-package": "communications"
       },
       "order": {
         "type": "object",
