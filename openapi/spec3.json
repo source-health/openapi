@@ -873,7 +873,7 @@
                         },
                         "resource": {
                           "type": "string",
-                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should  be set to the uploaded file's ID."
+                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
                         }
                       },
                       "required": [
@@ -1106,7 +1106,7 @@
                             },
                             "resource": {
                               "type": "string",
-                              "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should  be set to the uploaded file's ID."
+                              "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
                             }
                           },
                           "required": [
@@ -1748,7 +1748,7 @@
     "/v1/workflow/queue": {
       "get": {
         "summary": "Get all Task Queue Entries",
-        "description": "Returns a list of Task Queue Entries which are tasks assigned to the provided user, grouped by member,  and ordered by priority using the due_at property.",
+        "description": "Returns a list of Task Queue Entries which are tasks assigned to the provided user, grouped by member, and ordered by priority using the due_at property.",
         "tags": [
           "Workflow"
         ],
@@ -1798,10 +1798,10 @@
             "name": "assignee",
             "schema": {
               "type": "string",
-              "description": "Shows the queue for the provided user. By default when not provided the queue will include all  tasks assigned to all users. When authenticated as a user you can specify the value 'current' to  show the current users task queue. Providing `unassigned` will show a global queue of all  tasks that are unassigned."
+              "description": "Shows the queue for the provided user. By default when not provided the queue will include all tasks assigned to all users. When authenticated as a user you can specify the value 'current' to show the current users task queue. Providing `unassigned` will show a global queue of all tasks that are unassigned."
             },
             "required": false,
-            "description": "Shows the queue for the provided user. By default when not provided the queue will include all  tasks assigned to all users. When authenticated as a user you can specify the value 'current' to  show the current users task queue. Providing `unassigned` will show a global queue of all  tasks that are unassigned."
+            "description": "Shows the queue for the provided user. By default when not provided the queue will include all tasks assigned to all users. When authenticated as a user you can specify the value 'current' to show the current users task queue. Providing `unassigned` will show a global queue of all tasks that are unassigned."
           }
         ],
         "responses": {
@@ -1974,6 +1974,25 @@
             },
             "required": false,
             "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "due_at",
+                "-created_at",
+                "-due_at"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
           },
           {
             "in": "query",
