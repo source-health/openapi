@@ -1,10 +1,10 @@
-# Catalyst's OpenAPI Specification
+# Source Health OpenAPI Specification
 
-This repository contains OpenAPI specifications for the Catalyst's API.
+This repository contains OpenAPI specifications for the Source Health API.
 
 Files can be found in the `openapi/` directory:
 
-* `spec3.{json,yaml}:` OpenAPI 3.0 spec matching the public Catalyst API.
+* `spec3.{json,yaml}:` OpenAPI 3.0 spec matching the public Source API.
     * Our OpenAPI specification includes vendor specific extensions that we use to
       generate documentation and SDKs.
 
