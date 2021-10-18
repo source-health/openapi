@@ -4042,7 +4042,7 @@
                 "resource_type": {
                   "type": "string",
                   "enum": [
-                    "0"
+                    "thread"
                   ],
                   "description": "Related object type",
                   "example": "thread"
