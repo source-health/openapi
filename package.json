@@ -1,5 +1,5 @@
 {
-  "name": "@catalysthealth/openapi",
+  "name": "@source-health/openapi",
   "version": "1.0.14",
   "main": "openapi/spec3.json",
   "license": "MIT",
@@ -7,8 +7,5 @@
     "openapi/**/*.json",
     "openapi/**/*.yml"
   ],
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
-  },
-  "repository": "git://github.com/CatalystHealth/openapi.git"
+  "repository": "git://github.com/source-health/openapi.git"
 }
