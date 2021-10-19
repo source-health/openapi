@@ -4245,7 +4245,6 @@
               "sender",
               "sent_at"
             ],
-            "nullable": true,
             "description": "Preview of the most recent text message in the thread."
           },
           "created_at": {
