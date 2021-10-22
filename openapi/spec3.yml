@@ -3576,7 +3576,7 @@ components:
         Messages are exchanged between patients and their care team.
 
 
-        Each thread in the communications product consists of individual messagese. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.
+        Each thread in the communications product consists of individual messages. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.
       x-resourceId: message
       x-package: communications
     thread:
