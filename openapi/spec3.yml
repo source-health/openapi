@@ -2941,79 +2941,6 @@ components:
         Remember that tasks, communications, and other workflow requirements will leverage the care team to determine how they're routed.
       x-resourceId: care_team
       x-package: null
-    user:
-      type: object
-      properties:
-        object:
-          type: string
-          default: user
-          enum:
-            - user
-          example: user
-          description: Always `user`.
-        id:
-          type: string
-          description: Unique ID for this user.
-          example: usr_0EipsUv2yRFxynHshisN
-        first_name:
-          type: string
-          nullable: true
-          description: First name of the user.
-          example: John
-        last_name:
-          type: string
-          nullable: true
-          description: Last name of the user.
-          example: mem_06Z9ZCYZu9HF0IGgGdZ4
-        email:
-          type: string
-          description: Email address for the user.
-          example: you@yourcompany.com
-        role:
-          type: string
-          enum:
-            - owner
-            - administrator
-            - developer
-            - clinician
-            - support
-          description: Role the user is granted in your account.
-          example: developer
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the user was created.
-          example: 2021-05-13T16:33:00.000Z
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the user was last updated.
-          example: 2021-05-13T16:33:00.000Z
-        deactivated_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: Timestamp when the user was last deactivated, if they have been
-            deactivated.
-          example: null
-      required:
-        - object
-        - id
-        - first_name
-        - last_name
-        - email
-        - role
-        - created_at
-        - updated_at
-        - deactivated_at
-      title: User
-      description: >-
-        Represents a user who has access to the Source account.
-
-
-        You can manage users in the Source Console, and control their role which determines which resources they're able to access on the platform.
-      x-resourceId: user
-      x-package: null
     device:
       type: object
       properties:
@@ -3109,140 +3036,109 @@ components:
         Source is able to send devices to members by placing orders using the ordering API. Each time an order is fulfilled, a new device is registered on the platform. As users take measurements with their devices, those readings create new measurement resources.
       x-resourceId: device
       x-package: monitoring
-    member:
+    device_model:
       type: object
       properties:
         object:
           type: string
-          default: member
+          default: device_model
           enum:
-            - member
-          example: member
-          description: Always `member`.
+            - device_model
+          example: device_model
+          description: Always `device_model`.
         id:
           type: string
-          description: Unique ID of the member.
-          example: mem_guaeGueil6wo8gahSah8
-        title:
+          description: Unique ID of the device model.
+          example: dev_kTRoWd1awPhUoRwL78uH
+        manufacturer:
           type: string
-          nullable: true
-          description: Title for the member (Mr., Mrs., Dr., etc).
-        first_name:
+          description: Manufacturer of the device model.
+          example: ACME
+        model_number:
           type: string
-          description: First name of the member.
-          example: Catherine
-        middle_name:
-          type: string
-          nullable: true
-          description: Middle name of the member.
-          example: null
-        last_name:
-          type: string
-          description: Last name of the member.
-          example: Parker
-        preferred_name:
-          type: string
-          nullable: true
-          description: The member's preferred name. This could be a shortened or alternate
-            name that the member typically prefers to be called.
-          example: Cathy
-        email:
-          type: string
-          nullable: true
-          description: Email address for the member.
-          example: evieparker@example.org
-        date_of_birth:
-          type: string
-          format: date
-          description: Date of birth of the member.
-          example: 1990-10-10
-        biological_sex:
+          description: Model number of the device model
+          example: BT-005
+        category:
           type: string
           enum:
-            - male
-            - female
-            - non_binary
-            - undisclosed
-          description: Biological sex of the member
-          example: female
-        address:
-          type: object
-          properties:
-            street_line_1:
-              type: string
-              description: The first line of the street address.
-              example: 1 City Point
-            street_line_2:
-              type: string
-              nullable: true
-              description: The second line of the street address.
-            city:
-              type: string
-              description: The city.
-              example: Brooklyn
-            region:
-              type: string
-              description: The region - in the US this should be the two-letter state code.
-              example: NY
-            postal_code:
-              type: string
-              description: The postal code (i.e. zip code).
-              example: "11215"
-            country:
-              type: string
-              description: The country, as a two-letter ISO 3166-1 code. US is the only
-                supported country at this time.
-              example: US
-          required:
-            - street_line_1
-            - street_line_2
-            - city
-            - region
-            - postal_code
-            - country
-          nullable: true
-          description: Default address for the member. Used if no address is provided on a
-            specific order.
-        care_team:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/care_team"
-          x-expandable:
-            $ref: "#/components/schemas/care_team"
-          description: The care team that is assigned to this member.
-          example: crtm_Zfj4Sl03hfvZjfFJZ492
-        created_at:
+            - scale
+            - blood_pressure_monitor
+          description: Category of the device model.
+          example: blood_pressure_monitor
+        capabilities:
+          type: array
+          items:
+            type: string
+            enum:
+              - blood_pressure
+              - body_weight
+              - diastolic_blood_pressure
+              - heart_rate
+              - systolic_blood_pressure
+          description: Capabilities for the device model, determined by types of
+            measurements the device can report.
+          example:
+            - blood_pressure
+        connectivity:
           type: string
-          format: date-time
-          description: Timestamp of when the member was created.
-          example: 2021-05-13T16:33:00.000Z
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the member was last updated.
-          example: 2021-05-13T16:33:00.000Z
+          enum:
+            - cellular
+            - bluetooth
+          description: Connectivity type of this device model
+          example: cellular
       required:
         - object
         - id
-        - title
-        - first_name
-        - middle_name
-        - last_name
-        - preferred_name
-        - email
-        - date_of_birth
-        - biological_sex
-        - address
-        - care_team
-        - created_at
-        - updated_at
-      title: Member
-      description: >-
-        Members are people who may receive care from you.
-
-
-        Most operations in the Source platform center around a particular member. You can create new members at any time.
-      x-resourceId: member
+        - manufacturer
+        - model_number
+        - category
+        - capabilities
+        - connectivity
+      title: Device Model
+      x-resourceId: device_model
+      x-package: monitoring
+    error:
+      type: object
+      properties:
+        object:
+          type: string
+          default: error
+          enum:
+            - error
+          example: error
+          description: Always `error`.
+        type:
+          type: string
+          enum:
+            - api_error
+            - api_connection_error
+            - invalid_request_error
+            - authentication_error
+            - authorization_error
+          description: The type of error encountered.
+        code:
+          type: string
+          description: For errors that could be handled programmatically, a short string
+            indicating the error code reported.
+        message:
+          type: string
+          description: A human-readable message providing more details about the error.
+        request_id:
+          type: string
+          nullable: true
+          description: Unique ID for the request where the error was encountered.
+        meta:
+          type: object
+          additionalProperties: {}
+          description: Additional information sent along with the error
+      required:
+        - object
+        - type
+        - code
+        - message
+        - request_id
+      title: Error
+      x-resourceId: error
       x-package: null
     event:
       type: object
@@ -3485,6 +3381,141 @@ components:
         Measurements are often created by devices that have been sent to the member, but can also be created directly via the API. Either way, measurements are stored for the member and can be viewed by clinicians with access to health data.
       x-resourceId: measurement
       x-package: monitoring
+    member:
+      type: object
+      properties:
+        object:
+          type: string
+          default: member
+          enum:
+            - member
+          example: member
+          description: Always `member`.
+        id:
+          type: string
+          description: Unique ID of the member.
+          example: mem_guaeGueil6wo8gahSah8
+        title:
+          type: string
+          nullable: true
+          description: Title for the member (Mr., Mrs., Dr., etc).
+        first_name:
+          type: string
+          description: First name of the member.
+          example: Catherine
+        middle_name:
+          type: string
+          nullable: true
+          description: Middle name of the member.
+          example: null
+        last_name:
+          type: string
+          description: Last name of the member.
+          example: Parker
+        preferred_name:
+          type: string
+          nullable: true
+          description: The member's preferred name. This could be a shortened or alternate
+            name that the member typically prefers to be called.
+          example: Cathy
+        email:
+          type: string
+          nullable: true
+          description: Email address for the member.
+          example: evieparker@example.org
+        date_of_birth:
+          type: string
+          format: date
+          description: Date of birth of the member.
+          example: 1990-10-10
+        biological_sex:
+          type: string
+          enum:
+            - male
+            - female
+            - non_binary
+            - undisclosed
+          description: Biological sex of the member
+          example: female
+        address:
+          type: object
+          properties:
+            street_line_1:
+              type: string
+              description: The first line of the street address.
+              example: 1 City Point
+            street_line_2:
+              type: string
+              nullable: true
+              description: The second line of the street address.
+            city:
+              type: string
+              description: The city.
+              example: Brooklyn
+            region:
+              type: string
+              description: The region - in the US this should be the two-letter state code.
+              example: NY
+            postal_code:
+              type: string
+              description: The postal code (i.e. zip code).
+              example: "11215"
+            country:
+              type: string
+              description: The country, as a two-letter ISO 3166-1 code. US is the only
+                supported country at this time.
+              example: US
+          required:
+            - street_line_1
+            - street_line_2
+            - city
+            - region
+            - postal_code
+            - country
+          nullable: true
+          description: Default address for the member. Used if no address is provided on a
+            specific order.
+        care_team:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/care_team"
+          x-expandable:
+            $ref: "#/components/schemas/care_team"
+          description: The care team that is assigned to this member.
+          example: crtm_Zfj4Sl03hfvZjfFJZ492
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the member was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the member was last updated.
+          example: 2021-05-13T16:33:00.000Z
+      required:
+        - object
+        - id
+        - title
+        - first_name
+        - middle_name
+        - last_name
+        - preferred_name
+        - email
+        - date_of_birth
+        - biological_sex
+        - address
+        - care_team
+        - created_at
+        - updated_at
+      title: Member
+      description: >-
+        Members are people who may receive care from you.
+
+
+        Most operations in the Source platform center around a particular member. You can create new members at any time.
+      x-resourceId: member
+      x-package: null
     message:
       type: object
       properties:
@@ -3579,150 +3610,6 @@ components:
         Each thread in the communications product consists of individual messages. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.
       x-resourceId: message
       x-package: communications
-    thread:
-      type: object
-      properties:
-        object:
-          type: string
-          default: thread
-          enum:
-            - thread
-          example: thread
-          description: Always `thread`.
-        id:
-          type: string
-          description: Unique ID of the thread.
-          example: thrd_7BqeKrhbVU7c4Cigqs60
-        member:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/member"
-          x-expandable:
-            $ref: "#/components/schemas/member"
-          description: The member to which this thread belongs.
-          example: mem_JAfPRRc59eh2YQ1aeL3D
-        assignee:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/user"
-          x-expandable:
-            $ref: "#/components/schemas/user"
-          description: The user who is assigned to the thread and will be notified of new
-            messages.
-          example: usr_NC6MQ3FyxddKoJJpfSVL
-          nullable: true
-        status:
-          oneOf:
-            - $ref: "#/components/schemas/thread_status"
-          x-wrapped: true
-          description: Current status of the thread.
-          example: awaiting_care_team
-        subject:
-          type: string
-          nullable: true
-          description: Subject of the thread.
-          example: Not feeling well
-        last_message:
-          type: object
-          properties:
-            text:
-              type: string
-              description: Plain text contents of the message.
-              example: I have been feeling nauseous since yesterday afternoon.
-            attachments:
-              type: array
-              items:
-                type: object
-                properties:
-                  type:
-                    type: string
-                    enum:
-                      - file
-                    description: The type of attachment. Currently, the only supported attachment
-                      type is `file`, but other attachment types may be added.
-                  resource:
-                    oneOf:
-                      - type: string
-                      - $ref: "#/components/schemas/file"
-                    x-expandable:
-                      $ref: "#/components/schemas/file"
-                    description: The resource which is attached to the message
-                    example: fil_gdIyXM9d4LKGnewOV4OM
-                required:
-                  - type
-                  - resource
-              description: Any attachments to the message, such as files.
-            sender:
-              anyOf:
-                - oneOf:
-                    - type: string
-                    - $ref: "#/components/schemas/user"
-                  x-expandable:
-                    $ref: "#/components/schemas/user"
-                  description: Expandable reference to a User
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
-                - oneOf:
-                    - type: string
-                    - $ref: "#/components/schemas/member"
-                  x-expandable:
-                    $ref: "#/components/schemas/member"
-                  description: Expandable reference to a Member
-                  example: mem_JAfPRRc59eh2YQ1aeL3D
-              description: The person who sent this message.
-            sent_at:
-              type: string
-              format: date-time
-              description: The time at which this message was sent.
-              example: 2021-05-13T16:33:00.000Z
-          required:
-            - text
-            - attachments
-            - sender
-            - sent_at
-          description: Preview of the most recent text message in the thread.
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the thread was created.
-          example: 2021-05-13T16:33:00.000Z
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp of when the thread was last updated.
-          example: 2021-05-13T16:33:00.000Z
-        closed_at:
-          type: string
-          format: date-time
-          nullable: true
-          description: Timestamp of when the thread was last closed.
-          example: null
-      required:
-        - object
-        - id
-        - member
-        - assignee
-        - status
-        - subject
-        - last_message
-        - created_at
-        - updated_at
-        - closed_at
-      title: Thread
-      description: >-
-        The Thread resource represents a conversation between a member and/or
-        their care team.
-
-
-        Threads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.
-      x-resourceId: thread
-      x-package: communications
-    thread_status:
-      type: string
-      enum:
-        - awaiting_care_team
-        - awaiting_member
-        - closed
-      x-namespace: thread
     order:
       type: object
       properties:
@@ -3997,67 +3884,6 @@ components:
       title: Order
       x-resourceId: order
       x-package: monitoring
-    device_model:
-      type: object
-      properties:
-        object:
-          type: string
-          default: device_model
-          enum:
-            - device_model
-          example: device_model
-          description: Always `device_model`.
-        id:
-          type: string
-          description: Unique ID of the device model.
-          example: dev_kTRoWd1awPhUoRwL78uH
-        manufacturer:
-          type: string
-          description: Manufacturer of the device model.
-          example: ACME
-        model_number:
-          type: string
-          description: Model number of the device model
-          example: BT-005
-        category:
-          type: string
-          enum:
-            - scale
-            - blood_pressure_monitor
-          description: Category of the device model.
-          example: blood_pressure_monitor
-        capabilities:
-          type: array
-          items:
-            type: string
-            enum:
-              - blood_pressure
-              - body_weight
-              - diastolic_blood_pressure
-              - heart_rate
-              - systolic_blood_pressure
-          description: Capabilities for the device model, determined by types of
-            measurements the device can report.
-          example:
-            - blood_pressure
-        connectivity:
-          type: string
-          enum:
-            - cellular
-            - bluetooth
-          description: Connectivity type of this device model
-          example: cellular
-      required:
-        - object
-        - id
-        - manufacturer
-        - model_number
-        - category
-        - capabilities
-        - connectivity
-      title: Device Model
-      x-resourceId: device_model
-      x-package: monitoring
     task:
       type: object
       properties:
@@ -4267,34 +4093,223 @@ components:
         - object
         - member
         - tasks
-    webhook_events:
+    thread:
+      type: object
+      properties:
+        object:
+          type: string
+          default: thread
+          enum:
+            - thread
+          example: thread
+          description: Always `thread`.
+        id:
+          type: string
+          description: Unique ID of the thread.
+          example: thrd_7BqeKrhbVU7c4Cigqs60
+        member:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/member"
+          x-expandable:
+            $ref: "#/components/schemas/member"
+          description: The member to which this thread belongs.
+          example: mem_JAfPRRc59eh2YQ1aeL3D
+        assignee:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/user"
+          x-expandable:
+            $ref: "#/components/schemas/user"
+          description: The user who is assigned to the thread and will be notified of new
+            messages.
+          example: usr_NC6MQ3FyxddKoJJpfSVL
+          nullable: true
+        status:
+          oneOf:
+            - $ref: "#/components/schemas/thread_status"
+          x-wrapped: true
+          description: Current status of the thread.
+          example: awaiting_care_team
+        subject:
+          type: string
+          nullable: true
+          description: Subject of the thread.
+          example: Not feeling well
+        last_message:
+          type: object
+          properties:
+            text:
+              type: string
+              description: Plain text contents of the message.
+              example: I have been feeling nauseous since yesterday afternoon.
+            attachments:
+              type: array
+              items:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    enum:
+                      - file
+                    description: The type of attachment. Currently, the only supported attachment
+                      type is `file`, but other attachment types may be added.
+                  resource:
+                    oneOf:
+                      - type: string
+                      - $ref: "#/components/schemas/file"
+                    x-expandable:
+                      $ref: "#/components/schemas/file"
+                    description: The resource which is attached to the message
+                    example: fil_gdIyXM9d4LKGnewOV4OM
+                required:
+                  - type
+                  - resource
+              description: Any attachments to the message, such as files.
+            sender:
+              anyOf:
+                - oneOf:
+                    - type: string
+                    - $ref: "#/components/schemas/user"
+                  x-expandable:
+                    $ref: "#/components/schemas/user"
+                  description: Expandable reference to a User
+                  example: usr_NC6MQ3FyxddKoJJpfSVL
+                - oneOf:
+                    - type: string
+                    - $ref: "#/components/schemas/member"
+                  x-expandable:
+                    $ref: "#/components/schemas/member"
+                  description: Expandable reference to a Member
+                  example: mem_JAfPRRc59eh2YQ1aeL3D
+              description: The person who sent this message.
+            sent_at:
+              type: string
+              format: date-time
+              description: The time at which this message was sent.
+              example: 2021-05-13T16:33:00.000Z
+          required:
+            - text
+            - attachments
+            - sender
+            - sent_at
+          description: Preview of the most recent text message in the thread.
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the thread was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the thread was last updated.
+          example: 2021-05-13T16:33:00.000Z
+        closed_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp of when the thread was last closed.
+          example: null
+      required:
+        - object
+        - id
+        - member
+        - assignee
+        - status
+        - subject
+        - last_message
+        - created_at
+        - updated_at
+        - closed_at
+      title: Thread
+      description: >-
+        The Thread resource represents a conversation between a member and/or
+        their care team.
+
+
+        Threads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.
+      x-resourceId: thread
+      x-package: communications
+    thread_status:
       type: string
       enum:
-        - account.updated
-        - care_team.created
-        - care_team.updated
-        - care_team.deleted
-        - device.created
-        - device.activated
-        - device.deactivated
-        - device.deleted
-        - file.created
-        - measurement.created
-        - order.created
-        - order.shipped
-        - member.created
-        - member.updated
-        - member.deleted
-        - message.created
-        - task.created
-        - task.updated
-        - task_definition.created
-        - task_definition.updated
-        - thread.created
-        - thread.updated
-        - webhook.created
-        - webhook.updated
-        - webhook.deleted
+        - awaiting_care_team
+        - awaiting_member
+        - closed
+      x-namespace: thread
+    user:
+      type: object
+      properties:
+        object:
+          type: string
+          default: user
+          enum:
+            - user
+          example: user
+          description: Always `user`.
+        id:
+          type: string
+          description: Unique ID for this user.
+          example: usr_0EipsUv2yRFxynHshisN
+        first_name:
+          type: string
+          nullable: true
+          description: First name of the user.
+          example: John
+        last_name:
+          type: string
+          nullable: true
+          description: Last name of the user.
+          example: mem_06Z9ZCYZu9HF0IGgGdZ4
+        email:
+          type: string
+          description: Email address for the user.
+          example: you@yourcompany.com
+        role:
+          type: string
+          enum:
+            - owner
+            - administrator
+            - developer
+            - clinician
+            - support
+          description: Role the user is granted in your account.
+          example: developer
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the user was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the user was last updated.
+          example: 2021-05-13T16:33:00.000Z
+        deactivated_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: Timestamp when the user was last deactivated, if they have been
+            deactivated.
+          example: null
+      required:
+        - object
+        - id
+        - first_name
+        - last_name
+        - email
+        - role
+        - created_at
+        - updated_at
+        - deactivated_at
+      title: User
+      description: >-
+        Represents a user who has access to the Source account.
+
+
+        You can manage users in the Source Console, and control their role which determines which resources they're able to access on the platform.
+      x-resourceId: user
+      x-package: null
     webhook:
       type: object
       properties:
@@ -4356,49 +4371,34 @@ components:
         Once a webhook is registered and enabled, each event matching the list of subscribed events will be delivered to the endpoint you choose.
       x-resourceId: webhook
       x-package: null
-    error:
-      type: object
-      properties:
-        object:
-          type: string
-          default: error
-          enum:
-            - error
-          example: error
-          description: Always `error`.
-        type:
-          type: string
-          enum:
-            - api_error
-            - api_connection_error
-            - invalid_request_error
-            - authentication_error
-            - authorization_error
-          description: The type of error encountered.
-        code:
-          type: string
-          description: For errors that could be handled programmatically, a short string
-            indicating the error code reported.
-        message:
-          type: string
-          description: A human-readable message providing more details about the error.
-        request_id:
-          type: string
-          nullable: true
-          description: Unique ID for the request where the error was encountered.
-        meta:
-          type: object
-          additionalProperties: {}
-          description: Additional information sent along with the error
-      required:
-        - object
-        - type
-        - code
-        - message
-        - request_id
-      title: Error
-      x-resourceId: error
-      x-package: null
+    webhook_events:
+      type: string
+      enum:
+        - account.updated
+        - care_team.created
+        - care_team.updated
+        - care_team.deleted
+        - device.created
+        - device.activated
+        - device.deactivated
+        - device.deleted
+        - file.created
+        - measurement.created
+        - order.created
+        - order.shipped
+        - member.created
+        - member.updated
+        - member.deleted
+        - message.created
+        - task.created
+        - task.updated
+        - task_definition.created
+        - task_definition.updated
+        - thread.created
+        - thread.updated
+        - webhook.created
+        - webhook.updated
+        - webhook.deleted
 x-readme:
   samples-languages:
     - curl
