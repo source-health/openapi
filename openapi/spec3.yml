@@ -4399,6 +4399,3 @@ components:
         - webhook.created
         - webhook.updated
         - webhook.deleted
-x-readme:
-  samples-languages:
-    - curl

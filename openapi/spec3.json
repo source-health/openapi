@@ -5329,10 +5329,5 @@
         ]
       }
     }
-  },
-  "x-readme": {
-    "samples-languages": [
-      "curl"
-    ]
   }
 }
