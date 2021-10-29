@@ -4432,105 +4432,11 @@
                       "type": "string"
                     },
                     {
-                      "type": "object",
-                      "properties": {
-                        "object": {
-                          "type": "string",
-                          "default": "product",
-                          "enum": [
-                            "product"
-                          ],
-                          "example": "product",
-                          "description": "Always product."
-                        },
-                        "id": {
-                          "type": "string",
-                          "description": "Unique ID of the product"
-                        },
-                        "name": {
-                          "type": "string",
-                          "description": "The human-readable name of the product"
-                        },
-                        "unit_price": {
-                          "type": "number",
-                          "description": "Unit price of this product (in cents).",
-                          "example": 1500
-                        },
-                        "device_model": {
-                          "oneOf": [
-                            {
-                              "type": "string"
-                            },
-                            {
-                              "$ref": "#/components/schemas/device_model"
-                            }
-                          ],
-                          "x-expandable": {
-                            "$ref": "#/components/schemas/device_model"
-                          },
-                          "description": "Expandable reference to the DeviceModel",
-                          "example": "devm_i34fkCzQpZM0vatw9fMn",
-                          "nullable": true
-                        }
-                      },
-                      "required": [
-                        "object",
-                        "id",
-                        "name",
-                        "unit_price",
-                        "device_model"
-                      ]
+                      "$ref": "#/components/schemas/product"
                     }
                   ],
                   "x-expandable": {
-                    "type": "object",
-                    "properties": {
-                      "object": {
-                        "type": "string",
-                        "default": "product",
-                        "enum": [
-                          "product"
-                        ],
-                        "example": "product",
-                        "description": "Always product."
-                      },
-                      "id": {
-                        "type": "string",
-                        "description": "Unique ID of the product"
-                      },
-                      "name": {
-                        "type": "string",
-                        "description": "The human-readable name of the product"
-                      },
-                      "unit_price": {
-                        "type": "number",
-                        "description": "Unit price of this product (in cents).",
-                        "example": 1500
-                      },
-                      "device_model": {
-                        "oneOf": [
-                          {
-                            "type": "string"
-                          },
-                          {
-                            "$ref": "#/components/schemas/device_model"
-                          }
-                        ],
-                        "x-expandable": {
-                          "$ref": "#/components/schemas/device_model"
-                        },
-                        "description": "Expandable reference to the DeviceModel",
-                        "example": "devm_i34fkCzQpZM0vatw9fMn",
-                        "nullable": true
-                      }
-                    },
-                    "required": [
-                      "object",
-                      "id",
-                      "name",
-                      "unit_price",
-                      "device_model"
-                    ]
+                    "$ref": "#/components/schemas/product"
                   },
                   "description": "Expandable reference to a Product",
                   "example": "prod_m0zvh4UpfvtRZasxVUwE"
@@ -4681,6 +4587,60 @@
         "title": "Order",
         "x-resourceId": "order",
         "x-package": "monitoring"
+      },
+      "product": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "product",
+            "enum": [
+              "product"
+            ],
+            "example": "product",
+            "description": "Always product."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the product"
+          },
+          "name": {
+            "type": "string",
+            "description": "The human-readable name of the product"
+          },
+          "unit_price": {
+            "type": "number",
+            "description": "Unit price of this product (in cents).",
+            "example": 1500
+          },
+          "device_model": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/device_model"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/device_model"
+            },
+            "description": "Expandable reference to the DeviceModel",
+            "example": "devm_i34fkCzQpZM0vatw9fMn",
+            "nullable": true
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "name",
+          "unit_price",
+          "device_model"
+        ],
+        "title": "Product",
+        "description": "A Product is an item that can be added to an order, for example a connected medical device. When the Product does correspond to a device, the expandable 'device_model' field will indicate they type of device.",
+        "x-resourceId": "product",
+        "x-package": null
       },
       "task": {
         "type": "object",
