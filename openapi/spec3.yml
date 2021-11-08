@@ -1570,10 +1570,12 @@ paths:
                   type: string
                   description: The user to which this task is assigned.
                   example: usr_NC6MQ3FyxddKoJJpfSVL
-                description:
+                summary:
                   type: string
                   minLength: 1
-                  description: Short text that describes the work to be done.
+                  maxLength: 255
+                  description: A brief summary of the task, which will be shown wherever the task
+                    is presented.
                   example: Call the member to check up on medications
                 status:
                   type: string
@@ -1601,7 +1603,7 @@ paths:
               required:
                 - definition
                 - member
-                - description
+                - summary
                 - status
       responses:
         default:
@@ -1771,10 +1773,12 @@ paths:
                   type: string
                   description: The user to which this task is assigned.
                   example: usr_NC6MQ3FyxddKoJJpfSVL
-                description:
+                summary:
                   type: string
                   minLength: 1
-                  description: Short text that describes the work to be done.
+                  maxLength: 255
+                  description: A brief summary of the task, which will be shown wherever the task
+                    is presented.
                   example: Call the member to check up on medications
                 status:
                   type: string
@@ -3898,7 +3902,7 @@ components:
           description: User on the care team to which this task is assigned.
           example: usr_NC6MQ3FyxddKoJJpfSVL
           nullable: true
-        description:
+        summary:
           type: string
           description: A human-readable string that describes the task at a high level.
             For system created tasks this field will be populated by the system.
@@ -3966,7 +3970,7 @@ components:
         - definition
         - member
         - assignee
-        - description
+        - summary
         - status
         - assignment_method
         - created_at
