@@ -8,7 +8,7 @@ info:
     email: support@sourcehealth.com
     url: https://sourcehealth.com/docs/api
 servers:
-  - url: https://api.withcatalyst.com
+  - url: https://api.sourcehealth.com
     description: Source Production
 security:
   - bearer: []
