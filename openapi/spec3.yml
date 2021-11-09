@@ -1577,6 +1577,15 @@ paths:
                   description: A brief summary of the task, which will be shown wherever the task
                     is presented.
                   example: Call the member to check up on medications
+                description:
+                  type: string
+                  maxLength: 65536
+                  nullable: true
+                  description: Long-form text describing the task to be performed. You can use
+                    this field to share any additional relevant context to the
+                    care team that will be acting on this task.
+                  example: The member had a specific question about their medication and how it
+                    interacts with their Hypertension.
                 status:
                   type: string
                   enum:
@@ -1780,6 +1789,15 @@ paths:
                   description: A brief summary of the task, which will be shown wherever the task
                     is presented.
                   example: Call the member to check up on medications
+                description:
+                  type: string
+                  maxLength: 65536
+                  nullable: true
+                  description: Long-form text describing the task to be performed. You can use
+                    this field to share any additional relevant context to the
+                    care team that will be acting on this task.
+                  example: The member had a specific question about their medication and how it
+                    interacts with their Hypertension.
                 status:
                   type: string
                   enum:
@@ -3907,6 +3925,14 @@ components:
           description: A human-readable string that describes the task at a high level.
             For system created tasks this field will be populated by the system.
           example: Please follow up with patient
+        description:
+          type: string
+          nullable: true
+          description: Long-form text describing the task to be performed. You can use
+            this field to share any additional relevant context to the care team
+            that will be acting on this task.
+          example: The member had a specific question about their medication and how it
+            interacts with their Hypertension.
         status:
           type: string
           enum:
