@@ -5370,6 +5370,17 @@
             "nullable": true,
             "description": "Timestamp of when the thread was last closed.",
             "example": null
+          },
+          "member_last_read": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp indicating the point through which the member has read. All messages with a `sent_at` after this point are considered unread. If null, the member has not seen any messages on this thread."
+          },
+          "last_message_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of the last message that was sent on this thread. This message has been read by the member if the last_read timestamp is greater than or equal to the last_message_at timestamp"
           }
         },
         "required": [
@@ -5382,7 +5393,9 @@
           "last_message",
           "created_at",
           "updated_at",
-          "closed_at"
+          "closed_at",
+          "member_last_read",
+          "last_message_at"
         ],
         "title": "Thread",
         "description": "The Thread resource represents a conversation between a member and/or their care team.\n\nThreads can be created at any time, and contain multiple messages. Each thread has a status indicating where it sits in the lifecycle. For more information about the different thread states, see the documentation for the status property below.",
