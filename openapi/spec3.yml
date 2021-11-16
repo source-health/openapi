@@ -4453,12 +4453,14 @@ components:
             All messages with a `sent_at` after this point are considered
             unread. If null, the member has not seen any messages on this
             thread.
+          example: null
         last_message_at:
           type: string
           format: date-time
           description: Timestamp of the last message that was sent on this thread. This
             message has been read by the member if the last_read timestamp is
             greater than or equal to the last_message_at timestamp
+          example: 2021-05-13T16:33:00.000Z
       required:
         - object
         - id
