@@ -3116,6 +3116,64 @@
         "x-belongsToResource": "thread"
       }
     },
+    "/v1/communication/threads/{id}/mark": {
+      "post": {
+        "summary": "Mark a Thread",
+        "description": "Marks a thread as read by the member. You can provide a timestamp through which the member has read. All message appearing before this timestamp will be shown as read by the member in the Source Elements SDK. If you're not using Elements, you can use this timestamp to track where the member has read in your own interface.\n\nProviding null marks the entire thread as unread.",
+        "tags": [
+          "Thread"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the thread."
+            },
+            "required": true,
+            "description": "Unique ID of the thread."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member_last_read": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Timestamp indicating the point through which the member has read.  All messages with a `sent_at` after this point are considered unread.  If null, the member has not seen any messages on this thread.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  }
+                },
+                "required": [
+                  "member_last_read"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/thread"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "mark",
+        "x-belongsToResource": "thread"
+      }
+    },
     "/v1/users/{id}": {
       "get": {
         "summary": "Retrieve a User",
