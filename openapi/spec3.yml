@@ -4277,6 +4277,7 @@ components:
         - member
         - assignee
         - summary
+        - description
         - status
         - assignment_method
         - created_at
