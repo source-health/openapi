@@ -451,6 +451,41 @@
         },
         "x-methodName": "update",
         "x-belongsToResource": "care_team_role"
+      },
+      "delete": {
+        "summary": "Delete a Care Team Role",
+        "description": "Deletes the specified care team role. Roles that are currently assigned to users may not be deleted.",
+        "tags": [
+          "Care Team Role"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the care_team_role."
+            },
+            "required": true,
+            "description": "Unique ID of the care_team_role."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/care_team_role"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "care_team_role"
       }
     },
     "/v1/devices/{id}": {
@@ -5518,6 +5553,38 @@
             "description": "Role the user is granted in your account.",
             "example": "developer"
           },
+          "live_care_team_role": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/care_team_role"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/care_team_role"
+            },
+            "description": "Care team role for this user, which must reference a role that exists in live mode. Only users with a care team role can be added to a member's care team.",
+            "example": null,
+            "nullable": true
+          },
+          "test_care_team_role": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/care_team_role"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/care_team_role"
+            },
+            "description": "Care team role for this user, which must reference a role that exists in test mode. Only users with a care team role can be added to a member's care team.",
+            "example": "ctr_iNGhmxf28QqEstlwzxWK",
+            "nullable": true
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -5545,6 +5612,8 @@
           "last_name",
           "email",
           "role",
+          "live_care_team_role",
+          "test_care_team_role",
           "created_at",
           "updated_at",
           "deactivated_at"
