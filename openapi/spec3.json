@@ -1289,6 +1289,11 @@
                         "resource"
                       ]
                     }
+                  },
+                  "sender": {
+                    "type": "string",
+                    "description": "The ID of the user this message is being sent by. Required for sending messages with an API key.",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                   }
                 },
                 "required": [
@@ -2887,6 +2892,11 @@
                             "resource"
                           ]
                         }
+                      },
+                      "sender": {
+                        "type": "string",
+                        "description": "The ID of the user this message is being sent by. Required for sending messages with an API key.",
+                        "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                       }
                     },
                     "required": [
@@ -4684,6 +4694,11 @@
               ]
             },
             "description": "Any attachments to the message, such as files."
+          },
+          "impersonated_by": {
+            "type": "string",
+            "nullable": true,
+            "description": "The person or API key who sent the message on behalf of `sender`. If null, the message sender was not impersonated."
           }
         },
         "required": [
@@ -4694,7 +4709,8 @@
           "text",
           "sender",
           "sent_at",
-          "attachments"
+          "attachments",
+          "impersonated_by"
         ],
         "title": "Message",
         "description": "Messages are exchanged between patients and their care team.\n\nEach thread in the communications product consists of individual messages. Messages can be sent either from the member or their care team. You can create rich messaging experiences for your patients by building on top of our API or by using our React SDK inside your patient experience.",

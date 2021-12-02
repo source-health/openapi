@@ -1063,6 +1063,11 @@ paths:
                     required:
                       - type
                       - resource
+                sender:
+                  type: string
+                  description: The ID of the user this message is being sent by. Required for
+                    sending messages with an API key.
+                  example: usr_NC6MQ3FyxddKoJJpfSVL
               required:
                 - thread
                 - text
@@ -2441,6 +2446,11 @@ paths:
                         required:
                           - type
                           - resource
+                    sender:
+                      type: string
+                      description: The ID of the user this message is being sent by. Required for
+                        sending messages with an API key.
+                      example: usr_NC6MQ3FyxddKoJJpfSVL
                   required:
                     - text
                   description: The initial message to send when creating this thread.
@@ -3920,6 +3930,11 @@ components:
               - type
               - resource
           description: Any attachments to the message, such as files.
+        impersonated_by:
+          type: string
+          nullable: true
+          description: The person or API key who sent the message on behalf of `sender`.
+            If null, the message sender was not impersonated.
       required:
         - object
         - id
@@ -3929,6 +3944,7 @@ components:
         - sender
         - sent_at
         - attachments
+        - impersonated_by
       title: Message
       description: >-
         Messages are exchanged between patients and their care team.
