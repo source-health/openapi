@@ -2501,8 +2501,14 @@
                       "dietician",
                       "ob-gyn"
                     ],
-                    "description": "The default care team role that tasks should be assigned to.",
+                    "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role - until that work is complete you must supply both fields.",
                     "example": "nurse"
+                  },
+                  "care_team_role": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
+                    "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   }
                 },
                 "required": [
@@ -2663,8 +2669,14 @@
                       "dietician",
                       "ob-gyn"
                     ],
-                    "description": "The default care team role that tasks should be assigned to.",
+                    "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role - until that work is complete you must supply both fields.",
                     "example": "nurse"
+                  },
+                  "care_team_role": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
+                    "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   }
                 }
               }
@@ -5239,8 +5251,24 @@
               "dietician",
               "ob-gyn"
             ],
-            "description": "The default care team role that tasks should be assigned to.",
+            "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role, until that work is complete you must supply both fields.",
             "example": "nurse"
+          },
+          "care_team_role": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/care_team_role"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/care_team_role"
+            },
+            "description": "The default care team role that tasks should be assigned to. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
+            "example": "ctr_iNGhmxf28QqEstlwzxWK",
+            "nullable": true
           },
           "created_at": {
             "type": "string",
@@ -5261,6 +5289,7 @@
           "key",
           "name",
           "participant_role",
+          "care_team_role",
           "created_at",
           "updated_at"
         ],
