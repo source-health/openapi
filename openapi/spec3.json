@@ -153,23 +153,12 @@
                       "properties": {
                         "user": {
                           "type": "string",
-                          "description": "Unique ID of the user to add to the care team.",
+                          "description": "Unique ID of the user to add to the care team. The user must have a care team role defined.",
                           "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-                        },
-                        "role": {
-                          "type": "string",
-                          "enum": [
-                            "clinician",
-                            "nurse",
-                            "dietician",
-                            "ob-gyn"
-                          ],
-                          "description": "Role that this user should have on the care team."
                         }
                       },
                       "required": [
-                        "user",
-                        "role"
+                        "user"
                       ]
                     },
                     "description": "List of users to put on the care team."
@@ -2493,17 +2482,6 @@
                     "description": "Human readable name of the task definition",
                     "example": "Medication Request"
                   },
-                  "participant_role": {
-                    "type": "string",
-                    "enum": [
-                      "clinician",
-                      "nurse",
-                      "dietician",
-                      "ob-gyn"
-                    ],
-                    "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role - until that work is complete you must supply both fields.",
-                    "example": "nurse"
-                  },
                   "care_team_role": {
                     "type": "string",
                     "nullable": true,
@@ -2513,8 +2491,7 @@
                 },
                 "required": [
                   "key",
-                  "name",
-                  "participant_role"
+                  "name"
                 ]
               }
             }
@@ -2660,17 +2637,6 @@
                     "type": "string",
                     "description": "Human readable name of the task definition",
                     "example": "Medication Request"
-                  },
-                  "participant_role": {
-                    "type": "string",
-                    "enum": [
-                      "clinician",
-                      "nurse",
-                      "dietician",
-                      "ob-gyn"
-                    ],
-                    "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role - until that work is complete you must supply both fields.",
-                    "example": "nurse"
                   },
                   "care_team_role": {
                     "type": "string",
@@ -3818,26 +3784,15 @@
                   "x-expandable": {
                     "$ref": "#/components/schemas/user"
                   },
-                  "description": "The users who is on the care team.",
+                  "description": "The user who is on the care team.",
                   "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-                },
-                "role": {
-                  "type": "string",
-                  "enum": [
-                    "clinician",
-                    "nurse",
-                    "dietician",
-                    "ob-gyn"
-                  ],
-                  "description": "The role of this user on the care team."
                 }
               },
               "required": [
-                "user",
-                "role"
+                "user"
               ]
             },
-            "description": "The users on the care team. Each user has an associated role on the care team (for example, nurse, endocrinologist, or health ally).",
+            "description": "The users on the care team. The user's care team role defines their role across all teams they are on.",
             "example": []
           },
           "created_at": {
@@ -5243,17 +5198,6 @@
             "description": "Human readable name of the task definition.",
             "example": "Follow Up"
           },
-          "participant_role": {
-            "type": "string",
-            "enum": [
-              "clinician",
-              "nurse",
-              "dietician",
-              "ob-gyn"
-            ],
-            "description": "The default care team role that tasks should be assigned to. This field is being deprecated in favor of care_team_role, until that work is complete you must supply both fields.",
-            "example": "nurse"
-          },
           "care_team_role": {
             "oneOf": [
               {
@@ -5288,7 +5232,6 @@
           "id",
           "key",
           "name",
-          "participant_role",
           "care_team_role",
           "created_at",
           "updated_at"
