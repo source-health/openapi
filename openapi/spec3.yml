@@ -646,6 +646,7 @@ paths:
                   type: string
                   enum:
                     - message_attachment
+                    - photo
                   description: The purpose of the uploaded file. Each purpose imposes restrictions
                     on supported file types and use cases.
                   example: message_attachment
@@ -674,9 +675,11 @@ paths:
               example: message_attachment
             enumObject:
               - message_attachment
+              - photo
             _tag: EnumCodec
             enumValues:
               - message_attachment
+              - photo
         _tag: ObjectCodec
         properties:
           - file
@@ -3537,6 +3540,7 @@ components:
           type: string
           enum:
             - message_attachment
+            - photo
           description: The purpose of this uploaded file. Each file is required to have a
             clearly defined purpose, which controls what types of uploads are
             allowed and where the file may be referenced.
@@ -3559,6 +3563,15 @@ components:
             contained in this field will be valid for 7 days. Once it has
             expired, you can re-request this resource to get a fresh URL.
           example: https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf
+        variants:
+          type: object
+          additionalProperties:
+            type: string
+          description: Variants represent different versions of a file (such as
+            thumbnails). The variants available depend on the file's purpose.
+            Files with the `photo` purpose will have variants.
+          example:
+            thumbnail: https://example.com/source_thumb.jpeg
         url_expires_at:
           type: string
           format: date-time
@@ -3577,6 +3590,7 @@ components:
         - mime_type
         - size
         - url
+        - variants
         - url_expires_at
         - created_at
       title: File
