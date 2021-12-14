@@ -3043,7 +3043,7 @@ paths:
               properties:
                 url:
                   type: string
-                  pattern: (https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
+                  pattern: (https:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
                   description: URL to which matching events will be delivered
                   example: https://example.com/catalyst-webhook
                 events:
@@ -3189,7 +3189,7 @@ paths:
               properties:
                 url:
                   type: string
-                  pattern: (https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
+                  pattern: (https:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
                   description: URL to which matching events will be delivered
                   example: https://example.com/catalyst-webhook
                 events:
@@ -4864,7 +4864,7 @@ components:
           example: wbhk_xeechie3uqu5QuueSihi
         url:
           type: string
-          pattern: (https?:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
+          pattern: (https:\/\/)?([\w-])+\.{1}([a-zA-Z]{2,63})([/\w-]*)*\/?\??([^#\n\r]*)?#?([^\n\r]*)
           description: URL to which matching events will be delivered
           example: https://example.com/catalyst-webhook
         events:
