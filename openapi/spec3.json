@@ -1523,6 +1523,7 @@
                       },
                       "street_line_2": {
                         "type": "string",
+                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
@@ -1807,6 +1808,7 @@
                       },
                       "street_line_2": {
                         "type": "string",
+                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
@@ -1907,6 +1909,7 @@
                       },
                       "street_line_2": {
                         "type": "string",
+                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
