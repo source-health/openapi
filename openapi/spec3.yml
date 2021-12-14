@@ -2700,22 +2700,84 @@ paths:
                 $ref: "#/components/schemas/thread"
       x-methodName: mark
       x-belongsToResource: thread
-  "/v1/users/{id}":
-    get:
-      summary: Retrieve a User
-      description: Retrieve a user by their unique identifier.
+  /v1/users:
+    post:
+      summary: Create a User
+      description: >-
+        Creates a new user on the Source platform.
+
+
+        The user will be sent an email inviting them to finish creating their account. User accounts will not be active until they have followed the link in the invitation email and set a password.
+
+
+        Administrators and owners can create users.
+
+
+        API keys can create users but cannot create with role 'developer', 'administrator', or 'owner'.
+
+
+        Other user roles cannot create users.
       tags:
         - User
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            description: Unique ID of the user.
-          required: true
-          description: Unique ID of the user.
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First name of the user.
+                  example: John
+                last_name:
+                  type: string
+                  description: Last name of the user.
+                  example: Adame
+                email:
+                  type: string
+                  description: Email address for the user. Only admins and owners may update
+                    another user's email address, this cannot be updated using
+                    API keys.
+                  example: you@yourcompany.com
+                password:
+                  type: string
+                  minLength: 8
+                  maxLength: 255
+                  description: Password for the user. This field can only be set when creating the
+                    root user for an account.
+                  example: ªªªªªªªª
+                role:
+                  type: string
+                  enum:
+                    - owner
+                    - administrator
+                    - developer
+                    - clinician
+                    - support
+                  description: Role the user is granted in your account. Only admins and owners
+                    may manage another user's role, this cannot be updated using
+                    API keys.
+                  example: developer
+                live_care_team_role:
+                  type: string
+                  nullable: true
+                  description: Care team role for this user, which must reference a role that
+                    exists in live mode. Only users with a care team role can be
+                    added to a member's care team.
+                  example: null
+                test_care_team_role:
+                  type: string
+                  nullable: true
+                  description: Care team role for this user, which must reference a role that
+                    exists in test mode. Only users with a care team role can be
+                    added to a member's care team.
+                  example: ctr_iNGhmxf28QqEstlwzxWK
+              required:
+                - first_name
+                - last_name
+                - email
+                - role
       responses:
         default:
           description: Successful response.
@@ -2723,9 +2785,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/user"
-      x-methodName: retrieve
+      x-methodName: create
       x-belongsToResource: user
-  /v1/users:
     get:
       summary: List all Users
       description: >-
@@ -2853,6 +2914,117 @@ paths:
                   - data
                   - has_more
       x-methodName: list
+      x-belongsToResource: user
+  "/v1/users/{id}":
+    get:
+      summary: Retrieve a User
+      description: Retrieve a user by their unique identifier.
+      tags:
+        - User
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the user.
+          required: true
+          description: Unique ID of the user.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+      x-methodName: retrieve
+      x-belongsToResource: user
+    post:
+      summary: Update a User
+      description: >-
+        Updates the specified user by setting the values of the parameters
+        passed. Any parameters not provided will be left unchanged. For example,
+        if you only provide the first_name parameter, that only updates the
+        user's first_name.
+
+
+        All users can update their own name and care team roles.
+
+
+        API keys can update the name and care team roles of users.
+
+
+        Administrators and owners may update the name, care team roles, email and role of other users.
+
+
+        Administrators and owners are not permitted to change their own role.
+      tags:
+        - User
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the user.
+          required: true
+          description: Unique ID of the user.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                first_name:
+                  type: string
+                  description: First name of the user.
+                  example: John
+                last_name:
+                  type: string
+                  description: Last name of the user.
+                  example: Adame
+                email:
+                  type: string
+                  description: Email address for the user. Only admins and owners may update
+                    another user's email address, this cannot be updated using
+                    API keys.
+                  example: you@yourcompany.com
+                role:
+                  type: string
+                  enum:
+                    - owner
+                    - administrator
+                    - developer
+                    - clinician
+                    - support
+                  description: Role the user is granted in your account. Only admins and owners
+                    may manage another user's role, this cannot be updated using
+                    API keys.
+                  example: developer
+                live_care_team_role:
+                  type: string
+                  nullable: true
+                  description: Care team role for this user, which must reference a role that
+                    exists in live mode. Only users with a care team role can be
+                    added to a member's care team.
+                  example: null
+                test_care_team_role:
+                  type: string
+                  nullable: true
+                  description: Care team role for this user, which must reference a role that
+                    exists in test mode. Only users with a care team role can be
+                    added to a member's care team.
+                  example: ctr_iNGhmxf28QqEstlwzxWK
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/user"
+      x-methodName: update
       x-belongsToResource: user
   /v1/webhooks:
     post:
