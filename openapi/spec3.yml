@@ -1292,6 +1292,32 @@ paths:
                   nullable: true
                   description: Default address for the member. Used if no address is provided on a
                     specific order.
+                phone_numbers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      use:
+                        type: string
+                        enum:
+                          - home
+                          - work
+                          - mobile
+                          - fax
+                          - other
+                        description: Type of phone number.
+                        example: mobile
+                      value:
+                        type: string
+                        description: The phone number to use. This should be formatted in E.164 format.
+                        example: "+12125551234"
+                    required:
+                      - use
+                      - value
+                  nullable: true
+                  description: An array of phone numbers associated with the member. Providing any
+                    value will override the entire array. Providing null or an
+                    empty array will empty out the array.
               required:
                 - first_name
                 - last_name
@@ -1535,6 +1561,32 @@ paths:
                   nullable: true
                   description: Default address for the member. Used if no address is provided on a
                     specific order.
+                phone_numbers:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      use:
+                        type: string
+                        enum:
+                          - home
+                          - work
+                          - mobile
+                          - fax
+                          - other
+                        description: Type of phone number.
+                        example: mobile
+                      value:
+                        type: string
+                        description: The phone number to use. This should be formatted in E.164 format.
+                        example: "+12125551234"
+                    required:
+                      - use
+                      - value
+                  nullable: true
+                  description: An array of phone numbers associated with the member. Providing any
+                    value will override the entire array. Providing null or an
+                    empty array will empty out the array.
       responses:
         default:
           description: Successful response.
@@ -3979,6 +4031,29 @@ components:
           nullable: true
           description: Default address for the member. Used if no address is provided on a
             specific order.
+        phone_numbers:
+          type: array
+          items:
+            type: object
+            properties:
+              use:
+                type: string
+                enum:
+                  - home
+                  - work
+                  - mobile
+                  - fax
+                  - other
+                description: Type of phone number.
+                example: mobile
+              value:
+                type: string
+                description: The phone number to use. This should be formatted in E.164 format.
+                example: "+12125551234"
+            required:
+              - use
+              - value
+          description: An array of phone numbers associated with the member
         care_team:
           oneOf:
             - type: string
@@ -4009,6 +4084,7 @@ components:
         - date_of_birth
         - biological_sex
         - address
+        - phone_numbers
         - care_team
         - created_at
         - updated_at
