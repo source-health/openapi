@@ -5853,6 +5853,16 @@
             "example": "ctr_iNGhmxf28QqEstlwzxWK",
             "nullable": true
           },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "deactivated",
+              "invited"
+            ],
+            "description": "Current status of the user. Possible status values are `active`, `invited`, and `deactivated`.",
+            "example": "active"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -5882,6 +5892,7 @@
           "role",
           "live_care_team_role",
           "test_care_team_role",
+          "status",
           "created_at",
           "updated_at",
           "deactivated_at"
