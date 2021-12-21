@@ -647,6 +647,7 @@ paths:
                   enum:
                     - message_attachment
                     - photo
+                    - user_profile_photo
                   description: The purpose of the uploaded file. Each purpose imposes restrictions
                     on supported file types and use cases.
                   example: message_attachment
@@ -676,10 +677,12 @@ paths:
             enumObject:
               - message_attachment
               - photo
+              - user_profile_photo
             _tag: EnumCodec
             enumValues:
               - message_attachment
               - photo
+              - user_profile_photo
         _tag: ObjectCodec
         properties:
           - file
@@ -1318,6 +1321,10 @@ paths:
                   description: An array of phone numbers associated with the member. Providing any
                     value will override the entire array. Providing null or an
                     empty array will empty out the array.
+                profile_image:
+                  type: string
+                  nullable: true
+                  description: The file for the member's profile image. Must be of type `photo`
               required:
                 - first_name
                 - last_name
@@ -1587,6 +1594,10 @@ paths:
                   description: An array of phone numbers associated with the member. Providing any
                     value will override the entire array. Providing null or an
                     empty array will empty out the array.
+                profile_image:
+                  type: string
+                  nullable: true
+                  description: The file for the member's profile image. Must be of type `photo`
       responses:
         default:
           description: Successful response.
@@ -2828,6 +2839,11 @@ paths:
                     exists in test mode. Only users with a care team role can be
                     added to a member's care team.
                   example: ctr_iNGhmxf28QqEstlwzxWK
+                profile_image:
+                  type: string
+                  nullable: true
+                  description: The file for the user's profile image. Must be of type
+                    `user_profile_photo`
               required:
                 - first_name
                 - last_name
@@ -3072,6 +3088,11 @@ paths:
                     exists in test mode. Only users with a care team role can be
                     added to a member's care team.
                   example: ctr_iNGhmxf28QqEstlwzxWK
+                profile_image:
+                  type: string
+                  nullable: true
+                  description: The file for the user's profile image. Must be of type
+                    `user_profile_photo`
       responses:
         default:
           description: Successful response.
@@ -3762,12 +3783,13 @@ components:
         id:
           type: string
           description: Unique ID for the file.
-          example: fil_gdIyXM9d4LKGnewOV4OM
+          example: file_gdIyXM9d4LKGnewOV4OM
         purpose:
           type: string
           enum:
             - message_attachment
             - photo
+            - user_profile_photo
           description: The purpose of this uploaded file. Each file is required to have a
             clearly defined purpose, which controls what types of uploads are
             allowed and where the file may be referenced.
@@ -4062,6 +4084,15 @@ components:
             $ref: "#/components/schemas/care_team"
           description: The care team that is assigned to this member.
           example: crtm_Zfj4Sl03hfvZjfFJZ492
+        profile_image:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/file"
+          x-expandable:
+            $ref: "#/components/schemas/file"
+          description: The file for the member's profile image.
+          example: file_gdIyXM9d4LKGnewOV4OM
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -4086,6 +4117,7 @@ components:
         - address
         - phone_numbers
         - care_team
+        - profile_image
         - created_at
         - updated_at
       title: Member
@@ -4168,7 +4200,7 @@ components:
                 x-expandable:
                   $ref: "#/components/schemas/file"
                 description: The resource which is attached to the message
-                example: fil_gdIyXM9d4LKGnewOV4OM
+                example: file_gdIyXM9d4LKGnewOV4OM
             required:
               - type
               - resource
@@ -4733,7 +4765,7 @@ components:
                     x-expandable:
                       $ref: "#/components/schemas/file"
                     description: The resource which is attached to the message
-                    example: fil_gdIyXM9d4LKGnewOV4OM
+                    example: file_gdIyXM9d4LKGnewOV4OM
                 required:
                   - type
                   - resource
@@ -4896,6 +4928,15 @@ components:
           description: Current status of the user. Possible status values are `active`,
             `invited`, and `deactivated`.
           example: active
+        profile_image:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/file"
+          x-expandable:
+            $ref: "#/components/schemas/file"
+          description: The file for the user's profile image.
+          example: file_gdIyXM9d4LKGnewOV4OM
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -4923,6 +4964,7 @@ components:
         - live_care_team_role
         - test_care_team_role
         - status
+        - profile_image
         - created_at
         - updated_at
         - deactivated_at
