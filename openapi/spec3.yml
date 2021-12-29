@@ -3427,7 +3427,8 @@ components:
                   - $ref: "#/components/schemas/user"
                 x-expandable:
                   $ref: "#/components/schemas/user"
-                description: The user who is on the care team.
+                description: The user on the care team. Only users with care team roles will be
+                  eligible for automatic routing of tasks.
                 example: usr_NC6MQ3FyxddKoJJpfSVL
             required:
               - user
