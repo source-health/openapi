@@ -5063,6 +5063,10 @@ components:
         - task_definition.updated
         - thread.created
         - thread.updated
+        - user.created
+        - user.updated
+        - user.deactivated
+        - user.reactivated
         - webhook.created
         - webhook.updated
         - webhook.deleted
