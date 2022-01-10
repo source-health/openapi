@@ -1995,10 +1995,111 @@ paths:
           explode: true
           name: member
           schema:
-            type: string
-            description: Filter results by member.
+            type: array
+            items:
+              type: string
+            description: Filter results by member. If multiple member ids are provided,
+              tasks matching any of the provided members will be returned.
           required: false
-          description: Filter results by member.
+          description: Filter results by member. If multiple member ids are provided,
+            tasks matching any of the provided members will be returned.
+        - in: query
+          style: form
+          explode: true
+          name: assignee
+          schema:
+            type: array
+            items:
+              type: string
+            description: Filter results by assignees. If multiple assignee ids are provided,
+              tasks matching any of the provided assignees will be returned.
+          required: false
+          description: Filter results by assignees. If multiple assignee ids are provided,
+            tasks matching any of the provided assignees will be returned.
+        - in: query
+          style: form
+          explode: true
+          name: definition
+          schema:
+            type: array
+            items:
+              type: string
+            description: Filter results by task definitons. If multiple task defintion ids
+              are provided, tasks matching any of the provided definitions will
+              be returned.
+          required: false
+          description: Filter results by task definitons. If multiple task defintion ids
+            are provided, tasks matching any of the provided definitions will be
+            returned.
+        - in: query
+          style: form
+          explode: true
+          name: due_at
+          schema:
+            type: object
+            properties:
+              lt:
+                type: string
+                format: date-time
+                description: Return results where the due_at field is less than this value.
+              lte:
+                type: string
+                format: date-time
+                description: Return results where the due_at field is less than or equal to this
+                  value.
+              gt:
+                type: string
+                format: date-time
+                description: Return results where the due_at field is greater than this value.
+              gte:
+                type: string
+                format: date-time
+                description: Return results where the due_at field is greater than or equal to
+                  this value.
+            description: "A time based range filter on the list based on the object due_at
+              field. For example
+              '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:5\
+              1:38.075Z'. The value is a dictionary with the following:"
+          required: false
+          description: "A time based range filter on the list based on the object due_at
+            field. For example
+            '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:\
+            38.075Z'. The value is a dictionary with the following:"
+        - in: query
+          style: form
+          explode: true
+          name: created_at
+          schema:
+            type: object
+            properties:
+              lt:
+                type: string
+                format: date-time
+                description: Return results where the created_at field is less than this value.
+              lte:
+                type: string
+                format: date-time
+                description: Return results where the created_at field is less than or equal to
+                  this value.
+              gt:
+                type: string
+                format: date-time
+                description: Return results where the created_at field is greater than this
+                  value.
+              gte:
+                type: string
+                format: date-time
+                description: Return results where the created_at field is greater than or equal
+                  to this value.
+            description: "A time based range filter on the list based on the object
+              created_at field. For example
+              '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05\
+              -26T16:51:38.075Z'. The value is a dictionary with the following:"
+          required: false
+          description: "A time based range filter on the list based on the object
+            created_at field. For example
+            '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-2\
+            6T16:51:38.075Z'. The value is a dictionary with the following:"
       responses:
         default:
           description: Successful response.
