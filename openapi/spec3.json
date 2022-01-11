@@ -3401,6 +3401,14 @@
                     "description": "Last name of the user.",
                     "example": "Adame"
                   },
+                  "display_title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "nullable": true,
+                    "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+                    "example": "Physician"
+                  },
                   "email": {
                     "type": "string",
                     "description": "Email address for the user. Only admins and owners may update another user's email address, this cannot be updated using API keys.",
@@ -3679,6 +3687,14 @@
                     "type": "string",
                     "description": "Last name of the user.",
                     "example": "Adame"
+                  },
+                  "display_title": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 50,
+                    "nullable": true,
+                    "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+                    "example": "Physician"
                   },
                   "email": {
                     "type": "string",
@@ -5945,6 +5961,13 @@
             "description": "Last name of the user.",
             "example": "mem_06Z9ZCYZu9HF0IGgGdZ4"
           },
+          "display_title": {
+            "type": "string",
+            "maxLength": 50,
+            "nullable": true,
+            "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+            "example": "Physician"
+          },
           "email": {
             "type": "string",
             "description": "Email address for the user.",
@@ -6045,6 +6068,7 @@
           "id",
           "first_name",
           "last_name",
+          "display_title",
           "email",
           "role",
           "live_care_team_role",
