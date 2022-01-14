@@ -3767,7 +3767,6 @@
                 "properties": {
                   "url": {
                     "type": "string",
-                    "pattern": "(https:\\/\\/)?([\\w-])+\\.{1}([a-zA-Z]{2,63})([/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)",
                     "description": "URL to which matching events will be delivered",
                     "example": "https://example.com/catalyst-webhook"
                   },
@@ -3939,7 +3938,6 @@
                 "properties": {
                   "url": {
                     "type": "string",
-                    "pattern": "(https:\\/\\/)?([\\w-])+\\.{1}([a-zA-Z]{2,63})([/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)",
                     "description": "URL to which matching events will be delivered",
                     "example": "https://example.com/catalyst-webhook"
                   },
@@ -6105,7 +6103,6 @@
           },
           "url": {
             "type": "string",
-            "pattern": "(https:\\/\\/)?([\\w-])+\\.{1}([a-zA-Z]{2,63})([/\\w-]*)*\\/?\\??([^#\\n\\r]*)?#?([^\\n\\r]*)",
             "description": "URL to which matching events will be delivered",
             "example": "https://example.com/catalyst-webhook"
           },
