@@ -2205,7 +2205,8 @@
                   },
                   "assignee": {
                     "type": "string",
-                    "description": "The user to which this task is assigned.",
+                    "nullable": true,
+                    "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                   },
                   "summary": {
@@ -2380,10 +2381,10 @@
               "items": {
                 "type": "string"
               },
-              "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned."
+              "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned. Providing `unassigned` will return any tasks that are unassigned."
             },
             "required": false,
-            "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned."
+            "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned. Providing `unassigned` will return any tasks that are unassigned."
           },
           {
             "in": "query",
@@ -2541,7 +2542,8 @@
                 "properties": {
                   "assignee": {
                     "type": "string",
-                    "description": "The user to which this task is assigned.",
+                    "nullable": true,
+                    "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                   },
                   "summary": {
@@ -5500,7 +5502,7 @@
             "x-expandable": {
               "$ref": "#/components/schemas/user"
             },
-            "description": "User on the care team to which this task is assigned.",
+            "description": "The user to which this task is assigned. If set to null, the task is unassigned.",
             "example": "usr_NC6MQ3FyxddKoJJpfSVL",
             "nullable": true
           },
