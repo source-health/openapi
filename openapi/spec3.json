@@ -1239,6 +1239,7 @@
                 "properties": {
                   "thread": {
                     "type": "string",
+                    "example": "thrd_7BqeKrhbVU7c4Cigqs60",
                     "description": "Unique ID of the thread to which the message belongs."
                   },
                   "text": {
@@ -1285,8 +1286,8 @@
                   },
                   "sender": {
                     "type": "string",
-                    "description": "The ID of the user this message is being sent by. Required for sending messages with an API key.",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+                    "description": "When calling this endpoint with an API key, you must use this field to specify the user on whose behalf the message is sent."
                   }
                 },
                 "required": [
@@ -1314,7 +1315,7 @@
       },
       "get": {
         "summary": "List all Messages",
-        "description": "Returns a list of threads within the current account.\n\nThe threads returned are sorted with the most recently updated appearing first.",
+        "description": "Returns a list of messages within a thread.\n\nThe messages returned are sorted with the most recently sent appearing first.",
         "tags": [
           "Message"
         ],
@@ -1364,6 +1365,7 @@
             "name": "thread",
             "schema": {
               "type": "string",
+              "example": "thrd_7BqeKrhbVU7c4Cigqs60",
               "description": "Unique ID of the thread whose messages should be shown."
             },
             "required": true,
@@ -2998,10 +3000,12 @@
                 "properties": {
                   "member": {
                     "type": "string",
+                    "example": "mem_JAfPRRc59eh2YQ1aeL3D",
                     "description": "The ID of the member to which this thread belongs"
                   },
                   "assignee": {
                     "type": "string",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL",
                     "description": "The ID of the care team user to which this thread is currently assigned, if any."
                   },
                   "subject": {
@@ -3055,8 +3059,8 @@
                       },
                       "sender": {
                         "type": "string",
-                        "description": "The ID of the user this message is being sent by. Required for sending messages with an API key.",
-                        "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                        "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+                        "description": "When calling this endpoint with an API key, you must use this field to specify the user on whose behalf the message is sent."
                       }
                     },
                     "required": [
@@ -3140,6 +3144,7 @@
             "name": "member",
             "schema": {
               "type": "string",
+              "example": "mem_JAfPRRc59eh2YQ1aeL3D",
               "description": "Filter threads to only those belonging to the given member."
             },
             "required": false,
@@ -3152,6 +3157,7 @@
             "name": "assignee",
             "schema": {
               "type": "string",
+              "example": "usr_NC6MQ3FyxddKoJJpfSVL",
               "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
             },
             "required": false,
@@ -3280,9 +3286,9 @@
                 "properties": {
                   "assignee": {
                     "type": "string",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL",
                     "nullable": true,
-                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user.",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                    "description": "ID of a user on the member's Care Team - assigns the thread to the new user."
                   },
                   "status": {
                     "type": "string",
@@ -3352,7 +3358,7 @@
                     "type": "string",
                     "format": "date-time",
                     "nullable": true,
-                    "description": "Timestamp indicating the point through which the member has read.  All messages with a `sent_at` after this point are considered unread.  If null, the member has not seen any messages on this thread.",
+                    "description": "Timestamp indicating the point through which the member has read. All messages with a `sent_at` after this point are considered unread. If null, the member has not seen any messages on this thread.",
                     "example": "2021-05-13T16:33:00.000Z"
                   }
                 },
@@ -5102,7 +5108,7 @@
           "impersonated_by": {
             "type": "string",
             "nullable": true,
-            "description": "The person or API key who sent the message on behalf of `sender`. If null, the message sender was not impersonated."
+            "description": "The API key who sent the message on behalf of `sender`. If null, the message sender was not impersonated."
           }
         },
         "required": [
