@@ -1239,7 +1239,7 @@
                 "properties": {
                   "thread": {
                     "type": "string",
-                    "example": "thrd_7BqeKrhbVU7c4Cigqs60",
+                    "example": "thrd_mi5bnWscvLf7q74k6Nzj",
                     "description": "Unique ID of the thread to which the message belongs."
                   },
                   "text": {
@@ -1365,7 +1365,7 @@
             "name": "thread",
             "schema": {
               "type": "string",
-              "example": "thrd_7BqeKrhbVU7c4Cigqs60",
+              "example": "thrd_mi5bnWscvLf7q74k6Nzj",
               "description": "Unique ID of the thread whose messages should be shown."
             },
             "required": true,
@@ -3000,12 +3000,12 @@
                 "properties": {
                   "member": {
                     "type": "string",
-                    "example": "mem_JAfPRRc59eh2YQ1aeL3D",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
                     "description": "The ID of the member to which this thread belongs"
                   },
                   "assignee": {
                     "type": "string",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
                     "description": "The ID of the care team user to which this thread is currently assigned, if any."
                   },
                   "subject": {
@@ -3144,7 +3144,7 @@
             "name": "member",
             "schema": {
               "type": "string",
-              "example": "mem_JAfPRRc59eh2YQ1aeL3D",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
               "description": "Filter threads to only those belonging to the given member."
             },
             "required": false,
@@ -3157,7 +3157,7 @@
             "name": "assignee",
             "schema": {
               "type": "string",
-              "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+              "example": "usr_qoGndHzx8KwdYsEByt9X",
               "description": "Filter threads to only those assigned to the given user. The value `current` may be used to indicate the currently authenticated user."
             },
             "required": false,
@@ -3414,7 +3414,7 @@
                     "minLength": 1,
                     "maxLength": 50,
                     "nullable": true,
-                    "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+                    "description": "Display text that describes the user's title. The display title will appear in the Source application and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician user's title may be set to 'Physician.'",
                     "example": "Physician"
                   },
                   "email": {
@@ -3701,7 +3701,7 @@
                     "minLength": 1,
                     "maxLength": 50,
                     "nullable": true,
-                    "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+                    "description": "Display text that describes the user's title. The display title will appear in the Source application and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician user's title may be set to 'Physician.'",
                     "example": "Physician"
                   },
                   "email": {
@@ -5971,7 +5971,7 @@
             "type": "string",
             "maxLength": 50,
             "nullable": true,
-            "description": "Display text that describes the user's title. The display title will appear in the Source application  and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician  user's title may be set to 'Physician.'",
+            "description": "Display text that describes the user's title. The display title will appear in the Source application and the member-facing Elements SDK but will not affect any Source configuration. For example, a physician user's title may be set to 'Physician.'",
             "example": "Physician"
           },
           "email": {
