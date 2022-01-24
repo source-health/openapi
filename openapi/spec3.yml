@@ -3042,6 +3042,23 @@ paths:
         - in: query
           style: form
           explode: true
+          name: sort
+          schema:
+            type: string
+            enum:
+              - last_name
+              - created_at
+              - -last_name
+              - -created_at
+            description: Sort field for the results. A '-' prefix indicates sorting by that
+              field in descending order, otherwise the order will be ascending.
+            example: last_name
+          required: false
+          description: Sort field for the results. A '-' prefix indicates sorting by that
+            field in descending order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
           name: email
           schema:
             type: string
