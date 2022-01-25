@@ -90,11 +90,13 @@
                 "properties": {
                   "name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Name for the account.",
                     "example": "Source Health"
                   },
                   "subdomain": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Subdomain for the account.",
                     "example": "sourcehealth"
                   }
@@ -153,6 +155,7 @@
                       "properties": {
                         "user": {
                           "type": "string",
+                          "minLength": 1,
                           "description": "Unique ID of the user to add to the care team. The user must have a care team role defined.",
                           "example": "usr_NC6MQ3FyxddKoJJpfSVL"
                         }
@@ -703,7 +706,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Filter results by event type. Repeat this parameter to filter by multiple event types,         e.g. `?type=member.created&type=member.updated`"
             },
@@ -901,10 +905,12 @@
                       },
                       "device": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Device to which this measurement belongs."
                       },
                       "member": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Member to which this measurement belongs."
                       },
                       "time": {
@@ -929,10 +935,12 @@
                           "properties": {
                             "value": {
                               "type": "string",
+                              "minLength": 1,
                               "description": "Value for the measurement."
                             },
                             "unit": {
                               "type": "string",
+                              "minLength": 1,
                               "description": "Unit that the measurement is reported in."
                             }
                           },
@@ -969,10 +977,12 @@
                       },
                       "device": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Device to which this measurement belongs."
                       },
                       "member": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Member to which this measurement belongs."
                       },
                       "time": {
@@ -992,10 +1002,12 @@
                       },
                       "value": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Value for the measurement."
                       },
                       "unit": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Unit that the measurement is reported in."
                       }
                     },
@@ -1115,6 +1127,7 @@
             "name": "member",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Filter measurements to only those belonging to the given member."
             },
             "required": false,
@@ -1244,6 +1257,7 @@
                   },
                   "text": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Contents of the message to send."
                   },
                   "thread_actions": {
@@ -1468,34 +1482,40 @@
                 "properties": {
                   "title": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Title for the member (Mr., Mrs., Dr., etc).",
                     "example": "Dr."
                   },
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
                   "middle_name": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Middle name of the member",
                     "example": null
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
                   "preferred_name": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
                   },
                   "email": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Email address for the member",
                     "example": "evieparker@example.org"
@@ -1522,6 +1542,7 @@
                     "properties": {
                       "street_line_1": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The first line of the street address.",
                         "example": "1 City Point"
                       },
@@ -1533,21 +1554,25 @@
                       },
                       "city": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The city.",
                         "example": "Brooklyn"
                       },
                       "region": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The region - in the US this should be the two-letter state code.",
                         "example": "NY"
                       },
                       "postal_code": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The postal code (i.e. zip code).",
                         "example": "11215"
                       },
                       "country": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
                         "example": "US"
                       }
@@ -1581,6 +1606,7 @@
                         },
                         "value": {
                           "type": "string",
+                          "minLength": 1,
                           "description": "The phone number to use. This should be formatted in E.164 format.",
                           "example": "+12125551234"
                         }
@@ -1595,6 +1621,7 @@
                   },
                   "profile_image": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the member's profile image. Must be of type `photo`"
                   }
@@ -1676,6 +1703,7 @@
             "name": "email",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Limit results to members with the given email."
             },
             "required": false,
@@ -1789,34 +1817,40 @@
                 "properties": {
                   "title": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Title for the member (Mr., Mrs., Dr., etc).",
                     "example": "Dr."
                   },
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
                   "middle_name": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Middle name of the member",
                     "example": null
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
                   "preferred_name": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
                   },
                   "email": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Email address for the member",
                     "example": "evieparker@example.org"
@@ -1843,6 +1877,7 @@
                     "properties": {
                       "street_line_1": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The first line of the street address.",
                         "example": "1 City Point"
                       },
@@ -1854,21 +1889,25 @@
                       },
                       "city": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The city.",
                         "example": "Brooklyn"
                       },
                       "region": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The region - in the US this should be the two-letter state code.",
                         "example": "NY"
                       },
                       "postal_code": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The postal code (i.e. zip code).",
                         "example": "11215"
                       },
                       "country": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
                         "example": "US"
                       }
@@ -1902,6 +1941,7 @@
                         },
                         "value": {
                           "type": "string",
+                          "minLength": 1,
                           "description": "The phone number to use. This should be formatted in E.164 format.",
                           "example": "+12125551234"
                         }
@@ -1916,6 +1956,7 @@
                   },
                   "profile_image": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the member's profile image. Must be of type `photo`"
                   }
@@ -1956,6 +1997,7 @@
                 "properties": {
                   "member": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Member to which the order should be sent."
                   },
                   "items": {
@@ -1965,6 +2007,7 @@
                       "properties": {
                         "product": {
                           "type": "string",
+                          "minLength": 1,
                           "description": "Unique ID of the product.",
                           "example": "prod_1rqijtxD3sjkVVQPRRFC"
                         }
@@ -1980,6 +2023,7 @@
                     "properties": {
                       "street_line_1": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The first line of the street address.",
                         "example": "1 City Point"
                       },
@@ -1991,21 +2035,25 @@
                       },
                       "city": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The city.",
                         "example": "Brooklyn"
                       },
                       "region": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The region - in the US this should be the two-letter state code.",
                         "example": "NY"
                       },
                       "postal_code": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The postal code (i.e. zip code).",
                         "example": "11215"
                       },
                       "country": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
                         "example": "US"
                       }
@@ -2095,6 +2143,7 @@
             "name": "member",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Limit results to orders for the given member."
             },
             "required": false,
@@ -2197,16 +2246,19 @@
                 "properties": {
                   "definition": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "The task definition that this task models. You may provide either the definition ID or key.",
                     "example": "tskd_vlTxSr3ldEgbgX0RiQSk"
                   },
                   "member": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "The member to which this task belongs.",
                     "example": "mem_JAfPRRc59eh2YQ1aeL3D"
                   },
                   "assignee": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
@@ -2220,6 +2272,7 @@
                   },
                   "description": {
                     "type": "string",
+                    "minLength": 1,
                     "maxLength": 65536,
                     "nullable": true,
                     "description": "Long-form text describing the task to be performed. You can use this field to share any additional relevant context to the care team that will be acting on this task.",
@@ -2244,6 +2297,7 @@
                     "type": "array",
                     "items": {
                       "type": "string",
+                      "minLength": 1,
                       "description": "Unique identifier for the related resource.",
                       "example": "thrd_7BqeKrhbVU7c4Cigqs60"
                     },
@@ -2366,7 +2420,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Filter results by member. If multiple member ids are provided, tasks matching any of the provided members will be returned."
             },
@@ -2381,7 +2436,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned. Providing `unassigned` will return any tasks that are unassigned."
             },
@@ -2396,7 +2452,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Filter results by task definitons. If multiple task defintion ids are provided, tasks matching any of the provided definitions will be returned."
             },
@@ -2544,6 +2601,7 @@
                 "properties": {
                   "assignee": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
@@ -2557,6 +2615,7 @@
                   },
                   "description": {
                     "type": "string",
+                    "minLength": 1,
                     "maxLength": 65536,
                     "nullable": true,
                     "description": "Long-form text describing the task to be performed. You can use this field to share any additional relevant context to the care team that will be acting on this task.",
@@ -2581,6 +2640,7 @@
                     "type": "array",
                     "items": {
                       "type": "string",
+                      "minLength": 1,
                       "description": "Unique identifier for the related resource.",
                       "example": "thrd_7BqeKrhbVU7c4Cigqs60"
                     },
@@ -2658,16 +2718,19 @@
                 "properties": {
                   "key": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Globally unique identifier of the task definition",
                     "example": "medication-request"
                   },
                   "name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Human readable name of the task definition",
                     "example": "Medication Request"
                   },
                   "care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
@@ -2814,16 +2877,19 @@
                 "properties": {
                   "key": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Globally unique identifier of the task definition",
                     "example": "medication-request"
                   },
                   "name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Human readable name of the task definition",
                     "example": "Medication Request"
                   },
                   "care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
@@ -2937,6 +3003,7 @@
             "name": "assignee",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Shows the queue for the provided user. By default when not provided the queue will include all tasks assigned to all users. When authenticated as a user you can specify the value 'current' to show the current users task queue. Providing `unassigned` will show a global queue of all tasks that are unassigned."
             },
             "required": false,
@@ -3010,6 +3077,7 @@
                   },
                   "subject": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "The thread subject."
                   },
                   "message": {
@@ -3017,6 +3085,7 @@
                     "properties": {
                       "text": {
                         "type": "string",
+                        "minLength": 1,
                         "description": "Contents of the message to send."
                       },
                       "thread_actions": {
@@ -3302,6 +3371,7 @@
                   },
                   "subject": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "New subject for the thread.",
                     "example": "Lower back pain."
@@ -3401,11 +3471,13 @@
                 "properties": {
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the user.",
                     "example": "John"
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the user.",
                     "example": "Adame"
                   },
@@ -3419,6 +3491,7 @@
                   },
                   "email": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Email address for the user. Only admins and owners may update another user's email address, this cannot be updated using API keys.",
                     "example": "you@yourcompany.com"
                   },
@@ -3443,18 +3516,21 @@
                   },
                   "live_care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in live mode. Only users with a care team role can be added to a member's care team.",
                     "example": null
                   },
                   "test_care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in test mode. Only users with a care team role can be added to a member's care team.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   },
                   "profile_image": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the user's profile image. Must be of type `user_profile_photo`"
                   }
@@ -3555,6 +3631,7 @@
             "name": "email",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Limit results to users with email matching the given query."
             },
             "required": false,
@@ -3567,6 +3644,7 @@
             "name": "name",
             "schema": {
               "type": "string",
+              "minLength": 1,
               "description": "Limit results to users with name matching the given query."
             },
             "required": false,
@@ -3580,7 +3658,8 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string"
+                "type": "string",
+                "minLength": 1
               },
               "description": "Filter results by role. If multiple roles are provided, users matching any of those roles will be returned."
             },
@@ -3707,11 +3786,13 @@
                 "properties": {
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the user.",
                     "example": "John"
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the user.",
                     "example": "Adame"
                   },
@@ -3725,6 +3806,7 @@
                   },
                   "email": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Email address for the user. Only admins and owners may update another user's email address, this cannot be updated using API keys.",
                     "example": "you@yourcompany.com"
                   },
@@ -3742,18 +3824,21 @@
                   },
                   "live_care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in live mode. Only users with a care team role can be added to a member's care team.",
                     "example": null
                   },
                   "test_care_team_role": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in test mode. Only users with a care team role can be added to a member's care team.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   },
                   "profile_image": {
                     "type": "string",
+                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the user's profile image. Must be of type `user_profile_photo`"
                   }

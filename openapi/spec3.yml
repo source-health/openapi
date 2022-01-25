@@ -72,10 +72,12 @@ paths:
               properties:
                 name:
                   type: string
+                  minLength: 1
                   description: Name for the account.
                   example: Source Health
                 subdomain:
                   type: string
+                  minLength: 1
                   description: Subdomain for the account.
                   example: sourcehealth
       responses:
@@ -121,6 +123,7 @@ paths:
                     properties:
                       user:
                         type: string
+                        minLength: 1
                         description: Unique ID of the user to add to the care team. The user must have a
                           care team role defined.
                         example: usr_NC6MQ3FyxddKoJJpfSVL
@@ -583,6 +586,7 @@ paths:
             type: array
             items:
               type: string
+              minLength: 1
             description: Filter results by event type. Repeat this parameter to filter by
               multiple event types,         e.g.
               `?type=member.created&type=member.updated`
@@ -746,9 +750,11 @@ paths:
                       description: Source measurement type to create.
                     device:
                       type: string
+                      minLength: 1
                       description: Device to which this measurement belongs.
                     member:
                       type: string
+                      minLength: 1
                       description: Member to which this measurement belongs.
                     time:
                       type: string
@@ -769,9 +775,11 @@ paths:
                         properties:
                           value:
                             type: string
+                            minLength: 1
                             description: Value for the measurement.
                           unit:
                             type: string
+                            minLength: 1
                             description: Unit that the measurement is reported in.
                         required:
                           - value
@@ -797,9 +805,11 @@ paths:
                       description: Source measurement type to create.
                     device:
                       type: string
+                      minLength: 1
                       description: Device to which this measurement belongs.
                     member:
                       type: string
+                      minLength: 1
                       description: Member to which this measurement belongs.
                     time:
                       type: string
@@ -815,9 +825,11 @@ paths:
                       description: Always `numeric`.
                     value:
                       type: string
+                      minLength: 1
                       description: Value for the measurement.
                     unit:
                       type: string
+                      minLength: 1
                       description: Unit that the measurement is reported in.
                   required:
                     - type
@@ -931,6 +943,7 @@ paths:
           name: member
           schema:
             type: string
+            minLength: 1
             description: Filter measurements to only those belonging to the given member.
           required: false
           description: Filter measurements to only those belonging to the given member.
@@ -1024,6 +1037,7 @@ paths:
                   description: Unique ID of the thread to which the message belongs.
                 text:
                   type: string
+                  minLength: 1
                   description: Contents of the message to send.
                 thread_actions:
                   type: object
@@ -1217,24 +1231,29 @@ paths:
               properties:
                 title:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Title for the member (Mr., Mrs., Dr., etc).
                   example: Dr.
                 first_name:
                   type: string
+                  minLength: 1
                   description: First name of the member
                   example: Catherine
                 middle_name:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Middle name of the member
                   example: null
                 last_name:
                   type: string
+                  minLength: 1
                   description: Last name of the member
                   example: Parker
                 preferred_name:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Preferred name of the member. This could be a shortened or
                     alternate name that the member typically prefers to be
@@ -1242,6 +1261,7 @@ paths:
                   example: Cathy
                 email:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Email address for the member
                   example: evieparker@example.org
@@ -1264,6 +1284,7 @@ paths:
                   properties:
                     street_line_1:
                       type: string
+                      minLength: 1
                       description: The first line of the street address.
                       example: 1 City Point
                     street_line_2:
@@ -1273,18 +1294,22 @@ paths:
                       description: The second line of the street address.
                     city:
                       type: string
+                      minLength: 1
                       description: The city.
                       example: Brooklyn
                     region:
                       type: string
+                      minLength: 1
                       description: The region - in the US this should be the two-letter state code.
                       example: NY
                     postal_code:
                       type: string
+                      minLength: 1
                       description: The postal code (i.e. zip code).
                       example: "11215"
                     country:
                       type: string
+                      minLength: 1
                       description: The country, as a two-letter ISO 3166-1 code. US is the only
                         supported country at this time.
                       example: US
@@ -1314,6 +1339,7 @@ paths:
                         example: mobile
                       value:
                         type: string
+                        minLength: 1
                         description: The phone number to use. This should be formatted in E.164 format.
                         example: "+12125551234"
                     required:
@@ -1325,6 +1351,7 @@ paths:
                     empty array will empty out the array.
                 profile_image:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The file for the member's profile image. Must be of type `photo`
               required:
@@ -1404,6 +1431,7 @@ paths:
           name: email
           schema:
             type: string
+            minLength: 1
             description: Limit results to members with the given email.
           required: false
           description: Limit results to members with the given email.
@@ -1490,24 +1518,29 @@ paths:
               properties:
                 title:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Title for the member (Mr., Mrs., Dr., etc).
                   example: Dr.
                 first_name:
                   type: string
+                  minLength: 1
                   description: First name of the member
                   example: Catherine
                 middle_name:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Middle name of the member
                   example: null
                 last_name:
                   type: string
+                  minLength: 1
                   description: Last name of the member
                   example: Parker
                 preferred_name:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Preferred name of the member. This could be a shortened or
                     alternate name that the member typically prefers to be
@@ -1515,6 +1548,7 @@ paths:
                   example: Cathy
                 email:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Email address for the member
                   example: evieparker@example.org
@@ -1537,6 +1571,7 @@ paths:
                   properties:
                     street_line_1:
                       type: string
+                      minLength: 1
                       description: The first line of the street address.
                       example: 1 City Point
                     street_line_2:
@@ -1546,18 +1581,22 @@ paths:
                       description: The second line of the street address.
                     city:
                       type: string
+                      minLength: 1
                       description: The city.
                       example: Brooklyn
                     region:
                       type: string
+                      minLength: 1
                       description: The region - in the US this should be the two-letter state code.
                       example: NY
                     postal_code:
                       type: string
+                      minLength: 1
                       description: The postal code (i.e. zip code).
                       example: "11215"
                     country:
                       type: string
+                      minLength: 1
                       description: The country, as a two-letter ISO 3166-1 code. US is the only
                         supported country at this time.
                       example: US
@@ -1587,6 +1626,7 @@ paths:
                         example: mobile
                       value:
                         type: string
+                        minLength: 1
                         description: The phone number to use. This should be formatted in E.164 format.
                         example: "+12125551234"
                     required:
@@ -1598,6 +1638,7 @@ paths:
                     empty array will empty out the array.
                 profile_image:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The file for the member's profile image. Must be of type `photo`
       responses:
@@ -1639,6 +1680,7 @@ paths:
               properties:
                 member:
                   type: string
+                  minLength: 1
                   description: Member to which the order should be sent.
                 items:
                   type: array
@@ -1647,6 +1689,7 @@ paths:
                     properties:
                       product:
                         type: string
+                        minLength: 1
                         description: Unique ID of the product.
                         example: prod_1rqijtxD3sjkVVQPRRFC
                     required:
@@ -1657,6 +1700,7 @@ paths:
                   properties:
                     street_line_1:
                       type: string
+                      minLength: 1
                       description: The first line of the street address.
                       example: 1 City Point
                     street_line_2:
@@ -1666,18 +1710,22 @@ paths:
                       description: The second line of the street address.
                     city:
                       type: string
+                      minLength: 1
                       description: The city.
                       example: Brooklyn
                     region:
                       type: string
+                      minLength: 1
                       description: The region - in the US this should be the two-letter state code.
                       example: NY
                     postal_code:
                       type: string
+                      minLength: 1
                       description: The postal code (i.e. zip code).
                       example: "11215"
                     country:
                       type: string
+                      minLength: 1
                       description: The country, as a two-letter ISO 3166-1 code. US is the only
                         supported country at this time.
                       example: US
@@ -1763,6 +1811,7 @@ paths:
           name: member
           schema:
             type: string
+            minLength: 1
             description: Limit results to orders for the given member.
           required: false
           description: Limit results to orders for the given member.
@@ -1838,15 +1887,18 @@ paths:
               properties:
                 definition:
                   type: string
+                  minLength: 1
                   description: The task definition that this task models. You may provide either
                     the definition ID or key.
                   example: tskd_vlTxSr3ldEgbgX0RiQSk
                 member:
                   type: string
+                  minLength: 1
                   description: The member to which this task belongs.
                   example: mem_JAfPRRc59eh2YQ1aeL3D
                 assignee:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The user to which this task is assigned. If set to null, the task
                     will be unassigned.
@@ -1860,6 +1912,7 @@ paths:
                   example: Call the member to check up on medications
                 description:
                   type: string
+                  minLength: 1
                   maxLength: 65536
                   nullable: true
                   description: Long-form text describing the task to be performed. You can use
@@ -1886,6 +1939,7 @@ paths:
                   type: array
                   items:
                     type: string
+                    minLength: 1
                     description: Unique identifier for the related resource.
                     example: thrd_7BqeKrhbVU7c4Cigqs60
                   description: A list of object IDs, such as threads, that are related to the
@@ -2002,6 +2056,7 @@ paths:
             type: array
             items:
               type: string
+              minLength: 1
             description: Filter results by member. If multiple member ids are provided,
               tasks matching any of the provided members will be returned.
           required: false
@@ -2015,6 +2070,7 @@ paths:
             type: array
             items:
               type: string
+              minLength: 1
             description: Filter results by assignees. If multiple assignee ids are provided,
               tasks matching any of the provided assignees will be returned.
               Providing `unassigned` will return any tasks that are unassigned.
@@ -2030,6 +2086,7 @@ paths:
             type: array
             items:
               type: string
+              minLength: 1
             description: Filter results by task definitons. If multiple task defintion ids
               are provided, tasks matching any of the provided definitions will
               be returned.
@@ -2164,6 +2221,7 @@ paths:
               properties:
                 assignee:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The user to which this task is assigned. If set to null, the task
                     will be unassigned.
@@ -2177,6 +2235,7 @@ paths:
                   example: Call the member to check up on medications
                 description:
                   type: string
+                  minLength: 1
                   maxLength: 65536
                   nullable: true
                   description: Long-form text describing the task to be performed. You can use
@@ -2203,6 +2262,7 @@ paths:
                   type: array
                   items:
                     type: string
+                    minLength: 1
                     description: Unique identifier for the related resource.
                     example: thrd_7BqeKrhbVU7c4Cigqs60
                   description: A list of object IDs, such as threads, that are related to the
@@ -2257,14 +2317,17 @@ paths:
               properties:
                 key:
                   type: string
+                  minLength: 1
                   description: Globally unique identifier of the task definition
                   example: medication-request
                 name:
                   type: string
+                  minLength: 1
                   description: Human readable name of the task definition
                   example: Medication Request
                 care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The ID of the care team role that tasks should be assigned to be
                     default. If no role is set on the task definition, any tasks
@@ -2397,14 +2460,17 @@ paths:
               properties:
                 key:
                   type: string
+                  minLength: 1
                   description: Globally unique identifier of the task definition
                   example: medication-request
                 name:
                   type: string
+                  minLength: 1
                   description: Human readable name of the task definition
                   example: Medication Request
                 care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The ID of the care team role that tasks should be assigned to be
                     default. If no role is set on the task definition, any tasks
@@ -2507,6 +2573,7 @@ paths:
           name: assignee
           schema:
             type: string
+            minLength: 1
             description: Shows the queue for the provided user. By default when not provided
               the queue will include all tasks assigned to all users. When
               authenticated as a user you can specify the value 'current' to
@@ -2569,12 +2636,14 @@ paths:
                     assigned, if any.
                 subject:
                   type: string
+                  minLength: 1
                   description: The thread subject.
                 message:
                   type: object
                   properties:
                     text:
                       type: string
+                      minLength: 1
                       description: Contents of the message to send.
                     thread_actions:
                       type: object
@@ -2817,6 +2886,7 @@ paths:
                   example: awaiting_care_team
                 subject:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: New subject for the thread.
                   example: Lower back pain.
@@ -2907,10 +2977,12 @@ paths:
               properties:
                 first_name:
                   type: string
+                  minLength: 1
                   description: First name of the user.
                   example: John
                 last_name:
                   type: string
+                  minLength: 1
                   description: Last name of the user.
                   example: Adame
                 display_title:
@@ -2926,6 +2998,7 @@ paths:
                   example: Physician
                 email:
                   type: string
+                  minLength: 1
                   description: Email address for the user. Only admins and owners may update
                     another user's email address, this cannot be updated using
                     API keys.
@@ -2951,6 +3024,7 @@ paths:
                   example: developer
                 live_care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Care team role for this user, which must reference a role that
                     exists in live mode. Only users with a care team role can be
@@ -2958,6 +3032,7 @@ paths:
                   example: null
                 test_care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Care team role for this user, which must reference a role that
                     exists in test mode. Only users with a care team role can be
@@ -2965,6 +3040,7 @@ paths:
                   example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The file for the user's profile image. Must be of type
                     `user_profile_photo`
@@ -3062,6 +3138,7 @@ paths:
           name: email
           schema:
             type: string
+            minLength: 1
             description: Limit results to users with email matching the given query.
           required: false
           description: Limit results to users with email matching the given query.
@@ -3071,6 +3148,7 @@ paths:
           name: name
           schema:
             type: string
+            minLength: 1
             description: Limit results to users with name matching the given query.
           required: false
           description: Limit results to users with name matching the given query.
@@ -3082,6 +3160,7 @@ paths:
             type: array
             items:
               type: string
+              minLength: 1
             description: Filter results by role. If multiple roles are provided, users
               matching any of those roles will be returned.
           required: false
@@ -3191,10 +3270,12 @@ paths:
               properties:
                 first_name:
                   type: string
+                  minLength: 1
                   description: First name of the user.
                   example: John
                 last_name:
                   type: string
+                  minLength: 1
                   description: Last name of the user.
                   example: Adame
                 display_title:
@@ -3210,6 +3291,7 @@ paths:
                   example: Physician
                 email:
                   type: string
+                  minLength: 1
                   description: Email address for the user. Only admins and owners may update
                     another user's email address, this cannot be updated using
                     API keys.
@@ -3228,6 +3310,7 @@ paths:
                   example: developer
                 live_care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Care team role for this user, which must reference a role that
                     exists in live mode. Only users with a care team role can be
@@ -3235,6 +3318,7 @@ paths:
                   example: null
                 test_care_team_role:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: Care team role for this user, which must reference a role that
                     exists in test mode. Only users with a care team role can be
@@ -3242,6 +3326,7 @@ paths:
                   example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
+                  minLength: 1
                   nullable: true
                   description: The file for the user's profile image. Must be of type
                     `user_profile_photo`
