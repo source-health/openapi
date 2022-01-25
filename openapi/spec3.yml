@@ -33,6 +33,7 @@ paths:
           schema:
             type: string
             description: Unique ID of the account.
+            example: act_KbBlmtoXCFK7Km7S93Nu
           required: true
           description: Unique ID of the account.
       responses:
@@ -62,6 +63,7 @@ paths:
           schema:
             type: string
             description: Unique ID of the account.
+            example: act_KbBlmtoXCFK7Km7S93Nu
           required: true
           description: Unique ID of the account.
       requestBody:
@@ -107,6 +109,7 @@ paths:
           name: id
           schema:
             type: string
+            example: crtm_Ar5vww6wrniLv8ubdP4A
             description: Unique ID of the care_team.
           required: true
           description: Unique ID of the care_team.
@@ -152,6 +155,7 @@ paths:
           name: id
           schema:
             type: string
+            example: crtm_Ar5vww6wrniLv8ubdP4A
             description: Unique ID of the care_team.
           required: true
           description: Unique ID of the care_team.
@@ -297,6 +301,7 @@ paths:
           name: id
           schema:
             type: string
+            example: ctr_Xrjh23QoCKx0PxrIOoou
             description: Unique ID of the care_team_role.
           required: true
           description: Unique ID of the care_team_role.
@@ -326,6 +331,7 @@ paths:
           name: id
           schema:
             type: string
+            example: ctr_Xrjh23QoCKx0PxrIOoou
             description: Unique ID of the care_team_role.
           required: true
           description: Unique ID of the care_team_role.
@@ -363,6 +369,7 @@ paths:
           name: id
           schema:
             type: string
+            example: ctr_Xrjh23QoCKx0PxrIOoou
             description: Unique ID of the care_team_role.
           required: true
           description: Unique ID of the care_team_role.
@@ -389,6 +396,7 @@ paths:
           name: id
           schema:
             type: string
+            example: dev_79Dek9tjwNUZqMWU576Q
             description: Unique ID of the device.
           required: true
           description: Unique ID of the device.
@@ -510,6 +518,7 @@ paths:
           name: id
           schema:
             type: string
+            example: evt_9wV0vJk7AIdew6qi6fAQ
             description: Unique ID of the event.
           required: true
           description: Unique ID of the event.
@@ -710,6 +719,7 @@ paths:
           name: id
           schema:
             type: string
+            example: file_0A9zrLzCO7KPcnIbs40e
             description: Unique ID of the file.
           required: true
           description: Unique ID of the file.
@@ -765,7 +775,7 @@ paths:
     get:
       summary: List all Groups
       description: >-
-        Returns a list of groups within the current account. 
+        Returns a list of groups within the current account.
 
 
         The groups returned are sorted by creation date, with the most recently added group appearing first.
@@ -888,6 +898,7 @@ paths:
           name: id
           schema:
             type: string
+            example: grp_IlGhgsstvgsagl6lV89Q
             description: Unique ID of the group.
           required: true
           description: Unique ID of the group.
@@ -917,6 +928,7 @@ paths:
           name: id
           schema:
             type: string
+            example: grp_IlGhgsstvgsagl6lV89Q
             description: Unique ID of the group.
           required: true
           description: Unique ID of the group.
@@ -962,6 +974,7 @@ paths:
           name: id
           schema:
             type: string
+            example: grp_IlGhgsstvgsagl6lV89Q
             description: Unique ID of the group.
           required: true
           description: Unique ID of the group.
@@ -1258,6 +1271,7 @@ paths:
           name: id
           schema:
             type: string
+            example: meas_tk5YgrmO1baddbZreGts
             description: Unique ID of the measurement.
           required: true
           description: Unique ID of the measurement.
@@ -1455,6 +1469,7 @@ paths:
           name: id
           schema:
             type: string
+            example: msg_J2XECWlmq20uiX1PBdku
             description: Unique ID of the message.
           required: true
           description: Unique ID of the message.
@@ -1730,6 +1745,7 @@ paths:
           name: id
           schema:
             type: string
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Unique ID of the member.
           required: true
           description: Unique ID of the member.
@@ -1759,6 +1775,7 @@ paths:
           name: id
           schema:
             type: string
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Unique ID of the member.
           required: true
           description: Unique ID of the member.
@@ -2110,6 +2127,7 @@ paths:
           name: id
           schema:
             type: string
+            example: ord_SHIBg1N0DpzpBT3G8vkr
             description: Unique ID of the order.
           required: true
           description: Unique ID of the order.
@@ -2462,6 +2480,7 @@ paths:
           name: id
           schema:
             type: string
+            example: task_vAJyHgJ2VYwaYczijn9M
             description: Unique ID of the task.
           required: true
           description: Unique ID of the task.
@@ -2541,6 +2560,7 @@ paths:
           name: id
           schema:
             type: string
+            example: task_vAJyHgJ2VYwaYczijn9M
             description: Unique ID of the task.
           required: true
           description: Unique ID of the task.
@@ -2701,6 +2721,7 @@ paths:
           name: id
           schema:
             type: string
+            example: tskd_2Lc2yr7YIYxfN3RCSlBU
             description: Unique ID of the task_definition.
           required: true
           description: Unique ID of the task_definition.
@@ -2751,6 +2772,7 @@ paths:
           name: id
           schema:
             type: string
+            example: tskd_2Lc2yr7YIYxfN3RCSlBU
             description: Unique ID of the task_definition.
           required: true
           description: Unique ID of the task_definition.
@@ -3088,6 +3110,7 @@ paths:
           name: id
           schema:
             type: string
+            example: thrd_mi5bnWscvLf7q74k6Nzj
             description: Unique ID of the thread.
           required: true
           description: Unique ID of the thread.
@@ -3113,6 +3136,7 @@ paths:
           name: id
           schema:
             type: string
+            example: thrd_mi5bnWscvLf7q74k6Nzj
             description: Unique ID of the thread.
           required: true
           description: Unique ID of the thread.
@@ -3172,6 +3196,7 @@ paths:
           name: id
           schema:
             type: string
+            example: thrd_mi5bnWscvLf7q74k6Nzj
             description: Unique ID of the thread.
           required: true
           description: Unique ID of the thread.
@@ -3472,6 +3497,7 @@ paths:
           schema:
             type: string
             description: Unique ID of the user.
+            example: usr_qoGndHzx8KwdYsEByt9X
           required: true
           description: Unique ID of the user.
       responses:
@@ -3512,6 +3538,7 @@ paths:
           schema:
             type: string
             description: Unique ID of the user.
+            example: usr_qoGndHzx8KwdYsEByt9X
           required: true
           description: Unique ID of the user.
       requestBody:
@@ -3739,6 +3766,7 @@ paths:
           name: id
           schema:
             type: string
+            example: wbhk_nC1qvvQPSkHVYvRvefGF
             description: Unique ID of the webhook.
           required: true
           description: Unique ID of the webhook.
@@ -3783,6 +3811,7 @@ paths:
           name: id
           schema:
             type: string
+            example: wbhk_nC1qvvQPSkHVYvRvefGF
             description: Unique ID of the webhook.
           required: true
           description: Unique ID of the webhook.
@@ -3807,6 +3836,7 @@ paths:
           name: id
           schema:
             type: string
+            example: wbhk_nC1qvvQPSkHVYvRvefGF
             description: Unique ID of the webhook.
           required: true
           description: Unique ID of the webhook.
@@ -4382,12 +4412,12 @@ components:
       title: Group
       description: >-
         Groups can help you organize your team by describing qualities that
-        group members have. For  example, you might create groups for
-        Physicians, Nurses, and Care Navigators. You can then  leverage these
-        groups when routing tasks or viewing schedule availability.
+        group members have. For example, you might create groups for Physicians,
+        Nurses, and Care Navigators. You can then leverage these groups when
+        routing tasks or viewing schedule availability.
 
 
-        Source creates a few default groups for each new account, and you can add, modify, or delete  them to your needs.
+        Source creates a few default groups for each new account, and you can add, modify, or delete them to your needs.
       x-resourceId: group
       x-package: null
     measurement:
