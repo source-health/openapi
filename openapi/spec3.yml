@@ -722,6 +722,258 @@ paths:
                 $ref: "#/components/schemas/file"
       x-methodName: retrieve
       x-belongsToResource: file
+  /v1/groups:
+    post:
+      summary: Create a Group
+      description: Creates a new group, which describes a function of a user. You can
+        use groups alongside queues to control how tasks are routed among the
+        care team.
+      tags:
+        - Group
+      parameters: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  description: Public display name for this group. The name must be unique across
+                    all groups.
+                  example: Physicians
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  nullable: true
+                  description: A description for this group.
+                  example: null
+              required:
+                - name
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/group"
+      x-methodName: create
+      x-belongsToResource: group
+    get:
+      summary: List all Groups
+      description: >-
+        Returns a list of groups within the current account. 
+
+
+        The groups returned are sorted by creation date, with the most recently added group appearing first.
+      tags:
+        - Group
+      parameters:
+        - in: query
+          style: form
+          explode: true
+          name: ending_before
+          schema:
+            type: string
+            description: A cursor for use in pagination. `ending_before` is an object ID
+              that defines your place in the list. For instance, if you make a
+              list request and receive 100 objects, starting with obj_bar, your
+              subsequent call can include ending_before=obj_bar in order to
+              fetch the previous page of the list.
+          required: false
+          description: A cursor for use in pagination. `ending_before` is an object ID
+            that defines your place in the list. For instance, if you make a
+            list request and receive 100 objects, starting with obj_bar, your
+            subsequent call can include ending_before=obj_bar in order to fetch
+            the previous page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: starting_after
+          schema:
+            type: string
+            description: A cursor for use in pagination. `starting_after` is an object ID
+              that defines your place in the list. For instance, if you make a
+              list request and receive 100 objects, ending with obj_foo, your
+              subsequent call can include starting_after=obj_foo in order to
+              fetch the next page of the list.
+          required: false
+          description: A cursor for use in pagination. `starting_after` is an object ID
+            that defines your place in the list. For instance, if you make a
+            list request and receive 100 objects, ending with obj_foo, your
+            subsequent call can include starting_after=obj_foo in order to fetch
+            the next page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: limit
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            description: A limit on the number of objects to be returned. Limit can range
+              between 1 and 100.
+          required: false
+          description: A limit on the number of objects to be returned. Limit can range
+            between 1 and 100.
+        - in: query
+          style: form
+          explode: true
+          name: sort
+          schema:
+            type: string
+            enum:
+              - created_at
+              - name
+              - -created_at
+              - -name
+            description: Sort field for the results. A '-' prefix indicates sorting by that
+              field in descending order, otherwise the order will be ascending.
+            example: created_at
+          required: false
+          description: Sort field for the results. A '-' prefix indicates sorting by that
+            field in descending order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
+          name: name
+          schema:
+            type: string
+            description: Limit results to groups with name containing the given query.
+          required: false
+          description: Limit results to groups with name containing the given query.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                    enum:
+                      - list
+                    example: list
+                    description: Always `list`.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/group"
+                    description: Array of results
+                  has_more:
+                    type: boolean
+                    description: Contains `true` if there is another page of results available.
+                required:
+                  - object
+                  - data
+                  - has_more
+      x-methodName: list
+      x-belongsToResource: group
+  "/v1/groups/{id}":
+    get:
+      summary: Retrieve a Group
+      description: Retrieves the details of an existing group. You need only supply
+        the unique group identifier that was returned upon creation.
+      tags:
+        - Group
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the group.
+          required: true
+          description: Unique ID of the group.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/group"
+      x-methodName: retrieve
+      x-belongsToResource: group
+    post:
+      summary: Update a Group
+      description: >-
+        Updates the specified group by setting the values of the parameters
+        passed.
+
+
+        Any parameters not provided will be left unchanged.
+      tags:
+        - Group
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the group.
+          required: true
+          description: Unique ID of the group.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  description: Public display name for this group. The name must be unique across
+                    all groups.
+                  example: Physicians
+                description:
+                  type: string
+                  minLength: 1
+                  maxLength: 4096
+                  nullable: true
+                  description: A description for this group.
+                  example: null
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/group"
+      x-methodName: update
+      x-belongsToResource: group
+    delete:
+      summary: Delete a Group
+      description: Deletes the specified group. A deleted group is removed from all
+        other objects to which it relates.
+      tags:
+        - Group
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            description: Unique ID of the group.
+          required: true
+          description: Unique ID of the group.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/group"
+      x-methodName: delete
+      x-belongsToResource: group
   /v1/measurements:
     post:
       summary: Create a Measurement
@@ -4085,6 +4337,59 @@ components:
         accessing the `url` property of the file resource .
       x-resourceId: file
       x-package: null
+    group:
+      type: object
+      properties:
+        object:
+          type: string
+          default: group
+          enum:
+            - group
+          example: group
+          description: Always `group`.
+        id:
+          type: string
+          description: Unique ID for this group.
+          example: grp_QIbNbinAAJh7agaKsXrk
+        name:
+          type: string
+          maxLength: 255
+          description: Public display name for this group. The name must be unique across
+            all groups.
+          example: Physicians
+        description:
+          type: string
+          maxLength: 4096
+          nullable: true
+          description: A description for this group.
+          example: null
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the group was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the group was last updated.
+          example: 2021-05-13T16:33:00.000Z
+      required:
+        - object
+        - id
+        - name
+        - created_at
+        - updated_at
+      title: Group
+      description: >-
+        Groups can help you organize your team by describing qualities that
+        group members have. For  example, you might create groups for
+        Physicians, Nurses, and Care Navigators. You can then  leverage these
+        groups when routing tasks or viewing schedule availability.
+
+
+        Source creates a few default groups for each new account, and you can add, modify, or delete  them to your needs.
+      x-resourceId: group
+      x-package: null
     measurement:
       type: object
       properties:
@@ -5295,13 +5600,16 @@ components:
         - device.deactivated
         - device.deleted
         - file.created
+        - group.created
+        - group.updated
+        - group.deleted
         - measurement.created
-        - order.created
-        - order.shipped
         - member.created
         - member.updated
         - member.deleted
         - message.created
+        - order.created
+        - order.shipped
         - task.created
         - task.updated
         - task_definition.created
