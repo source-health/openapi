@@ -4471,7 +4471,7 @@ components:
         unit:
           type: string
           description: Unit that the measurement is reported in.
-          example: lb
+          example: kg
         type:
           type: string
           enum:
@@ -4481,7 +4481,7 @@ components:
             - heart_rate
             - systolic_blood_pressure
           description: The type of the measurement
-          example: blood_pressure
+          example: body_weight
         items:
           type: object
           additionalProperties:
