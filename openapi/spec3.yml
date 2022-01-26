@@ -4407,6 +4407,7 @@ components:
         - object
         - id
         - name
+        - description
         - created_at
         - updated_at
       title: Group
