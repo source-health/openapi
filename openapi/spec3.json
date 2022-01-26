@@ -2294,40 +2294,34 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Title for the member (Mr., Mrs., Dr., etc).",
                     "example": "Dr."
                   },
                   "first_name": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
                   "middle_name": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Middle name of the member",
                     "example": null
                   },
                   "last_name": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
                   "preferred_name": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
                   },
                   "email": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Email address for the member",
                     "example": "evieparker@example.org"
@@ -2418,7 +2412,6 @@
                         },
                         "value": {
                           "type": "string",
-                          "minLength": 1,
                           "description": "The phone number to use. This should be formatted in E.164 format.",
                           "example": "+12125551234"
                         }
@@ -2515,7 +2508,6 @@
             "name": "email",
             "schema": {
               "type": "string",
-              "minLength": 1,
               "description": "Limit results to members with the given email."
             },
             "required": false,
@@ -2631,40 +2623,34 @@
                 "properties": {
                   "title": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Title for the member (Mr., Mrs., Dr., etc).",
                     "example": "Dr."
                   },
                   "first_name": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
                   "middle_name": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Middle name of the member",
                     "example": null
                   },
                   "last_name": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
                   "preferred_name": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
                   },
                   "email": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Email address for the member",
                     "example": "evieparker@example.org"
@@ -2755,7 +2741,6 @@
                         },
                         "value": {
                           "type": "string",
-                          "minLength": 1,
                           "description": "The phone number to use. This should be formatted in E.164 format.",
                           "example": "+12125551234"
                         }
@@ -3087,7 +3072,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 65536,
                     "nullable": true,
                     "description": "Long-form text describing the task to be performed. You can use this field to share any additional relevant context to the care team that will be acting on this task.",
@@ -3431,7 +3415,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 65536,
                     "nullable": true,
                     "description": "Long-form text describing the task to be performed. You can use this field to share any additional relevant context to the care team that will be acting on this task.",
