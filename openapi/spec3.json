@@ -2300,6 +2300,7 @@
                   },
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
@@ -2311,6 +2312,7 @@
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
@@ -2354,7 +2356,6 @@
                       },
                       "street_line_2": {
                         "type": "string",
-                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
@@ -2426,7 +2427,6 @@
                   },
                   "profile_image": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the member's profile image. Must be of type `photo`"
                   }
@@ -2629,6 +2629,7 @@
                   },
                   "first_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "First name of the member",
                     "example": "Catherine"
                   },
@@ -2640,6 +2641,7 @@
                   },
                   "last_name": {
                     "type": "string",
+                    "minLength": 1,
                     "description": "Last name of the member",
                     "example": "Parker"
                   },
@@ -2683,7 +2685,6 @@
                       },
                       "street_line_2": {
                         "type": "string",
-                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
@@ -2755,7 +2756,6 @@
                   },
                   "profile_image": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the member's profile image. Must be of type `photo`"
                   }
@@ -2828,7 +2828,6 @@
                       },
                       "street_line_2": {
                         "type": "string",
-                        "minLength": 1,
                         "nullable": true,
                         "description": "The second line of the street address."
                       },
@@ -3046,19 +3045,16 @@
                 "properties": {
                   "definition": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "The task definition that this task models. You may provide either the definition ID or key.",
                     "example": "tskd_vlTxSr3ldEgbgX0RiQSk"
                   },
                   "member": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "The member to which this task belongs.",
                     "example": "mem_JAfPRRc59eh2YQ1aeL3D"
                   },
                   "assignee": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
@@ -3219,8 +3215,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "description": "Filter results by member. If multiple member ids are provided, tasks matching any of the provided members will be returned."
             },
@@ -3235,8 +3230,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "description": "Filter results by assignees. If multiple assignee ids are provided, tasks matching any of the provided assignees will be returned. Providing `unassigned` will return any tasks that are unassigned."
             },
@@ -3251,8 +3245,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "description": "Filter results by task definitons. If multiple task defintion ids are provided, tasks matching any of the provided definitions will be returned."
             },
@@ -3401,7 +3394,6 @@
                 "properties": {
                   "assignee": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The user to which this task is assigned. If set to null, the task will be unassigned.",
                     "example": "usr_NC6MQ3FyxddKoJJpfSVL"
