@@ -1401,7 +1401,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 4096,
                     "nullable": true,
                     "description": "A description for this group.",
@@ -1623,7 +1622,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 4096,
                     "nullable": true,
                     "description": "A description for this group.",
@@ -2777,6 +2775,42 @@
           }
         },
         "x-methodName": "update",
+        "x-belongsToResource": "member"
+      },
+      "delete": {
+        "summary": "Delete a Member",
+        "description": "Deletes the specified member. Members that have meaningful objects associated with them, such as tasks, threads, or files, may not be deleted.",
+        "tags": [
+          "Member"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+              "description": "Unique ID of the member."
+            },
+            "required": true,
+            "description": "Unique ID of the member."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/member"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
         "x-belongsToResource": "member"
       }
     },
@@ -5704,8 +5738,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique ID for this group.",
-            "example": "grp_QIbNbinAAJh7agaKsXrk"
+            "example": "grp_IlGhgsstvgsagl6lV89Q",
+            "description": "Unique ID for the Group."
           },
           "name": {
             "type": "string",
@@ -7278,6 +7312,9 @@
           "message.created",
           "order.created",
           "order.shipped",
+          "queue.created",
+          "queue.updated",
+          "queue.deleted",
           "task.created",
           "task.updated",
           "task_definition.created",
