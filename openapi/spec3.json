@@ -123,6 +123,522 @@
         "x-belongsToResource": "account"
       }
     },
+    "/v1/scheduling/appointments": {
+      "post": {
+        "summary": "Create an Appointment",
+        "description": "Creates a new appointment in Source.\n\nBy default, you cannot create an appointment for a participant with a conflict during the time of the appointment. If desired, you can disable this check by setting the skip_constraints param to true.\n\nYou are also able to call the create appointment API with a member token when you are building a member-facing experience. In that case, members are only able to book an appointment for themselves. Appointments created by members must follow the rules of the selected appointment type, and the constraint checks may not be bypassed.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appointment_type": {
+                    "type": "string",
+                    "description": "Unique ID or key of the appointment type for this appointment.",
+                    "example": "intake_visit"
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "Time zone in which the appointment should be scheduled. Changing this value has no impact on the actual time of the appointment, which is always provided in UTC. However, this value may be used when formatting the appointment time for representation, and recalculating the UTC time in the event of a time zone rule change.",
+                    "example": "America/New_York"
+                  },
+                  "member": {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                    "nullable": true,
+                    "description": "The member to which this appointment belongs. Setting a member on this property will allow the member to access this appointment via the API. Members can only view appointments which are directly associated with them."
+                  },
+                  "start_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time for this appointment. Appointments can be created which start in the past, if you want to record an appointment that has already occured. Appointment times must always be provided in UTC, regardless of the value of the time_zone property.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "duration": {
+                    "type": "number",
+                    "maximum": 1440,
+                    "description": "The duration of the appointment, in minutes. If no duration is provided, it will be automatically determined based on the appointment type provided.",
+                    "example": 30
+                  },
+                  "end_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time for this appointment. When creating an appointment, you can optionally specify either a duration or an end date. If both are specified, the end_at timestamp will take precedence. If neither are provided, the appointment type's default duration will be used.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "nullable": true,
+                    "description": "Subject of this appointment. This will be shown to all participants. It may also be transmitted via email or SMS, so it should not include PHI.",
+                    "example": "Pre-Op Check-In"
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "maxLength": 1024,
+                    "nullable": true,
+                    "description": "Member instructions for the appointment, which will be shared in advance. It may also be transmitted via email or SMS, so it should not include PHI.",
+                    "example": "Please fast for 12 hours prior to your appointment"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "participant": {
+                          "type": "string",
+                          "example": "usr_qoGndHzx8KwdYsEByt9X",
+                          "description": "The participant to include on this appointment. Must be a valid user identifier."
+                        }
+                      },
+                      "required": [
+                        "participant"
+                      ]
+                    },
+                    "description": "The participants that should be included on this appointment. At least one participant is required."
+                  },
+                  "skip_constraints": {
+                    "type": "boolean",
+                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                  }
+                },
+                "required": [
+                  "appointment_type",
+                  "time_zone",
+                  "start_at",
+                  "participants"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointment"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "appointment"
+      },
+      "get": {
+        "summary": "List all Appointments",
+        "description": "List all appointments in a given time range, or for a given set of participants.\n\nBy default, this method will not return canceled appointments. You can optionally specify include_canceled to true in order to include canceled appointments.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "booked",
+                  "canceled"
+                ]
+              },
+              "description": "Filter appointments by their status. You may provide multiple statuses."
+            },
+            "required": false,
+            "description": "Filter appointments by their status. You may provide multiple statuses."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter appointments by the member. This parameter is inferred when called as a member."
+            },
+            "required": false,
+            "description": "Filter appointments by the member. This parameter is inferred when called as a member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "participant",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter appointments by their participants. Participants must be provided as a list of user identifiers."
+            },
+            "required": false,
+            "description": "Filter appointments by their participants. Participants must be provided as a list of user identifiers."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "type",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter appointments by their type. You may provide appointment type identifiers or keys."
+            },
+            "required": false,
+            "description": "Filter appointments by their type. You may provide appointment type identifiers or keys."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "start_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object start_at field. For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object start_at field. For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "end_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the end_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the end_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the end_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the end_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object end_at field. For example `?end_at[gt]=2021-05-10T16:51:38.075Z&end_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object end_at field. For example `?end_at[gt]=2021-05-10T16:51:38.075Z&end_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/appointment"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "appointment"
+      }
+    },
+    "/v1/scheduling/appointments/{id}": {
+      "post": {
+        "summary": "Update an Appointment",
+        "description": "Updates an appointment in Source.\n\nParameters that are omitted from this endpoint will be left untouched. When changing the time of an appointment, you can provide an updated start_at and duration. If you omit one of these two, it will be inferred from the current state of the event.\n\nWhen adding participants to an existing appointment, Source will only perform conflict checks on the newly added participants, ignoring any potential conflicts for participants who are already on the appointment. You may bypass this check by setting the skip_constraintss param to true.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+              "description": "Unique ID of the appointment."
+            },
+            "required": true,
+            "description": "Unique ID of the appointment."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "appointment_type": {
+                    "type": "string",
+                    "description": "Unique ID or key of the appointment type for this appointment.",
+                    "example": "intake_visit"
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "Time zone in which the appointment should be scheduled. Changing this value has no impact on the actual time of the appointment, which is always provided in UTC. However, this value may be used when formatting the appointment time for representation, and recalculating the UTC time in the event of a time zone rule change.",
+                    "example": "America/New_York"
+                  },
+                  "start_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start time for this appointment. Appointments can be created which start in the past, if you want to record an appointment that has already occured. Appointment times must always be provided in UTC, regardless of the value of the time_zone property.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "duration": {
+                    "type": "number",
+                    "maximum": 1440,
+                    "description": "The duration of the appointment, in minutes. If no duration is provided, it will be automatically determined based on the appointment type provided.",
+                    "example": 30
+                  },
+                  "end_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End time for this appointment. When creating an appointment, you can optionally specify either a duration or an end date. If both are specified, the end_at timestamp will take precedence. If neither are provided, the appointment type's default duration will be used.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "subject": {
+                    "type": "string",
+                    "maxLength": 255,
+                    "nullable": true,
+                    "description": "Subject of this appointment. This will be shown to all participants. It may also be transmitted via email or SMS, so it should not include PHI.",
+                    "example": "Pre-Op Check-In"
+                  },
+                  "instructions": {
+                    "type": "string",
+                    "maxLength": 1024,
+                    "nullable": true,
+                    "description": "Member instructions for the appointment, which will be shared in advance. It may also be transmitted via email or SMS, so it should not include PHI.",
+                    "example": "Please fast for 12 hours prior to your appointment"
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "participant": {
+                          "type": "string",
+                          "example": "usr_qoGndHzx8KwdYsEByt9X",
+                          "description": "The participant to include on this appointment. Must be a valid user identifier."
+                        }
+                      },
+                      "required": [
+                        "participant"
+                      ]
+                    },
+                    "description": "The participants that should be included on this appointment. At least one participant is required."
+                  },
+                  "skip_constraints": {
+                    "type": "boolean",
+                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointment"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "appointment"
+      },
+      "get": {
+        "summary": "Retrieve an Appointment",
+        "description": "Retrieves an existing appointment by its unique identifier.\n\nAppointments can be accessed by users in your organization. Additionally, members can access their own appointments provided that they've been added as a participant.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+              "description": "Unique ID of the appointment."
+            },
+            "required": true,
+            "description": "Unique ID of the appointment."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointment"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "appointment"
+      }
+    },
+    "/v1/scheduling/appointments/{id}/cancel": {
+      "post": {
+        "summary": "Cancel an Appointment",
+        "description": "Cancels an existing appointment.\n\nCanceled appointments will not show up by default when listing appointments, but they can be optionally requested. Appointments must be canceled before they can be deleted. Once an appointment is canceled, it can no longer be modified.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+              "description": "Unique ID of the appointment."
+            },
+            "required": true,
+            "description": "Unique ID of the appointment."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointment"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "cancel",
+        "x-belongsToResource": "appointment"
+      }
+    },
     "/v1/scheduling/appointment_types": {
       "post": {
         "summary": "Create an Appointment Type",
@@ -1923,10 +2439,10 @@
                   "description": "Return results where the time field is greater than or equal to this value."
                 }
               },
-              "description": "A time based range filter on the list based on the object time field. For example '?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+              "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
             },
             "required": false,
-            "description": "A time based range filter on the list based on the object time field. For example '?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+            "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
           },
           {
             "in": "query",
@@ -3315,10 +3831,10 @@
                   "description": "Return results where the due_at field is greater than or equal to this value."
                 }
               },
-              "description": "A time based range filter on the list based on the object due_at field. For example '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+              "description": "A time based range filter on the list based on the object due_at field. For example `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
             },
             "required": false,
-            "description": "A time based range filter on the list based on the object due_at field. For example '?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+            "description": "A time based range filter on the list based on the object due_at field. For example `?due_at[gt]=2021-05-10T16:51:38.075Z&due_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
           },
           {
             "in": "query",
@@ -3349,10 +3865,10 @@
                   "description": "Return results where the created_at field is greater than or equal to this value."
                 }
               },
-              "description": "A time based range filter on the list based on the object created_at field. For example '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+              "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
             },
             "required": false,
-            "description": "A time based range filter on the list based on the object created_at field. For example '?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z'. The value is a dictionary with the following:"
+            "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
           }
         ],
         "responses": {
@@ -5075,6 +5591,182 @@
         "description": "This is an object representing a Source account. You can retrieve it to see account-level properties like business name, subdomain, and live mode status.",
         "x-resourceId": "account",
         "x-package": null
+      },
+      "appointment": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "appointment",
+            "enum": [
+              "appointment"
+            ],
+            "example": "appointment",
+            "description": "Always `appointment`."
+          },
+          "id": {
+            "type": "string",
+            "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+            "description": "Unique ID for the Appointment."
+          },
+          "appointment_type": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/appointment_type"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/appointment_type"
+            },
+            "description": "Reference to the type of appointemnt that was booked.",
+            "example": "aptp_meYUvkuaI2akjnb5Kwt7"
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "The member to which this appointment belongs. Setting a member on this property will allow the member to access this appointment via the API. Members can only view appointments which are directly associated with them. You do not need to associate an appointment with a member. This can be useful to represent, for example, blocked time during which a user is not available.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D",
+            "nullable": true
+          },
+          "subject": {
+            "type": "string",
+            "maxLength": 255,
+            "nullable": true,
+            "description": "Subject for this appointment. These will be shared with all participants in advance. The subject should generally describe the reason for the visit. Member tokens are allowed to set subjects on appointments to support a self booking flow.",
+            "example": "Pre-Op Check-In"
+          },
+          "instructions": {
+            "type": "string",
+            "maxLength": 1024,
+            "nullable": true,
+            "description": "Instructions to the member describing how to prepare for this appointment. Members cannot set or update instructions through the API, but they are able to access them.",
+            "example": "Please fast for 12 hours prior to your appointment"
+          },
+          "time_zone": {
+            "type": "string",
+            "description": "The IANA time zone for the appointment booking. Appointments are represented in UTC time, however the zone will be stored and can be used when presenting the appointemnt in the future.",
+            "example": "America/New_York"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "booked",
+              "canceled"
+            ],
+            "description": "Current status of this appointment. By default, newly created appointments will be in the booked status. When an appointment is in a terminal status, such as `canceled`, it can no longer be modified.",
+            "example": "booked"
+          },
+          "start_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment starts, always reported in UTC.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "end_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment ends, always reported in UTC.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "duration": {
+            "type": "number",
+            "description": "The computed duration of the appointment, measured as the number of minutes between `start_at` and `end_at`. This is calculated automatically in the API and returned back to you.",
+            "example": 30
+          },
+          "participants": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "default": "user",
+                  "enum": [
+                    "user"
+                  ],
+                  "example": "user",
+                  "description": "The type of participants. Participants in an appointment can be either members or users."
+                },
+                "participant": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/user"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/user"
+                  },
+                  "description": "Expandable reference to the participant resource. Currently, only users can be added as participants.",
+                  "example": "usr_qoGndHzx8KwdYsEByt9X"
+                },
+                "status": {
+                  "type": "string",
+                  "enum": [
+                    "tentative",
+                    "accepted",
+                    "declined"
+                  ],
+                  "description": "Status of the participant. Currently, all participants are assumed to have accepted the appointment once booked.",
+                  "example": "accepted"
+                }
+              },
+              "required": [
+                "type",
+                "participant",
+                "status"
+              ]
+            },
+            "description": "The participants in the appointment. At this time, only users may be participants in an appointment. However, we are evaluating future expansions to the API to allow other types of bookable resources."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment type was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment type was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "appointment_type",
+          "member",
+          "subject",
+          "instructions",
+          "time_zone",
+          "status",
+          "start_at",
+          "end_at",
+          "duration",
+          "participants",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Appointment",
+        "description": "An appointment represents a scheduled block of time for one or more users, optionally with an associated member.\n\nDepending on your needs, you can create appointment resources in Source to reflect events that have been scheduled elsewhere, or use our availability APIs to power patient self-scheduling directly. Creating and representing your appointments in Source allows your team to have a single pane of glass for their work day.\n\nWhen creating and managing appointments via the API, members have a different level of access than users or API keys. Members are only able to book appointments during a time when users are available, and are required to follow the restrictions of the appointment type. Users and API keys can bypass these restrictions by setting skip_constraints to true.",
+        "x-resourceId": "appointment",
+        "x-package": "scheduling",
+        "x-preview": true
       },
       "appointment_type": {
         "type": "object",
@@ -7085,8 +7777,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique ID for this user.",
-            "example": "usr_0EipsUv2yRFxynHshisN"
+            "example": "usr_qoGndHzx8KwdYsEByt9X",
+            "description": "Unique ID for the User."
           },
           "first_name": {
             "type": "string",
@@ -7296,6 +7988,13 @@
         "type": "string",
         "enum": [
           "account.updated",
+          "appointment_type.created",
+          "appointment_type.updated",
+          "appointment_type.deleted",
+          "appointment.created",
+          "appointment.updated",
+          "appointment.canceled",
+          "appointment.deleted",
           "care_team.created",
           "care_team.updated",
           "care_team.deleted",
