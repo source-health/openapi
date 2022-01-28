@@ -4810,6 +4810,8 @@ components:
           enum:
             - scale
             - blood_pressure_monitor
+            - pulse_oximeter
+            - blood_glucose_monitor
           description: Category of the device model.
           example: blood_pressure_monitor
         capabilities:
