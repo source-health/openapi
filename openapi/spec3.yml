@@ -4261,7 +4261,7 @@ paths:
         Administrators and owners can create users.
 
 
-        API keys can create users but cannot create with role 'developer', 'administrator', or 'owner'.
+        API keys can create users but cannot create with role 'developer', 'administrator', or 'owner' or assign users to groups.
 
 
         Other user roles cannot create users.
@@ -4329,7 +4329,6 @@ paths:
                     description: The group that is associated with the user.
                   description: The groups for this user, which must reference groups that exists
                     in your account. A user can be a member of  up to 20 groups.
-                    Care team roles will soon be deprecated in favor of groups.
                 live_care_team_role:
                   type: string
                   minLength: 1
@@ -4573,6 +4572,9 @@ paths:
         Administrators and owners may update the name, care team roles, email and role of other users.
 
 
+        Administrators and owners may assign users to groups.
+
+
         Administrators and owners are not permitted to change their own role.
       tags:
         - User
@@ -4641,7 +4643,6 @@ paths:
                     description: The group that is associated with the user.
                   description: The groups for this user, which must reference groups that exists
                     in your account. A user can be a member of  up to 20 groups.
-                    Care team roles will soon be deprecated in favor of groups.
                 live_care_team_role:
                   type: string
                   minLength: 1
@@ -6865,8 +6866,7 @@ components:
             description: Expandable reference to the group resource.
             example: grp_IlGhgsstvgsagl6lV89Q
           description: The groups for this user, which must reference groups that exists
-            in your account. A user can be a member of up to 20 groups. Care
-            team roles will soon be deprecated in favor of groups.
+            in your account. A user can be a member of up to 20 groups.
         live_care_team_role:
           oneOf:
             - type: string

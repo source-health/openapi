@@ -4805,7 +4805,7 @@
     "/v1/users": {
       "post": {
         "summary": "Create a User",
-        "description": "Creates a new user on the Source platform.\n\nThe user will be sent an email inviting them to finish creating their account. User accounts will not be active until they have followed the link in the invitation email and set a password.\n\nAdministrators and owners can create users.\n\nAPI keys can create users but cannot create with role 'developer', 'administrator', or 'owner'.\n\nOther user roles cannot create users.",
+        "description": "Creates a new user on the Source platform.\n\nThe user will be sent an email inviting them to finish creating their account. User accounts will not be active until they have followed the link in the invitation email and set a password.\n\nAdministrators and owners can create users.\n\nAPI keys can create users but cannot create with role 'developer', 'administrator', or 'owner' or assign users to groups.\n\nOther user roles cannot create users.",
         "tags": [
           "User"
         ],
@@ -4868,7 +4868,7 @@
                       "example": "grp_IlGhgsstvgsagl6lV89Q",
                       "description": "The group that is associated with the user."
                     },
-                    "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of  up to 20 groups. Care team roles will soon be deprecated in favor of groups."
+                    "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of  up to 20 groups."
                   },
                   "live_care_team_role": {
                     "type": "string",
@@ -5134,7 +5134,7 @@
       },
       "post": {
         "summary": "Update a User",
-        "description": "Updates the specified user by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you only provide the first_name parameter, that only updates the user's first_name.\n\nAll users can update their own name and care team roles.\n\nAPI keys can update the name and care team roles of users.\n\nAdministrators and owners may update the name, care team roles, email and role of other users.\n\nAdministrators and owners are not permitted to change their own role.",
+        "description": "Updates the specified user by setting the values of the parameters passed. Any parameters not provided will be left unchanged. For example, if you only provide the first_name parameter, that only updates the user's first_name.\n\nAll users can update their own name and care team roles.\n\nAPI keys can update the name and care team roles of users.\n\nAdministrators and owners may update the name, care team roles, email and role of other users.\n\nAdministrators and owners may assign users to groups.\n\nAdministrators and owners are not permitted to change their own role.",
         "tags": [
           "User"
         ],
@@ -5204,7 +5204,7 @@
                       "example": "grp_IlGhgsstvgsagl6lV89Q",
                       "description": "The group that is associated with the user."
                     },
-                    "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of  up to 20 groups. Care team roles will soon be deprecated in favor of groups."
+                    "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of  up to 20 groups."
                   },
                   "live_care_team_role": {
                     "type": "string",
@@ -7868,7 +7868,7 @@
               "description": "Expandable reference to the group resource.",
               "example": "grp_IlGhgsstvgsagl6lV89Q"
             },
-            "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of up to 20 groups. Care team roles will soon be deprecated in favor of groups."
+            "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of up to 20 groups."
           },
           "live_care_team_role": {
             "oneOf": [
