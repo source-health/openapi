@@ -4321,6 +4321,15 @@ paths:
                     may manage another user's role, this cannot be updated using
                     API keys.
                   example: developer
+                groups:
+                  type: array
+                  items:
+                    type: string
+                    example: grp_IlGhgsstvgsagl6lV89Q
+                    description: The group that is associated with the user.
+                  description: The groups for this user, which must reference groups that exists
+                    in your account. A user can be a member of  up to 20 groups.
+                    Care team roles will soon be deprecated in favor of groups.
                 live_care_team_role:
                   type: string
                   minLength: 1
@@ -4468,6 +4477,21 @@ paths:
         - in: query
           style: form
           explode: true
+          name: groups
+          schema:
+            type: array
+            items:
+              type: string
+              example: grp_IlGhgsstvgsagl6lV89Q
+              description: The group that is associated with the user.
+            description: Filter results by group. If multiple groups are provided, users
+              matching any of those groups will be returned.
+          required: false
+          description: Filter results by group. If multiple groups are provided, users
+            matching any of those groups will be returned.
+        - in: query
+          style: form
+          explode: true
           name: include_deactivated
           schema:
             type: boolean
@@ -4609,6 +4633,15 @@ paths:
                     may manage another user's role, this cannot be updated using
                     API keys.
                   example: developer
+                groups:
+                  type: array
+                  items:
+                    type: string
+                    example: grp_IlGhgsstvgsagl6lV89Q
+                    description: The group that is associated with the user.
+                  description: The groups for this user, which must reference groups that exists
+                    in your account. A user can be a member of  up to 20 groups.
+                    Care team roles will soon be deprecated in favor of groups.
                 live_care_team_role:
                   type: string
                   minLength: 1
@@ -5358,12 +5391,15 @@ components:
         - updated_at
       title: Care Team Role
       description: >-
-        Care Team Roles describe the purpose of each member of a member's care
+        Care team roles describe the purpose of each member of a member's care
         team. You can use care team roles to control how tasks are routed among
         the care team.
 
 
         Source creates a few default care team roles for each new account, and you can add, remove or modify them to your needs. However, care team roles cannot be deleted if they are currently in use.
+
+
+        Care team roles will soon be deprecated in order to support more flexible task distribution.
       x-resourceId: care_team_role
       x-package: null
     device:
@@ -6818,6 +6854,19 @@ components:
             - support
           description: Role the user is granted in your account.
           example: developer
+        groups:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/group"
+            x-expandable:
+              $ref: "#/components/schemas/group"
+            description: Expandable reference to the group resource.
+            example: grp_IlGhgsstvgsagl6lV89Q
+          description: The groups for this user, which must reference groups that exists
+            in your account. A user can be a member of up to 20 groups. Care
+            team roles will soon be deprecated in favor of groups.
         live_care_team_role:
           oneOf:
             - type: string
@@ -6883,6 +6932,7 @@ components:
         - display_title
         - email
         - role
+        - groups
         - live_care_team_role
         - test_care_team_role
         - status
