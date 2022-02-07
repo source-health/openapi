@@ -101,6 +101,11 @@
                     "minLength": 1,
                     "description": "Subdomain for the account.",
                     "example": "sourcehealth"
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "The time zone identifier for this account. Account level time zone identifiers are used to determine when \"midnight\" exists for your practice, and feed into Source's understanding of your organization's business hours. Note that each user has their own time zone as well, which is what is used when declaring user availability and booking appointments.",
+                    "example": "America/New_York"
                   }
                 }
               }
@@ -1125,6 +1130,175 @@
         },
         "x-methodName": "delete",
         "x-belongsToResource": "appointment_type"
+      }
+    },
+    "/v1/users/{user}/availability": {
+      "get": {
+        "summary": "Retrieve a User Availability Schedule",
+        "description": "Retrieves the availability schedule for a user.\n\nEach user in Source has an availability schedule created for them by default. The availability schedules are unique for each environment, so test and live mode will have different availabilty objects.",
+        "tags": [
+          "Availability",
+          "Preview"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "user",
+            "schema": {
+              "type": "string",
+              "example": "usr_qoGndHzx8KwdYsEByt9X",
+              "description": "Unique ID for the user."
+            },
+            "required": true,
+            "description": "Unique ID for the user."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/availability"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieveForUser",
+        "x-belongsToResource": "availability"
+      },
+      "post": {
+        "summary": "Update a User Availability Schedule",
+        "description": "Updates an availability schedule for a user.\n\nYou'll need to update a user's availability schedule to make them bookable for appointments in Source.",
+        "tags": [
+          "Availability",
+          "Preview"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "user",
+            "schema": {
+              "type": "string",
+              "example": "usr_qoGndHzx8KwdYsEByt9X",
+              "description": "Unique ID for the user."
+            },
+            "required": true,
+            "description": "Unique ID for the user."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "day": {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 7,
+                          "description": "The day of the week to which this rule applies, as an ISO day of week. The value of this property must be  a number from 1 to 7, where 1 represents Monday, and 7 represents Sunday.",
+                          "example": 1
+                        },
+                        "start": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                          "example": "09:00"
+                        },
+                        "end": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                          "example": "17:00"
+                        }
+                      },
+                      "required": [
+                        "day",
+                        "start",
+                        "end"
+                      ]
+                    },
+                    "description": "The list of rules for this person's availability. Each rule defines a day of week, start time, and end time of the rule. There may be multiple rules for a single day of the week. When that happens, the rules represent multiple blocks of times that the user is available in a given day. For example, you may be available from 9am-12pm, break for lunch, and then be available 1pm-5pm. If two availability blocks are provided on the same day which overlap with one another, Source will merge those rules into one rule."
+                  },
+                  "overrides": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "The specific date of the override, specified as an ISO 8601 date string in the format YYYY-mm-dd. There can only be one override object per date in this list.",
+                          "example": "2022-01-01"
+                        },
+                        "rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "start": {
+                                "type": "string",
+                                "format": "time",
+                                "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                                "example": "09:00"
+                              },
+                              "end": {
+                                "type": "string",
+                                "format": "time",
+                                "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                                "example": "17:00"
+                              }
+                            },
+                            "required": [
+                              "start",
+                              "end"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "date",
+                        "rules"
+                      ]
+                    },
+                    "description": "Overrides to the availability rules for this schedule. Overrides are specific dates on which the user's availability differs from their general rules. For example, you may be available Monday through Friday 9am-5pm, but not available on New Years Day.",
+                    "example": [
+                      {
+                        "date": "2022-01-01",
+                        "rules": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/availability"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "updateForUser",
+        "x-belongsToResource": "availability"
       }
     },
     "/v1/care_teams/{id}": {
@@ -4838,7 +5012,6 @@
                   },
                   "email": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "Email address for the user. Only admins and owners may update another user's email address, this cannot be updated using API keys.",
                     "example": "you@yourcompany.com"
                   },
@@ -4861,6 +5034,11 @@
                     "description": "Role the user is granted in your account. Only admins and owners may manage another user's role, this cannot be updated using API keys.",
                     "example": "developer"
                   },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "The time zone identifier for this user. User time zones are used when checking their availability schedules, and may also be used when formatting times outside of the context of a browser (such as an email).",
+                    "example": "America/New_York"
+                  },
                   "groups": {
                     "type": "array",
                     "items": {
@@ -4872,21 +5050,18 @@
                   },
                   "live_care_team_role": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in live mode. Only users with a care team role can be added to a member's care team.",
                     "example": null
                   },
                   "test_care_team_role": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in test mode. Only users with a care team role can be added to a member's care team.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   },
                   "profile_image": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the user's profile image. Must be of type `user_profile_photo`"
                   }
@@ -4987,7 +5162,6 @@
             "name": "email",
             "schema": {
               "type": "string",
-              "minLength": 1,
               "description": "Limit results to users with email matching the given query."
             },
             "required": false,
@@ -5000,7 +5174,6 @@
             "name": "name",
             "schema": {
               "type": "string",
-              "minLength": 1,
               "description": "Limit results to users with name matching the given query."
             },
             "required": false,
@@ -5014,8 +5187,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "description": "Filter results by role. If multiple roles are provided, users matching any of those roles will be returned."
             },
@@ -5181,7 +5353,6 @@
                   },
                   "email": {
                     "type": "string",
-                    "minLength": 1,
                     "description": "Email address for the user. Only admins and owners may update another user's email address, this cannot be updated using API keys.",
                     "example": "you@yourcompany.com"
                   },
@@ -5197,6 +5368,11 @@
                     "description": "Role the user is granted in your account. Only admins and owners may manage another user's role, this cannot be updated using API keys.",
                     "example": "developer"
                   },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "The time zone identifier for this user. User time zones are used when checking their availability schedules, and may also be used when formatting times outside of the context of a browser (such as an email).",
+                    "example": "America/New_York"
+                  },
                   "groups": {
                     "type": "array",
                     "items": {
@@ -5208,21 +5384,18 @@
                   },
                   "live_care_team_role": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in live mode. Only users with a care team role can be added to a member's care team.",
                     "example": null
                   },
                   "test_care_team_role": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "Care team role for this user, which must reference a role that exists in test mode. Only users with a care team role can be added to a member's care team.",
                     "example": "ctr_iNGhmxf28QqEstlwzxWK"
                   },
                   "profile_image": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "The file for the user's profile image. Must be of type `user_profile_photo`"
                   }
@@ -5591,6 +5764,11 @@
             "description": "Subdomain for the account.",
             "example": "sourcehealth"
           },
+          "time_zone": {
+            "type": "string",
+            "description": "The time zone associated with this account. This value is rarely used in Source, however it serves an important purpose for appointment booking. In order to ensure each day has consistent appointment slots available, we use this time zone to determine when midnight is for your organization. Slots will reset when crossing midnight into the next day. You can read mroe about this in the documentation for the Slot resource.",
+            "example": "America/New_York"
+          },
           "test_secret_key": {
             "type": "string",
             "description": "Test mode API secret key for the account, only returned during account creation.",
@@ -5619,6 +5797,7 @@
           "id",
           "name",
           "subdomain",
+          "time_zone",
           "created_at",
           "updated_at"
         ],
@@ -5929,6 +6108,179 @@
         "title": "Appointment Type",
         "description": "Appointment types describe the different types of appointments that members can book with you.\n\nEach appointment type has associated configuration that describes how events of that type should be booked, including when they're available to be booked, the standard duration and timing information, as well as with whom they can be booked. You can create and manage appointment types based on your specific booking needs.\n\nNote that appointment types include several fields which are copied to an appointment at the time of creation. These fields, such as the duration, pre buffer and post buffer, can be changed on the appointment type at any time, but will not be reflected on appointments of that type which have already been booked.",
         "x-resourceId": "appointment_type",
+        "x-package": "scheduling",
+        "x-preview": true
+      },
+      "availability": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "availability",
+            "enum": [
+              "availability"
+            ],
+            "example": "availability",
+            "description": "Always `availability`."
+          },
+          "id": {
+            "type": "string",
+            "example": "avl_LNfPSf5xUwBT7LDSA3YQ",
+            "description": "Unique ID for the Availability."
+          },
+          "user": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "User to whom this availabilty schedule corresponds. At this time, each user can only have one availability schedule, and it's automatically created by Source.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+          },
+          "time_zone": {
+            "type": "string",
+            "description": "The IANA time zone identifier in which this schedule should be interpreted. A time zone must be provided, but can be set to UTC. All times in a user's availability schedule are considered to be in \"local\" time, so they  are impossible to interpret without a time zone.\n\nNote that while availability schedules have a time zone field on them for reference, the time zone is replicated from the bookable resource to which the schedule is attached (currently only users). If you want to change the time zone for the schedule, you need to instead change the time zone on the user. Source will automatically detect the time zone change and update the schedule as well, triggering an `availability.updated` event with the new zone.",
+            "example": "America/New_York"
+          },
+          "rules": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day": {
+                  "type": "number",
+                  "description": "The day of the week to which this rule applies, as an ISO day of week. The value of this property must be  a number from 1 to 7, where 1 represents Monday, and 7 represents Sunday.",
+                  "example": 1
+                },
+                "start": {
+                  "type": "string",
+                  "format": "time",
+                  "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                  "example": "09:00"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "time",
+                  "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                  "example": "17:00"
+                }
+              },
+              "required": [
+                "day",
+                "start",
+                "end"
+              ]
+            },
+            "description": "The list of rules for this person's availability. Each rule defines a day of week, start time, and end time of the rule. There may be multiple rules for a single day of the week. When that happens, the rules represent multiple blocks of times that the user is available in a given day. For example, you may be available from 9am-12pm, break for lunch, and then be available 1pm-5pm.",
+            "example": [
+              {
+                "day": 1,
+                "start": "09:00",
+                "end": "17:00"
+              },
+              {
+                "day": 2,
+                "start": "09:00",
+                "end": "17:00"
+              },
+              {
+                "day": 3,
+                "start": "09:00",
+                "end": "17:00"
+              },
+              {
+                "day": 4,
+                "start": "09:00",
+                "end": "17:00"
+              },
+              {
+                "day": 5,
+                "start": "09:00",
+                "end": "17:00"
+              }
+            ]
+          },
+          "overrides": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "date": {
+                  "type": "string",
+                  "format": "date",
+                  "description": "The specific date of the override, specified as an ISO 8601 date string in the format YYYY-mm-dd. There can only be one override object per date in this list.",
+                  "example": "2022-01-01"
+                },
+                "rules": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "start": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                        "example": "09:00"
+                      },
+                      "end": {
+                        "type": "string",
+                        "format": "time",
+                        "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                        "example": "17:00"
+                      }
+                    },
+                    "required": [
+                      "start",
+                      "end"
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "date",
+                "rules"
+              ]
+            },
+            "description": "Overrides to the availability rules for this schedule. Overrides are specific dates on which the user's availability differs from their general rules. For example, you may be available Monday through Friday 9am-5pm, but not available on New Years Day.",
+            "example": [
+              {
+                "date": "2022-01-01",
+                "rules": []
+              }
+            ]
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment type was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the appointment type was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "user",
+          "time_zone",
+          "rules",
+          "overrides",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Availability",
+        "description": "Availability describes the schedule for a particular user and is used to power appointment booking.\n\nBy default, users are created with a schedule that marks them unavailable at all times. While this is a safe default, it means that members can't book appointments until you set up proper schedules.\n\nNote that availability is unique to each environment, so a user has a different schedule in live mode and test mode. Additionally, availability does not have a standard list or retrieve endpoint like most other resources. Instead, availability is a child resource of the user to which it belongs. Availability reosurces do still trigger events when they are modified.",
+        "x-resourceId": "availability",
         "x-package": "scheduling",
         "x-preview": true
       },
@@ -7851,6 +8203,11 @@
             "description": "Role the user is granted in your account.",
             "example": "developer"
           },
+          "time_zone": {
+            "type": "string",
+            "description": "The time zone identifier for this user. User time zones are used when checking their availability schedules, and may also be used when formatting times outside of the context of a browser (such as an email).",
+            "example": "America/New_York"
+          },
           "groups": {
             "type": "array",
             "items": {
@@ -7868,7 +8225,7 @@
               "description": "Expandable reference to the group resource.",
               "example": "grp_IlGhgsstvgsagl6lV89Q"
             },
-            "description": "The groups for this user, which must reference groups that exists in your account. A user can be a member of up to 20 groups."
+            "description": "The groups for this user, which must reference groups that exist in your account. A user can be a member of up to 20 groups."
           },
           "live_care_team_role": {
             "oneOf": [
@@ -7956,6 +8313,7 @@
           "display_title",
           "email",
           "role",
+          "time_zone",
           "groups",
           "live_care_team_role",
           "test_care_team_role",
@@ -8050,6 +8408,9 @@
           "appointment.updated",
           "appointment.canceled",
           "appointment.deleted",
+          "availability.created",
+          "availability.updated",
+          "availability.deleted",
           "care_team.created",
           "care_team.updated",
           "care_team.deleted",
