@@ -3753,6 +3753,197 @@
         "x-belongsToResource": "order"
       }
     },
+    "/v1/scheduling/slots": {
+      "get": {
+        "summary": "List all Available Slots",
+        "tags": [
+          "Slots"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "appointment_type",
+            "schema": {
+              "type": "string",
+              "description": "The appointment type to search. You may provide either the appointment type's ID, or its key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed when calling as a member.",
+              "example": "intake_visit"
+            },
+            "required": true,
+            "description": "The appointment type to search. You may provide either the appointment type's ID, or its key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed when calling as a member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "string",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+              "description": "The member for whom the appointment is being booked. The member may influence the results of this endpoint, depending on the routing choice selected below.\n\nWhen calling this endpoint as a member (using a member token), the member is inferred and need not be provided. If it is provided, it must be the same as the currently authenticated member."
+            },
+            "required": false,
+            "description": "The member for whom the appointment is being booked. The member may influence the results of this endpoint, depending on the routing choice selected below.\n\nWhen calling this endpoint as a member (using a member token), the member is inferred and need not be provided. If it is provided, it must be the same as the currently authenticated member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "start_date",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "description": "The start date for the availability search. Source always begins searching from the start of the provided date."
+            },
+            "required": true,
+            "description": "The start date for the availability search. Source always begins searching from the start of the provided date."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "end_date",
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "description": "The end date for the availability search. Source always completes searching at the end of the provided date. If no end_date is provided, the search will only cover start_date."
+            },
+            "required": false,
+            "description": "The end date for the availability search. Source always completes searching at the end of the provided date. If no end_date is provided, the search will only cover start_date."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "time_zone",
+            "schema": {
+              "type": "string",
+              "description": "The time zone in which the resulting slots should be returned. Note that providing a time zone to this API does not change availability calculation in any way. It is only provided to allow you to format the returned times without having to convert them yourself."
+            },
+            "required": true,
+            "description": "The time zone in which the resulting slots should be returned. Note that providing a time zone to this API does not change availability calculation in any way. It is only provided to allow you to format the returned times without having to convert them yourself."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "include_participants",
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "example": "grp_IlGhgsstvgsagl6lV89Q"
+                  },
+                  {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X"
+                  }
+                ]
+              },
+              "description": "Provide a set of users and groups that should be included in the response. The users and groups included in this parameter must still be included in the appointment type's configuration in order for the availability API to return slots for them.\n\nFor example, if your appointment type is linked to the group \"Physicians,\" and when calling this API you provide an include parameter for the group \"Nurses,\" you will only receive available slots for users who are in both the Physicians and Nurses group.\n\nYou can use this capability to enforce state licensing requirements when booking visits. Place each physician in a group called Physicians, as well as one group for each state in which they are licensed, such as \"New York.\" Then, link your intake visit appointment type to the \"Physicians\" group. Finally, when onboarding a new member, provide an include parameter to the slots API specifying your \"New York\" group and you'll see combined availability for all of your New York physicians."
+            },
+            "required": false,
+            "description": "Provide a set of users and groups that should be included in the response. The users and groups included in this parameter must still be included in the appointment type's configuration in order for the availability API to return slots for them.\n\nFor example, if your appointment type is linked to the group \"Physicians,\" and when calling this API you provide an include parameter for the group \"Nurses,\" you will only receive available slots for users who are in both the Physicians and Nurses group.\n\nYou can use this capability to enforce state licensing requirements when booking visits. Place each physician in a group called Physicians, as well as one group for each state in which they are licensed, such as \"New York.\" Then, link your intake visit appointment type to the \"Physicians\" group. Finally, when onboarding a new member, provide an include parameter to the slots API specifying your \"New York\" group and you'll see combined availability for all of your New York physicians."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "exclude_participants",
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "example": "grp_IlGhgsstvgsagl6lV89Q"
+                  },
+                  {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X"
+                  }
+                ]
+              },
+              "description": "Provide a set of users and groups that should be explicitly excluded from availability lookups. This can be used to ensure a particular user (or group of users) will not be returned from this API. You may want to use this if a member is requesting to change physicians, and you want to ensure that they're not inadvertently booked with their same physician again.\n\nNote that if both include and exclude are provided, exclude takes precedence. Source guarantees that users provided in the exclude parameter will never appear in the slot results."
+            },
+            "required": false,
+            "description": "Provide a set of users and groups that should be explicitly excluded from availability lookups. This can be used to ensure a particular user (or group of users) will not be returned from this API. You may want to use this if a member is requesting to change physicians, and you want to ensure that they're not inadvertently booked with their same physician again.\n\nNote that if both include and exclude are provided, exclude takes precedence. Source guarantees that users provided in the exclude parameter will never appear in the slot results."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "routing",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "care_team_required",
+                "care_team_preferred",
+                "care_team_hybrid",
+                "round_robin"
+              ],
+              "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team."
+            },
+            "required": false,
+            "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "$ref": "#/components/schemas/slot"
+                          }
+                        ],
+                        "x-wrapped": true,
+                        "title": "Slot",
+                        "description": "Slots represent chunks of time where a user is available for an appointment with a member.\n\nSource's scheduling APIs can be used to power rich member self-booking workflows. Typically, these experiences start by presenting a list of available appointment types (by querying the appointment types resource), and then present a list of slots by querying the slot availability APIs documented here.\n\nUnlike most other resources in the Source API, slots are not stored. As a result, they do not have an identifier, nor do they trigger any kind of events. Instead, slots are dynamically calculated as needed based on the availability of people in your team.",
+                        "x-resourceId": "slot",
+                        "x-preview": true,
+                        "x-package": "scheduling"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "slot"
+      }
+    },
     "/v1/tasks": {
       "post": {
         "summary": "Create a Task",
@@ -7658,6 +7849,69 @@
         "description": "A Product is an item that can be added to an order, for example a connected medical device. When the Product does correspond to a device, the expandable 'device_model' field will indicate they type of device.",
         "x-resourceId": "product",
         "x-package": null
+      },
+      "slot": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "slot",
+            "enum": [
+              "slot"
+            ],
+            "example": "slot",
+            "description": "Always `slot`."
+          },
+          "start_time": {
+            "type": "string",
+            "description": "The start time of this appointment slot. Slot start times will be calculated based on the available times of the bookable resources, as well as the selected appointment type's slot interval. Source always resets the calculation of slots each day at midnight in your account's time zone. This ensures that slots are at consistent times each day regardless of your slot interval."
+          },
+          "end_time": {
+            "type": "string",
+            "description": "The end time of this appointment slot. Slot end times are determined by taking the slot start time and adding the appointment's duration. As a result, it's possible (indeed likely, in many cases) for slots returned from the API to overlap. For example, if your appointment type has a 15 minute slot interval and a 30 minute duration, your slots will be 10:00-10:30, 10:15-10:45, 10:30-11:00, and so on."
+          },
+          "preferred": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "The preferred user to meet with if this slot is chosen. Source automatically determines a preferred user for each slot based on the routing preferences provided when looking up appointment slots.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+          },
+          "available": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/user"
+                }
+              ],
+              "x-expandable": {
+                "$ref": "#/components/schemas/user"
+              },
+              "description": "Expandable reference to a User",
+              "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+            },
+            "description": "The list of all possible users who are available during this appointment slot, including the preferred user. We will only return users in this list if they are able to serve the provided appointment type, are available according to their availability, and have no conflicting appointments."
+          }
+        },
+        "required": [
+          "object",
+          "start_time",
+          "end_time",
+          "preferred",
+          "available"
+        ]
       },
       "task": {
         "type": "object",
