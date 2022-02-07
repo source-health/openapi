@@ -6362,7 +6362,7 @@
           "created_at"
         ],
         "title": "Event",
-        "description": "Events are our way of letting you know when something interesting happens in your account.\n\nWhen an interesting event occurs, we create a new Event object. For example, when a member is created, we create a member.created event; and when an measurement is received we create a measurement.created event.\n\nNote that some actions may cause multiple events to be created. For example, when a device order is fulfilled you will receive both an order.fulfilled event and a device.created event for each device sent in the order.",
+        "description": "Events are our way of letting you know when something interesting happens in your account.\n\nWhen an interesting event occurs, we create a new Event object. For example, when a member is created, we create a `member.created` event; and when an measurement is received we create a 'measurement.created' event. The shape of the object in the `data` property of the event will be the object associated with the type of event. For example, a `member.created` event will have a data property containing the Member object.\n\nNote that some actions may cause multiple events to be created. For example, when a device order is fulfilled you will receive both an order.fulfilled event and a device.created event for each device sent in the order.\n\nYou can view more information about receiving Source events via webhooks [here](https://docs.sourcehealth.com/docs/api/webhooks/).",
         "x-resourceId": "event",
         "x-package": null
       },
@@ -8035,7 +8035,7 @@
           "updated_at"
         ],
         "title": "Webhook",
-        "description": "Webhooks are our way of notifying you about new Events in your account.\n\nOnce a webhook is registered and enabled, each event matching the list of subscribed events will be delivered to the endpoint you choose.",
+        "description": "Webhooks are our way of notifying you about new Events in your account.\n\nOnce a webhook is registered and enabled, each event matching the list of subscribed events will be delivered to the endpoint you choose. Your webhook will receive a copy of the [Event](https://docs.sourcehealth.com/docs/api/reference/event/) object associated with the webhook.\n\nYou can view more information about Source webhooks [here](https://docs.sourcehealth.com/docs/api/webhooks/).",
         "x-resourceId": "webhook",
         "x-package": null
       },
