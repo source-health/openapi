@@ -3571,22 +3571,7 @@ paths:
                   data:
                     type: array
                     items:
-                      oneOf:
-                        - $ref: "#/components/schemas/slot"
-                      x-wrapped: true
-                      title: Slot
-                      description: >-
-                        Slots represent chunks of time where a user is available
-                        for an appointment with a member.
-
-
-                        Source's scheduling APIs can be used to power rich member self-booking workflows. Typically, these experiences start by presenting a list of available appointment types (by querying the appointment types resource), and then present a list of slots by querying the slot availability APIs documented here.
-
-
-                        Unlike most other resources in the Source API, slots are not stored. As a result, they do not have an identifier, nor do they trigger any kind of events. Instead, slots are dynamically calculated as needed based on the availability of people in your team.
-                      x-resourceId: slot
-                      x-preview: true
-                      x-package: scheduling
+                      $ref: "#/components/schemas/slot"
                     description: Array of results
                   has_more:
                     type: boolean
@@ -7093,6 +7078,19 @@ components:
         - end_time
         - preferred
         - available
+      title: Slot
+      description: >-
+        Slots represent chunks of time where a user is available for an
+        appointment with a member.
+
+
+        Source's scheduling APIs can be used to power rich member self-booking workflows. Typically, these experiences start by presenting a list of available appointment types (by querying the appointment types resource), and then present a list of slots by querying the slot availability APIs documented here.
+
+
+        Unlike most other resources in the Source API, slots are not stored. As a result, they do not have an identifier, nor do they trigger any kind of events. Instead, slots are dynamically calculated as needed based on the availability of people in your team.
+      x-resourceId: slot
+      x-preview: true
+      x-package: scheduling
     task:
       type: object
       properties:
