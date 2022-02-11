@@ -727,13 +727,15 @@
                   "buffer_before": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Provides an additional buffer of time before an appointment to prepare. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time before the appointment begins. Measured in minutes.",
+                    "maximum": 60,
+                    "description": "Provides an additional buffer of time before an appointment to prepare. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time before the appointment begins. Measured in minutes. Must not be greater than 60 minutes.",
                     "example": 0
                   },
                   "buffer_after": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Provides an additional buffer of time after an appointment to wrap up. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time after the appointment ends. Measured in minutes.",
+                    "maximum": 60,
+                    "description": "Provides an additional buffer of time after an appointment to wrap up. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time after the appointment ends. Measured in minutes. Must not be greater than 60 minutes.",
                     "example": 5
                   },
                   "planning_horizon": {
@@ -1052,13 +1054,15 @@
                   "buffer_before": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Provides an additional buffer of time before an appointment to prepare. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time before the appointment begins. Measured in minutes.",
+                    "maximum": 60,
+                    "description": "Provides an additional buffer of time before an appointment to prepare. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time before the appointment begins. Measured in minutes. Must not be greater than 60 minutes.",
                     "example": 0
                   },
                   "buffer_after": {
                     "type": "number",
                     "minimum": 0,
-                    "description": "Provides an additional buffer of time after an appointment to wrap up. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time after the appointment ends. Measured in minutes.",
+                    "maximum": 60,
+                    "description": "Provides an additional buffer of time after an appointment to wrap up. Buffers do not change the appointment duration, but rather make the participants appear \"busy\" for a certain amount of time after the appointment ends. Measured in minutes. Must not be greater than 60 minutes.",
                     "example": 5
                   },
                   "planning_horizon": {
@@ -3756,6 +3760,7 @@
     "/v1/scheduling/slots": {
       "get": {
         "summary": "List all Available Slots",
+        "description": "This endpoint lists all bookable appointments slots for a set of users, given a list of participants to include and a list of participants to exclude.\n\nThis endpoint is accessible using member tokens, allowing your patient portal to query the Source API for availability directly.\n\nAvailability queries can only look at a maximum window of 31 days (a complete calendar month). If you need to look at availability windows greater than 31 days, please reach out to our team.",
         "tags": [
           "Slots"
         ],
@@ -3767,11 +3772,11 @@
             "name": "appointment_type",
             "schema": {
               "type": "string",
-              "description": "The appointment type to search. You may provide either the appointment type's ID, or its key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed when calling as a member.",
+              "description": "The appointment type to search. You may provide either the appointment types ID or key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed.",
               "example": "intake_visit"
             },
             "required": true,
-            "description": "The appointment type to search. You may provide either the appointment type's ID, or its key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed when calling as a member."
+            "description": "The appointment type to search. You may provide either the appointment types ID or key. Note that the appointment type must be flagged as bookable in order for the available slots API to succeed."
           },
           {
             "in": "query",
@@ -3790,45 +3795,48 @@
             "in": "query",
             "style": "form",
             "explode": true,
-            "name": "start_date",
+            "name": "start_at",
             "schema": {
               "type": "string",
-              "format": "date",
-              "description": "The start date for the availability search. Source always begins searching from the start of the provided date."
+              "format": "date-time",
+              "description": "The start time for the availability search. You may provide a fully qualified timestamp at any point throughout the day. Note that Source always begins computing slots at midnight, so the first available slot may not align with the start_at timestamp you provide, even if a user is available.",
+              "example": "2021-05-13T16:33:00.000Z"
             },
             "required": true,
-            "description": "The start date for the availability search. Source always begins searching from the start of the provided date."
+            "description": "The start time for the availability search. You may provide a fully qualified timestamp at any point throughout the day. Note that Source always begins computing slots at midnight, so the first available slot may not align with the start_at timestamp you provide, even if a user is available."
           },
           {
             "in": "query",
             "style": "form",
             "explode": true,
-            "name": "end_date",
+            "name": "end_at",
             "schema": {
               "type": "string",
-              "format": "date",
-              "description": "The end date for the availability search. Source always completes searching at the end of the provided date. If no end_date is provided, the search will only cover start_date."
+              "format": "date-time",
+              "description": "The end time for the availability search. Must be after the start time. Source will not return any time slots that start after this time, however it's possible that a time slot may end after this time.",
+              "example": "2021-05-13T16:33:00.000Z"
+            },
+            "required": true,
+            "description": "The end time for the availability search. Must be after the start time. Source will not return any time slots that start after this time, however it's possible that a time slot may end after this time."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "output_time_zone",
+            "schema": {
+              "type": "string",
+              "description": "By default, slots are formatted in UTC time. Providing another time zone here has two effects:\n\n- The slots returned from the API will be formatted in this time zone. This differs from most other endpoints, which   always return times in UTC. - Source will automatically strip out overlapping times in that zone due to daylight savings. For example, when the   clock rolls back in November in America/New_York, your bookable slots will be 2am, 2:30am, 3am, 3:30am (2am happens   twice on this day, but Source will skip the second instance of it and all other overlapping times.)",
+              "example": "America/New_York"
             },
             "required": false,
-            "description": "The end date for the availability search. Source always completes searching at the end of the provided date. If no end_date is provided, the search will only cover start_date."
+            "description": "By default, slots are formatted in UTC time. Providing another time zone here has two effects:\n\n- The slots returned from the API will be formatted in this time zone. This differs from most other endpoints, which   always return times in UTC. - Source will automatically strip out overlapping times in that zone due to daylight savings. For example, when the   clock rolls back in November in America/New_York, your bookable slots will be 2am, 2:30am, 3am, 3:30am (2am happens   twice on this day, but Source will skip the second instance of it and all other overlapping times.)"
           },
           {
             "in": "query",
             "style": "form",
             "explode": true,
-            "name": "time_zone",
-            "schema": {
-              "type": "string",
-              "description": "The time zone in which the resulting slots should be returned. Note that providing a time zone to this API does not change availability calculation in any way. It is only provided to allow you to format the returned times without having to convert them yourself."
-            },
-            "required": true,
-            "description": "The time zone in which the resulting slots should be returned. Note that providing a time zone to this API does not change availability calculation in any way. It is only provided to allow you to format the returned times without having to convert them yourself."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "include_participants",
+            "name": "participants",
             "schema": {
               "type": "array",
               "items": {
@@ -3899,31 +3907,36 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "object": {
-                      "type": "string",
-                      "default": "list",
-                      "enum": [
-                        "list"
-                      ],
-                      "example": "list",
-                      "description": "Always `list`."
-                    },
-                    "data": {
+                    "slots": {
                       "type": "array",
                       "items": {
                         "$ref": "#/components/schemas/slot"
                       },
-                      "description": "Array of results"
+                      "description": "The list of all slots that were returned for your availability query. Slots will only be returned if at least one participant is available."
                     },
-                    "has_more": {
-                      "type": "boolean",
-                      "description": "Contains `true` if there is another page of results available."
+                    "participants": {
+                      "type": "array",
+                      "items": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/user"
+                          }
+                        ],
+                        "x-expandable": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "description": "Expandable reference to a User",
+                        "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                      },
+                      "description": "The list of all possible users who were considered during the availability query. When using groups in participant inclusion and exclusion criteria, it is often useful to know the list of possible users who were searched for availability. You can use this to create a booking interface that shows your team's photos or includes more information about each of them.\n\nSource guarantees that availability slots will not be returned for users who are not present in this list, and that the list shown here is reflective of the order that each user was considered when selecting a preferred user for each time slot."
                     }
                   },
                   "required": [
-                    "object",
-                    "data",
-                    "has_more"
+                    "slots",
+                    "participants"
                   ]
                 }
               }
@@ -7852,13 +7865,15 @@
             "example": "slot",
             "description": "Always `slot`."
           },
-          "start_time": {
+          "start_at": {
             "type": "string",
-            "description": "The start time of this appointment slot. Slot start times will be calculated based on the available times of the bookable resources, as well as the selected appointment type's slot interval. Source always resets the calculation of slots each day at midnight in your account's time zone. This ensures that slots are at consistent times each day regardless of your slot interval."
+            "description": "The start time of this appointment slot. Slot start times will be calculated based on the available times of the bookable resources, as well as the selected appointment type's slot interval.",
+            "example": "2021-05-13T16:33:00.000Z"
           },
-          "end_time": {
+          "end_at": {
             "type": "string",
-            "description": "The end time of this appointment slot. Slot end times are determined by taking the slot start time and adding the appointment's duration. As a result, it's possible (indeed likely, in many cases) for slots returned from the API to overlap. For example, if your appointment type has a 15 minute slot interval and a 30 minute duration, your slots will be 10:00-10:30, 10:15-10:45, 10:30-11:00, and so on."
+            "description": "The end time of this appointment slot. Slot end times are determined by taking the slot start time and adding the appointment's duration. As a result, it's possible (indeed likely) for slots returned from the API to overlap. For example, if your appointment type has a 15 minute slot interval and a 30 minute duration, your slots will be 10:00-10:30, 10:15-10:45, 10:30-11:00, and so on.",
+            "example": "2021-05-13T16:33:00.000Z"
           },
           "preferred": {
             "oneOf": [
@@ -7897,8 +7912,8 @@
         },
         "required": [
           "object",
-          "start_time",
-          "end_time",
+          "start_at",
+          "end_at",
           "preferred",
           "available"
         ],
