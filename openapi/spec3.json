@@ -3026,16 +3026,86 @@
                     "description": "Date of birth of the member",
                     "example": "1964-10-01"
                   },
-                  "biological_sex": {
+                  "sex_at_birth": {
                     "type": "string",
                     "enum": [
                       "male",
                       "female",
-                      "non_binary",
+                      "other",
                       "undisclosed"
                     ],
-                    "description": "Biological sex of the member",
+                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
                     "example": "female"
+                  },
+                  "administrative_gender": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female",
+                      "other"
+                    ],
+                    "nullable": true,
+                    "description": "The gender of a person used for administrative purposes, such as on government-issued ID documents.",
+                    "example": "female"
+                  },
+                  "gender_identity": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "enum": [
+                          "female",
+                          "male",
+                          "non_binary",
+                          "other",
+                          "transgender_female",
+                          "transgender_male",
+                          "undisclosed"
+                        ],
+                        "description": "Coded value, or 'other'."
+                      },
+                      "text": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Member-provided string when value is 'other'."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "nullable": true,
+                    "description": "The individual member's identification of gender. Note that receiving a null value for gender is not the same as an undisclosed gender. The latter means that the user specifically opted to not disclose a gender. The former indicates that the gender is unknown and/or was not provided.",
+                    "example": {
+                      "value": "female"
+                    }
+                  },
+                  "pronouns": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "enum": [
+                          "she_her",
+                          "he_him",
+                          "they_them",
+                          "other"
+                        ],
+                        "description": "Coded value, or 'other'."
+                      },
+                      "text": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Member-provided string when value is 'other'."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "nullable": true,
+                    "description": "Describes how the person would like to be referred to when not using their name.",
+                    "example": {
+                      "value": "they_them"
+                    }
                   },
                   "address": {
                     "type": "object",
@@ -3127,7 +3197,7 @@
                   "first_name",
                   "last_name",
                   "date_of_birth",
-                  "biological_sex"
+                  "sex_at_birth"
                 ]
               }
             }
@@ -3355,16 +3425,86 @@
                     "description": "Date of birth of the member",
                     "example": "1964-10-01"
                   },
-                  "biological_sex": {
+                  "sex_at_birth": {
                     "type": "string",
                     "enum": [
                       "male",
                       "female",
-                      "non_binary",
+                      "other",
                       "undisclosed"
                     ],
-                    "description": "Biological sex of the member",
+                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
                     "example": "female"
+                  },
+                  "administrative_gender": {
+                    "type": "string",
+                    "enum": [
+                      "male",
+                      "female",
+                      "other"
+                    ],
+                    "nullable": true,
+                    "description": "The gender of a person used for administrative purposes, such as on government-issued ID documents.",
+                    "example": "female"
+                  },
+                  "gender_identity": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "enum": [
+                          "female",
+                          "male",
+                          "non_binary",
+                          "other",
+                          "transgender_female",
+                          "transgender_male",
+                          "undisclosed"
+                        ],
+                        "description": "Coded value, or 'other'."
+                      },
+                      "text": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Member-provided string when value is 'other'."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "nullable": true,
+                    "description": "The individual member's identification of gender. Note that receiving a null value for gender is not the same as an undisclosed gender. The latter means that the user specifically opted to not disclose a gender. The former indicates that the gender is unknown and/or was not provided.",
+                    "example": {
+                      "value": "female"
+                    }
+                  },
+                  "pronouns": {
+                    "type": "object",
+                    "properties": {
+                      "value": {
+                        "type": "string",
+                        "enum": [
+                          "she_her",
+                          "he_him",
+                          "they_them",
+                          "other"
+                        ],
+                        "description": "Coded value, or 'other'."
+                      },
+                      "text": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Member-provided string when value is 'other'."
+                      }
+                    },
+                    "required": [
+                      "value"
+                    ],
+                    "nullable": true,
+                    "description": "Describes how the person would like to be referred to when not using their name.",
+                    "example": {
+                      "value": "they_them"
+                    }
                   },
                   "address": {
                     "type": "object",
@@ -6880,7 +7020,7 @@
           "type": {
             "type": "string",
             "description": "Type of event.",
-            "example": "member.created"
+            "example": "group.created"
           },
           "data": {
             "type": "object",
@@ -6888,18 +7028,10 @@
               "object": {
                 "description": "Serialized object related to the event.",
                 "example": {
-                  "object": "member",
-                  "id": "mem_JAfPRRc59eh2YQ1aeL3D",
-                  "title": null,
-                  "first_name": "Catherine",
-                  "middle_name": null,
-                  "last_name": "Parker",
-                  "preferred_name": "Cathy",
-                  "email": "evieparker@example.org",
-                  "biological_sex": "female",
-                  "date_of_birth": "1964-10-01",
-                  "address": null,
-                  "care_team": "crtm_Zfj4Sl03hfvZjfFJZ492",
+                  "object": "group",
+                  "id": "grp_IlGhgsstvgsagl6lV89Q",
+                  "name": "Physicians",
+                  "description": "Supervising physicians",
                   "created_at": "2021-05-13T16:33:00.000Z",
                   "updated_at": "2021-05-13T16:33:00.000Z"
                 }
@@ -7265,8 +7397,91 @@
               "non_binary",
               "undisclosed"
             ],
-            "description": "Biological sex of the member",
+            "description": "Biological sex of the member. This property should no longer be used, and `sex_at_birth` or `gender_identity` should be preferred going forward, depending on the use case. Source will be removing this property in the future.",
             "example": "female"
+          },
+          "sex_at_birth": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other",
+              "undisclosed"
+            ],
+            "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported inputs. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
+            "example": "female"
+          },
+          "administrative_gender": {
+            "type": "string",
+            "enum": [
+              "male",
+              "female",
+              "other"
+            ],
+            "nullable": true,
+            "description": "The gender of a person used for administrative purposes, such as on government-issued ID documents.",
+            "example": "female"
+          },
+          "gender_identity": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "enum": [
+                  "female",
+                  "male",
+                  "non_binary",
+                  "other",
+                  "transgender_female",
+                  "transgender_male",
+                  "undisclosed"
+                ],
+                "description": "Coded value"
+              },
+              "text": {
+                "type": "string",
+                "description": "Human-readable display text of coded value, or member-provided string when value is 'other'"
+              }
+            },
+            "required": [
+              "value",
+              "text"
+            ],
+            "nullable": true,
+            "description": "The individual member's identification of gender. Note that receiving a null value for gender is not the same as an undisclosed gender. The latter means that the user specifically opted to not disclose a gender. The former indicates that the gender is unknown and/or was not provided.",
+            "example": {
+              "value": "female",
+              "text": "Woman"
+            }
+          },
+          "pronouns": {
+            "type": "object",
+            "properties": {
+              "value": {
+                "type": "string",
+                "enum": [
+                  "she_her",
+                  "he_him",
+                  "they_them",
+                  "other"
+                ],
+                "description": "Coded value or 'other'"
+              },
+              "text": {
+                "type": "string",
+                "description": "Human-readable display text of coded value, or member-provided string when value is 'other'"
+              }
+            },
+            "required": [
+              "value",
+              "text"
+            ],
+            "nullable": true,
+            "description": "Describes how the person would like to be referred to when not using their name.",
+            "example": {
+              "value": "they_them",
+              "text": "They/Them"
+            }
           },
           "address": {
             "type": "object",
@@ -7398,6 +7613,10 @@
           "email",
           "date_of_birth",
           "biological_sex",
+          "sex_at_birth",
+          "administrative_gender",
+          "gender_identity",
+          "pronouns",
           "address",
           "phone_numbers",
           "care_team",
