@@ -295,6 +295,27 @@ paths:
         - in: query
           style: form
           explode: true
+          name: sort
+          schema:
+            type: string
+            enum:
+              - start_at
+              - end_at
+              - created_at
+              - -start_at
+              - -end_at
+              - -created_at
+            description:
+              Sort field for the results. A '-' prefix indicates sorting by that field in descending
+              order, otherwise the order will be ascending.
+            example: start_at
+          required: false
+          description:
+            Sort field for the results. A '-' prefix indicates sorting by that field in descending
+            order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
           name: status
           schema:
             type: array
@@ -314,6 +335,7 @@ paths:
             type: array
             items:
               type: string
+              example: mem_5QW8j1oKqQjNaPk4Hv3f
             description:
               Filter appointments by the member. This parameter is inferred when called as a member.
           required: false
@@ -327,6 +349,7 @@ paths:
             type: array
             items:
               type: string
+              example: usr_qoGndHzx8KwdYsEByt9X
             description:
               Filter appointments by their participants. Participants must be provided as a list of
               user identifiers.
@@ -476,10 +499,6 @@ paths:
             schema:
               type: object
               properties:
-                appointment_type:
-                  type: string
-                  description: Unique ID or key of the appointment type for this appointment.
-                  example: intake_visit
                 time_zone:
                   type: string
                   description:
