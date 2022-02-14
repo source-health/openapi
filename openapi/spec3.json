@@ -3964,7 +3964,7 @@
                   "definition": {
                     "type": "string",
                     "description": "The task definition that this task models. You may provide either the definition ID or key.",
-                    "example": "tskd_vlTxSr3ldEgbgX0RiQSk"
+                    "example": "tskd_2Lc2yr7YIYxfN3RCSlBU"
                   },
                   "member": {
                     "type": "string",
@@ -4440,10 +4440,9 @@
                   },
                   "care_team_role": {
                     "type": "string",
-                    "minLength": 1,
+                    "example": "ctr_Xrjh23QoCKx0PxrIOoou",
                     "nullable": true,
-                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
-                    "example": "ctr_iNGhmxf28QqEstlwzxWK"
+                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned."
                   }
                 },
                 "required": [
@@ -4513,6 +4512,25 @@
             },
             "required": false,
             "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "name",
+                "-created_at",
+                "-name"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
           }
         ],
         "responses": {
@@ -4600,10 +4618,9 @@
                   },
                   "care_team_role": {
                     "type": "string",
-                    "minLength": 1,
+                    "example": "ctr_Xrjh23QoCKx0PxrIOoou",
                     "nullable": true,
-                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
-                    "example": "ctr_iNGhmxf28QqEstlwzxWK"
+                    "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned."
                   }
                 }
               }
@@ -7953,7 +7970,7 @@
               "$ref": "#/components/schemas/task_definition"
             },
             "description": "The type of task that needs to be completed.",
-            "example": "tskd_vlTxSr3ldEgbgX0RiQSk"
+            "example": "tskd_2Lc2yr7YIYxfN3RCSlBU"
           },
           "member": {
             "oneOf": [
@@ -8104,8 +8121,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of the task definition.",
-            "example": "tskd_vlTxSr3ldEgbgX0RiQSk"
+            "example": "tskd_2Lc2yr7YIYxfN3RCSlBU",
+            "description": "Unique ID for the Task Definition."
           },
           "key": {
             "type": "string",
@@ -8130,7 +8147,7 @@
               "$ref": "#/components/schemas/care_team_role"
             },
             "description": "The default care team role that tasks should be assigned to. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned.",
-            "example": "ctr_iNGhmxf28QqEstlwzxWK",
+            "example": "ctr_Xrjh23QoCKx0PxrIOoou",
             "nullable": true
           },
           "created_at": {
