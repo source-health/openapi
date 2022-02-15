@@ -694,7 +694,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 1024,
                     "nullable": true,
                     "description": "A few sentence description of this appointment type. This description will be shown to members when attempting to book an appointment of this type. While not required, it can be helpful to share what the member might expect to happen during this appointment or any resources thay should bring.",
@@ -702,7 +701,6 @@
                   },
                   "default_instructions": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 1024,
                     "nullable": true,
                     "description": "The default instructions that should be provided to members when booking this type of appointment. When creating appointments via the API, these instructions will automatically be applied to the appointment unless overriden. Members are not able to change the instructions on an appointment when creating one, and will also receive this set of instructions by default.",
@@ -1021,7 +1019,6 @@
                   },
                   "description": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 1024,
                     "nullable": true,
                     "description": "A few sentence description of this appointment type. This description will be shown to members when attempting to book an appointment of this type. While not required, it can be helpful to share what the member might expect to happen during this appointment or any resources thay should bring.",
@@ -1029,7 +1026,6 @@
                   },
                   "default_instructions": {
                     "type": "string",
-                    "minLength": 1,
                     "maxLength": 1024,
                     "nullable": true,
                     "description": "The default instructions that should be provided to members when booking this type of appointment. When creating appointments via the API, these instructions will automatically be applied to the appointment unless overriden. Members are not able to change the instructions on an appointment when creating one, and will also receive this set of instructions by default.",

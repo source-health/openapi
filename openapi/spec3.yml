@@ -692,7 +692,6 @@ paths:
                   example: Intake Visit
                 description:
                   type: string
-                  minLength: 1
                   maxLength: 1024
                   nullable: true
                   description:
@@ -703,7 +702,6 @@ paths:
                   example: Meet with your new care team and complete a baseline visit
                 default_instructions:
                   type: string
-                  minLength: 1
                   maxLength: 1024
                   nullable: true
                   description:
@@ -1023,7 +1021,6 @@ paths:
                   example: Intake Visit
                 description:
                   type: string
-                  minLength: 1
                   maxLength: 1024
                   nullable: true
                   description:
@@ -1034,7 +1031,6 @@ paths:
                   example: Meet with your new care team and complete a baseline visit
                 default_instructions:
                   type: string
-                  minLength: 1
                   maxLength: 1024
                   nullable: true
                   description:
