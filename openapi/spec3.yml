@@ -3911,15 +3911,15 @@ paths:
                   example: tskd_2Lc2yr7YIYxfN3RCSlBU
                 member:
                   type: string
+                  example: mem_5QW8j1oKqQjNaPk4Hv3f
                   description: The member to which this task belongs.
-                  example: mem_JAfPRRc59eh2YQ1aeL3D
                 assignee:
                   type: string
+                  example: usr_qoGndHzx8KwdYsEByt9X
                   nullable: true
                   description:
                     The user to which this task is assigned. If set to null, the task will be
                     unassigned.
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
                 summary:
                   type: string
                   minLength: 1
@@ -3959,7 +3959,7 @@ paths:
                     type: string
                     minLength: 1
                     description: Unique identifier for the related resource.
-                    example: thrd_7BqeKrhbVU7c4Cigqs60
+                    example: thrd_mi5bnWscvLf7q74k6Nzj
                   description: A list of object IDs, such as threads, that are related to the task.
               required:
                 - definition
@@ -4078,6 +4078,7 @@ paths:
             type: array
             items:
               type: string
+              example: mem_5QW8j1oKqQjNaPk4Hv3f
             description:
               Filter results by member. If multiple member ids are provided, tasks matching any of
               the provided members will be returned.
@@ -4110,6 +4111,7 @@ paths:
             type: array
             items:
               type: string
+              example: tskd_2Lc2yr7YIYxfN3RCSlBU
             description:
               Filter results by task definitons. If multiple task defintion ids are provided, tasks
               matching any of the provided definitions will be returned.
@@ -4240,11 +4242,11 @@ paths:
               properties:
                 assignee:
                   type: string
+                  example: usr_qoGndHzx8KwdYsEByt9X
                   nullable: true
                   description:
                     The user to which this task is assigned. If set to null, the task will be
                     unassigned.
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
                 summary:
                   type: string
                   minLength: 1
@@ -4284,7 +4286,7 @@ paths:
                     type: string
                     minLength: 1
                     description: Unique identifier for the related resource.
-                    example: thrd_7BqeKrhbVU7c4Cigqs60
+                    example: thrd_mi5bnWscvLf7q74k6Nzj
                   description: A list of object IDs, such as threads, that are related to the task.
       responses:
         default:
@@ -7606,8 +7608,8 @@ components:
           description: Always `task`.
         id:
           type: string
-          description: Unique ID of the task.
-          example: task_ptG2CR0v5d2gYXm9lAEV
+          example: task_vAJyHgJ2VYwaYczijn9M
+          description: Unique ID for the Task.
         definition:
           oneOf:
             - type: string
