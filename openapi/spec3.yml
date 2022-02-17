@@ -1363,11 +1363,10 @@ paths:
                     properties:
                       user:
                         type: string
-                        minLength: 1
+                        example: usr_NC6MQ3FyxddKoJJpfSVL
                         description:
                           Unique ID of the user to add to the care team. The user must have a care
                           team role defined.
-                        example: usr_NC6MQ3FyxddKoJJpfSVL
                     required:
                       - user
                   description: List of users to put on the care team.
@@ -1838,7 +1837,6 @@ paths:
             type: array
             items:
               type: string
-              minLength: 1
             description:
               Filter results by event type. Repeat this parameter to filter by multiple event
               types,         e.g. `?type=member.created&type=member.updated`
@@ -2265,11 +2263,11 @@ paths:
                       description: Source measurement type to create.
                     device:
                       type: string
-                      minLength: 1
+                      example: dev_79Dek9tjwNUZqMWU576Q
                       description: Device to which this measurement belongs.
                     member:
                       type: string
-                      minLength: 1
+                      example: mem_5QW8j1oKqQjNaPk4Hv3f
                       description: Member to which this measurement belongs.
                     time:
                       type: string
@@ -2290,11 +2288,9 @@ paths:
                         properties:
                           value:
                             type: string
-                            minLength: 1
                             description: Value for the measurement.
                           unit:
                             type: string
-                            minLength: 1
                             description: Unit that the measurement is reported in.
                         required:
                           - value
@@ -2320,11 +2316,11 @@ paths:
                       description: Source measurement type to create.
                     device:
                       type: string
-                      minLength: 1
+                      example: dev_79Dek9tjwNUZqMWU576Q
                       description: Device to which this measurement belongs.
                     member:
                       type: string
-                      minLength: 1
+                      example: mem_5QW8j1oKqQjNaPk4Hv3f
                       description: Member to which this measurement belongs.
                     time:
                       type: string
@@ -2456,7 +2452,7 @@ paths:
           name: member
           schema:
             type: string
-            minLength: 1
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Filter measurements to only those belonging to the given member.
           required: false
           description: Filter measurements to only those belonging to the given member.
@@ -3360,7 +3356,7 @@ paths:
               properties:
                 member:
                   type: string
-                  minLength: 1
+                  example: mem_5QW8j1oKqQjNaPk4Hv3f
                   description: Member to which the order should be sent.
                 items:
                   type: array
@@ -3369,7 +3365,6 @@ paths:
                     properties:
                       product:
                         type: string
-                        minLength: 1
                         description: Unique ID of the product.
                         example: prod_1rqijtxD3sjkVVQPRRFC
                     required:
@@ -3492,7 +3487,7 @@ paths:
           name: member
           schema:
             type: string
-            minLength: 1
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Limit results to orders for the given member.
           required: false
           description: Limit results to orders for the given member.
@@ -4616,7 +4611,6 @@ paths:
           name: assignee
           schema:
             type: string
-            minLength: 1
             description:
               Shows the queue for the provided user. By default when not provided the queue will
               include all tasks assigned to all users. When authenticated as a user you can specify
@@ -4679,7 +4673,7 @@ paths:
                     The ID of the care team user to which this thread is currently assigned, if any.
                 subject:
                   type: string
-                  minLength: 1
+                  nullable: true
                   description: The thread subject.
                 message:
                   type: object
@@ -4935,7 +4929,6 @@ paths:
                   example: awaiting_care_team
                 subject:
                   type: string
-                  minLength: 1
                   nullable: true
                   description: New subject for the thread.
                   example: Lower back pain.
@@ -6397,8 +6390,8 @@ components:
           description: Always `device`.
         id:
           type: string
-          description: Unique ID of the device.
-          example: dev_kTRoWd1awPhUoRwL78uH
+          example: dev_79Dek9tjwNUZqMWU576Q
+          description: Unique ID for the Device.
         member:
           oneOf:
             - type: string

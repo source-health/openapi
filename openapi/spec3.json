@@ -1354,9 +1354,8 @@
                       "properties": {
                         "user": {
                           "type": "string",
-                          "minLength": 1,
-                          "description": "Unique ID of the user to add to the care team. The user must have a care team role defined.",
-                          "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                          "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+                          "description": "Unique ID of the user to add to the care team. The user must have a care team role defined."
                         }
                       },
                       "required": [
@@ -1915,8 +1914,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "minLength": 1
+                "type": "string"
               },
               "description": "Filter results by event type. Repeat this parameter to filter by multiple event types,         e.g. `?type=member.created&type=member.updated`"
             },
@@ -2421,12 +2419,12 @@
                       },
                       "device": {
                         "type": "string",
-                        "minLength": 1,
+                        "example": "dev_79Dek9tjwNUZqMWU576Q",
                         "description": "Device to which this measurement belongs."
                       },
                       "member": {
                         "type": "string",
-                        "minLength": 1,
+                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
                         "description": "Member to which this measurement belongs."
                       },
                       "time": {
@@ -2451,12 +2449,10 @@
                           "properties": {
                             "value": {
                               "type": "string",
-                              "minLength": 1,
                               "description": "Value for the measurement."
                             },
                             "unit": {
                               "type": "string",
-                              "minLength": 1,
                               "description": "Unit that the measurement is reported in."
                             }
                           },
@@ -2493,12 +2489,12 @@
                       },
                       "device": {
                         "type": "string",
-                        "minLength": 1,
+                        "example": "dev_79Dek9tjwNUZqMWU576Q",
                         "description": "Device to which this measurement belongs."
                       },
                       "member": {
                         "type": "string",
-                        "minLength": 1,
+                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
                         "description": "Member to which this measurement belongs."
                       },
                       "time": {
@@ -2643,7 +2639,7 @@
             "name": "member",
             "schema": {
               "type": "string",
-              "minLength": 1,
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
               "description": "Filter measurements to only those belonging to the given member."
             },
             "required": false,
@@ -3678,7 +3674,7 @@
                 "properties": {
                   "member": {
                     "type": "string",
-                    "minLength": 1,
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
                     "description": "Member to which the order should be sent."
                   },
                   "items": {
@@ -3688,7 +3684,6 @@
                       "properties": {
                         "product": {
                           "type": "string",
-                          "minLength": 1,
                           "description": "Unique ID of the product.",
                           "example": "prod_1rqijtxD3sjkVVQPRRFC"
                         }
@@ -3823,7 +3818,7 @@
             "name": "member",
             "schema": {
               "type": "string",
-              "minLength": 1,
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
               "description": "Limit results to orders for the given member."
             },
             "required": false,
@@ -4888,7 +4883,6 @@
             "name": "assignee",
             "schema": {
               "type": "string",
-              "minLength": 1,
               "description": "Shows the queue for the provided user. By default when not provided the queue will include all tasks assigned to all users. When authenticated as a user you can specify the value 'current' to show the current users task queue. Providing `unassigned` will show a global queue of all tasks that are unassigned."
             },
             "required": false,
@@ -4962,7 +4956,7 @@
                   },
                   "subject": {
                     "type": "string",
-                    "minLength": 1,
+                    "nullable": true,
                     "description": "The thread subject."
                   },
                   "message": {
@@ -5258,7 +5252,6 @@
                   },
                   "subject": {
                     "type": "string",
-                    "minLength": 1,
                     "nullable": true,
                     "description": "New subject for the thread.",
                     "example": "Lower back pain."
@@ -6789,8 +6782,8 @@
           },
           "id": {
             "type": "string",
-            "description": "Unique ID of the device.",
-            "example": "dev_kTRoWd1awPhUoRwL78uH"
+            "example": "dev_79Dek9tjwNUZqMWU576Q",
+            "description": "Unique ID for the Device."
           },
           "member": {
             "oneOf": [
