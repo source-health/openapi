@@ -7673,6 +7673,12 @@
             "format": "date-time",
             "description": "Timestamp when the group was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the group was deleted, which is only present for deleted groups. Deleted groups are not typically returned by the API, however they are returned in `group.deleted` events and expanded references on other objects.",
+            "example": "2021-05-13T16:33:00.000Z"
           }
         },
         "required": [
@@ -8649,6 +8655,12 @@
             "type": "string",
             "format": "date-time",
             "description": "Timestamp when the queue was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the queue was deleted, which is only present for deleted queues. Deleted queues are not typically returned by the API, however they are returned in `queue.deleted` events and expanded references on other objects.",
             "example": "2021-05-13T16:33:00.000Z"
           }
         },
