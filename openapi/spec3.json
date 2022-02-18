@@ -210,6 +210,39 @@
                   "skip_constraints": {
                     "type": "boolean",
                     "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                  },
+                  "video_call": {
+                    "type": "object",
+                    "properties": {
+                      "provider": {
+                        "type": "string",
+                        "enum": [
+                          "custom",
+                          "source"
+                        ],
+                        "description": "The video call provider. Source automatically generates video call links for every appointment type that is configured to do so. Alternatively, you can use the value `custom` to provide your own video call link.  When providing `custom`, you must provide a join URL and can optionally include a token or passcode."
+                      },
+                      "token": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "A unique secure token that identifies the video call and allows a member or a user to join the call.  This token is also present in the join URL."
+                      },
+                      "join_url": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The URL to access the video call. Anyone with this link will be able to request to join this video call, so you should ensure it is kept safe."
+                      },
+                      "passcode": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Passcode used when joining the call. This value is not used for Source-generated video calls, but it may be used if using a custom video provider that requires a passcode."
+                      }
+                    },
+                    "required": [
+                      "provider"
+                    ],
+                    "nullable": true,
+                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
                   }
                 },
                 "required": [
@@ -566,6 +599,39 @@
                   "skip_constraints": {
                     "type": "boolean",
                     "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                  },
+                  "video_call": {
+                    "type": "object",
+                    "properties": {
+                      "provider": {
+                        "type": "string",
+                        "enum": [
+                          "custom",
+                          "source"
+                        ],
+                        "description": "The video call provider. Source automatically generates video call links for every appointment type that is configured to do so. Alternatively, you can use the value `custom` to provide your own video call link.  When providing `custom`, you must provide a join URL and can optionally include a token or passcode."
+                      },
+                      "token": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "A unique secure token that identifies the video call and allows a member or a user to join the call.  This token is also present in the join URL."
+                      },
+                      "join_url": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The URL to access the video call. Anyone with this link will be able to request to join this video call, so you should ensure it is kept safe."
+                      },
+                      "passcode": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "Passcode used when joining the call. This value is not used for Source-generated video calls, but it may be used if using a custom video provider that requires a passcode."
+                      }
+                    },
+                    "required": [
+                      "provider"
+                    ],
+                    "nullable": true,
+                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
                   }
                 }
               }
@@ -766,6 +832,11 @@
                     "minimum": 0,
                     "description": "Controls the minimum amount of advance notice in order to book appointments of this type. For example, if this parameter is set to 60, members will only be able to book appointments starting at least 60 minutes from now. This option is only considered when members are booking appointments directly. Users can book appointments at any time, including appointments in the past. Measured in minutes.",
                     "example": 60
+                  },
+                  "video_enabled": {
+                    "type": "boolean",
+                    "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
+                    "example": true
                   }
                 },
                 "required": [
@@ -976,7 +1047,7 @@
       },
       "post": {
         "summary": "Update an Appointment Type",
-        "description": "Updates an appointment type.\n\nAppointments are linked to appointment types in Source, so changes made to an appointment type will be visible on past appointments as well. However, some fields, such as the duration and location  of the appointment, are copied at the time the appointment is created. Changing the duration of an appointment type will not change the duration of past appointments.",
+        "description": "Updates an appointment type.\n\nAppointments are linked to appointment types in Source, so changes made to an appointment type will be visible on past appointments as well. However, some fields, such as the duration and location of the appointment, are copied at the time the appointment is created. Changing the duration of an appointment type will not change the duration of past appointments.",
         "tags": [
           "Appointment Type",
           "Preview"
@@ -1091,6 +1162,11 @@
                     "minimum": 0,
                     "description": "Controls the minimum amount of advance notice in order to book appointments of this type. For example, if this parameter is set to 60, members will only be able to book appointments starting at least 60 minutes from now. This option is only considered when members are booking appointments directly. Users can book appointments at any time, including appointments in the past. Measured in minutes.",
                     "example": 60
+                  },
+                  "video_enabled": {
+                    "type": "boolean",
+                    "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
+                    "example": true
                   }
                 }
               }
@@ -6665,6 +6741,40 @@
             },
             "description": "The participants in the appointment. At this time, only users may be participants in an appointment. However, we are evaluating future expansions to the API to allow other types of bookable resources."
           },
+          "video_call": {
+            "type": "object",
+            "properties": {
+              "provider": {
+                "type": "string",
+                "enum": [
+                  "custom",
+                  "source"
+                ],
+                "description": "The video call provider. Source automatically generates video call links for every appointment type that is configured to do so. Alternatively, you can use the value `custom` to provide your own video call link."
+              },
+              "token": {
+                "type": "string",
+                "description": "A unique secure token that identifies the video call and allows a member or a user to join the call. This token is also present in the join URL."
+              },
+              "join_url": {
+                "type": "string",
+                "description": "The URL to access the video call. Anyone with this link will be able to request to join this video call, so you should ensure it is kept safe."
+              },
+              "passcode": {
+                "type": "string",
+                "nullable": true,
+                "description": "Passcode used when joining the call. This value is not used for Source-generated video calls, but it may be used if using a custom video provider that requires a passcode."
+              }
+            },
+            "required": [
+              "provider",
+              "token",
+              "join_url",
+              "passcode"
+            ],
+            "nullable": true,
+            "description": "Information about the video call generated or provided for this appointment. By default, Source will generate a visit URL for all created appointments when the appointment type has `video_enabled = true`."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -6691,6 +6801,7 @@
           "end_at",
           "duration",
           "participants",
+          "video_call",
           "created_at",
           "updated_at"
         ],
@@ -6803,6 +6914,11 @@
             "format": "date-time",
             "description": "Timestamp when the appointment type was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
+          },
+          "video_enabled": {
+            "type": "boolean",
+            "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
+            "example": false
           }
         },
         "required": [
@@ -6821,7 +6937,8 @@
           "planning_horizon",
           "minimum_notice",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "video_enabled"
         ],
         "title": "Appointment Type",
         "description": "Appointment types describe the different types of appointments that members can book with you.\n\nEach appointment type has associated configuration that describes how events of that type should be booked, including when they're available to be booked, the standard duration and timing information, as well as with whom they can be booked. You can create and manage appointment types based on your specific booking needs.\n\nNote that appointment types include several fields which are copied to an appointment at the time of creation. These fields, such as the duration, pre buffer and post buffer, can be changed on the appointment type at any time, but will not be reflected on appointments of that type which have already been booked.",

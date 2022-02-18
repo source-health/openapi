@@ -220,6 +220,55 @@ paths:
 
                     Member tokens are unable to provide this parameter, and will receive a
                     permissions error if they attempt to.
+                video_call:
+                  type: object
+                  properties:
+                    provider:
+                      type: string
+                      enum:
+                        - custom
+                        - source
+                      description:
+                        The video call provider. Source automatically generates video call links for
+                        every appointment type that is configured to do so. Alternatively, you can
+                        use the value `custom` to provide your own video call link.  When providing
+                        `custom`, you must provide a join URL and can optionally include a token or
+                        passcode.
+                    token:
+                      type: string
+                      nullable: true
+                      description:
+                        A unique secure token that identifies the video call and allows a member or
+                        a user to join the call.  This token is also present in the join URL.
+                    join_url:
+                      type: string
+                      nullable: true
+                      description:
+                        The URL to access the video call. Anyone with this link will be able to
+                        request to join this video call, so you should ensure it is kept safe.
+                    passcode:
+                      type: string
+                      nullable: true
+                      description:
+                        Passcode used when joining the call. This value is not used for
+                        Source-generated video calls, but it may be used if using a custom video
+                        provider that requires a passcode.
+                  required:
+                    - provider
+                  nullable: true
+                  description: >-
+                    Set the details of a video call, if this appointment will be a video visit. By
+                    default any appointment for an appointment type with `video_enabled: true` will
+                    have a Source video call created when the appointment is created.
+
+
+                    Members may not override the video call settings of an appointment, but users
+                    and API keys are able to set `provider: 'source'` to create a Source-managed
+                    call, or provide the details of a third-party video call.
+
+
+                    It is not possible to modify the video call provider of an appointment, once
+                    set.
               required:
                 - appointment_type
                 - time_zone
@@ -583,6 +632,55 @@ paths:
 
                     Member tokens are unable to provide this parameter, and will receive a
                     permissions error if they attempt to.
+                video_call:
+                  type: object
+                  properties:
+                    provider:
+                      type: string
+                      enum:
+                        - custom
+                        - source
+                      description:
+                        The video call provider. Source automatically generates video call links for
+                        every appointment type that is configured to do so. Alternatively, you can
+                        use the value `custom` to provide your own video call link.  When providing
+                        `custom`, you must provide a join URL and can optionally include a token or
+                        passcode.
+                    token:
+                      type: string
+                      nullable: true
+                      description:
+                        A unique secure token that identifies the video call and allows a member or
+                        a user to join the call.  This token is also present in the join URL.
+                    join_url:
+                      type: string
+                      nullable: true
+                      description:
+                        The URL to access the video call. Anyone with this link will be able to
+                        request to join this video call, so you should ensure it is kept safe.
+                    passcode:
+                      type: string
+                      nullable: true
+                      description:
+                        Passcode used when joining the call. This value is not used for
+                        Source-generated video calls, but it may be used if using a custom video
+                        provider that requires a passcode.
+                  required:
+                    - provider
+                  nullable: true
+                  description: >-
+                    Set the details of a video call, if this appointment will be a video visit. By
+                    default any appointment for an appointment type with `video_enabled: true` will
+                    have a Source video call created when the appointment is created.
+
+
+                    Members may not override the video call settings of an appointment, but users
+                    and API keys are able to set `provider: 'source'` to create a Source-managed
+                    call, or provide the details of a third-party video call.
+
+
+                    It is not possible to modify the video call provider of an appointment, once
+                    set.
       responses:
         default:
           description: Successful response.
@@ -796,6 +894,12 @@ paths:
                     appointments at any time, including appointments in the past. Measured in
                     minutes.
                   example: 60
+                video_enabled:
+                  type: boolean
+                  description:
+                    Whether or not to create a video call for appointments of this type. Defaults to
+                    false.
+                  example: true
               required:
                 - key
                 - name
@@ -979,8 +1083,8 @@ paths:
 
         Appointments are linked to appointment types in Source, so changes made to an appointment
         type will be visible on past appointments as well. However, some fields, such as the
-        duration and location  of the appointment, are copied at the time the appointment is
-        created. Changing the duration of an appointment type will not change the duration of past
+        duration and location of the appointment, are copied at the time the appointment is created.
+        Changing the duration of an appointment type will not change the duration of past
         appointments.
       tags:
         - Appointment Type
@@ -1125,6 +1229,12 @@ paths:
                     appointments at any time, including appointments in the past. Measured in
                     minutes.
                   example: 60
+                video_enabled:
+                  type: boolean
+                  description:
+                    Whether or not to create a video call for appointments of this type. Defaults to
+                    false.
+                  example: true
       responses:
         default:
           description: Successful response.
@@ -6238,6 +6348,45 @@ components:
             The participants in the appointment. At this time, only users may be participants in an
             appointment. However, we are evaluating future expansions to the API to allow other
             types of bookable resources.
+        video_call:
+          type: object
+          properties:
+            provider:
+              type: string
+              enum:
+                - custom
+                - source
+              description:
+                The video call provider. Source automatically generates video call links for every
+                appointment type that is configured to do so. Alternatively, you can use the value
+                `custom` to provide your own video call link.
+            token:
+              type: string
+              description:
+                A unique secure token that identifies the video call and allows a member or a user
+                to join the call. This token is also present in the join URL.
+            join_url:
+              type: string
+              description:
+                The URL to access the video call. Anyone with this link will be able to request to
+                join this video call, so you should ensure it is kept safe.
+            passcode:
+              type: string
+              nullable: true
+              description:
+                Passcode used when joining the call. This value is not used for Source-generated
+                video calls, but it may be used if using a custom video provider that requires a
+                passcode.
+          required:
+            - provider
+            - token
+            - join_url
+            - passcode
+          nullable: true
+          description:
+            Information about the video call generated or provided for this appointment. By default,
+            Source will generate a visit URL for all created appointments when the appointment type
+            has `video_enabled = true`.
         created_at:
           type: string
           format: date-time
@@ -6261,6 +6410,7 @@ components:
         - end_at
         - duration
         - participants
+        - video_call
         - created_at
         - updated_at
       title: Appointment
@@ -6408,6 +6558,11 @@ components:
           format: date-time
           description: Timestamp when the appointment type was last updated.
           example: 2021-05-13T16:33:00.000Z
+        video_enabled:
+          type: boolean
+          description:
+            Whether or not to create a video call for appointments of this type. Defaults to false.
+          example: false
       required:
         - object
         - id
@@ -6425,6 +6580,7 @@ components:
         - minimum_notice
         - created_at
         - updated_at
+        - video_enabled
       title: Appointment Type
       description: >-
         Appointment types describe the different types of appointments that members can book with
