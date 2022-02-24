@@ -2365,6 +2365,8 @@ paths:
                     type:
                       type: string
                       enum:
+                        - blood_glucose
+                        - blood_oxygen_saturation
                         - blood_pressure
                         - body_weight
                         - diastolic_blood_pressure
@@ -2418,6 +2420,8 @@ paths:
                     type:
                       type: string
                       enum:
+                        - blood_glucose
+                        - blood_oxygen_saturation
                         - blood_pressure
                         - body_weight
                         - diastolic_blood_pressure
@@ -2575,6 +2579,8 @@ paths:
             items:
               type: string
               enum:
+                - blood_glucose
+                - blood_oxygen_saturation
                 - blood_pressure
                 - body_weight
                 - diastolic_blood_pressure
@@ -6940,6 +6946,8 @@ components:
           items:
             type: string
             enum:
+              - blood_glucose
+              - blood_oxygen_saturation
               - blood_pressure
               - body_weight
               - diastolic_blood_pressure
@@ -7028,6 +7036,8 @@ components:
           items:
             type: string
             enum:
+              - blood_glucose
+              - blood_oxygen_saturation
               - blood_pressure
               - body_weight
               - diastolic_blood_pressure
@@ -7359,6 +7369,8 @@ components:
         type:
           type: string
           enum:
+            - blood_glucose
+            - blood_oxygen_saturation
             - blood_pressure
             - body_weight
             - diastolic_blood_pressure

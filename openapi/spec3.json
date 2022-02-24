@@ -2485,6 +2485,8 @@
                       "type": {
                         "type": "string",
                         "enum": [
+                          "blood_glucose",
+                          "blood_oxygen_saturation",
                           "blood_pressure",
                           "body_weight",
                           "diastolic_blood_pressure",
@@ -2555,6 +2557,8 @@
                       "type": {
                         "type": "string",
                         "enum": [
+                          "blood_glucose",
+                          "blood_oxygen_saturation",
                           "blood_pressure",
                           "body_weight",
                           "diastolic_blood_pressure",
@@ -2731,6 +2735,8 @@
               "items": {
                 "type": "string",
                 "enum": [
+                  "blood_glucose",
+                  "blood_oxygen_saturation",
                   "blood_pressure",
                   "body_weight",
                   "diastolic_blood_pressure",
@@ -7301,6 +7307,8 @@
             "items": {
               "type": "string",
               "enum": [
+                "blood_glucose",
+                "blood_oxygen_saturation",
                 "blood_pressure",
                 "body_weight",
                 "diastolic_blood_pressure",
@@ -7400,6 +7408,8 @@
             "items": {
               "type": "string",
               "enum": [
+                "blood_glucose",
+                "blood_oxygen_saturation",
                 "blood_pressure",
                 "body_weight",
                 "diastolic_blood_pressure",
@@ -7762,6 +7772,8 @@
           "type": {
             "type": "string",
             "enum": [
+              "blood_glucose",
+              "blood_oxygen_saturation",
               "blood_pressure",
               "body_weight",
               "diastolic_blood_pressure",
