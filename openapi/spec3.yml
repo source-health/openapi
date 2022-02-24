@@ -4415,8 +4415,7 @@ paths:
                   format: date-time
                   description:
                     The time by which this task should be completed. If no due_at date is supplied,
-                    the due_at date will automatically be 24 hours after the task was created. The
-                    due_at date must be in the future.'
+                    the due_at date will automatically be 24 hours after the task was created.'
                   example: 2021-05-13T16:33:00.000Z
                 related:
                   type: array
@@ -4742,8 +4741,7 @@ paths:
                   format: date-time
                   description:
                     The time by which this task should be completed. If no due_at date is supplied,
-                    the due_at date will automatically be 24 hours after the task was created. The
-                    due_at date must be in the future.'
+                    the due_at date will automatically be 24 hours after the task was created.'
                   example: 2021-05-13T16:33:00.000Z
                 related:
                   type: array
