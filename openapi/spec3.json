@@ -3106,6 +3106,11 @@
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
                   },
+                  "time_zone": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The IANA time zone identifier of the member. Source uses this time zone when booking appointments on behalf of a member, and will use the time zone information when formatting email notifications to members."
+                  },
                   "email": {
                     "type": "string",
                     "nullable": true,
@@ -3504,6 +3509,11 @@
                     "nullable": true,
                     "description": "Preferred name of the member. This could be a shortened or alternate name that the member typically prefers to be called.",
                     "example": "Cathy"
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The IANA time zone identifier of the member. Source uses this time zone when booking appointments on behalf of a member, and will use the time zone information when formatting email notifications to members."
                   },
                   "email": {
                     "type": "string",
@@ -7891,6 +7901,12 @@
             "description": "Date of birth of the member.",
             "example": "1990-10-10"
           },
+          "time_zone": {
+            "type": "string",
+            "nullable": true,
+            "description": "The IANA time zone identifier of the member, if one is known. If no time zone is known, null is returned.",
+            "example": "America/New_York"
+          },
           "biological_sex": {
             "type": "string",
             "enum": [
@@ -8114,6 +8130,7 @@
           "preferred_name",
           "email",
           "date_of_birth",
+          "time_zone",
           "biological_sex",
           "sex_at_birth",
           "administrative_gender",
