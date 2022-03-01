@@ -4421,6 +4421,15 @@ paths:
                   description:
                     The user to which this task is assigned. If set to null, the task will be
                     unassigned.
+                queue:
+                  type: string
+                  example: que_6NGuKD4KdMCGXLP6uBda
+                  nullable: true
+                  description:
+                    The ID of the queue to which a task is assigned. When creating a task, if no
+                    queue is specified for the task, the task will use the queue of the task
+                    definition. If no queue exists on the task definition, the task will not be
+                    placed in a queue.
                 summary:
                   type: string
                   minLength: 1
@@ -4622,6 +4631,22 @@ paths:
         - in: query
           style: form
           explode: true
+          name: queue
+          schema:
+            type: array
+            items:
+              type: string
+              example: que_6NGuKD4KdMCGXLP6uBda
+            description:
+              Filter results by queue. If multiple queues are provided, task related to any of those
+              queues will be returned.
+          required: false
+          description:
+            Filter results by queue. If multiple queues are provided, task related to any of those
+            queues will be returned.
+        - in: query
+          style: form
+          explode: true
           name: due_at
           schema:
             type: object
@@ -4747,6 +4772,15 @@ paths:
                   description:
                     The user to which this task is assigned. If set to null, the task will be
                     unassigned.
+                queue:
+                  type: string
+                  example: que_6NGuKD4KdMCGXLP6uBda
+                  nullable: true
+                  description:
+                    The ID of the queue to which a task is assigned. When creating a task, if no
+                    queue is specified for the task, the task will use the queue of the task
+                    definition. If no queue exists on the task definition, the task will not be
+                    placed in a queue.
                 summary:
                   type: string
                   minLength: 1
@@ -4848,6 +4882,16 @@ paths:
                   minLength: 1
                   description: Human readable name of the task definition
                   example: Medication Request
+                queue:
+                  type: string
+                  example: que_6NGuKD4KdMCGXLP6uBda
+                  nullable: true
+                  description:
+                    The ID of the queue to which tasks should be assigned. If no queue is set on the
+                    task definition, Source will default to routing based on the care_team_role
+                    associated with the task definition. Note that Source is deprecating routing by
+                    care team roles in favor of queues, which represent a much more flexible way to
+                    route tasks to your team.
                 care_team_role:
                   type: string
                   example: ctr_Xrjh23QoCKx0PxrIOoou
@@ -4945,6 +4989,22 @@ paths:
           description:
             Sort field for the results. A '-' prefix indicates sorting by that field in descending
             order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
+          name: queue
+          schema:
+            type: array
+            items:
+              type: string
+              example: que_6NGuKD4KdMCGXLP6uBda
+            description:
+              Filter results by queue. If multiple queues are provided, task definitions related to
+              any of those queues will be returned.
+          required: false
+          description:
+            Filter results by queue. If multiple queues are provided, task definitions related to
+            any of those queues will be returned.
       responses:
         default:
           description: Successful response.
@@ -5013,6 +5073,16 @@ paths:
                   minLength: 1
                   description: Human readable name of the task definition
                   example: Medication Request
+                queue:
+                  type: string
+                  example: que_6NGuKD4KdMCGXLP6uBda
+                  nullable: true
+                  description:
+                    The ID of the queue to which tasks should be assigned. If no queue is set on the
+                    task definition, Source will default to routing based on the care_team_role
+                    associated with the task definition. Note that Source is deprecating routing by
+                    care team roles in favor of queues, which represent a much more flexible way to
+                    route tasks to your team.
                 care_team_role:
                   type: string
                   example: ctr_Xrjh23QoCKx0PxrIOoou
@@ -8328,6 +8398,18 @@ components:
             The user to which this task is assigned. If set to null, the task is unassigned.
           example: usr_NC6MQ3FyxddKoJJpfSVL
           nullable: true
+        queue:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/queue"
+          x-expandable:
+            $ref: "#/components/schemas/queue"
+          description:
+            The queue to which a task is assigned. When creating a task, if no queue is specified
+            for the task, the task will use the queue of the task definition. If no queue exists on
+            the task definition, the task will not be placed in a queue.
+          example: que_6NGuKD4KdMCGXLP6uBda
+          nullable: true
         summary:
           type: string
           description:
@@ -8407,6 +8489,7 @@ components:
         - definition
         - member
         - assignee
+        - queue
         - summary
         - description
         - status
@@ -8455,6 +8538,19 @@ components:
           type: string
           description: Human readable name of the task definition.
           example: Follow Up
+        queue:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/queue"
+          x-expandable:
+            $ref: "#/components/schemas/queue"
+          description:
+            The queue to which tasks should be assigned. If no queue is set on the task definition,
+            Source will default to routing based on the care_team_role associated with the task
+            definition. Note that Source is deprecating routing by care team roles in favor of
+            queues, which represent a much more flexible way to route tasks to your team.
+          example: que_6NGuKD4KdMCGXLP6uBda
+          nullable: true
         care_team_role:
           oneOf:
             - type: string
@@ -8464,7 +8560,7 @@ components:
           description:
             The default care team role that tasks should be assigned to. If no role is set on the
             task definition, any tasks created without explicit assignment will remain unassigned.
-          example: ctr_Xrjh23QoCKx0PxrIOoou
+          example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
         created_at:
           type: string
@@ -8481,6 +8577,7 @@ components:
         - id
         - key
         - name
+        - queue
         - care_team_role
         - created_at
         - updated_at
