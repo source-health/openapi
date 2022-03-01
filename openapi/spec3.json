@@ -4338,6 +4338,19 @@
             },
             "required": true,
             "description": "Unique ID of the queue."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "replacement_queue",
+            "schema": {
+              "type": "string",
+              "example": "que_6NGuKD4KdMCGXLP6uBda",
+              "description": "The ID of the queue to use as a replacement for task definitions and tasks that reference the deleted  queue. If not specified, Source removes the reference to the deleted queue."
+            },
+            "required": false,
+            "description": "The ID of the queue to use as a replacement for task definitions and tasks that reference the deleted  queue. If not specified, Source removes the reference to the deleted queue."
           }
         ],
         "responses": {
@@ -8645,7 +8658,8 @@
               "care_team_preferred",
               "round_robin"
             ],
-            "description": "Defines how a new task should be routed to the possible users defined in `routing_targets`. Because of the complexity in routing, it's best explained by example. Assume you have created a task that must be completed by a user in the Physicians group, which you have specified in the queue's `routing_targets. The behavior of each routing strategy is as follows:\n\n* care_team_required - The task will be assigned only to a user who is in the Physicians group and who is on the member's care team. If there are no Physicians on the member's care team, the task will remain unassigned. If there are multiple Physicians on the member's care team, the first physician on the care team will be assigned the task.\n\n* care_team_preferred - The task will be assigned to a user who is in the Physicians group and is on the member's care team, if there are any. If there are no Physicians on the member's care team, the task will be assigned to another user in the Physicians group.\n\n* round_robin - The task will be assigned to a user in the Physicians group, and no preference will be given to users who are also on the member's care team.\n\nIf more than one group is listed in the queue's `routing_targets`, each group will be evaluated in order until a user assignment is found. If no user is found in any group, the task will remain unassigned. \n\nBy default, Source uses the `care_team_required` strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right task assignment strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method."
+            "description": "Defines how a new task should be routed to the possible users defined in `routing_targets`. Because of the complexity in routing, it's best explained by example. Assume you have created a task that must be completed by a user in the Physicians group, which you have specified in the queue's `routing_targets. The behavior of each routing strategy is as follows:\n\n* care_team_required - The task will be assigned only to a user who is in the Physicians group and who is on the member's care team. If there are no Physicians on the member's care team, the task will remain unassigned. If there are multiple Physicians on the member's care team, the first physician on the care team will be assigned the task.\n\n* care_team_preferred - The task will be assigned to a user who is in the Physicians group and is on the member's care team, if there are any. If there are no Physicians on the member's care team, the task will be assigned to another user in the Physicians group.\n\n* round_robin - The task will be assigned to a user in the Physicians group, and no preference will be given to users who are also on the member's care team.\n\nIf more than one group is listed in the queue's `routing_targets`, each group will be evaluated in order until a user assignment is found. If no user is found in any group, the task will remain unassigned. \n\nBy default, Source uses the `care_team_required` strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right task assignment strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.",
+            "example": "care_team_required"
           },
           "routing_targets": {
             "type": "array",
@@ -8674,6 +8688,21 @@
             },
             "description": "The groups associated with the queue. The queue's groups define the users on care teams who will receive automatically routed tasks."
           },
+          "replacement_queue": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/queue"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/queue"
+            },
+            "description": "The ID of the queue to use as a replacement for task definitions and tasks that reference the deleted  queue. If not specified, Source removes the reference to the deleted queue.",
+            "example": "que_6NGuKD4KdMCGXLP6uBda"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -8700,6 +8729,7 @@
           "description",
           "routing_strategy",
           "routing_targets",
+          "replacement_queue",
           "created_at",
           "updated_at"
         ],

@@ -4033,6 +4033,22 @@ paths:
             description: Unique ID of the queue.
           required: true
           description: Unique ID of the queue.
+        - in: query
+          style: form
+          explode: true
+          name: replacement_queue
+          schema:
+            type: string
+            example: que_6NGuKD4KdMCGXLP6uBda
+            description:
+              The ID of the queue to use as a replacement for task definitions and tasks that
+              reference the deleted  queue. If not specified, Source removes the reference to the
+              deleted queue.
+          required: false
+          description:
+            The ID of the queue to use as a replacement for task definitions and tasks that
+            reference the deleted  queue. If not specified, Source removes the reference to the
+            deleted queue.
       responses:
         default:
           description: Successful response.
@@ -8135,6 +8151,7 @@ components:
             and ensure patients have a consistent experience. However, this is not always the right
             task assignment strategy for all practices. In fact, even for a single practice, you may
             sometimes need to reach for another routing method.
+          example: care_team_required
         routing_targets:
           type: array
           items:
@@ -8153,6 +8170,17 @@ components:
           description:
             The groups associated with the queue. The queue's groups define the users on care teams
             who will receive automatically routed tasks.
+        replacement_queue:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/queue"
+          x-expandable:
+            $ref: "#/components/schemas/queue"
+          description:
+            The ID of the queue to use as a replacement for task definitions and tasks that
+            reference the deleted  queue. If not specified, Source removes the reference to the
+            deleted queue.
+          example: que_6NGuKD4KdMCGXLP6uBda
         created_at:
           type: string
           format: date-time
@@ -8178,6 +8206,7 @@ components:
         - description
         - routing_strategy
         - routing_targets
+        - replacement_queue
         - created_at
         - updated_at
       title: Queue
