@@ -7723,7 +7723,7 @@
           "updated_at"
         ],
         "title": "Group",
-        "description": "Groups can help you organize your team by describing qualities that group members have. For example, you might create groups for Physicians, Nurses, and Care Navigators. You can then leverage these groups when routing tasks or viewing schedule availability.\n\nSource creates a few default groups for each new account, and you can add, modify, or delete them to your needs.",
+        "description": "Groups can help you organize your team by describing qualities that group members have. For example, you might create groups for Physicians, Nurses, and Care Navigators. You can then leverage these groups when routing tasks or viewing schedule availability.",
         "x-resourceId": "group",
         "x-package": null
       },
@@ -8734,7 +8734,7 @@
           "updated_at"
         ],
         "title": "Queue",
-        "description": "Queues describe related tasks that are typically completed by a group of users. You can use queues alongside groups to configure how tasks are routed among a member's care team. Queues also are useful Task List filters that users can use to identify tasks easily.\n\nAll open tasks require a queue, and at least one queue must always exist. Source creates a default queue for each new account, and you can add, modify, or delete queues to your needs.",
+        "description": "Queues describe tasks that are related by the fact that they are typically completed by a group of users. You can use queues alongside groups to configure how tasks are routed automatically to an assignee within and beyond a member's care team.",
         "x-resourceId": "queue",
         "x-package": null,
         "x-preview": true
