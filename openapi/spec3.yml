@@ -234,18 +234,16 @@ paths:
                         use the value `custom` to provide your own video call link.  When providing
                         `custom`, you must provide a join URL and can optionally include a token or
                         passcode.
-                    token:
-                      type: string
-                      nullable: true
-                      description:
-                        A unique secure token that identifies the video call and allows a member or
-                        a user to join the call.  This token is also present in the join URL.
+                      example: custom
                     join_url:
                       type: string
                       nullable: true
                       description:
                         The URL to access the video call. Anyone with this link will be able to
-                        request to join this video call, so you should ensure it is kept safe.
+                        request to join this video call, so you should ensure it is kept safe. Only
+                        for 'custom' video calls - for 'source' video calls, we generate the join
+                        URL.
+                      example: https://video-provider.example.com/?join=eeh4Eec1ahBoquohshe1fooh
                     passcode:
                       type: string
                       nullable: true
@@ -253,6 +251,7 @@ paths:
                         Passcode used when joining the call. This value is not used for
                         Source-generated video calls, but it may be used if using a custom video
                         provider that requires a passcode.
+                      example: letmein
                   required:
                     - provider
                   nullable: true
@@ -646,18 +645,16 @@ paths:
                         use the value `custom` to provide your own video call link.  When providing
                         `custom`, you must provide a join URL and can optionally include a token or
                         passcode.
-                    token:
-                      type: string
-                      nullable: true
-                      description:
-                        A unique secure token that identifies the video call and allows a member or
-                        a user to join the call.  This token is also present in the join URL.
+                      example: custom
                     join_url:
                       type: string
                       nullable: true
                       description:
                         The URL to access the video call. Anyone with this link will be able to
-                        request to join this video call, so you should ensure it is kept safe.
+                        request to join this video call, so you should ensure it is kept safe. Only
+                        for 'custom' video calls - for 'source' video calls, we generate the join
+                        URL.
+                      example: https://video-provider.example.com/?join=eeh4Eec1ahBoquohshe1fooh
                     passcode:
                       type: string
                       nullable: true
@@ -665,6 +662,7 @@ paths:
                         Passcode used when joining the call. This value is not used for
                         Source-generated video calls, but it may be used if using a custom video
                         provider that requires a passcode.
+                      example: letmein
                   required:
                     - provider
                   nullable: true
@@ -6464,16 +6462,21 @@ components:
                 The video call provider. Source automatically generates video call links for every
                 appointment type that is configured to do so. Alternatively, you can use the value
                 `custom` to provide your own video call link.
+              example: source
             token:
               type: string
+              nullable: true
               description:
                 A unique secure token that identifies the video call and allows a member or a user
-                to join the call. This token is also present in the join URL.
+                to join the call. This token is only used for 'source' video calls, and is also
+                present in the join URL.
+              example: adu9AhNoo3eiZu5veizei3fu
             join_url:
               type: string
               description:
                 The URL to access the video call. Anyone with this link will be able to request to
                 join this video call, so you should ensure it is kept safe.
+              example: https://mycompany.connect.sourcehealth.com/video-calls/adu9AhNoo3eiZu5veizei3fu
             passcode:
               type: string
               nullable: true
@@ -6481,6 +6484,7 @@ components:
                 Passcode used when joining the call. This value is not used for Source-generated
                 video calls, but it may be used if using a custom video provider that requires a
                 passcode.
+              example: null
           required:
             - provider
             - token
