@@ -8342,6 +8342,16 @@
                   ],
                   "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
                 },
+                "description": {
+                  "type": "string",
+                  "nullable": true,
+                  "description": "\n      A description of the attachment. If a file uploaded to Source is attached, the file's name is displayed.\n    "
+                },
+                "url": {
+                  "type": "string",
+                  "description": "\n      The URL where the attachment's contents can be accessed. For link attachments, the link to redirect. For file attachments,\n      the URL returned by Source is a link to the file.\n    ",
+                  "example": "https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf"
+                },
                 "resource": {
                   "oneOf": [
                     {
@@ -8360,6 +8370,8 @@
               },
               "required": [
                 "type",
+                "description",
+                "url",
                 "resource"
               ]
             },
@@ -9286,6 +9298,16 @@
                       ],
                       "description": "The type of attachment. Currently, the only supported attachment type is `file`, but other attachment types may be added."
                     },
+                    "description": {
+                      "type": "string",
+                      "nullable": true,
+                      "description": "\n      A description of the attachment. If a file uploaded to Source is attached, the file's name is displayed.\n    "
+                    },
+                    "url": {
+                      "type": "string",
+                      "description": "\n      The URL where the attachment's contents can be accessed. For link attachments, the link to redirect. For file attachments,\n      the URL returned by Source is a link to the file.\n    ",
+                      "example": "https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf"
+                    },
                     "resource": {
                       "oneOf": [
                         {
@@ -9304,6 +9326,8 @@
                   },
                   "required": [
                     "type",
+                    "description",
+                    "url",
                     "resource"
                   ]
                 },

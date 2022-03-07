@@ -7930,6 +7930,26 @@ components:
                 description:
                   The type of attachment. Currently, the only supported attachment type is `file`,
                   but other attachment types may be added.
+              description:
+                type: string
+                nullable: true
+                description: "
+
+                  \      A description of the attachment. If a file uploaded to Source is attached,
+                  the file's name is displayed.
+
+                  \    "
+              url:
+                type: string
+                description: "
+
+                  \      The URL where the attachment's contents can be accessed. For link
+                  attachments, the link to redirect. For file attachments,
+
+                  \      the URL returned by Source is a link to the file.
+
+                  \    "
+                example: https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf
               resource:
                 oneOf:
                   - type: string
@@ -7940,6 +7960,8 @@ components:
                 example: file_gdIyXM9d4LKGnewOV4OM
             required:
               - type
+              - description
+              - url
               - resource
           description: Any attachments to the message, such as files.
         impersonated_by:
@@ -8741,6 +8763,26 @@ components:
                     description:
                       The type of attachment. Currently, the only supported attachment type is
                       `file`, but other attachment types may be added.
+                  description:
+                    type: string
+                    nullable: true
+                    description: "
+
+                      \      A description of the attachment. If a file uploaded to Source is
+                      attached, the file's name is displayed.
+
+                      \    "
+                  url:
+                    type: string
+                    description: "
+
+                      \      The URL where the attachment's contents can be accessed. For link
+                      attachments, the link to redirect. For file attachments,
+
+                      \      the URL returned by Source is a link to the file.
+
+                      \    "
+                    example: https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf
                   resource:
                     oneOf:
                       - type: string
@@ -8751,6 +8793,8 @@ components:
                     example: file_gdIyXM9d4LKGnewOV4OM
                 required:
                   - type
+                  - description
+                  - url
                   - resource
               description: Any attachments to the message, such as files.
             sender:
