@@ -4501,10 +4501,39 @@
                 "care_team_hybrid",
                 "round_robin"
               ],
-              "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team."
+              "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team.",
+              "example": "care_team_preferred"
             },
             "required": false,
             "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "rescheduling_appointment",
+            "schema": {
+              "type": "string",
+              "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+              "description": "Identifier of the appointment that is being rescheduled. When provided, Source makes a few changes to availability calculation:\n\n- Source assumes the duration of the appointment should remain the same, and thus will look for slots matching the appointment's current   duration, rather than the appointment type's duration (which is the default behavior). - Source will ignore the appointment when looking for conflicts, allowing you to rebook the same slot or a slot which overlaps with the   appointment's current time window.\n\nYou should only provide rescheduling_appointment when you intend to update an existing appointment, rather than to book a new appointment."
+            },
+            "required": false,
+            "description": "Identifier of the appointment that is being rescheduled. When provided, Source makes a few changes to availability calculation:\n\n- Source assumes the duration of the appointment should remain the same, and thus will look for slots matching the appointment's current   duration, rather than the appointment type's duration (which is the default behavior). - Source will ignore the appointment when looking for conflicts, allowing you to rebook the same slot or a slot which overlaps with the   appointment's current time window.\n\nYou should only provide rescheduling_appointment when you intend to update an existing appointment, rather than to book a new appointment."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "duration",
+            "schema": {
+              "type": "number",
+              "minimum": 5,
+              "maximum": 360,
+              "description": "The duration of the appointment to book, in minutes. By default, Source will use either the appointment type's duration or, if provided, the rescheduling appointment's duration. However, you may specify an alternative duration here to calculate slots for an appointment of a different length.\n\nMust be a number between 5 and 360 minutes (6 hours).",
+              "example": 30
+            },
+            "required": false,
+            "description": "The duration of the appointment to book, in minutes. By default, Source will use either the appointment type's duration or, if provided, the rescheduling appointment's duration. However, you may specify an alternative duration here to calculate slots for an appointment of a different length.\n\nMust be a number between 5 and 360 minutes (6 hours)."
           }
         ],
         "responses": {
