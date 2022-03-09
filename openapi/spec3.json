@@ -2881,6 +2881,15 @@
                         "resource": {
                           "type": "string",
                           "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "additionalProperties": {},
+                          "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for  bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
+                          "example": {
+                            "patient_id": 456789,
+                            "visit_id": "123"
+                          }
                         }
                       },
                       "required": [
@@ -5541,6 +5550,15 @@
                             "resource": {
                               "type": "string",
                               "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
+                            },
+                            "metadata": {
+                              "type": "object",
+                              "additionalProperties": {},
+                              "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for  bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
+                              "example": {
+                                "patient_id": 456789,
+                                "visit_id": "123"
+                              }
                             }
                           },
                           "required": [
@@ -8366,13 +8384,23 @@
                   },
                   "description": "The resource which is attached to the message",
                   "example": "file_gdIyXM9d4LKGnewOV4OM"
+                },
+                "metadata": {
+                  "type": "object",
+                  "additionalProperties": {},
+                  "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
+                  "example": {
+                    "patient_id": 456789,
+                    "visit_id": "123"
+                  }
                 }
               },
               "required": [
                 "type",
                 "description",
                 "url",
-                "resource"
+                "resource",
+                "metadata"
               ]
             },
             "description": "Any attachments to the message, such as files."
@@ -9322,13 +9350,23 @@
                       },
                       "description": "The resource which is attached to the message",
                       "example": "file_gdIyXM9d4LKGnewOV4OM"
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "additionalProperties": {},
+                      "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
+                      "example": {
+                        "patient_id": 456789,
+                        "visit_id": "123"
+                      }
                     }
                   },
                   "required": [
                     "type",
                     "description",
                     "url",
-                    "resource"
+                    "resource",
+                    "metadata"
                   ]
                 },
                 "description": "Any attachments to the message, such as files."
