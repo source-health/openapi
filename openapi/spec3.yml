@@ -2691,11 +2691,32 @@ paths:
                         type: string
                         enum:
                           - file
+                          - link
+                        description:
+                          The type of attachment. Currently, the supported attachment types are
+                          `file` and `link`. If set to file, then a resource must be provided. If
+                          set to link, then a URL must be provided. Other attachment types may be
+                          added in the future.
+                      description:
+                        type: string
+                        maxLength: 4096
+                        nullable: true
+                        description:
+                          A description of the attachment to display. If a file uploaded to Source
+                          is attached, the file's name overrides a description and is displayed.
+                          Otherwise, this description is displayed.
+                        example: null
                       resource:
                         type: string
                         description:
                           Unique ID of the resource to be attached to this message. When attaching a
                           file, this should be set to the uploaded file's ID.
+                      url:
+                        type: string
+                        description:
+                          The URL where the attachment's contents can be accessed. For link
+                          attachments, the link to redirect. For file attachments, the URL returned
+                          by Source is a link to the file.
                       metadata:
                         type: object
                         additionalProperties: {}
@@ -2712,7 +2733,6 @@ paths:
                           visit_id: "123"
                     required:
                       - type
-                      - resource
                 sender:
                   type: string
                   example: usr_NC6MQ3FyxddKoJJpfSVL
@@ -5364,11 +5384,32 @@ paths:
                             type: string
                             enum:
                               - file
+                              - link
+                            description:
+                              The type of attachment. Currently, the supported attachment types are
+                              `file` and `link`. If set to file, then a resource must be provided.
+                              If set to link, then a URL must be provided. Other attachment types
+                              may be added in the future.
+                          description:
+                            type: string
+                            maxLength: 4096
+                            nullable: true
+                            description:
+                              A description of the attachment to display. If a file uploaded to
+                              Source is attached, the file's name overrides a description and is
+                              displayed. Otherwise, this description is displayed.
+                            example: null
                           resource:
                             type: string
                             description:
                               Unique ID of the resource to be attached to this message. When
                               attaching a file, this should be set to the uploaded file's ID.
+                          url:
+                            type: string
+                            description:
+                              The URL where the attachment's contents can be accessed. For link
+                              attachments, the link to redirect. For file attachments, the URL
+                              returned by Source is a link to the file.
                           metadata:
                             type: object
                             additionalProperties: {}
@@ -5385,7 +5426,6 @@ paths:
                               visit_id: "123"
                         required:
                           - type
-                          - resource
                     sender:
                       type: string
                       example: usr_NC6MQ3FyxddKoJJpfSVL
@@ -7955,28 +7995,24 @@ components:
                 type: string
                 enum:
                   - file
+                  - link
                 description:
-                  The type of attachment. Currently, the only supported attachment type is `file`,
-                  but other attachment types may be added.
+                  The type of attachment. Currently, the only supported attachment types are `file`
+                  and `link`, but other attachment types may be added.
+                example: file
               description:
                 type: string
                 nullable: true
-                description: "
-
-                  \      A description of the attachment. If a file uploaded to Source is attached,
-                  the file's name is displayed.
-
-                  \    "
+                description:
+                  A description of the attachment. If a file uploaded to Source is attached, the
+                  file's name is displayed. Otherwise, this description is displayed.
+                example: 3T0x2MAZmnIngkcFO3O6.pdf
               url:
                 type: string
-                description: "
-
-                  \      The URL where the attachment's contents can be accessed. For link
-                  attachments, the link to redirect. For file attachments,
-
-                  \      the URL returned by Source is a link to the file.
-
-                  \    "
+                description:
+                  The URL where the attachment's contents can be accessed. For link attachments, the
+                  link to redirect. For file attachments, the URL returned by Source is a link to
+                  the file.
                 example: https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf
               resource:
                 oneOf:
@@ -7986,6 +8022,7 @@ components:
                   $ref: "#/components/schemas/file"
                 description: The resource which is attached to the message
                 example: file_gdIyXM9d4LKGnewOV4OM
+                nullable: true
               metadata:
                 type: object
                 additionalProperties: {}
@@ -8005,7 +8042,7 @@ components:
               - url
               - resource
               - metadata
-          description: Any attachments to the message, such as files.
+          description: Any attachments to the message, such as files and links.
         impersonated_by:
           type: string
           nullable: true
@@ -8802,28 +8839,24 @@ components:
                     type: string
                     enum:
                       - file
+                      - link
                     description:
-                      The type of attachment. Currently, the only supported attachment type is
-                      `file`, but other attachment types may be added.
+                      The type of attachment. Currently, the only supported attachment types are
+                      `file` and `link`, but other attachment types may be added.
+                    example: file
                   description:
                     type: string
                     nullable: true
-                    description: "
-
-                      \      A description of the attachment. If a file uploaded to Source is
-                      attached, the file's name is displayed.
-
-                      \    "
+                    description:
+                      A description of the attachment. If a file uploaded to Source is attached, the
+                      file's name is displayed. Otherwise, this description is displayed.
+                    example: 3T0x2MAZmnIngkcFO3O6.pdf
                   url:
                     type: string
-                    description: "
-
-                      \      The URL where the attachment's contents can be accessed. For link
-                      attachments, the link to redirect. For file attachments,
-
-                      \      the URL returned by Source is a link to the file.
-
-                      \    "
+                    description:
+                      The URL where the attachment's contents can be accessed. For link attachments,
+                      the link to redirect. For file attachments, the URL returned by Source is a
+                      link to the file.
                     example: https://files.fileserver.com/3T0x2MAZmnIngkcFO3O6.pdf
                   resource:
                     oneOf:
@@ -8833,6 +8866,7 @@ components:
                       $ref: "#/components/schemas/file"
                     description: The resource which is attached to the message
                     example: file_gdIyXM9d4LKGnewOV4OM
+                    nullable: true
                   metadata:
                     type: object
                     additionalProperties: {}
@@ -8853,7 +8887,7 @@ components:
                   - url
                   - resource
                   - metadata
-              description: Any attachments to the message, such as files.
+              description: Any attachments to the message, such as files and links.
             sender:
               anyOf:
                 - oneOf:
