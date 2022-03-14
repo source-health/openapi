@@ -4659,6 +4659,9 @@
                     "type": "string",
                     "enum": [
                       "open",
+                      "in_progress",
+                      "blocked",
+                      "on_hold",
                       "resolved"
                     ],
                     "description": "The status of the task",
@@ -4781,6 +4784,9 @@
                 "type": "string",
                 "enum": [
                   "open",
+                  "in_progress",
+                  "blocked",
+                  "on_hold",
                   "resolved"
                 ]
               },
@@ -5022,6 +5028,9 @@
                     "type": "string",
                     "enum": [
                       "open",
+                      "in_progress",
+                      "blocked",
+                      "on_hold",
                       "resolved"
                     ],
                     "description": "The status of the task",
@@ -9057,6 +9066,9 @@
             "type": "string",
             "enum": [
               "open",
+              "in_progress",
+              "blocked",
+              "on_hold",
               "resolved"
             ],
             "description": "Status the task is currently in",

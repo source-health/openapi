@@ -4547,6 +4547,9 @@ paths:
                   type: string
                   enum:
                     - open
+                    - in_progress
+                    - blocked
+                    - on_hold
                     - resolved
                   description: The status of the task
                   example: open
@@ -4666,6 +4669,9 @@ paths:
               type: string
               enum:
                 - open
+                - in_progress
+                - blocked
+                - on_hold
                 - resolved
             description:
               Filter results by status. If multiple statuses are provided, tasks matching any of the
@@ -4898,6 +4904,9 @@ paths:
                   type: string
                   enum:
                     - open
+                    - in_progress
+                    - blocked
+                    - on_hold
                     - resolved
                   description: The status of the task
                   example: open
@@ -8597,6 +8606,9 @@ components:
           type: string
           enum:
             - open
+            - in_progress
+            - blocked
+            - on_hold
             - resolved
           description: Status the task is currently in
           example: open
