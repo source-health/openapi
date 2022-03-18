@@ -3226,7 +3226,7 @@
                     "properties": {
                       "street_line_1": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The first line of the street address.",
                         "example": "1 City Point"
                       },
@@ -3237,7 +3237,7 @@
                       },
                       "city": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The city.",
                         "example": "Brooklyn"
                       },
@@ -3249,7 +3249,7 @@
                       },
                       "postal_code": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The postal code (i.e. zip code).",
                         "example": "11215"
                       },
@@ -3261,14 +3261,11 @@
                       }
                     },
                     "required": [
-                      "street_line_1",
-                      "city",
                       "region",
-                      "postal_code",
                       "country"
                     ],
                     "nullable": true,
-                    "description": "Default address for the member. Used if no address is provided on a specific order."
+                    "description": "Primary address for the member. If you provide an address, you must specify at least the country and region."
                   },
                   "phone_numbers": {
                     "type": "array",
@@ -3630,7 +3627,7 @@
                     "properties": {
                       "street_line_1": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The first line of the street address.",
                         "example": "1 City Point"
                       },
@@ -3641,7 +3638,7 @@
                       },
                       "city": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The city.",
                         "example": "Brooklyn"
                       },
@@ -3653,7 +3650,7 @@
                       },
                       "postal_code": {
                         "type": "string",
-                        "minLength": 1,
+                        "nullable": true,
                         "description": "The postal code (i.e. zip code).",
                         "example": "11215"
                       },
@@ -3665,14 +3662,11 @@
                       }
                     },
                     "required": [
-                      "street_line_1",
-                      "city",
                       "region",
-                      "postal_code",
                       "country"
                     ],
                     "nullable": true,
-                    "description": "Default address for the member. Used if no address is provided on a specific order."
+                    "description": "Primary address for the member. If you provide an address, you must specify at least the country and region."
                   },
                   "phone_numbers": {
                     "type": "array",
@@ -8156,6 +8150,7 @@
             "properties": {
               "street_line_1": {
                 "type": "string",
+                "nullable": true,
                 "description": "The first line of the street address.",
                 "example": "1 City Point"
               },
@@ -8166,6 +8161,7 @@
               },
               "city": {
                 "type": "string",
+                "nullable": true,
                 "description": "The city.",
                 "example": "Brooklyn"
               },
@@ -8176,6 +8172,7 @@
               },
               "postal_code": {
                 "type": "string",
+                "nullable": true,
                 "description": "The postal code (i.e. zip code).",
                 "example": "11215"
               },
@@ -8194,7 +8191,7 @@
               "country"
             ],
             "nullable": true,
-            "description": "Default address for the member. Used if no address is provided on a specific order."
+            "description": "Primary address for the member. If you provide an address, you must specify at least the country and region."
           },
           "phone_numbers": {
             "type": "array",

@@ -3017,7 +3017,7 @@ paths:
                   properties:
                     street_line_1:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The first line of the street address.
                       example: 1 City Point
                     street_line_2:
@@ -3026,7 +3026,7 @@ paths:
                       description: The second line of the street address.
                     city:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The city.
                       example: Brooklyn
                     region:
@@ -3036,7 +3036,7 @@ paths:
                       example: NY
                     postal_code:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The postal code (i.e. zip code).
                       example: "11215"
                     country:
@@ -3047,15 +3047,12 @@ paths:
                         country at this time.
                       example: US
                   required:
-                    - street_line_1
-                    - city
                     - region
-                    - postal_code
                     - country
                   nullable: true
                   description:
-                    Default address for the member. Used if no address is provided on a specific
-                    order.
+                    Primary address for the member. If you provide an address, you must specify at
+                    least the country and region.
                 phone_numbers:
                   type: array
                   items:
@@ -3380,7 +3377,7 @@ paths:
                   properties:
                     street_line_1:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The first line of the street address.
                       example: 1 City Point
                     street_line_2:
@@ -3389,7 +3386,7 @@ paths:
                       description: The second line of the street address.
                     city:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The city.
                       example: Brooklyn
                     region:
@@ -3399,7 +3396,7 @@ paths:
                       example: NY
                     postal_code:
                       type: string
-                      minLength: 1
+                      nullable: true
                       description: The postal code (i.e. zip code).
                       example: "11215"
                     country:
@@ -3410,15 +3407,12 @@ paths:
                         country at this time.
                       example: US
                   required:
-                    - street_line_1
-                    - city
                     - region
-                    - postal_code
                     - country
                   nullable: true
                   description:
-                    Default address for the member. Used if no address is provided on a specific
-                    order.
+                    Primary address for the member. If you provide an address, you must specify at
+                    least the country and region.
                 phone_numbers:
                   type: array
                   items:
@@ -7826,6 +7820,7 @@ components:
           properties:
             street_line_1:
               type: string
+              nullable: true
               description: The first line of the street address.
               example: 1 City Point
             street_line_2:
@@ -7834,6 +7829,7 @@ components:
               description: The second line of the street address.
             city:
               type: string
+              nullable: true
               description: The city.
               example: Brooklyn
             region:
@@ -7842,6 +7838,7 @@ components:
               example: NY
             postal_code:
               type: string
+              nullable: true
               description: The postal code (i.e. zip code).
               example: "11215"
             country:
@@ -7859,7 +7856,8 @@ components:
             - country
           nullable: true
           description:
-            Default address for the member. Used if no address is provided on a specific order.
+            Primary address for the member. If you provide an address, you must specify at least the
+            country and region.
         phone_numbers:
           type: array
           items:
