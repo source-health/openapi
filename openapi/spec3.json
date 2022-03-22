@@ -829,6 +829,28 @@
                     "description": "Controls the minimum amount of advance notice in order to book appointments of this type. For example, if this parameter is set to 60, members will only be able to book appointments starting at least 60 minutes from now. This option is only considered when members are booking appointments directly. Users can book appointments at any time, including appointments in the past. Measured in minutes.",
                     "example": 60
                   },
+                  "routing_strategy": {
+                    "type": "string",
+                    "enum": [
+                      "care_team_required",
+                      "care_team_preferred",
+                      "care_team_hybrid",
+                      "round_robin"
+                    ],
+                    "description": "Defines how an incoming slot availability query for the appointment type should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are   no Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If   there are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot,   if a Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will   still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to   users who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team.",
+                    "example": "care_team_preferred"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "grp_IlGhgsstvgsagl6lV89Q"
+                    },
+                    "description": "care_team_preferred",
+                    "example": [
+                      "grp_IlGhgsstvgsagl6lV89Q"
+                    ]
+                  },
                   "video_enabled": {
                     "type": "boolean",
                     "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
@@ -1158,6 +1180,28 @@
                     "minimum": 0,
                     "description": "Controls the minimum amount of advance notice in order to book appointments of this type. For example, if this parameter is set to 60, members will only be able to book appointments starting at least 60 minutes from now. This option is only considered when members are booking appointments directly. Users can book appointments at any time, including appointments in the past. Measured in minutes.",
                     "example": 60
+                  },
+                  "routing_strategy": {
+                    "type": "string",
+                    "enum": [
+                      "care_team_required",
+                      "care_team_preferred",
+                      "care_team_hybrid",
+                      "round_robin"
+                    ],
+                    "description": "Defines how an incoming slot availability query for the appointment type should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are   no Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If   there are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot,   if a Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will   still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to   users who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team.",
+                    "example": "care_team_preferred"
+                  },
+                  "groups": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "example": "grp_IlGhgsstvgsagl6lV89Q"
+                    },
+                    "description": "care_team_preferred",
+                    "example": [
+                      "grp_IlGhgsstvgsagl6lV89Q"
+                    ]
                   },
                   "video_enabled": {
                     "type": "boolean",
@@ -4516,11 +4560,11 @@
                 "care_team_hybrid",
                 "round_robin"
               ],
-              "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team.",
+              "description": "Overrides the routing strategy configured on the appointment type. For more information about the available routing strategies and how they work, see the [Appointment Type](/docs/api/reference/appointment-type/) documentation.",
               "example": "care_team_preferred"
             },
             "required": false,
-            "description": "Defines how an incoming slot availability query should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are no   Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If there   are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot, if a   Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to users   who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team."
+            "description": "Overrides the routing strategy configured on the appointment type. For more information about the available routing strategies and how they work, see the [Appointment Type](/docs/api/reference/appointment-type/) documentation."
           },
           {
             "in": "query",
@@ -7063,6 +7107,44 @@
             "description": "Controls the minimum amount of advance notice in order to book appointments of this type. For example, if this parameter is set to 60, members will only be able to book appointments starting at least 60 minutes from now. This option is only considered when members are booking appointments directly. Users can book appointments at any time, including appointments in the past. Measured in minutes.",
             "example": 60
           },
+          "video_enabled": {
+            "type": "boolean",
+            "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
+            "example": false
+          },
+          "routing_strategy": {
+            "type": "string",
+            "enum": [
+              "care_team_required",
+              "care_team_preferred",
+              "care_team_hybrid",
+              "round_robin"
+            ],
+            "description": "Defines how an incoming slot availability query for the appointment type should be routed to possible users. Because of the complexity in routing, it's best explained by example. Assume you have created an appointment type that can be fulfilled by users in the Physicians group. The behavior of each routing strategy is as follows:\n\n- care_team_required - Appointment slots will only be shown for Physicians who are on the member's care team. If there are   no Physicians on the member's care team, the request will fail.\n\n- care_team_preferred - Appointment slots will be shown for all Physicians on the member's care team, if there are any. If   there are no Physicians on the member's care team, slots will be shown for all Physicians.\n\n- care_team_hybrid - Appointment slots will be shown for all users in the Physicians group. For any given appointment slot,   if a Physician of the member's care team is available, they will be preferred. However, slots for other Physicians will   still be shown.\n\n- round_robin - Appointment slots will be shown for all users in the Physicians group, and no preference will be given to   users who are also on the member's care team.\n\nBy default, Source uses the care_team_preferred strategy to provide continuity of care and ensure patients have a consistent experience. However, this is not always the right booking strategy for all practices. In fact, even for a single practice, you may sometimes need to reach for another routing method.\n\nIf you have a need for a routing model that isn't covered above, please don't hesitate to reach out to our team.",
+            "example": "care_team_preferred"
+          },
+          "groups": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/group"
+                }
+              ],
+              "x-expandable": {
+                "$ref": "#/components/schemas/group"
+              },
+              "description": "Expandable reference to a Group",
+              "example": "grp_IlGhgsstvgsagl6lV89Q"
+            },
+            "description": "care_team_preferred",
+            "example": [
+              "grp_IlGhgsstvgsagl6lV89Q"
+            ]
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -7074,11 +7156,6 @@
             "format": "date-time",
             "description": "Timestamp when the appointment type was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
-          },
-          "video_enabled": {
-            "type": "boolean",
-            "description": "Whether or not to create a video call for appointments of this type. Defaults to false.",
-            "example": false
           }
         },
         "required": [
@@ -7096,9 +7173,11 @@
           "buffer_after",
           "planning_horizon",
           "minimum_notice",
+          "video_enabled",
+          "routing_strategy",
+          "groups",
           "created_at",
-          "updated_at",
-          "video_enabled"
+          "updated_at"
         ],
         "title": "Appointment Type",
         "description": "Appointment types describe the different types of appointments that members can book with you.\n\nEach appointment type has associated configuration that describes how events of that type should be booked, including when they're available to be booked, the standard duration and timing information, as well as with whom they can be booked. You can create and manage appointment types based on your specific booking needs.\n\nNote that appointment types include several fields which are copied to an appointment at the time of creation. These fields, such as the duration, pre buffer and post buffer, can be changed on the appointment type at any time, but will not be reflected on appointments of that type which have already been booked.",
