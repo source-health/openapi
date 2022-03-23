@@ -912,9 +912,10 @@ paths:
                     team, the request will fail.
 
 
-                    - care_team_preferred - Appointment slots will be shown for all Physicians on
-                    the member's care team, if there are any. If   there are no Physicians on the
-                    member's care team, slots will be shown for all Physicians.
+                    - care_team_preferred - Appointment slots will be shown for any Physicians on
+                    the member's care team.    If the Physicians on the care team aren't available,
+                    slots will not be returned.    If there are no Physicians on the member's care
+                    team, then slots will be returned for any available Physician.
 
 
                     - care_team_hybrid - Appointment slots will be shown for all users in the
@@ -1300,9 +1301,10 @@ paths:
                     team, the request will fail.
 
 
-                    - care_team_preferred - Appointment slots will be shown for all Physicians on
-                    the member's care team, if there are any. If   there are no Physicians on the
-                    member's care team, slots will be shown for all Physicians.
+                    - care_team_preferred - Appointment slots will be shown for any Physicians on
+                    the member's care team.    If the Physicians on the care team aren't available,
+                    slots will not be returned.    If there are no Physicians on the member's care
+                    team, then slots will be returned for any available Physician.
 
 
                     - care_team_hybrid - Appointment slots will be shown for all users in the
@@ -6858,9 +6860,10 @@ components:
             request will fail.
 
 
-            - care_team_preferred - Appointment slots will be shown for all Physicians on the
-            member's care team, if there are any. If   there are no Physicians on the member's care
-            team, slots will be shown for all Physicians.
+            - care_team_preferred - Appointment slots will be shown for any Physicians on the
+            member's care team.    If the Physicians on the care team aren't available, slots will
+            not be returned.    If there are no Physicians on the member's care team, then slots
+            will be returned for any available Physician.
 
 
             - care_team_hybrid - Appointment slots will be shown for all users in the Physicians
