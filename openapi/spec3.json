@@ -8333,6 +8333,12 @@
             "example": "file_gdIyXM9d4LKGnewOV4OM",
             "nullable": true
           },
+          "license_region": {
+            "type": "string",
+            "nullable": true,
+            "description": "Licensing region the member is located within.        This is represented as an ISO-3166-2:US code and always matches the region of the member's address.",
+            "example": "US-NY"
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -8366,6 +8372,7 @@
           "phone_numbers",
           "care_team",
           "profile_image",
+          "license_region",
           "created_at",
           "updated_at"
         ],
