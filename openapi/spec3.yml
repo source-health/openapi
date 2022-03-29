@@ -963,13 +963,16 @@ paths:
                       - RN
                       - NP
                       - PA
+                  nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
                     looking for appointment slots, only the  availability of licensed users will be
                     returned. When booking an appointment without the skip_constraints parameter,
                     any  licensed user must have a matching license type, otherwise a warning will
                     be returned. If more than one license code is  provided, a licensed user with
-                    any of the license codes can participate in the appointment.
+                    any of the license codes can participate in the appointment.  Providing any
+                    value will override the entire array. Providing null or an empty array will
+                    empty out the array.
                   example:
                     - MD
                 video_enabled:
@@ -1378,13 +1381,16 @@ paths:
                       - RN
                       - NP
                       - PA
+                  nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
                     looking for appointment slots, only the  availability of licensed users will be
                     returned. When booking an appointment without the skip_constraints parameter,
                     any  licensed user must have a matching license type, otherwise a warning will
                     be returned. If more than one license code is  provided, a licensed user with
-                    any of the license codes can participate in the appointment.
+                    any of the license codes can participate in the appointment.  Providing any
+                    value will override the entire array. Providing null or an empty array will
+                    empty out the array.
                   example:
                     - MD
                 video_enabled:
@@ -5432,6 +5438,25 @@ paths:
                     The ID of the care team role that tasks should be assigned to be default. If no
                     role is set on the task definition, any tasks created without explicit
                     assignment will remain unassigned.
+                license_codes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - MD
+                      - DO
+                      - RN
+                      - NP
+                      - PA
+                  nullable: true
+                  description:
+                    The user license(s) that are required to perform tasks of this type. Automatic
+                    task routing by Source respects licensing.  If more than one license code is
+                    provided, a licensed user with any of the license codes can perform this
+                    task.  Providing any value will override the entire array. Providing null or an
+                    empty array will empty out the array.
+                  example:
+                    - MD
               required:
                 - key
                 - name
@@ -5623,6 +5648,25 @@ paths:
                     The ID of the care team role that tasks should be assigned to be default. If no
                     role is set on the task definition, any tasks created without explicit
                     assignment will remain unassigned.
+                license_codes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - MD
+                      - DO
+                      - RN
+                      - NP
+                      - PA
+                  nullable: true
+                  description:
+                    The user license(s) that are required to perform tasks of this type. Automatic
+                    task routing by Source respects licensing.  If more than one license code is
+                    provided, a licensed user with any of the license codes can perform this
+                    task.  Providing any value will override the entire array. Providing null or an
+                    empty array will empty out the array.
+                  example:
+                    - MD
       responses:
         default:
           description: Successful response.
@@ -7307,7 +7351,8 @@ components:
             booking an appointment without the skip_constraints parameter, any  licensed user must
             have a matching license type, otherwise a warning will be returned. If more than one
             license code is  provided, a licensed user with any of the license codes can participate
-            in the appointment.
+            in the appointment.  Providing any value will override the entire array. Providing null
+            or an empty array will empty out the array.
           example:
             - MD
         created_at:
@@ -9353,6 +9398,24 @@ components:
             task definition, any tasks created without explicit assignment will remain unassigned.
           example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
+        license_codes:
+          type: array
+          items:
+            type: string
+            enum:
+              - MD
+              - DO
+              - RN
+              - NP
+              - PA
+          description:
+            The user license(s) that are required to perform tasks of this type. Automatic task
+            routing by Source respects licensing.  If more than one license code is provided, a
+            licensed user with any of the license codes can perform this task.  Providing any value
+            will override the entire array. Providing null or an empty array will empty out the
+            array.
+          example:
+            - MD
         created_at:
           type: string
           format: date-time
@@ -9370,6 +9433,7 @@ components:
         - name
         - queue
         - care_team_role
+        - license_codes
         - created_at
         - updated_at
       title: Task Definition
