@@ -8483,7 +8483,7 @@
           "updated_at"
         ],
         "title": "License",
-        "description": "Licenses represent the legal permission to perform an occupation, such as to deliver medical care. A license is specific to a region (in the US, a state or territory) whose licensing body has granted the license.\n\n  Source uses licenses to guide automatic routing of tasks and appointments, for example, for the task and appointment types you configure to require licensure. Source compares a user's license region with the member's address region to evaluate appropriate licensure.\n\n    Each user can have any number of licenses. Licenses can be created, updated, and deleted for a user.",
+        "description": "Licenses represent the legal permission to perform an occupation, such as to deliver medical care.  A license is specific to a region (in the US, a state or territory) whose licensing body has granted the license.\n\nSource uses licenses to guide automatic routing of tasks and appointments, for example, for the task and appointment types you configure to require licensure.  Source compares a user's license region with the member's address region to evaluate appropriate licensure.  Each user can have any number of licenses. Licenses can be created, updated, and deleted for a user.",
         "x-resourceId": "license",
         "x-package": null,
         "x-preview": true
