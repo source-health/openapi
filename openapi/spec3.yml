@@ -943,9 +943,35 @@ paths:
                   items:
                     type: string
                     example: grp_IlGhgsstvgsagl6lV89Q
-                  description: care_team_preferred
+                  description:
+                    Select the groups that should be evaluated when booking an appointment. If no
+                    group is specified, you will not be able to use the appointment slot API to find
+                    bookable slots. When using the appointment slot API, you can specify more
+                    specific users and groups. For example, if your appointment type is linked to
+                    the group "Physicians," and when calling the slot API you provide an include
+                    parameter for the group "Nurses," you only receive available slots for users who
+                    are in both the Physicians and Nurses group.
                   example:
                     - grp_IlGhgsstvgsagl6lV89Q
+                license_codes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - MD
+                      - DO
+                      - RN
+                      - NP
+                      - PA
+                  description:
+                    The user license(s) that are required to perform appointments of this type. When
+                    looking for appointment slots, only the  availability of licensed users will be
+                    returned. When booking an appointment without the skip_constraints parameter,
+                    any  licensed user must have a matching license type, otherwise a warning will
+                    be returned. If more than one license code is  provided, a licensed user with
+                    any of the license codes can participate in the appointment.
+                  example:
+                    - MD
                 video_enabled:
                   type: boolean
                   description:
@@ -1332,9 +1358,35 @@ paths:
                   items:
                     type: string
                     example: grp_IlGhgsstvgsagl6lV89Q
-                  description: care_team_preferred
+                  description:
+                    Select the groups that should be evaluated when booking an appointment. If no
+                    group is specified, you will not be able to use the appointment slot API to find
+                    bookable slots. When using the appointment slot API, you can specify more
+                    specific users and groups. For example, if your appointment type is linked to
+                    the group "Physicians," and when calling the slot API you provide an include
+                    parameter for the group "Nurses," you only receive available slots for users who
+                    are in both the Physicians and Nurses group.
                   example:
                     - grp_IlGhgsstvgsagl6lV89Q
+                license_codes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - MD
+                      - DO
+                      - RN
+                      - NP
+                      - PA
+                  description:
+                    The user license(s) that are required to perform appointments of this type. When
+                    looking for appointment slots, only the  availability of licensed users will be
+                    returned. When booking an appointment without the skip_constraints parameter,
+                    any  licensed user must have a matching license type, otherwise a warning will
+                    be returned. If more than one license code is  provided, a licensed user with
+                    any of the license codes can participate in the appointment.
+                  example:
+                    - MD
                 video_enabled:
                   type: boolean
                   description:
@@ -6904,6 +6956,25 @@ components:
             available slots for users who are in both the Physicians and Nurses group.
           example:
             - grp_IlGhgsstvgsagl6lV89Q
+        license_codes:
+          type: array
+          items:
+            type: string
+            enum:
+              - MD
+              - DO
+              - RN
+              - NP
+              - PA
+          description:
+            The user license(s) that are required to perform appointments of this type. When looking
+            for appointment slots, only the  availability of licensed users will be returned. When
+            booking an appointment without the skip_constraints parameter, any  licensed user must
+            have a matching license type, otherwise a warning will be returned. If more than one
+            license code is  provided, a licensed user with any of the license codes can participate
+            in the appointment.
+          example:
+            - MD
         created_at:
           type: string
           format: date-time
@@ -6932,6 +7003,7 @@ components:
         - video_enabled
         - routing_strategy
         - groups
+        - license_codes
         - created_at
         - updated_at
       title: Appointment Type
