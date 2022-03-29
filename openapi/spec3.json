@@ -1303,10 +1303,9 @@
     "/v1/users/{user}/availability": {
       "get": {
         "summary": "Retrieve a User Availability Schedule",
-        "description": "Retrieves the availability schedule for a user.\n\nEach user in Source has an availability schedule created for them by default. The availability schedules are unique for each environment, so test and live mode will have different availabilty objects.",
+        "description": "Retrieves the availability schedule for a user.\n\nEach user in Source has an availability schedule created for them by default. The availability schedules are unique for each environment, so test and live mode will have different availability objects.",
         "tags": [
-          "Availability",
-          "Preview"
+          "Availability"
         ],
         "parameters": [
           {
@@ -1342,8 +1341,7 @@
         "summary": "Update a User Availability Schedule",
         "description": "Updates an availability schedule for a user.\n\nYou'll need to update a user's availability schedule to make them bookable for appointments in Source.",
         "tags": [
-          "Availability",
-          "Preview"
+          "Availability"
         ],
         "parameters": [
           {
@@ -7046,8 +7044,7 @@
         "title": "Appointment",
         "description": "An appointment represents a scheduled block of time for one or more users, optionally with an associated member.\n\nDepending on your needs, you can create appointment resources in Source to reflect events that have been scheduled elsewhere, or use our availability APIs to power patient self-scheduling directly. Creating and representing your appointments in Source allows your team to have a single pane of glass for their work day.\n\nWhen creating and managing appointments via the API, members have a different level of access than users or API keys. Members are only able to book appointments during a time when users are available, and are required to follow the restrictions of the appointment type. Users and API keys can bypass these restrictions by setting skip_constraints to true.",
         "x-resourceId": "appointment",
-        "x-package": "scheduling",
-        "x-preview": true
+        "x-package": "scheduling"
       },
       "appointment_type": {
         "type": "object",
@@ -7234,8 +7231,7 @@
         "title": "Appointment Type",
         "description": "Appointment types describe the different types of appointments that members can book with you.\n\nEach appointment type has associated configuration that describes how events of that type should be booked, including when they're available to be booked, the standard duration and timing information, as well as with whom they can be booked. You can create and manage appointment types based on your specific booking needs.\n\nNote that appointment types include several fields which are copied to an appointment at the time of creation. These fields, such as the duration, pre buffer and post buffer, can be changed on the appointment type at any time, but will not be reflected on appointments of that type which have already been booked.",
         "x-resourceId": "appointment_type",
-        "x-package": "scheduling",
-        "x-preview": true
+        "x-package": "scheduling"
       },
       "availability": {
         "type": "object",
@@ -7266,7 +7262,7 @@
             "x-expandable": {
               "$ref": "#/components/schemas/user"
             },
-            "description": "User to whom this availabilty schedule corresponds. At this time, each user can only have one availability schedule, and it's automatically created by Source.",
+            "description": "User to whom this availability schedule corresponds. At this time, each user can only have one availability schedule, and it's automatically created by Source.",
             "example": "usr_NC6MQ3FyxddKoJJpfSVL"
           },
           "time_zone": {
@@ -7407,8 +7403,7 @@
         "title": "Availability",
         "description": "Availability describes the schedule for a particular user and is used to power appointment booking.\n\nBy default, users are created with a schedule that marks them unavailable at all times. While this is a safe default, it means that members can't book appointments until you set up proper schedules.\n\nNote that availability is unique to each environment, so a user has a different schedule in live mode and test mode. Additionally, availability does not have a standard list or retrieve endpoint like most other resources. Instead, availability is a child resource of the user to which it belongs. Availability reosurces do still trigger events when they are modified.",
         "x-resourceId": "availability",
-        "x-package": "scheduling",
-        "x-preview": true
+        "x-package": "scheduling"
       },
       "care_team": {
         "type": "object",
@@ -9104,7 +9099,6 @@
         "title": "Slot",
         "description": "Slots represent chunks of time where a user is available for an appointment with a member.\n\nSource's scheduling APIs can be used to power rich member self-booking workflows. Typically, these experiences start by presenting a list of available appointment types (by querying the appointment types resource), and then present a list of slots by querying the slot availability APIs documented here.\n\nUnlike most other resources in the Source API, slots are not stored. As a result, they do not have an identifier, nor do they trigger any kind of events. Instead, slots are dynamically calculated as needed based on the availability of people in your team.",
         "x-resourceId": "slot",
-        "x-preview": true,
         "x-package": "scheduling"
       },
       "task": {

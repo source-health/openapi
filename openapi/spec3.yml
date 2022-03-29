@@ -1443,10 +1443,9 @@ paths:
 
         Each user in Source has an availability schedule created for them by default. The
         availability schedules are unique for each environment, so test and live mode will have
-        different availabilty objects.
+        different availability objects.
       tags:
         - Availability
-        - Preview
       parameters:
         - in: path
           style: simple
@@ -1477,7 +1476,6 @@ paths:
         in Source.
       tags:
         - Availability
-        - Preview
       parameters:
         - in: path
           style: simple
@@ -6771,7 +6769,6 @@ components:
         Users and API keys can bypass these restrictions by setting skip_constraints to true.
       x-resourceId: appointment
       x-package: scheduling
-      x-preview: true
     appointment_type:
       type: object
       properties:
@@ -7024,7 +7021,6 @@ components:
         that type which have already been booked.
       x-resourceId: appointment_type
       x-package: scheduling
-      x-preview: true
     availability:
       type: object
       properties:
@@ -7046,7 +7042,7 @@ components:
           x-expandable:
             $ref: "#/components/schemas/user"
           description:
-            User to whom this availabilty schedule corresponds. At this time, each user can only
+            User to whom this availability schedule corresponds. At this time, each user can only
             have one availability schedule, and it's automatically created by Source.
           example: usr_NC6MQ3FyxddKoJJpfSVL
         time_zone:
@@ -7203,7 +7199,6 @@ components:
         modified.
       x-resourceId: availability
       x-package: scheduling
-      x-preview: true
     care_team:
       type: object
       properties:
@@ -8722,7 +8717,6 @@ components:
         not have an identifier, nor do they trigger any kind of events. Instead, slots are
         dynamically calculated as needed based on the availability of people in your team.
       x-resourceId: slot
-      x-preview: true
       x-package: scheduling
     task:
       type: object
