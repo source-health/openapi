@@ -2903,6 +2903,409 @@
         "x-belongsToResource": "measurement"
       }
     },
+    "/v1/licenses": {
+      "post": {
+        "summary": "Create a License",
+        "description": "Creates a new license for a user.",
+        "tags": [
+          "License"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "user": {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
+                    "description": "User to whom the license belongs to."
+                  },
+                  "code": {
+                    "type": "string",
+                    "enum": [
+                      "MD",
+                      "DO",
+                      "RN",
+                      "NP",
+                      "PA"
+                    ],
+                    "description": "Code describing the license type.",
+                    "example": "MD"
+                  },
+                  "region": {
+                    "type": "string",
+                    "description": "Region the license is associated with. This is represented as an ISO-3166-2:US code",
+                    "example": "US-NY"
+                  },
+                  "license_number": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The ID or number issued by the licensing body for this license.",
+                    "example": "299535"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Status of the license.",
+                    "example": "active"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Description of the license.",
+                    "example": "License was verified by licensing board on 8/27/22."
+                  }
+                },
+                "required": [
+                  "user",
+                  "code",
+                  "region",
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/license"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "license"
+      },
+      "get": {
+        "summary": "List all Licenses",
+        "description": "Returns a list of licenses within the current account. The licenses returned are sorted by creation date, with the most recently added license appearing first.",
+        "tags": [
+          "License"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "-created_at"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "user",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "usr_qoGndHzx8KwdYsEByt9X"
+              },
+              "description": "Filter results by user. If multiple users are provided, licenses matching any of the provided users will be returned."
+            },
+            "required": false,
+            "description": "Filter results by user. If multiple users are provided, licenses matching any of the provided users will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "code",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "MD",
+                  "DO",
+                  "RN",
+                  "NP",
+                  "PA"
+                ]
+              },
+              "description": "Filter results by code. If multiple codes are provided, licenses matching any of the provided codes will be returned."
+            },
+            "required": false,
+            "description": "Filter results by code. If multiple codes are provided, licenses matching any of the provided codes will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "region",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter results by region. If multiple regions are provided, licenses matching any of the provided regions will be returned."
+            },
+            "required": false,
+            "description": "Filter results by region. If multiple regions are provided, licenses matching any of the provided regions will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "inactive"
+                ]
+              },
+              "description": "Filter results by status. If multiple statuses are provided, licenses matching any of the provided statuses will be returned."
+            },
+            "required": false,
+            "description": "Filter results by status. If multiple statuses are provided, licenses matching any of the provided statuses will be returned."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/license"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "license"
+      }
+    },
+    "/v1/licenses/{id}": {
+      "post": {
+        "summary": "Update a License",
+        "description": "Updates the license with a new status, license number, or description. To update other license fields, first delete the license and then create a new one.",
+        "tags": [
+          "License"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "lic_R8qQYHFZO6dTjOBxHAda",
+              "description": "Unique ID of the license."
+            },
+            "required": true,
+            "description": "Unique ID of the license."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "license_number": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The ID or number issued by the licensing body for this license.",
+                    "example": "299535"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "inactive"
+                    ],
+                    "description": "Status of the license.",
+                    "example": "active"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Description of the license.",
+                    "example": "License was verified by licensing board on 8/27/22."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/license"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "license"
+      },
+      "get": {
+        "summary": "Retrieve a License",
+        "description": "Retrieves the details of an existing license. You need only supply the unique license identifier that was returned upon creation.",
+        "tags": [
+          "License"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "lic_R8qQYHFZO6dTjOBxHAda",
+              "description": "Unique ID of the license."
+            },
+            "required": true,
+            "description": "Unique ID of the license."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/license"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "license"
+      },
+      "delete": {
+        "summary": "Delete a License",
+        "description": "Deletes the specified license.",
+        "tags": [
+          "License"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "lic_R8qQYHFZO6dTjOBxHAda",
+              "description": "Unique ID of the license."
+            },
+            "required": true,
+            "description": "Unique ID of the license."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/license"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "license"
+      }
+    },
     "/v1/communication/messages": {
       "post": {
         "summary": "Create a Message",
@@ -7983,6 +8386,107 @@
         "description": "Groups can help you organize your team by describing qualities that group members have. For example, you might create groups for Physicians, Nurses, and Care Navigators. You can then leverage these groups when routing tasks or viewing schedule availability.",
         "x-resourceId": "group",
         "x-package": null
+      },
+      "license": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "license",
+            "enum": [
+              "license"
+            ],
+            "example": "license",
+            "description": "Always `license`."
+          },
+          "id": {
+            "type": "string",
+            "example": "lic_R8qQYHFZO6dTjOBxHAda",
+            "description": "Unique ID for the License."
+          },
+          "user": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "User to whom the license belongs to.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+          },
+          "code": {
+            "type": "string",
+            "enum": [
+              "MD",
+              "DO",
+              "RN",
+              "NP",
+              "PA"
+            ],
+            "description": "Code describing the license type.",
+            "example": "MD"
+          },
+          "region": {
+            "type": "string",
+            "description": "Region the license is associated with. This is represented as an ISO-3166-2:US code",
+            "example": "US-NY"
+          },
+          "license_number": {
+            "type": "string",
+            "nullable": true,
+            "description": "The ID or number issued by the licensing body for this license.",
+            "example": "299535"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "inactive"
+            ],
+            "description": "Status of the license.",
+            "example": "active"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Description of the license.",
+            "example": "License was verified by licensing board on 8/27/22."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the license was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the license was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "user",
+          "code",
+          "region",
+          "license_number",
+          "status",
+          "description",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "License",
+        "description": "Licenses represent the legal permission to perform an occupation, such as to deliver medical care. A license is specific to a region (in the US, a state or territory) whose licensing body has granted the license.\n\n  Source uses licenses to guide automatic routing of tasks and appointments, for example, for the task and appointment types you configure to require licensure. Source compares a user's license region with the member's address region to evaluate appropriate licensure.\n\n    Each user can have any number of licenses. Licenses can be created, updated, and deleted for a user.",
+        "x-resourceId": "license",
+        "x-package": null,
+        "x-preview": true
       },
       "measurement": {
         "type": "object",
