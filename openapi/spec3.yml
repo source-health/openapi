@@ -6262,6 +6262,14 @@ paths:
                     their availability schedules, and may also be used when formatting times outside
                     of the context of a browser (such as an email).
                   example: America/New_York
+                licensed:
+                  type: boolean
+                  description:
+                    Whether or not the user is a licensed clinician. By default, this is set to
+                    false. If set to true, note that the user should have licenses configured to be
+                    able to perform workflows that require licensure. For example, licensure may be
+                    required to receive certain tasks and appointments.
+                  example: false
                 groups:
                   type: array
                   items:
@@ -6586,6 +6594,14 @@ paths:
                     their availability schedules, and may also be used when formatting times outside
                     of the context of a browser (such as an email).
                   example: America/New_York
+                licensed:
+                  type: boolean
+                  description:
+                    Whether or not the user is a licensed clinician. By default, this is set to
+                    false. If set to true, note that the user should have licenses configured to be
+                    able to perform workflows that require licensure. For example, licensure may be
+                    required to receive certain tasks and appointments.
+                  example: false
                 groups:
                   type: array
                   items:
@@ -9720,6 +9736,14 @@ components:
             availability schedules, and may also be used when formatting times outside of the
             context of a browser (such as an email).
           example: America/New_York
+        licensed:
+          type: boolean
+          description:
+            Whether or not the user is a licensed clinician. By default, this is set to false. If
+            set to true, note that the user should have licenses configured to be able to perform
+            workflows that require licensure. For example, licensure may be required to receive
+            certain tasks and appointments.
+          example: false
         groups:
           type: array
           items:
@@ -9799,6 +9823,7 @@ components:
         - email
         - role
         - time_zone
+        - licensed
         - groups
         - live_care_team_role
         - test_care_team_role
