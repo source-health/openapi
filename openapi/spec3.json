@@ -4899,6 +4899,19 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "license_region",
+            "schema": {
+              "type": "string",
+              "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member.",
+              "example": "US-NY"
+            },
+            "required": false,
+            "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "start_at",
             "schema": {
               "type": "string",
