@@ -957,12 +957,6 @@ paths:
                   type: array
                   items:
                     type: string
-                    enum:
-                      - MD
-                      - DO
-                      - RN
-                      - NP
-                      - PA
                   nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
@@ -1375,12 +1369,6 @@ paths:
                   type: array
                   items:
                     type: string
-                    enum:
-                      - MD
-                      - DO
-                      - RN
-                      - NP
-                      - PA
                   nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
@@ -2825,12 +2813,6 @@ paths:
                   description: User to whom the license belongs to.
                 code:
                   type: string
-                  enum:
-                    - MD
-                    - DO
-                    - RN
-                    - NP
-                    - PA
                   description: Code describing the license type.
                   example: MD
                 region:
@@ -2966,12 +2948,6 @@ paths:
             type: array
             items:
               type: string
-              enum:
-                - MD
-                - DO
-                - RN
-                - NP
-                - PA
             description:
               Filter results by code. If multiple codes are provided, licenses matching any of the
               provided codes will be returned.
@@ -5462,12 +5438,6 @@ paths:
                   type: array
                   items:
                     type: string
-                    enum:
-                      - MD
-                      - DO
-                      - RN
-                      - NP
-                      - PA
                   nullable: true
                   description:
                     The user license(s) that are required to perform tasks of this type. Automatic
@@ -5672,12 +5642,6 @@ paths:
                   type: array
                   items:
                     type: string
-                    enum:
-                      - MD
-                      - DO
-                      - RN
-                      - NP
-                      - PA
                   nullable: true
                   description:
                     The user license(s) that are required to perform tasks of this type. Automatic
@@ -7375,12 +7339,6 @@ components:
           type: array
           items:
             type: string
-            enum:
-              - MD
-              - DO
-              - RN
-              - NP
-              - PA
           description:
             The user license(s) that are required to perform appointments of this type. When looking
             for appointment slots, only the  availability of licensed users will be returned. When
@@ -8170,12 +8128,6 @@ components:
           example: usr_NC6MQ3FyxddKoJJpfSVL
         code:
           type: string
-          enum:
-            - MD
-            - DO
-            - RN
-            - NP
-            - PA
           description: Code describing the license type.
           example: MD
         region:
@@ -9438,12 +9390,6 @@ components:
           type: array
           items:
             type: string
-            enum:
-              - MD
-              - DO
-              - RN
-              - NP
-              - PA
           description:
             The user license(s) that are required to perform tasks of this type. Automatic task
             routing by Source respects licensing.  If more than one license code is provided, a

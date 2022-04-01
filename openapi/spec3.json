@@ -854,14 +854,7 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "enum": [
-                        "MD",
-                        "DO",
-                        "RN",
-                        "NP",
-                        "PA"
-                      ]
+                      "type": "string"
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
@@ -1224,14 +1217,7 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "enum": [
-                        "MD",
-                        "DO",
-                        "RN",
-                        "NP",
-                        "PA"
-                      ]
+                      "type": "string"
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
@@ -2926,13 +2912,6 @@
                   },
                   "code": {
                     "type": "string",
-                    "enum": [
-                      "MD",
-                      "DO",
-                      "RN",
-                      "NP",
-                      "PA"
-                    ],
                     "description": "Code describing the license type.",
                     "example": "MD"
                   },
@@ -3074,14 +3053,7 @@
             "schema": {
               "type": "array",
               "items": {
-                "type": "string",
-                "enum": [
-                  "MD",
-                  "DO",
-                  "RN",
-                  "NP",
-                  "PA"
-                ]
+                "type": "string"
               },
               "description": "Filter results by code. If multiple codes are provided, licenses matching any of the provided codes will be returned."
             },
@@ -5638,14 +5610,7 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "enum": [
-                        "MD",
-                        "DO",
-                        "RN",
-                        "NP",
-                        "PA"
-                      ]
+                      "type": "string"
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
@@ -5856,14 +5821,7 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string",
-                      "enum": [
-                        "MD",
-                        "DO",
-                        "RN",
-                        "NP",
-                        "PA"
-                      ]
+                      "type": "string"
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
@@ -7643,14 +7601,7 @@
           "license_codes": {
             "type": "array",
             "items": {
-              "type": "string",
-              "enum": [
-                "MD",
-                "DO",
-                "RN",
-                "NP",
-                "PA"
-              ]
+              "type": "string"
             },
             "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
             "example": [
@@ -8482,13 +8433,6 @@
           },
           "code": {
             "type": "string",
-            "enum": [
-              "MD",
-              "DO",
-              "RN",
-              "NP",
-              "PA"
-            ],
             "description": "Code describing the license type.",
             "example": "MD"
           },
@@ -9915,14 +9859,7 @@
           "license_codes": {
             "type": "array",
             "items": {
-              "type": "string",
-              "enum": [
-                "MD",
-                "DO",
-                "RN",
-                "NP",
-                "PA"
-              ]
+              "type": "string"
             },
             "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
             "example": [
