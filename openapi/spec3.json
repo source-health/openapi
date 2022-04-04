@@ -209,7 +209,7 @@
                   },
                   "skip_constraints": {
                     "type": "boolean",
-                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, from creating appointments that require licensure with unlicensed participants, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
                   },
                   "video_call": {
                     "type": "object",
@@ -596,7 +596,7 @@
                   },
                   "skip_constraints": {
                     "type": "boolean",
-                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
+                    "description": "By default, Source runs a number of checks to prevent you from creating appointments that seem unsafe. For example, we prevent you from creating appointments that take place in the past, from creating appointments outside of the bookable window for an appointment type, from creating appointments that require licensure with unlicensed participants, or from creating appointments during which one of the participants has a conflict.\n\nWhen calling the appointments endpoints with your API key, you can override this behavior by setting the skip_constraints param to true, allowing you to create your appointment. Note that some checks, such as ensuring the appointment end time is after the start time, cannot be bypassed.\n\nMember tokens are unable to provide this parameter, and will receive a permissions error if they attempt to."
                   },
                   "video_call": {
                     "type": "object",
@@ -854,12 +854,22 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
-                      "MD"
+                      {
+                        "code": "MD"
+                      }
                     ]
                   },
                   "video_enabled": {
@@ -1217,12 +1227,22 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
-                      "MD"
+                      {
+                        "code": "MD"
+                      }
                     ]
                   },
                   "video_enabled": {
@@ -2911,9 +2931,16 @@
                     "description": "User to whom the license belongs to."
                   },
                   "code": {
-                    "type": "string",
-                    "description": "Code describing the license type.",
-                    "example": "MD"
+                    "type": "object",
+                    "properties": {
+                      "code": {
+                        "type": "string"
+                      }
+                    },
+                    "required": [
+                      "code"
+                    ],
+                    "description": "Code describing the license type."
                   },
                   "region": {
                     "type": "string",
@@ -5610,12 +5637,22 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
-                      "MD"
+                      {
+                        "code": "MD"
+                      }
                     ]
                   }
                 },
@@ -5821,12 +5858,22 @@
                   "license_codes": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "type": "object",
+                      "properties": {
+                        "code": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "code"
+                      ]
                     },
                     "nullable": true,
                     "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
-                      "MD"
+                      {
+                        "code": "MD"
+                      }
                     ]
                   }
                 }
@@ -7601,11 +7648,30 @@
           "license_codes": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The license code.",
+                  "example": "MD"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Full description of the license code",
+                  "example": "Doctor of Medicine"
+                }
+              },
+              "required": [
+                "code",
+                "description"
+              ]
             },
             "description": "The user license(s) that are required to perform appointments of this type. When looking for appointment slots, only the  availability of licensed users will be returned. When booking an appointment without the skip_constraints parameter, any  licensed user must have a matching license type, otherwise a warning will be returned. If more than one license code is  provided, a licensed user with any of the license codes can participate in the appointment.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
             "example": [
-              "MD"
+              {
+                "code": "MD",
+                "description": "Doctor of Medicine"
+              }
             ]
           },
           "created_at": {
@@ -8432,9 +8498,24 @@
             "example": "usr_NC6MQ3FyxddKoJJpfSVL"
           },
           "code": {
-            "type": "string",
-            "description": "Code describing the license type.",
-            "example": "MD"
+            "type": "object",
+            "properties": {
+              "code": {
+                "type": "string",
+                "description": "The license code.",
+                "example": "MD"
+              },
+              "description": {
+                "type": "string",
+                "description": "Full description of the license code",
+                "example": "Doctor of Medicine"
+              }
+            },
+            "required": [
+              "code",
+              "description"
+            ],
+            "description": "Code describing the license type."
           },
           "region": {
             "type": "string",
@@ -9859,11 +9940,30 @@
           "license_codes": {
             "type": "array",
             "items": {
-              "type": "string"
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The license code.",
+                  "example": "MD"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Full description of the license code",
+                  "example": "Doctor of Medicine"
+                }
+              },
+              "required": [
+                "code",
+                "description"
+              ]
             },
             "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
             "example": [
-              "MD"
+              {
+                "code": "MD",
+                "description": "Doctor of Medicine"
+              }
             ]
           },
           "created_at": {

@@ -208,7 +208,8 @@ paths:
                     By default, Source runs a number of checks to prevent you from creating
                     appointments that seem unsafe. For example, we prevent you from creating
                     appointments that take place in the past, from creating appointments outside of
-                    the bookable window for an appointment type, or from creating appointments
+                    the bookable window for an appointment type, from creating appointments that
+                    require licensure with unlicensed participants, or from creating appointments
                     during which one of the participants has a conflict.
 
 
@@ -619,7 +620,8 @@ paths:
                     By default, Source runs a number of checks to prevent you from creating
                     appointments that seem unsafe. For example, we prevent you from creating
                     appointments that take place in the past, from creating appointments outside of
-                    the bookable window for an appointment type, or from creating appointments
+                    the bookable window for an appointment type, from creating appointments that
+                    require licensure with unlicensed participants, or from creating appointments
                     during which one of the participants has a conflict.
 
 
@@ -956,7 +958,12 @@ paths:
                 license_codes:
                   type: array
                   items:
-                    type: string
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                    required:
+                      - code
                   nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
@@ -968,7 +975,7 @@ paths:
                     value will override the entire array. Providing null or an empty array will
                     empty out the array.
                   example:
-                    - MD
+                    - code: MD
                 video_enabled:
                   type: boolean
                   description:
@@ -1368,7 +1375,12 @@ paths:
                 license_codes:
                   type: array
                   items:
-                    type: string
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                    required:
+                      - code
                   nullable: true
                   description:
                     The user license(s) that are required to perform appointments of this type. When
@@ -1380,7 +1392,7 @@ paths:
                     value will override the entire array. Providing null or an empty array will
                     empty out the array.
                   example:
-                    - MD
+                    - code: MD
                 video_enabled:
                   type: boolean
                   description:
@@ -2812,9 +2824,13 @@ paths:
                   example: usr_qoGndHzx8KwdYsEByt9X
                   description: User to whom the license belongs to.
                 code:
-                  type: string
+                  type: object
+                  properties:
+                    code:
+                      type: string
+                  required:
+                    - code
                   description: Code describing the license type.
-                  example: MD
                 region:
                   type: string
                   description:
@@ -5437,7 +5453,12 @@ paths:
                 license_codes:
                   type: array
                   items:
-                    type: string
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                    required:
+                      - code
                   nullable: true
                   description:
                     The user license(s) that are required to perform tasks of this type. Automatic
@@ -5446,7 +5467,7 @@ paths:
                     task.  Providing any value will override the entire array. Providing null or an
                     empty array will empty out the array.
                   example:
-                    - MD
+                    - code: MD
               required:
                 - key
                 - name
@@ -5641,7 +5662,12 @@ paths:
                 license_codes:
                   type: array
                   items:
-                    type: string
+                    type: object
+                    properties:
+                      code:
+                        type: string
+                    required:
+                      - code
                   nullable: true
                   description:
                     The user license(s) that are required to perform tasks of this type. Automatic
@@ -5650,7 +5676,7 @@ paths:
                     task.  Providing any value will override the entire array. Providing null or an
                     empty array will empty out the array.
                   example:
-                    - MD
+                    - code: MD
       responses:
         default:
           description: Successful response.
@@ -7338,7 +7364,19 @@ components:
         license_codes:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              code:
+                type: string
+                description: The license code.
+                example: MD
+              description:
+                type: string
+                description: Full description of the license code
+                example: Doctor of Medicine
+            required:
+              - code
+              - description
           description:
             The user license(s) that are required to perform appointments of this type. When looking
             for appointment slots, only the  availability of licensed users will be returned. When
@@ -7348,7 +7386,8 @@ components:
             in the appointment.  Providing any value will override the entire array. Providing null
             or an empty array will empty out the array.
           example:
-            - MD
+            - code: MD
+              description: Doctor of Medicine
         created_at:
           type: string
           format: date-time
@@ -8127,9 +8166,20 @@ components:
           description: User to whom the license belongs to.
           example: usr_NC6MQ3FyxddKoJJpfSVL
         code:
-          type: string
+          type: object
+          properties:
+            code:
+              type: string
+              description: The license code.
+              example: MD
+            description:
+              type: string
+              description: Full description of the license code
+              example: Doctor of Medicine
+          required:
+            - code
+            - description
           description: Code describing the license type.
-          example: MD
         region:
           type: string
           description:
@@ -9389,7 +9439,19 @@ components:
         license_codes:
           type: array
           items:
-            type: string
+            type: object
+            properties:
+              code:
+                type: string
+                description: The license code.
+                example: MD
+              description:
+                type: string
+                description: Full description of the license code
+                example: Doctor of Medicine
+            required:
+              - code
+              - description
           description:
             The user license(s) that are required to perform tasks of this type. Automatic task
             routing by Source respects licensing.  If more than one license code is provided, a
@@ -9397,7 +9459,8 @@ components:
             will override the entire array. Providing null or an empty array will empty out the
             array.
           example:
-            - MD
+            - code: MD
+              description: Doctor of Medicine
         created_at:
           type: string
           format: date-time
