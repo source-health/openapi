@@ -851,7 +851,7 @@
                       "grp_IlGhgsstvgsagl6lV89Q"
                     ]
                   },
-                  "license_codes": {
+                  "license_types": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -1224,7 +1224,7 @@
                       "grp_IlGhgsstvgsagl6lV89Q"
                     ]
                   },
-                  "license_codes": {
+                  "license_types": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -2930,7 +2930,7 @@
                     "example": "usr_qoGndHzx8KwdYsEByt9X",
                     "description": "User to whom the license belongs to."
                   },
-                  "code": {
+                  "type": {
                     "type": "object",
                     "properties": {
                       "code": {
@@ -2940,7 +2940,7 @@
                     "required": [
                       "code"
                     ],
-                    "description": "Code describing the license type."
+                    "description": "The license type."
                   },
                   "region": {
                     "type": "string",
@@ -2971,7 +2971,7 @@
                 },
                 "required": [
                   "user",
-                  "code",
+                  "type",
                   "region",
                   "status"
                 ]
@@ -3076,16 +3076,16 @@
             "in": "query",
             "style": "form",
             "explode": true,
-            "name": "code",
+            "name": "type",
             "schema": {
               "type": "array",
               "items": {
                 "type": "string"
               },
-              "description": "Filter results by code. If multiple codes are provided, licenses matching any of the provided codes will be returned."
+              "description": "Filter results by type. The corresponding code for the license type should be provided. If multiple codes are provided, licenses matching any of the provided license types will be returned."
             },
             "required": false,
-            "description": "Filter results by code. If multiple codes are provided, licenses matching any of the provided codes will be returned."
+            "description": "Filter results by type. The corresponding code for the license type should be provided. If multiple codes are provided, licenses matching any of the provided license types will be returned."
           },
           {
             "in": "query",
@@ -5634,7 +5634,7 @@
                     "nullable": true,
                     "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned."
                   },
-                  "license_codes": {
+                  "license_types": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -5855,7 +5855,7 @@
                     "nullable": true,
                     "description": "The ID of the care team role that tasks should be assigned to be default. If no role is set on the task definition, any tasks created without explicit assignment will remain unassigned."
                   },
-                  "license_codes": {
+                  "license_types": {
                     "type": "array",
                     "items": {
                       "type": "object",
@@ -7645,19 +7645,19 @@
               "grp_IlGhgsstvgsagl6lV89Q"
             ]
           },
-          "license_codes": {
+          "license_types": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
                 "code": {
                   "type": "string",
-                  "description": "The license code.",
+                  "description": "Code for the license type.",
                   "example": "MD"
                 },
                 "description": {
                   "type": "string",
-                  "description": "Full description of the license code",
+                  "description": "Full description of the license type.",
                   "example": "Doctor of Medicine"
                 }
               },
@@ -7705,7 +7705,7 @@
           "video_enabled",
           "routing_strategy",
           "groups",
-          "license_codes",
+          "license_types",
           "created_at",
           "updated_at"
         ],
@@ -8497,17 +8497,17 @@
             "description": "User to whom the license belongs to.",
             "example": "usr_NC6MQ3FyxddKoJJpfSVL"
           },
-          "code": {
+          "type": {
             "type": "object",
             "properties": {
               "code": {
                 "type": "string",
-                "description": "The license code.",
+                "description": "Code for the license type.",
                 "example": "MD"
               },
               "description": {
                 "type": "string",
-                "description": "Full description of the license code",
+                "description": "Full description of the license type.",
                 "example": "Doctor of Medicine"
               }
             },
@@ -8515,7 +8515,7 @@
               "code",
               "description"
             ],
-            "description": "Code describing the license type."
+            "description": "The license type."
           },
           "region": {
             "type": "string",
@@ -8560,7 +8560,7 @@
           "object",
           "id",
           "user",
-          "code",
+          "type",
           "region",
           "license_number",
           "status",
@@ -9937,19 +9937,19 @@
             "example": "ctr_iNGhmxf28QqEstlwzxWK",
             "nullable": true
           },
-          "license_codes": {
+          "license_types": {
             "type": "array",
             "items": {
               "type": "object",
               "properties": {
                 "code": {
                   "type": "string",
-                  "description": "The license code.",
+                  "description": "Code for the license type.",
                   "example": "MD"
                 },
                 "description": {
                   "type": "string",
-                  "description": "Full description of the license code",
+                  "description": "Full description of the license type.",
                   "example": "Doctor of Medicine"
                 }
               },
@@ -9986,7 +9986,7 @@
           "name",
           "queue",
           "care_team_role",
-          "license_codes",
+          "license_types",
           "created_at",
           "updated_at"
         ],

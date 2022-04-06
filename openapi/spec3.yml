@@ -955,7 +955,7 @@ paths:
                     are in both the Physicians and Nurses group.
                   example:
                     - grp_IlGhgsstvgsagl6lV89Q
-                license_codes:
+                license_types:
                   type: array
                   items:
                     type: object
@@ -1372,7 +1372,7 @@ paths:
                     are in both the Physicians and Nurses group.
                   example:
                     - grp_IlGhgsstvgsagl6lV89Q
-                license_codes:
+                license_types:
                   type: array
                   items:
                     type: object
@@ -2823,14 +2823,14 @@ paths:
                   type: string
                   example: usr_qoGndHzx8KwdYsEByt9X
                   description: User to whom the license belongs to.
-                code:
+                type:
                   type: object
                   properties:
                     code:
                       type: string
                   required:
                     - code
-                  description: Code describing the license type.
+                  description: The license type.
                 region:
                   type: string
                   description:
@@ -2856,7 +2856,7 @@ paths:
                   example: License was verified by licensing board on 8/27/22.
               required:
                 - user
-                - code
+                - type
                 - region
                 - status
       responses:
@@ -2959,18 +2959,20 @@ paths:
         - in: query
           style: form
           explode: true
-          name: code
+          name: type
           schema:
             type: array
             items:
               type: string
             description:
-              Filter results by code. If multiple codes are provided, licenses matching any of the
-              provided codes will be returned.
+              Filter results by type. The corresponding code for the license type should be
+              provided. If multiple codes are provided, licenses matching any of the provided
+              license types will be returned.
           required: false
           description:
-            Filter results by code. If multiple codes are provided, licenses matching any of the
-            provided codes will be returned.
+            Filter results by type. The corresponding code for the license type should be provided.
+            If multiple codes are provided, licenses matching any of the provided license types will
+            be returned.
         - in: query
           style: form
           explode: true
@@ -5450,7 +5452,7 @@ paths:
                     The ID of the care team role that tasks should be assigned to be default. If no
                     role is set on the task definition, any tasks created without explicit
                     assignment will remain unassigned.
-                license_codes:
+                license_types:
                   type: array
                   items:
                     type: object
@@ -5659,7 +5661,7 @@ paths:
                     The ID of the care team role that tasks should be assigned to be default. If no
                     role is set on the task definition, any tasks created without explicit
                     assignment will remain unassigned.
-                license_codes:
+                license_types:
                   type: array
                   items:
                     type: object
@@ -7361,18 +7363,18 @@ components:
             available slots for users who are in both the Physicians and Nurses group.
           example:
             - grp_IlGhgsstvgsagl6lV89Q
-        license_codes:
+        license_types:
           type: array
           items:
             type: object
             properties:
               code:
                 type: string
-                description: The license code.
+                description: Code for the license type.
                 example: MD
               description:
                 type: string
-                description: Full description of the license code
+                description: Full description of the license type.
                 example: Doctor of Medicine
             required:
               - code
@@ -7416,7 +7418,7 @@ components:
         - video_enabled
         - routing_strategy
         - groups
-        - license_codes
+        - license_types
         - created_at
         - updated_at
       title: Appointment Type
@@ -8165,21 +8167,21 @@ components:
             $ref: "#/components/schemas/user"
           description: User to whom the license belongs to.
           example: usr_NC6MQ3FyxddKoJJpfSVL
-        code:
+        type:
           type: object
           properties:
             code:
               type: string
-              description: The license code.
+              description: Code for the license type.
               example: MD
             description:
               type: string
-              description: Full description of the license code
+              description: Full description of the license type.
               example: Doctor of Medicine
           required:
             - code
             - description
-          description: Code describing the license type.
+          description: The license type.
         region:
           type: string
           description:
@@ -8216,7 +8218,7 @@ components:
         - object
         - id
         - user
-        - code
+        - type
         - region
         - license_number
         - status
@@ -9436,18 +9438,18 @@ components:
             task definition, any tasks created without explicit assignment will remain unassigned.
           example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
-        license_codes:
+        license_types:
           type: array
           items:
             type: object
             properties:
               code:
                 type: string
-                description: The license code.
+                description: Code for the license type.
                 example: MD
               description:
                 type: string
-                description: Full description of the license code
+                description: Full description of the license type.
                 example: Doctor of Medicine
             required:
               - code
@@ -9478,7 +9480,7 @@ components:
         - name
         - queue
         - care_team_role
-        - license_codes
+        - license_types
         - created_at
         - updated_at
       title: Task Definition
