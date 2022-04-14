@@ -5095,7 +5095,7 @@
     "/v1/tasks": {
       "post": {
         "summary": "Create a Task",
-        "description": "Creates a new task and registers it with Source. Once a task is created you cannot update the definition or member associated with that task.",
+        "description": "Creates a new task and registers it with Source. Once a task is created you cannot update the definition or member associated with that task. Note that you cannot create a task using system-managed task definitions (those with keys starting with system).",
         "tags": [
           "Task"
         ],
@@ -5460,7 +5460,7 @@
     "/v1/tasks/{id}": {
       "post": {
         "summary": "Update a Task",
-        "description": "Updates the specified task by setting the values of the parameters passed.\n\nAny parameters not provided will be left unchanged. For example, if you pass the assignee parameter, that assigns the task to the given user.",
+        "description": "Updates the specified task by setting the values of the parameters passed.\n\nAny parameters not provided will be left unchanged. For example, if you pass the assignee parameter, that assigns the task to the given user. Note that you cannot resolve system-managed tasks (those with `managed` set to `true`).",
         "tags": [
           "Task"
         ],
@@ -5648,7 +5648,7 @@
                       ]
                     },
                     "nullable": true,
-                    "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
+                    "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing. If more than one license code is provided, a licensed user with any of the license codes can perform this task. Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
                       {
                         "code": "MD"
@@ -5869,7 +5869,7 @@
                       ]
                     },
                     "nullable": true,
-                    "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
+                    "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing. If more than one license code is provided, a licensed user with any of the license codes can perform this task. Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
                     "example": [
                       {
                         "code": "MD"
@@ -9802,6 +9802,10 @@
             "description": "This property allows you to see how the task was assigned. When we automatically assign tasks based on your pre-defined routing rules, the value of this property will be `indirect`. When an assignee is specified through the API or by a user in the interface, the value of this property will be `direct`.",
             "example": "direct"
           },
+          "managed": {
+            "type": "boolean",
+            "description": "Whether or not the task is managed automatically by Source. If a task is managed, only Source can resolve or create the task. You can still update other properties of the task.\""
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -9868,6 +9872,7 @@
           "description",
           "status",
           "assignment_method",
+          "managed",
           "created_at",
           "updated_at",
           "due_at",
@@ -9958,13 +9963,18 @@
                 "description"
               ]
             },
-            "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing.  If more than one license code is provided, a licensed user with any of the license codes can perform this task.  Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
+            "description": "The user license(s) that are required to perform tasks of this type. Automatic task routing by Source respects licensing. If more than one license code is provided, a licensed user with any of the license codes can perform this task. Providing any value will override the entire array. Providing null or an empty array will empty out the array.",
             "example": [
               {
                 "code": "MD",
                 "description": "Doctor of Medicine"
               }
             ]
+          },
+          "managed": {
+            "type": "boolean",
+            "description": "Whether or not tasks are managed automatically by Source. Only Source can create tasks with managed task definitions, and those tasks may only be resolved by Source.",
+            "example": false
           },
           "created_at": {
             "type": "string",
@@ -9987,6 +9997,7 @@
           "queue",
           "care_team_role",
           "license_types",
+          "managed",
           "created_at",
           "updated_at"
         ],
