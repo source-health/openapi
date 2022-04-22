@@ -5453,9 +5453,8 @@ paths:
                   example: ctr_Xrjh23QoCKx0PxrIOoou
                   nullable: true
                   description:
-                    The ID of the care team role that tasks should be assigned to be default. If no
-                    role is set on the task definition, any tasks created without explicit
-                    assignment will remain unassigned.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use queues instead.
                 license_types:
                   type: array
                   items:
@@ -5662,9 +5661,8 @@ paths:
                   example: ctr_Xrjh23QoCKx0PxrIOoou
                   nullable: true
                   description:
-                    The ID of the care team role that tasks should be assigned to be default. If no
-                    role is set on the task definition, any tasks created without explicit
-                    assignment will remain unassigned.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use queues instead.
                 license_types:
                   type: array
                   items:
@@ -6299,15 +6297,15 @@ paths:
                   type: string
                   nullable: true
                   description:
-                    Care team role for this user, which must reference a role that exists in live
-                    mode. Only users with a care team role can be added to a member's care team.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use groups instead.
                   example: null
                 test_care_team_role:
                   type: string
                   nullable: true
                   description:
-                    Care team role for this user, which must reference a role that exists in test
-                    mode. Only users with a care team role can be added to a member's care team.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use groups instead.
                   example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
@@ -6631,15 +6629,15 @@ paths:
                   type: string
                   nullable: true
                   description:
-                    Care team role for this user, which must reference a role that exists in live
-                    mode. Only users with a care team role can be added to a member's care team.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use groups instead.
                   example: null
                 test_care_team_role:
                   type: string
                   nullable: true
                   description:
-                    Care team role for this user, which must reference a role that exists in test
-                    mode. Only users with a care team role can be added to a member's care team.
+                    Care team roles should no longer be used, and Source will be removing care team
+                    roles in the future. Use groups instead.
                   example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
@@ -7728,6 +7726,11 @@ components:
         - updated_at
       title: Care Team Role
       description: >-
+        Care team roles should no longer be used. Queues and groups replace care team roles for the
+        purposes of task routing going forward. Source will be removing care team roles in the
+        future.
+
+
         Care team roles describe the purpose of each member of a member's care team. You can use
         care team roles to control how tasks are routed among the care team.
 
@@ -7735,9 +7738,6 @@ components:
         Source creates a few default care team roles for each new account, and you can add, remove
         or modify them to your needs. However, care team roles cannot be deleted if they are
         currently in use.
-
-
-        Care team roles will soon be deprecated in order to support more flexible task distribution.
       x-resourceId: care_team_role
       x-package: null
     device:
@@ -9447,8 +9447,8 @@ components:
           x-expandable:
             $ref: "#/components/schemas/care_team_role"
           description:
-            The default care team role that tasks should be assigned to. If no role is set on the
-            task definition, any tasks created without explicit assignment will remain unassigned.
+            Care team roles should no longer be used, and Source will be removing care team roles in
+            the future. Use queues instead.
           example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
         license_types:
@@ -9815,8 +9815,8 @@ components:
           x-expandable:
             $ref: "#/components/schemas/care_team_role"
           description:
-            Care team role for this user, which must reference a role that exists in live mode. Only
-            users with a care team role can be added to a member's care team.
+            Care team roles should no longer be used, and Source will be removing care team roles in
+            the future. Use groups instead.
           example: null
           nullable: true
         test_care_team_role:
@@ -9826,8 +9826,8 @@ components:
           x-expandable:
             $ref: "#/components/schemas/care_team_role"
           description:
-            Care team role for this user, which must reference a role that exists in test mode. Only
-            users with a care team role can be added to a member's care team.
+            Care team roles should no longer be used, and Source will be removing care team roles in
+            the future. Use groups instead.
           example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
         status:
