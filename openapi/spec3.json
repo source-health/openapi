@@ -3628,7 +3628,7 @@
                       "other",
                       "undisclosed"
                     ],
-                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
+                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.",
                     "example": "female"
                   },
                   "administrative_gender": {
@@ -4029,7 +4029,7 @@
                       "other",
                       "undisclosed"
                     ],
-                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
+                    "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.",
                     "example": "female"
                   },
                   "administrative_gender": {
@@ -8767,17 +8767,6 @@
             "description": "The IANA time zone identifier of the member, if one is known. If no time zone is known, null is returned.",
             "example": "America/New_York"
           },
-          "biological_sex": {
-            "type": "string",
-            "enum": [
-              "male",
-              "female",
-              "non_binary",
-              "undisclosed"
-            ],
-            "description": "Biological sex of the member. This property should no longer be used, and `sex_at_birth` or `gender_identity` should be preferred going forward, depending on the use case. Source will be removing this property in the future.",
-            "example": "female"
-          },
           "sex_at_birth": {
             "type": "string",
             "enum": [
@@ -8786,7 +8775,7 @@
               "other",
               "undisclosed"
             ],
-            "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.\n\nFor backwards compatibility reasons, both `biological_sex` and `sex_at_birth` are supported inputs. If both `biological_sex` and `sex_at_birth` are provided, `sex_at_birth` is used.",
+            "description": "Sex assigned and recorded on the birth certificate at the time of the individual's birth. This information is often clinically useful, but is not necessarily indicative of the individual's gender identity.",
             "example": "female"
           },
           "administrative_gender": {
@@ -8973,7 +8962,7 @@
           "license_region": {
             "type": "string",
             "nullable": true,
-            "description": "Licensing region the member is located within.        This is represented as an ISO-3166-2:US code and always matches the region of the member's address.",
+            "description": "Licensing region the member is located within.       This is represented as an ISO-3166-2:US code and always matches the region of the member's address.",
             "example": "US-NY"
           },
           "created_at": {
@@ -9000,7 +8989,6 @@
           "email",
           "date_of_birth",
           "time_zone",
-          "biological_sex",
           "sex_at_birth",
           "administrative_gender",
           "gender_identity",
