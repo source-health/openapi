@@ -2208,6 +2208,7 @@ paths:
                     - message_attachment
                     - photo
                     - user_profile_photo
+                    - document
                   description:
                     The purpose of the uploaded file. Each purpose imposes restrictions on supported
                     file types and use cases.
@@ -2240,11 +2241,13 @@ paths:
               - message_attachment
               - photo
               - user_profile_photo
+              - document
             _tag: EnumCodec
             enumValues:
               - message_attachment
               - photo
               - user_profile_photo
+              - document
         _tag: ObjectCodec
         properties:
           - file
@@ -8090,6 +8093,7 @@ components:
             - message_attachment
             - photo
             - user_profile_photo
+            - document
           description:
             The purpose of this uploaded file. Each file is required to have a clearly defined
             purpose, which controls what types of uploads are allowed and where the file may be
