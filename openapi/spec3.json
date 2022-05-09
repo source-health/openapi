@@ -7794,7 +7794,18 @@
                 "appointment_types": {
                   "type": "array",
                   "items": {
-                    "type": "string",
+                    "oneOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "$ref": "#/components/schemas/appointment_type"
+                      }
+                    ],
+                    "x-expandable": {
+                      "$ref": "#/components/schemas/appointment_type"
+                    },
+                    "description": "Expandable reference to an appointment type",
                     "example": "aptp_meYUvkuaI2akjnb5Kwt7"
                   },
                   "description": "An optional set of appointment types that this availability rule is restricted to. Only appointments of the specified types are bookable during the period of this rule. Omitting this field or providing an empty array implies the rule can accommodate booking any appointment type.\n\nRules are additive - when rules with different appointment type restrictions overlap in time, the set of all allowed appointment types in all overlapping rules may be booked during the overlap."
@@ -7874,7 +7885,18 @@
                       "appointment_types": {
                         "type": "array",
                         "items": {
-                          "type": "string",
+                          "oneOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "$ref": "#/components/schemas/appointment_type"
+                            }
+                          ],
+                          "x-expandable": {
+                            "$ref": "#/components/schemas/appointment_type"
+                          },
+                          "description": "Expandable reference to an appointment type",
                           "example": "aptp_meYUvkuaI2akjnb5Kwt7"
                         },
                         "description": "An optional set of appointment types that this override rule is restricted to. Only appointments of the specified types are bookable during the period of this override. Omitting this field or providing an empty array implies the override can accommodate booking any appointment type.\n\nAppointment type constraints are additive - when overrides with different appointment type restrictions overlap in time, the set of all allowed appointment types in all overlapping rules may be booked during the overlap."

@@ -7537,7 +7537,12 @@ components:
               appointment_types:
                 type: array
                 items:
-                  type: string
+                  oneOf:
+                    - type: string
+                    - $ref: "#/components/schemas/appointment_type"
+                  x-expandable:
+                    $ref: "#/components/schemas/appointment_type"
+                  description: Expandable reference to an appointment type
                   example: aptp_meYUvkuaI2akjnb5Kwt7
                 description: >-
                   An optional set of appointment types that this availability rule is restricted to.
@@ -7620,7 +7625,12 @@ components:
                     appointment_types:
                       type: array
                       items:
-                        type: string
+                        oneOf:
+                          - type: string
+                          - $ref: "#/components/schemas/appointment_type"
+                        x-expandable:
+                          $ref: "#/components/schemas/appointment_type"
+                        description: Expandable reference to an appointment type
                         example: aptp_meYUvkuaI2akjnb5Kwt7
                       description: >-
                         An optional set of appointment types that this override rule is restricted
