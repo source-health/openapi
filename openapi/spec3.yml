@@ -3250,12 +3250,12 @@ paths:
                   required:
                     - code
                   description:
-                    The type of clinical license.  If you have a need for a license type that is not
+                    The type of clinical license. If you have a need for a license type that is not
                     supported, please don’t hesitate to reach out to Source.
                 region:
                   type: string
                   description:
-                    Region with which the license is associated.  This is represented as an
+                    Region with which the license is associated. This is represented as an
                     ISO-3166-2:US code. For example, "US-NY".
                   example: US-NY
                 license_number:
@@ -4673,7 +4673,7 @@ paths:
 
                     If more than one group is listed in the queue's `routing_targets`, each group
                     will be evaluated in order until a user assignment is found. If no user is found
-                    in any group, the task will remain unassigned. 
+                    in any group, the task will remain unassigned.
 
 
                     By default, Source uses the `care_team_required` strategy to provide continuity
@@ -4915,7 +4915,7 @@ paths:
 
                     If more than one group is listed in the queue's `routing_targets`, each group
                     will be evaluated in order until a user assignment is found. If no user is found
-                    in any group, the task will remain unassigned. 
+                    in any group, the task will remain unassigned.
 
 
                     By default, Source uses the `care_team_required` strategy to provide continuity
@@ -4975,12 +4975,12 @@ paths:
             example: que_6NGuKD4KdMCGXLP6uBda
             description:
               The ID of the queue to use as a replacement for task definitions and tasks that
-              reference the deleted  queue. If not specified, Source removes the reference to the
+              reference the deleted queue. If not specified, Source removes the reference to the
               deleted queue.
           required: false
           description:
             The ID of the queue to use as a replacement for task definitions and tasks that
-            reference the deleted  queue. If not specified, Source removes the reference to the
+            reference the deleted queue. If not specified, Source removes the reference to the
             deleted queue.
       responses:
         default:
@@ -8734,12 +8734,12 @@ components:
             - code
             - description
           description:
-            The type of clinical license.  If you have a need for a license type that is not
+            The type of clinical license. If you have a need for a license type that is not
             supported, please don’t hesitate to reach out to Source.
         region:
           type: string
           description:
-            Region with which the license is associated.  This is represented as an ISO-3166-2:US
+            Region with which the license is associated. This is represented as an ISO-3166-2:US
             code. For example, "US-NY".
           example: US-NY
         license_number:
@@ -8783,17 +8783,16 @@ components:
       title: License
       description: >-
         Licenses represent the legal permission to perform an occupation, such as to deliver medical
-        care.  A license is specific to a region (in the US, a state or territory) whose licensing
+        care. A license is specific to a region (in the US, a state or territory) whose licensing
         body has granted the license.
 
 
         Source uses licenses to guide, for example, automatic routing of tasks and appointments
-        configured to require licensure.  Source compares a user's license region with the member's
-        address region to evaluate appropriate licensure.  Each user can have any number of
-        licenses. Licenses can be created, updated, and deleted for a user.
+        configured to require licensure. Source compares a user's license region with the member's
+        address region to evaluate appropriate licensure. Each user can have any number of licenses.
+        Licenses can be created, updated, and deleted for a user.
       x-resourceId: license
       x-package: null
-      x-preview: true
     measurement:
       type: object
       properties:
@@ -9620,7 +9619,7 @@ components:
 
             If more than one group is listed in the queue's `routing_targets`, each group will be
             evaluated in order until a user assignment is found. If no user is found in any group,
-            the task will remain unassigned. 
+            the task will remain unassigned.
 
 
             By default, Source uses the `care_team_required` strategy to provide continuity of care
@@ -9654,7 +9653,7 @@ components:
             $ref: "#/components/schemas/queue"
           description:
             The ID of the queue to use as a replacement for task definitions and tasks that
-            reference the deleted  queue. If not specified, Source removes the reference to the
+            reference the deleted queue. If not specified, Source removes the reference to the
             deleted queue.
           example: que_6NGuKD4KdMCGXLP6uBda
         created_at:
@@ -9692,7 +9691,6 @@ components:
         automatically to an assignee within and beyond a member's care team.
       x-resourceId: queue
       x-package: null
-      x-preview: true
     slot:
       type: object
       properties:
