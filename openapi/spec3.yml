@@ -2883,9 +2883,6 @@ paths:
                   nullable: true
                   description: Description of the form
                   example: Intake questionnaire to be filled out before first appointment.
-                active_version:
-                  type: string
-                  example: fv_ByJdV5tV3eJf6KRRfoGU
       responses:
         default:
           description: Successful response.
