@@ -2945,156 +2945,24 @@ paths:
                 $ref: "#/components/schemas/form"
       x-methodName: archive
       x-belongsToResource: form
-  /v1/form_versions:
+  "/v1/forms/{form}/versions/latest":
     post:
-      summary: Create a Form Version
-      description: Create a new form version from a previous version. Copies over the form config.
-      tags:
-        - Form
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                previous_version:
-                  type: string
-                  example: fv_ByJdV5tV3eJf6KRRfoGU
-                changelog:
-                  type: string
-                  nullable: true
-              required:
-                - previous_version
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/form_version"
-      x-methodName: create
-      x-belongsToResource: form_version
-    get:
-      summary: List all Form Versions
+      summary: Update draft version
       description:
-        Returns a list of forms versions for a form. The forms returned are sorted by creation date,
-        with the most recently added form version appearing first.
-      tags:
-        - Form
-      parameters:
-        - in: query
-          style: form
-          explode: true
-          name: ending_before
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `ending_before` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
-              to fetch the previous page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `ending_before` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, starting
-            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
-            the previous page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: starting_after
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `starting_after` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
-              to fetch the next page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `starting_after` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, ending
-            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
-            the next page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: limit
-          schema:
-            type: number
-            minimum: 1
-            maximum: 100
-            description:
-              A limit on the number of objects to be returned. Limit can range between 1 and 100.
-          required: false
-          description:
-            A limit on the number of objects to be returned. Limit can range between 1 and 100.
-        - in: query
-          style: form
-          explode: true
-          name: form
-          schema:
-            type: string
-            example: form_hSGPOT5BMusNLwDI3Z4N
-            description: The form for which to get versions for.
-          required: true
-          description: The form for which to get versions for.
-        - in: query
-          style: form
-          explode: true
-          name: published
-          schema:
-            type: boolean
-            description: Filter by published or unpublished.
-          required: false
-          description: Filter by published or unpublished.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    default: list
-                    enum:
-                      - list
-                    example: list
-                    description: Always `list`.
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/form_version"
-                    description: Array of results
-                  has_more:
-                    type: boolean
-                    description: Contains `true` if there is another page of results available.
-                required:
-                  - object
-                  - data
-                  - has_more
-      x-methodName: list
-      x-belongsToResource: form_version
-  "/v1/form_versions/{id}":
-    post:
-      summary: Update a Form Version
-      description: Update the items in a form version.
+        Update a form version. If there is no draft version of the form a new draft will be created.
       tags:
         - Form
       parameters:
         - in: path
           style: simple
           explode: true
-          name: id
+          name: form
           schema:
             type: string
-            example: fv_ByJdV5tV3eJf6KRRfoGU
-            description: Unique ID of the form_version.
+            example: form_hSGPOT5BMusNLwDI3Z4N
+            description: Unique ID for the form.
           required: true
-          description: Unique ID of the form_version.
+          description: Unique ID for the form.
       requestBody:
         content:
           application/json:
@@ -4562,24 +4430,76 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/form_version"
-      x-methodName: update
+      x-methodName: latest
       x-belongsToResource: form_version
-    get:
-      summary: Retrieve a Form Version
+  "/v1/forms/{form}/versions/latest/publish":
+    post:
+      summary: Publish a Form
       description:
-        Retrieves the details of an existing form version. You need only supply the unique form
-        version identifier that was returned upon creation.
+        Publish the form version preventing any further changes. Once a version has been published
+        it cannot be unpublished. Also updates the active version of the form.
       tags:
         - Form
       parameters:
         - in: path
           style: simple
           explode: true
+          name: form
+          schema:
+            type: string
+            example: form_hSGPOT5BMusNLwDI3Z4N
+            description: Unique ID for the form.
+          required: true
+          description: Unique ID for the form.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                last_updated_at:
+                  type: string
+                  format: date-time
+                  description:
+                    If provided publish will only suceed if this matches the server's record for
+                    'updated_at'
+                  example: 2021-05-13T16:33:00.000Z
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/form_version"
+      x-methodName: latest/publish
+      x-belongsToResource: form_version
+  "/v1/forms/{form}/versions/{id}":
+    get:
+      summary: Retrieve a Form Version
+      description:
+        Retrieves the details of an existing form version.  Use 'latest' to retrieve the latest
+        version (including drafts) or 'published' to retrieve the latest published version.
+      tags:
+        - Form
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: form
+          schema:
+            type: string
+            example: form_hSGPOT5BMusNLwDI3Z4N
+            description: Unique ID for the form.
+          required: true
+          description: Unique ID for the form.
+        - in: path
+          style: simple
+          explode: true
           name: id
           schema:
             type: string
-            example: fv_ByJdV5tV3eJf6KRRfoGU
             description: Unique ID of the form_version.
+            example: fv_ByJdV5tV3eJf6KRRfoGU
           required: true
           description: Unique ID of the form_version.
       responses:
@@ -4591,33 +4511,109 @@ paths:
                 $ref: "#/components/schemas/form_version"
       x-methodName: retrieve
       x-belongsToResource: form_version
-  "/v1/form_versions/{id}/publish":
-    post:
-      summary: Publish a Form Version
+  "/v1/forms/{form}/versions":
+    get:
+      summary: List all Form Versions
       description:
-        Publish a form version preventing any further changes. Once a version has been published it
-        cannot be unpublished. Sets this to the active version of the form.
+        Returns a list of forms versions. The form versions returned are sorted by creation date,
+        with the most recently added form version appearing first.
       tags:
         - Form
       parameters:
         - in: path
           style: simple
           explode: true
-          name: id
+          name: form
           schema:
             type: string
-            example: fv_ByJdV5tV3eJf6KRRfoGU
-            description: Unique ID of the form_version.
+            example: form_hSGPOT5BMusNLwDI3Z4N
+            description: Unique ID for the form.
           required: true
-          description: Unique ID of the form_version.
+          description: Unique ID for the form.
+        - in: query
+          style: form
+          explode: true
+          name: ending_before
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `ending_before` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
+              to fetch the previous page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `ending_before` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, starting
+            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
+            the previous page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: starting_after
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `starting_after` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
+              to fetch the next page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `starting_after` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, ending
+            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
+            the next page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: limit
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            description:
+              A limit on the number of objects to be returned. Limit can range between 1 and 100.
+          required: false
+          description:
+            A limit on the number of objects to be returned. Limit can range between 1 and 100.
+        - in: query
+          style: form
+          explode: true
+          name: published
+          schema:
+            type: boolean
+            description: Filter by published or unpublished.
+          required: false
+          description: Filter by published or unpublished.
       responses:
         default:
           description: Successful response.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/form_version"
-      x-methodName: publish
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                    enum:
+                      - list
+                    example: list
+                    description: Always `list`.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/form_version"
+                    description: Array of results
+                  has_more:
+                    type: boolean
+                    description: Contains `true` if there is another page of results available.
+                required:
+                  - object
+                  - data
+                  - has_more
+      x-methodName: list
       x-belongsToResource: form_version
   /v1/groups:
     post:
