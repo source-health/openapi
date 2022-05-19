@@ -4372,8 +4372,8 @@ paths:
                     An array of Pages to display within the form. Each page contains one or more
                     form elements such as questions, display elements, early exit points, or groups.
                 exit_screens:
-                  type: object
-                  additionalProperties:
+                  type: array
+                  items:
                     type: object
                     properties:
                       type:
@@ -4382,6 +4382,13 @@ paths:
                         enum:
                           - exit_screen
                         example: exit_screen
+                      key:
+                        type: string
+                        description:
+                          A unique key for this exit screen within the form. The keys are used in
+                          early exit points to indicate which screen is used for the early exit. An
+                          exit screen with key 'default' must exist in every form.
+                        example: ineligible_location
                       content_type:
                         type: string
                         enum:
@@ -4401,6 +4408,7 @@ paths:
                           Your care team will be in touch.
                     required:
                       - type
+                      - key
                       - content_type
                       - content
                     description: >-
@@ -12069,8 +12077,8 @@ components:
             An array of pages to display within the form. Each page contains one or more form
             elements such as questions, display elements, early exit points, or groups of items.
         exit_screens:
-          type: object
-          additionalProperties:
+          type: array
+          items:
             type: object
             properties:
               type:
@@ -12079,6 +12087,13 @@ components:
                 enum:
                   - exit_screen
                 example: exit_screen
+              key:
+                type: string
+                description:
+                  A unique key for this exit screen within the form. The keys are used in early exit
+                  points to indicate which screen is used for the early exit. An exit screen with
+                  key 'default' must exist in every form.
+                example: ineligible_location
               content_type:
                 type: string
                 enum:
@@ -12097,6 +12112,7 @@ components:
                   Your care team will be in touch.
             required:
               - type
+              - key
               - content_type
               - content
             description: >-
