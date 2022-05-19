@@ -4461,7 +4461,7 @@ paths:
                   type: string
                   format: date-time
                   description:
-                    If provided publish will only suceed if this matches the server's record for
+                    If provided publish will only succeed if this matches the server's record for
                     'updated_at'
                   example: 2021-05-13T16:33:00.000Z
       responses:
@@ -4477,7 +4477,7 @@ paths:
     get:
       summary: Retrieve a Form Version
       description:
-        Retrieves the details of an existing form version.  Use 'latest' to retrieve the latest
+        Retrieves the details of an existing form version. Use 'latest' to retrieve the latest
         version (including drafts) or 'published' to retrieve the latest published version.
       tags:
         - Form
