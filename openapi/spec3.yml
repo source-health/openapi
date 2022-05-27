@@ -982,6 +982,54 @@ paths:
                     Whether or not to create a video call for appointments of this type. Defaults to
                     false.
                   example: true
+                reminders:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      when:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            default: before
+                            enum:
+                              - before
+                            example: before
+                            description:
+                              The trigger for when this reminder should be scheduled. Currently, the
+                              only supported value is `before`, indicating that this reminder should
+                              be triggered based on the requested duration prior to the start of the
+                              appointment.
+                          unit:
+                            type: string
+                            enum:
+                              - minute
+                              - hour
+                              - day
+                            description:
+                              The unit of time used in this reminder configuration. Units are
+                              interpreted within the appointment's scheduled time zone, meaning 24
+                              hours and 1 day are not necessarily the same if the reminder window
+                              spans daylight savings.
+                          time:
+                            type: number
+                            description:
+                              The number of units before the appointment at which this reminder
+                              should trigger. Must be an integer greater than zero.
+                        required:
+                          - type
+                          - unit
+                          - time
+                    required:
+                      - when
+                  description: >-
+                    The reminder configuration for this appointment type. Each appointment created
+                    with this type will inherit the reminder configuration of the appointment type.
+                    Changes to reminder configuration will be applied to all future appointments.
+
+
+                    You may configure up to five reminders per appointment type.
               required:
                 - key
                 - name
@@ -1399,6 +1447,54 @@ paths:
                     Whether or not to create a video call for appointments of this type. Defaults to
                     false.
                   example: true
+                reminders:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      when:
+                        type: object
+                        properties:
+                          type:
+                            type: string
+                            default: before
+                            enum:
+                              - before
+                            example: before
+                            description:
+                              The trigger for when this reminder should be scheduled. Currently, the
+                              only supported value is `before`, indicating that this reminder should
+                              be triggered based on the requested duration prior to the start of the
+                              appointment.
+                          unit:
+                            type: string
+                            enum:
+                              - minute
+                              - hour
+                              - day
+                            description:
+                              The unit of time used in this reminder configuration. Units are
+                              interpreted within the appointment's scheduled time zone, meaning 24
+                              hours and 1 day are not necessarily the same if the reminder window
+                              spans daylight savings.
+                          time:
+                            type: number
+                            description:
+                              The number of units before the appointment at which this reminder
+                              should trigger. Must be an integer greater than zero.
+                        required:
+                          - type
+                          - unit
+                          - time
+                    required:
+                      - when
+                  description: >-
+                    The reminder configuration for this appointment type. Each appointment created
+                    with this type will inherit the reminder configuration of the appointment type.
+                    Changes to reminder configuration will be applied to all future appointments.
+
+
+                    You may configure up to five reminders per appointment type.
       responses:
         default:
           description: Successful response.
@@ -7827,6 +7923,52 @@ components:
           example:
             - code: MD
               description: Doctor of Medicine
+        reminders:
+          type: array
+          items:
+            type: object
+            properties:
+              when:
+                type: object
+                properties:
+                  type:
+                    type: string
+                    default: before
+                    enum:
+                      - before
+                    example: before
+                    description:
+                      The trigger for when this reminder should be scheduled. Currently, the only
+                      supported value is `before`, indicating that this reminder should be triggered
+                      based on the requested duration prior to the start of the appointment.
+                  unit:
+                    type: string
+                    enum:
+                      - minute
+                      - hour
+                      - day
+                    description:
+                      The unit of time used in this reminder configuration. Units are interpreted
+                      within the appointment's scheduled time zone, meaning 24 hours and 1 day are
+                      not necessarily the same if the reminder window spans daylight savings.
+                  time:
+                    type: number
+                    description:
+                      The number of units before the appointment at which this reminder should
+                      trigger. Must be an integer greater than zero.
+                required:
+                  - type
+                  - unit
+                  - time
+            required:
+              - when
+          description: >-
+            The reminder configuration for this appointment type. Each appointment created with this
+            type will inherit the reminder configuration of the appointment type. Changes to
+            reminder configuration will be applied to all future appointments.
+
+
+            You may configure up to five reminders per appointment type.
         created_at:
           type: string
           format: date-time
@@ -7856,6 +7998,7 @@ components:
         - routing_strategy
         - groups
         - license_types
+        - reminders
         - created_at
         - updated_at
       title: Appointment Type
@@ -10525,12 +10668,16 @@ components:
         - appointment.updated
         - appointment.canceled
         - appointment.deleted
+        - appointment.reminder
         - availability.created
         - availability.updated
         - availability.deleted
         - care_team.created
         - care_team.updated
         - care_team.deleted
+        - document.created
+        - document.updated
+        - document.deleted
         - device.created
         - device.activated
         - device.deactivated
