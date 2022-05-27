@@ -3651,11 +3651,24 @@ paths:
                     required:
                       - type
                 sender:
-                  type: string
-                  example: usr_NC6MQ3FyxddKoJJpfSVL
+                  anyOf:
+                    - type: string
+                      example: usr_qoGndHzx8KwdYsEByt9X
+                    - type: string
+                      example: mem_5QW8j1oKqQjNaPk4Hv3f
                   description:
                     When calling this endpoint with an API key, you must use this field to specify
-                    the user on whose behalf the message is sent.
+                    the user or member on whose behalf the message is sent.
+                  example: usr_NC6MQ3FyxddKoJJpfSVL
+                sent_at:
+                  type: string
+                  format: date-time
+                  description:
+                    The time at which this message was sent.  When calling this endpoint with an API
+                    key you can optionally specify the sent_at time, such as when backloading
+                    historical messages.  By default and when called as a user or a member, the
+                    current time is used.
+                  example: 2021-05-13T16:33:00.000Z
               required:
                 - thread
                 - text
@@ -6331,11 +6344,24 @@ paths:
                         required:
                           - type
                     sender:
-                      type: string
-                      example: usr_NC6MQ3FyxddKoJJpfSVL
+                      anyOf:
+                        - type: string
+                          example: usr_qoGndHzx8KwdYsEByt9X
+                        - type: string
+                          example: mem_5QW8j1oKqQjNaPk4Hv3f
                       description:
                         When calling this endpoint with an API key, you must use this field to
-                        specify the user on whose behalf the message is sent.
+                        specify the user or member on whose behalf the message is sent.
+                      example: usr_NC6MQ3FyxddKoJJpfSVL
+                    sent_at:
+                      type: string
+                      format: date-time
+                      description:
+                        The time at which this message was sent.  When calling this endpoint with an
+                        API key you can optionally specify the sent_at time, such as when
+                        backloading historical messages.  By default and when called as a user or a
+                        member, the current time is used.
+                      example: 2021-05-13T16:33:00.000Z
                   required:
                     - text
                   description: The initial message to send when creating this thread.
@@ -9288,8 +9314,8 @@ components:
           type: string
           nullable: true
           description:
-            The API key who sent the message on behalf of `sender`. If null, the message sender was
-            not impersonated.
+            The API key who created the message on behalf of `sender`. If null, the message sender
+            was not impersonated.
       required:
         - object
         - id
