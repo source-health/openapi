@@ -11598,7 +11598,7 @@
             "description": "Whether or not this form can be directly accessed by a public responder. For example, set public to true for a public-facing intake form that should be accessible to anyone.",
             "example": false
           },
-          "active_version": {
+          "published_version": {
             "oneOf": [
               {
                 "type": "string"
@@ -11657,14 +11657,14 @@
           "name",
           "description",
           "public",
-          "active_version",
+          "published_version",
           "latest_version",
           "created_at",
           "updated_at",
           "archived_at"
         ],
         "title": "Form",
-        "description": "Forms are questionnaire tools that allow you to gather information of any kind from a responder. You can use forms to collect responses from members or from anonymous responders, such as during an intake workflow. Each form references one or more form versions, which contain the form's configuration and content. A form always has a single draft version that can be updated. Once published, a form version becomes the active version of a form, with which responders interact. Each time a form version is published, a new draft version is created. A published form version cannot be deleted or modified. To make a form with an active form version inaccessible for new responses, archive the form.",
+        "description": "Forms are questionnaire tools that allow you to gather information of any kind from a responder. You can use forms to collect responses from members or from anonymous responders, such as during an intake workflow. Each form references one or more form versions, which contain the form's configuration and content. A form always has a single draft version that can be updated. Once published, a form version becomes the active version of a form, with which responders interact. Each time a form version is published, a new draft version is created. A published form version cannot be deleted or modified. To make a form with a published form version inaccessible for new responses, archive the form.",
         "x-resourceId": "form",
         "x-package": "forms",
         "x-preview": true

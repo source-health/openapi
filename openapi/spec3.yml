@@ -11084,7 +11084,7 @@ components:
             Whether or not this form can be directly accessed by a public responder. For example,
             set public to true for a public-facing intake form that should be accessible to anyone.
           example: false
-        active_version:
+        published_version:
           oneOf:
             - type: string
             - $ref: "#/components/schemas/form_version"
@@ -11127,7 +11127,7 @@ components:
         - name
         - description
         - public
-        - active_version
+        - published_version
         - latest_version
         - created_at
         - updated_at
@@ -11140,8 +11140,8 @@ components:
         contain the form's configuration and content. A form always has a single draft version that
         can be updated. Once published, a form version becomes the active version of a form, with
         which responders interact. Each time a form version is published, a new draft version is
-        created. A published form version cannot be deleted or modified. To make a form with an
-        active form version inaccessible for new responses, archive the form.
+        created. A published form version cannot be deleted or modified. To make a form with a
+        published form version inaccessible for new responses, archive the form.
       x-resourceId: form
       x-package: forms
       x-preview: true
