@@ -3127,7 +3127,7 @@
     },
     "/v1/forms/{form}/versions/latest": {
       "post": {
-        "summary": "Update draft version",
+        "summary": "Update a Draft Form Version",
         "description": "Updates a form version. If there is no draft version of the form, a new draft version is created with the parameters provided.",
         "tags": [
           "Form"
@@ -4928,7 +4928,7 @@
     },
     "/v1/forms/{form}/versions/latest/publish": {
       "post": {
-        "summary": "Publish a Form",
+        "summary": "Publish a Form Version",
         "description": "Publishes the form version preventing any further changes. Once a version has been published it cannot be unpublished. Once published, the version becomes the form's active version and is used for all new responses.",
         "tags": [
           "Form"
