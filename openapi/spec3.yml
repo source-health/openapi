@@ -2770,7 +2770,7 @@ paths:
       summary: Create a Form
       description:
         Creates a new form with a single draft form version. After creating a form, you can use the
-        update draft version endpoint to modify the form''s contents.
+        update draft version endpoint to modify the form's contents.
       tags:
         - Form
       parameters: []
@@ -2786,16 +2786,18 @@ paths:
                   maxLength: 255
                   pattern: ^[a-z0-9_-]+$
                   description:
-                    Unique key for this form. In order to avoid potential confusion when
-                    distinguishing between form IDs and form keys, keys must not start with `form_`.
+                    Unique key for this form. You can use this when creating form responses via the
+                    API. In order to avoid potential confusion when distinguishing between form IDs
+                    and form keys, keys must not start with `form_`.
                   example: intake
                 name:
                   type: string
                   minLength: 1
                   maxLength: 255
                   description:
-                    Name of this form. This is visible to form responders and to users in the Source
-                    UI.
+                    Description of this form. This description will be shown to responders when
+                    attempting to respond to this form. While not required, it can be helpful to
+                    share details about the form's purpose.
                   example: Intake
                 description:
                   type: string
@@ -2974,15 +2976,17 @@ paths:
                   maxLength: 255
                   pattern: ^[a-z0-9_-]+$
                   description:
-                    Unique key for this form. In order to avoid potential confusion when
-                    distinguishing between form IDs and form keys, keys must not start with `form_`.
+                    Unique key for this form. You can use this when creating form responses via the
+                    API. In order to avoid potential confusion when distinguishing between form IDs
+                    and form keys, keys must not start with `form_`.
                   example: intake
                 name:
                   type: string
                   maxLength: 255
                   description:
-                    Name of this form. This is visible to form responders and to users in the Source
-                    UI.
+                    Description of this form. This description will be shown to responders when
+                    attempting to respond to this form. While not required, it can be helpful to
+                    share details about the form's purpose.
                   example: Intake
                 description:
                   type: string
@@ -3058,8 +3062,8 @@ paths:
     post:
       summary: Create a Form Response
       description:
-        Creates a new form response for the current active version of the form you
-        specify.  Optionally, you can associate the form with a member.
+        Creates a new form response for the current active version of the form you specify.
+        Optionally, you can associate the form with a member.
       tags:
         - Form Response
       parameters: []
@@ -3098,13 +3102,13 @@ paths:
                       - values
                   description:
                     The individual responses that capture the author's answers to corresponding
-                    items within the form version.  Each response is associated with the item key of
+                    items within the form version. Each response is associated with the item key of
                     the corresponding question in the form version.
                 submit:
                   type: boolean
                   description:
-                    If true, submits the response after updating any included responses.  Updates
-                    the form response status to 'completed'.
+                    If true, submits the response after updating any included responses. Updates the
+                    form response status to 'completed'.
               required:
                 - form_version
       responses:
@@ -3214,9 +3218,9 @@ paths:
             type: array
             items:
               type: string
-            description: Filter results by author
+            description: Filter results by author.
           required: false
-          description: Filter results by author
+          description: Filter results by author.
         - in: query
           style: form
           explode: true
@@ -3228,9 +3232,9 @@ paths:
               enum:
                 - started
                 - completed
-            description: Filter results by status
+            description: Filter results by status.
           required: false
-          description: Filter results by status
+          description: Filter results by status.
         - in: query
           style: form
           explode: true
@@ -3381,6 +3385,11 @@ paths:
                 changelog:
                   type: string
                   nullable: true
+                  description:
+                    Description of changes within this form version. You can use the changelog to
+                    describe the updates you are making within this form version relative to
+                    previous versions. The changelog is not visible to members and responders to the
+                    form.
                 items:
                   type: array
                   items:
@@ -3559,8 +3568,9 @@ paths:
                       Each page defines the elements that display together to a responder and
                       consists of an array of other form items.
                   description:
-                    An array of Pages to display within the form. Each page contains one or more
-                    form elements such as questions, display elements, early exit points, or groups.
+                    An array of items that describe the form version's content and configuration.
+                    Pages form the top-level item and contain additional elements, such as
+                    questions, display elements, early exit points, and groups of items.
                 exit_screens:
                   type: array
                   items:
@@ -3615,9 +3625,9 @@ paths:
                       early exit point that indicate to the responder they are ineligible and end
                       their form response early.
                   description:
-                    A map of 'key' to exit screen content. Each form must contain an exit screen
-                    with the key 'default', and additional exit screens can be configured and
-                    referenced by early exit points within the form.
+                    A map of early exit point keys to exit screen content. Each form version must
+                    contain an exit screen with the key 'default', and additional exit screens can
+                    be configured and referenced by early exit points within the form version.
               required:
                 - items
                 - exit_screens
@@ -3634,9 +3644,9 @@ paths:
     post:
       summary: Publish a Form Version
       description:
-        Publishes the form version preventing any further changes. Once a version has been published
-        it cannot be unpublished. Once published, the version becomes the form's active version and
-        is used for all new responses.
+        Publishes the form version, preventing any further changes. Once a version has been
+        published it cannot be unpublished. Once published, the version becomes the form's published
+        version and is used for all new responses.
       tags:
         - Form
       parameters:
@@ -3784,9 +3794,9 @@ paths:
           name: published
           schema:
             type: boolean
-            description: Filter by published or unpublished.
+            description: Filter by published or unpublished form versions.
           required: false
-          description: Filter by published or unpublished.
+          description: Filter by published or unpublished form versions.
       responses:
         default:
           description: Successful response.
@@ -10014,13 +10024,16 @@ components:
         key:
           type: string
           description:
-            Unique key for this form. In order to avoid potential confusion when distinguishing
-            between form IDs and form keys, keys must not start with `form_`.
+            Unique key for this form. You can use this when creating form responses via the API. In
+            order to avoid potential confusion when distinguishing between form IDs and form keys,
+            keys must not start with `form_`.
           example: intake
         name:
           type: string
           description:
-            Name of this form. This is visible to form responders and to users in the Source UI.
+            Description of this form. This description will be shown to responders when attempting
+            to respond to this form. While not required, it can be helpful to share details about
+            the form's purpose.
           example: Intake
         description:
           type: string
@@ -10082,15 +10095,18 @@ components:
         - updated_at
         - archived_at
       title: Form
-      description:
+      description: >-
         Forms are questionnaire tools that allow you to gather information of any kind from a
         responder. You can use forms to collect responses from members or from anonymous responders,
-        such as during an intake workflow. Each form references one or more form versions, which
-        contain the form's configuration and content. A form always has a single draft version that
-        can be updated. Once published, a form version becomes the active version of a form, with
-        which responders interact. Each time a form version is published, a new draft version is
-        created. A published form version cannot be deleted or modified. To make a form with a
-        published form version inaccessible for new responses, archive the form.
+        such as during an intake workflow.
+
+
+        Each form references one or more form versions, which contain the form's configuration and
+        content. A form always has a single draft version that can be updated. Once published, a
+        form version becomes the active version of a form, with which responders interact. Each time
+        a form version is published, a new draft version is created. A published form version cannot
+        be deleted or modified. To make a form with a published form version inaccessible for new
+        responses, archive the form.
       x-resourceId: form
       x-package: forms
       x-preview: true
@@ -10165,18 +10181,23 @@ components:
               - response
           description:
             The individual responses that capture the author's answers to corresponding items within
-            the form version.
+            the form version.,
         status:
           type: string
           enum:
             - started
             - completed
-          description: State of the form response
+          description:
+            Current status of this form response. By default, newly created form responses use the
+            'started' status.  When a form is submitted, the status changes to 'completed'.
           example: started
         early_exit_point:
           type: string
           nullable: true
-          description: The early exit point key reached, if any.
+          description:
+            The key of the early exit point the author reached, if any. Forms support conditional
+            early exits that appear based on the author's responses. If the author reaches an early
+            exit point during the response, the key of that early exit point is specified here.
         created_at:
           type: string
           format: date-time
@@ -10213,10 +10234,10 @@ components:
 
 
         You can create form responses to capture answers to a form by specifying the form to which
-        the response relates.  Source automatically relates the response to the form's current
-        active version at the time you create the response.  Note that a form response remains tied
-        to a given form version, and updates to other versions of that form do not affect existing
-        responses.
+        the response relates. Source automatically relates the response to the form's current
+        published version at the time you create the response. Note that a form response remains
+        tied to a given form version, and updates to other versions of that form do not affect
+        existing responses.
 
 
         Form responses support both responses created by members and those created by anonymous
@@ -10246,13 +10267,20 @@ components:
             - $ref: "#/components/schemas/form"
           x-expandable:
             $ref: "#/components/schemas/form"
-          description: Expandable reference to a Form
+          description: Unique ID for the parent form of this form version.
           example: form_hSGPOT5BMusNLwDI3Z4N
         changelog:
           type: string
           nullable: true
+          description:
+            Description of changes within this form version. You can use the changelog to describe
+            the updates you are making within this form version relative to previous versions. The
+            changelog is not visible to members and responders to the form.
         version:
           type: number
+          description:
+            Version number of this form version. The version number is automatically incremented
+            when you publish a form version and a new draft version is created.
         previous_version:
           oneOf:
             - type: string
@@ -10260,8 +10288,8 @@ components:
           x-expandable:
             $ref: "#/components/schemas/form_version"
           description:
-            An expandable reference to a form version, which describes the form's configuration and
-            contents.
+            The previous form version. You can expand the previous form version to view its contents
+            and configuration without the need to look up the form version separately.
           example: fv_ByJdV5tV3eJf6KRRfoGU
           nullable: true
         items:
@@ -10438,8 +10466,9 @@ components:
               page defines the elements that display together to a responder and consists of an
               array of other form items.
           description:
-            An array of pages to display within the form. Each page contains one or more form
-            elements such as questions, display elements, early exit points, or groups of items.
+            An array of items that describe the form version's content and configuration. Pages form
+            the top-level item and contain additional elements, such as questions, display elements,
+            early exit points, and groups of items.
         exit_screens:
           type: array
           items:
@@ -10523,10 +10552,15 @@ components:
         - updated_at
         - published_at
       title: Form Version
-      description:
+      description: >-
         Form versions contain the contents and configuration of a form. Each form may have multiple
         versions over time as you update the form's contents. A given form only ever has a single
-        draft version at a time. Once published, a form version cannot be modified.
+        draft version at a time.
+
+
+        Once published, a form version becomes the active version of a form, with which responders
+        interact. Each time a form version is published, a new draft version for that form is
+        created. A published form version cannot be deleted or modified.
       x-resourceId: form_version
       x-package: forms
       x-preview: true
