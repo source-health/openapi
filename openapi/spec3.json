@@ -7594,6 +7594,18 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "description": "Limit results to task definitions with name containing the given query."
+            },
+            "required": false,
+            "description": "Limit results to task definitions with name containing the given query."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "queue",
             "schema": {
               "type": "array",
