@@ -3423,6 +3423,77 @@
       }
     },
     "/v1/form_responses/{id}": {
+      "post": {
+        "summary": "Update a Form Response",
+        "description": "Updates a form response.\n\nResponses included in the update request are updated and/or appended to the existing response based on each response's associated item key. You can submit a form response when the response is complete using the 'submit' parameter.",
+        "tags": [
+          "Form Response"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "fr_mk29zZR6Qr5u5Q0BRHwu",
+              "description": "Unique ID of the form_response."
+            },
+            "required": true,
+            "description": "Unique ID of the form_response."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "responses": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "key": {
+                          "type": "string"
+                        },
+                        "values": {
+                          "type": "object",
+                          "additionalProperties": {}
+                        }
+                      },
+                      "required": [
+                        "key",
+                        "values"
+                      ]
+                    },
+                    "description": "The individual responses that capture the author's answers to corresponding items within the form version. Each response is associated with the item key of the corresponding question in the form version."
+                  },
+                  "submit": {
+                    "type": "boolean",
+                    "description": "If true, submits the response after updating any included responses. Updates the form response status to 'completed'."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/form_response"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "form_response"
+      },
       "get": {
         "summary": "Retrieve a Form Response",
         "description": "Retrieves the details of an existing form response. You need only supply the unique form identifier that was returned upon creation.",
@@ -10709,15 +10780,7 @@
                 },
                 "response": {
                   "type": "object",
-                  "properties": {
-                    "values": {
-                      "type": "object",
-                      "additionalProperties": {}
-                    }
-                  },
-                  "required": [
-                    "values"
-                  ]
+                  "additionalProperties": {}
                 }
               },
               "required": [
