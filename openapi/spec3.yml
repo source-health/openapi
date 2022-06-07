@@ -13773,6 +13773,11 @@ components:
         - queue.created
         - queue.updated
         - queue.deleted
+        - tag.created
+        - tag.updated
+        - tag.archived
+        - tag.unarchived
+        - tag.deleted
         - task.created
         - task.updated
         - task_definition.created
