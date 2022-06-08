@@ -5078,7 +5078,9 @@ paths:
                 date_of_birth:
                   type: string
                   format: date
-                  description: Date of birth of the member
+                  nullable: true
+                  description:
+                    Date of birth of the member. Required when enrollment_status is `enrolled`.
                   example: 1964-10-01
                 sex_at_birth:
                   type: string
@@ -5087,10 +5089,12 @@ paths:
                     - female
                     - other
                     - undisclosed
+                  nullable: true
                   description:
                     Sex assigned and recorded on the birth certificate at the time of the
                     individual's birth. This information is often clinically useful, but is not
-                    necessarily indicative of the individual's gender identity.
+                    necessarily indicative of the individual's gender identity. Required if
+                    enrollment_status is `enrolled`.
                   example: female
                 administrative_gender:
                   type: string
@@ -5247,8 +5251,6 @@ paths:
               required:
                 - first_name
                 - last_name
-                - date_of_birth
-                - sex_at_birth
       responses:
         default:
           description: Successful response.
@@ -5468,7 +5470,9 @@ paths:
                 date_of_birth:
                   type: string
                   format: date
-                  description: Date of birth of the member
+                  nullable: true
+                  description:
+                    Date of birth of the member. Required when enrollment_status is `enrolled`.
                   example: 1964-10-01
                 sex_at_birth:
                   type: string
@@ -5477,10 +5481,12 @@ paths:
                     - female
                     - other
                     - undisclosed
+                  nullable: true
                   description:
                     Sex assigned and recorded on the birth certificate at the time of the
                     individual's birth. This information is often clinically useful, but is not
-                    necessarily indicative of the individual's gender identity.
+                    necessarily indicative of the individual's gender identity. Required if
+                    enrollment_status is `enrolled`.
                   example: female
                 administrative_gender:
                   type: string
@@ -11650,6 +11656,7 @@ components:
         date_of_birth:
           type: string
           format: date
+          nullable: true
           description: Date of birth of the member.
           example: 1990-10-10
         time_zone:
@@ -11666,6 +11673,7 @@ components:
             - female
             - other
             - undisclosed
+          nullable: true
           description:
             Sex assigned and recorded on the birth certificate at the time of the individual's
             birth. This information is often clinically useful, but is not necessarily indicative of
