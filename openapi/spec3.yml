@@ -5021,6 +5021,39 @@ paths:
                 $ref: "#/components/schemas/message"
       x-methodName: retrieve
       x-belongsToResource: message
+  "/v1/communication/messages/{id}/redact":
+    post:
+      summary: Redact a Message
+      description: >-
+        Redacts a message and its attachments that were sent in error to a member. You can redact a
+        message sent by a user or an API key on behalf of a user.
+
+
+        Once redacted, the message content and any attachments are no longer accessible to the
+        member, however the fact that the message was redacted is displayed to the member. The
+        message is labeled as redacted and remains visible to users in the Source UI or via API.
+      tags:
+        - Message
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: msg_J2XECWlmq20uiX1PBdku
+            description: Unique ID of the message.
+          required: true
+          description: Unique ID of the message.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/message"
+      x-methodName: redact
+      x-belongsToResource: message
   /v1/members:
     post:
       summary: Create a Member
@@ -12018,6 +12051,12 @@ components:
           description:
             The API key who created the message on behalf of `sender`. If null, the message sender
             was not impersonated.
+        redacted_at:
+          type: string
+          format: date-time
+          nullable: true
+          description: The time at which this message redacted.
+          example: 2021-05-13T16:33:00.000Z
       required:
         - object
         - id
@@ -12028,6 +12067,7 @@ components:
         - sent_at
         - attachments
         - impersonated_by
+        - redacted_at
       title: Message
       description: >-
         Messages are exchanged between patients and their care team.
@@ -13872,11 +13912,18 @@ components:
               format: date-time
               description: The time at which this message was sent.
               example: 2021-05-13T16:33:00.000Z
+            redacted_at:
+              type: string
+              format: date-time
+              nullable: true
+              description: The time at which this message redacted.
+              example: 2021-05-13T16:33:00.000Z
           required:
             - text
             - attachments
             - sender
             - sent_at
+            - redacted_at
           description: Preview of the most recent text message in the thread.
         created_at:
           type: string
@@ -14202,6 +14249,7 @@ components:
         - member.updated
         - member.deleted
         - message.created
+        - message.redacted
         - order.created
         - order.shipped
         - queue.created
