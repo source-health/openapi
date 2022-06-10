@@ -5823,8 +5823,8 @@
             "name": "id",
             "schema": {
               "type": "string",
-              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-              "description": "Unique ID of the member."
+              "description": "Unique ID of the member.",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
             },
             "required": true,
             "description": "Unique ID of the member."
@@ -5859,8 +5859,8 @@
             "name": "id",
             "schema": {
               "type": "string",
-              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-              "description": "Unique ID of the member."
+              "description": "Unique ID of the member.",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
             },
             "required": true,
             "description": "Unique ID of the member."
@@ -6134,8 +6134,8 @@
             "name": "id",
             "schema": {
               "type": "string",
-              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-              "description": "Unique ID of the member."
+              "description": "Unique ID of the member.",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
             },
             "required": true,
             "description": "Unique ID of the member."

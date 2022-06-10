@@ -5425,8 +5425,8 @@ paths:
           name: id
           schema:
             type: string
-            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Unique ID of the member.
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
           required: true
           description: Unique ID of the member.
       responses:
@@ -5455,8 +5455,8 @@ paths:
           name: id
           schema:
             type: string
-            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Unique ID of the member.
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
           required: true
           description: Unique ID of the member.
       requestBody:
@@ -5704,8 +5704,8 @@ paths:
           name: id
           schema:
             type: string
-            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: Unique ID of the member.
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
           required: true
           description: Unique ID of the member.
       responses:
