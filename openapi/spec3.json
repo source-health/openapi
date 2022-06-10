@@ -5665,7 +5665,7 @@
                       "enrolled",
                       "not_enrolled"
                     ],
-                    "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.",
+                    "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.\n\nWhen viewing a member with `access_level = 'limited'`, the value of `enrollment_status` will be `redacted`. This is not valid as an input.",
                     "example": "enrolled"
                   }
                 },
@@ -6097,7 +6097,7 @@
                       "enrolled",
                       "not_enrolled"
                     ],
-                    "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.",
+                    "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.\n\nWhen viewing a member with `access_level = 'limited'`, the value of `enrollment_status` will be `redacted`. This is not valid as an input.",
                     "example": "enrolled"
                   }
                 }
@@ -12618,10 +12618,20 @@
             "type": "string",
             "enum": [
               "enrolled",
-              "not_enrolled"
+              "not_enrolled",
+              "redacted"
             ],
-            "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.",
+            "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.\n\nWhen viewing a member with `access_level = 'limited'`, the value of `enrollment_status` will be `redacted`. This is not valid as an input.",
             "example": "enrolled"
+          },
+          "access_level": {
+            "type": "string",
+            "enum": [
+              "full",
+              "limited"
+            ],
+            "description": "Indicates whether any of the member's information has been redacted for security reasons. Possible values are: full - all member fields that are populated in Source have been returned, for example a member viewing themselves, or a care team or API key retrieving a member within their account; or limited - only some very basic identifying information such as name and profile image has been returned, for example a caregiver who can see another caregiver participating in message threads for a member they are both related to, even when the caregivers are not directly related.",
+            "example": "full"
           },
           "created_at": {
             "type": "string",
@@ -12658,6 +12668,7 @@
           "license_region",
           "tags",
           "enrollment_status",
+          "access_level",
           "created_at",
           "updated_at"
         ],
