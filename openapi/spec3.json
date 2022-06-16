@@ -10010,6 +10010,58 @@
         "x-resourceId": "account",
         "x-package": null
       },
+      "api_key": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "api_key",
+            "enum": [
+              "api_key"
+            ],
+            "example": "api_key",
+            "description": "Always `api_key`."
+          },
+          "id": {
+            "type": "string",
+            "description": "Unique ID of the key.",
+            "example": "key_0EipsUv2yRFxynHshisN"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true,
+            "description": "Display name for this API Key.",
+            "example": "Primary Secret Key"
+          },
+          "secret": {
+            "type": "string",
+            "description": "The API key secret, which is only returned when setting `reveal=true` on the request.",
+            "example": "sk_live_••••••••83723"
+          },
+          "primary": {
+            "type": "boolean",
+            "description": "Identifies that this is the primary key for the account",
+            "example": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the key was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "name",
+          "secret",
+          "primary",
+          "created_at"
+        ],
+        "title": "API Key",
+        "x-resourceId": "api_key",
+        "x-package": null
+      },
       "appointment": {
         "type": "object",
         "properties": {
@@ -12751,9 +12803,24 @@
                 },
                 "description": "Expandable reference to a User",
                 "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+              },
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/api_key"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/api_key"
+                },
+                "description": "Expandable reference to an Api Key",
+                "example": "key_XRJbHlfuCKSZQ1T2U0ax"
               }
             ],
-            "description": "The person who sent this message."
+            "description": "The person or api key who sent this message."
           },
           "sent_at": {
             "type": "string",
