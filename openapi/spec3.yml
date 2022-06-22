@@ -1807,220 +1807,6 @@ paths:
                 $ref: "#/components/schemas/care_team"
       x-methodName: retrieve
       x-belongsToResource: care_team
-  /v1/care_team_roles:
-    post:
-      summary: Create a Care Team Role
-      description:
-        Creates a care team role, which will describe the purpose of each participant on a member's
-        care team. You can use care team roles to control how tasks are routed among the care team.
-      tags:
-        - Care Team Role
-      parameters: []
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  minLength: 1
-                  maxLength: 255
-                  description: Public display name for this care team role
-                  example: Physician
-              required:
-                - name
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/care_team_role"
-      x-methodName: create
-      x-belongsToResource: care_team_role
-    get:
-      summary: List all Care Team Roles
-      description: >-
-        Returns a list of care team roles within the current account.
-
-
-        The roles returned are sorted by creation date, sorted alphabetically by name.
-      tags:
-        - Care Team Role
-      parameters:
-        - in: query
-          style: form
-          explode: true
-          name: ending_before
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `ending_before` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
-              to fetch the previous page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `ending_before` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, starting
-            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
-            the previous page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: starting_after
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `starting_after` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
-              to fetch the next page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `starting_after` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, ending
-            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
-            the next page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: limit
-          schema:
-            type: number
-            minimum: 1
-            maximum: 100
-            description:
-              A limit on the number of objects to be returned. Limit can range between 1 and 100.
-          required: false
-          description:
-            A limit on the number of objects to be returned. Limit can range between 1 and 100.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    default: list
-                    enum:
-                      - list
-                    example: list
-                    description: Always `list`.
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/care_team_role"
-                    description: Array of results
-                  has_more:
-                    type: boolean
-                    description: Contains `true` if there is another page of results available.
-                required:
-                  - object
-                  - data
-                  - has_more
-      x-methodName: list
-      x-belongsToResource: care_team_role
-  "/v1/care_team_roles/{id}":
-    get:
-      summary: Retrieve a Care Team Role
-      description:
-        Retrieves the details of an existing care team role. You need only supply the unique care
-        team role identifier that was returned upon creation.
-      tags:
-        - Care Team Role
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            example: ctr_Xrjh23QoCKx0PxrIOoou
-            description: Unique ID of the care_team_role.
-          required: true
-          description: Unique ID of the care_team_role.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/care_team_role"
-      x-methodName: retrieve
-      x-belongsToResource: care_team_role
-    post:
-      summary: Update a Care Team Role
-      description: >-
-        Updates the specified care team role by setting the values of the parameters passed.
-
-
-        Any parameters not provided will be left unchanged.
-      tags:
-        - Care Team Role
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            example: ctr_Xrjh23QoCKx0PxrIOoou
-            description: Unique ID of the care_team_role.
-          required: true
-          description: Unique ID of the care_team_role.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                name:
-                  type: string
-                  minLength: 1
-                  maxLength: 255
-                  description: Public display name for this care team role
-                  example: Physician
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/care_team_role"
-      x-methodName: update
-      x-belongsToResource: care_team_role
-    delete:
-      summary: Delete a Care Team Role
-      description:
-        Deletes the specified care team role. Roles that are currently assigned to users may not be
-        deleted.
-      tags:
-        - Care Team Role
-      parameters:
-        - in: path
-          style: simple
-          explode: true
-          name: id
-          schema:
-            type: string
-            example: ctr_Xrjh23QoCKx0PxrIOoou
-            description: Unique ID of the care_team_role.
-          required: true
-          description: Unique ID of the care_team_role.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/care_team_role"
-      x-methodName: delete
-      x-belongsToResource: care_team_role
   "/v1/devices/{id}":
     get:
       summary: Retrieve a Device
@@ -7856,18 +7642,9 @@ paths:
                   example: que_6NGuKD4KdMCGXLP6uBda
                   nullable: true
                   description:
-                    The ID of the queue to which tasks should be assigned. If no queue is set on the
-                    task definition, Source will default to routing based on the care_team_role
-                    associated with the task definition. Note that Source is deprecating routing by
-                    care team roles in favor of queues, which represent a much more flexible way to
-                    route tasks to your team.
-                care_team_role:
-                  type: string
-                  example: ctr_Xrjh23QoCKx0PxrIOoou
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use queues instead.
+                    The ID of the queue to which tasks should be assigned. You may provide a queue
+                    when creating tasks definitions, and may also override it when creating a
+                    specific task.
                 license_types:
                   type: array
                   items:
@@ -8073,18 +7850,9 @@ paths:
                   example: que_6NGuKD4KdMCGXLP6uBda
                   nullable: true
                   description:
-                    The ID of the queue to which tasks should be assigned. If no queue is set on the
-                    task definition, Source will default to routing based on the care_team_role
-                    associated with the task definition. Note that Source is deprecating routing by
-                    care team roles in favor of queues, which represent a much more flexible way to
-                    route tasks to your team.
-                care_team_role:
-                  type: string
-                  example: ctr_Xrjh23QoCKx0PxrIOoou
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use queues instead.
+                    The ID of the queue to which tasks should be assigned. You may provide a queue
+                    when creating tasks definitions, and may also override it when creating a
+                    specific task.
                 license_types:
                   type: array
                   items:
@@ -8728,20 +8496,6 @@ paths:
                   description:
                     The groups for this user, which must reference groups that exists in your
                     account. A user can be a member of  up to 20 groups.
-                live_care_team_role:
-                  type: string
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use groups instead.
-                  example: null
-                test_care_team_role:
-                  type: string
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use groups instead.
-                  example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
                   nullable: true
@@ -8964,14 +8718,13 @@ paths:
         parameter, that only updates the user's first_name.
 
 
-        All users can update their own name and care team roles.
+        All users can update their own name.
 
 
-        API keys can update the name and care team roles of users.
+        API keys can update the name of users.
 
 
-        Administrators and owners may update the name, care team roles, email and role of other
-        users.
+        Administrators and owners may update the name, email and role of other users.
 
 
         Administrators and owners may assign users to groups.
@@ -9060,20 +8813,6 @@ paths:
                   description:
                     The groups for this user, which must reference groups that exists in your
                     account. A user can be a member of  up to 20 groups.
-                live_care_team_role:
-                  type: string
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use groups instead.
-                  example: null
-                test_care_team_role:
-                  type: string
-                  nullable: true
-                  description:
-                    Care team roles should no longer be used, and Source will be removing care team
-                    roles in the future. Use groups instead.
-                  example: ctr_iNGhmxf28QqEstlwzxWK
                 profile_image:
                   type: string
                   nullable: true
@@ -10229,9 +9968,7 @@ components:
                 example: usr_NC6MQ3FyxddKoJJpfSVL
             required:
               - user
-          description:
-            The ordered list of users on the care team. The user's care team role defines their role
-            across all teams they are on.
+          description: The ordered list of users on the care team.
           example: []
         created_at:
           type: string
@@ -10263,56 +10000,6 @@ components:
         Remember that tasks, communications, and other workflow requirements will leverage the care
         team to determine how they're routed.
       x-resourceId: care_team
-      x-package: null
-    care_team_role:
-      type: object
-      properties:
-        object:
-          type: string
-          default: care_team_role
-          enum:
-            - care_team_role
-          example: care_team_role
-          description: Always `care_team_role`.
-        id:
-          type: string
-          description: Unique ID of the care team role
-          example: ctr_iNGhmxf28QqEstlwzxWK
-        name:
-          type: string
-          description: Public display name for this care team role
-          example: Physician
-        created_at:
-          type: string
-          format: date-time
-          description: Timestamp when the role was created
-          example: 2021-05-13T16:33:00.000Z
-        updated_at:
-          type: string
-          format: date-time
-          description: Timestamp when the role was updated
-          example: 2021-05-13T16:33:00.000Z
-      required:
-        - object
-        - id
-        - name
-        - created_at
-        - updated_at
-      title: Care Team Role
-      description: >-
-        Care team roles should no longer be used. Queues and groups replace care team roles for the
-        purposes of task routing going forward. Source will be removing care team roles in the
-        future.
-
-
-        Care team roles describe the purpose of each member of a member's care team. You can use
-        care team roles to control how tasks are routed among the care team.
-
-
-        Source creates a few default care team roles for each new account, and you can add, remove
-        or modify them to your needs. However, care team roles cannot be deleted if they are
-        currently in use.
-      x-resourceId: care_team_role
       x-package: null
     CompoundConditional:
       type: object
@@ -13760,22 +13447,9 @@ components:
           x-expandable:
             $ref: "#/components/schemas/queue"
           description:
-            The queue to which tasks should be assigned. If no queue is set on the task definition,
-            Source will default to routing based on the care_team_role associated with the task
-            definition. Note that Source is deprecating routing by care team roles in favor of
-            queues, which represent a much more flexible way to route tasks to your team.
+            The queue through which tasks should be routed. This queue will be applied by default.
+            However, you can override the queue for a given task during task creation.
           example: que_6NGuKD4KdMCGXLP6uBda
-          nullable: true
-        care_team_role:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/care_team_role"
-          x-expandable:
-            $ref: "#/components/schemas/care_team_role"
-          description:
-            Care team roles should no longer be used, and Source will be removing care team roles in
-            the future. Use queues instead.
-          example: ctr_iNGhmxf28QqEstlwzxWK
           nullable: true
         license_types:
           type: array
@@ -13824,7 +13498,6 @@ components:
         - key
         - name
         - queue
-        - care_team_role
         - license_types
         - managed
         - created_at
@@ -14141,28 +13814,6 @@ components:
           description:
             The groups for this user, which must reference groups that exist in your account. A user
             can be a member of up to 20 groups.
-        live_care_team_role:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/care_team_role"
-          x-expandable:
-            $ref: "#/components/schemas/care_team_role"
-          description:
-            Care team roles should no longer be used, and Source will be removing care team roles in
-            the future. Use groups instead.
-          example: null
-          nullable: true
-        test_care_team_role:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/care_team_role"
-          x-expandable:
-            $ref: "#/components/schemas/care_team_role"
-          description:
-            Care team roles should no longer be used, and Source will be removing care team roles in
-            the future. Use groups instead.
-          example: ctr_iNGhmxf28QqEstlwzxWK
-          nullable: true
         status:
           type: string
           enum:
@@ -14209,8 +13860,6 @@ components:
         - time_zone
         - licensed
         - groups
-        - live_care_team_role
-        - test_care_team_role
         - status
         - profile_image
         - created_at
