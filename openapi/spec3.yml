@@ -528,7 +528,7 @@ paths:
         When adding participants to an existing appointment, Source will only perform conflict
         checks on the newly added participants, ignoring any potential conflicts for participants
         who are already on the appointment. You may bypass this check by setting the
-        skip_constraintss param to true.
+        `skip_constraints` param to true.
       tags:
         - Appointment
       parameters:
@@ -1933,8 +1933,8 @@ paths:
     post:
       summary: Create a Document
       description:
-        Creates a new document for the member you specify.  Use the Files API to upload a file with
-        a purpose of document to include in the document resource.
+        Creates a new document for the member you specify. Use the [Files API](../file/) to upload a
+        file with a purpose of document to include in the document resource.
       tags:
         - Document
       parameters: []
@@ -1962,14 +1962,14 @@ paths:
                 internal:
                   type: boolean
                   description:
-                    " Whether only internal users or a member can view this document. If not
-                    specified, the default is false and a member can view the document."
+                    Whether only internal users or a member can view this document. If not
+                    specified, the default is false and a member can view the document.
                   example: true
                 name:
                   type: string
                   minLength: 1
                   maxLength: 255
-                  description: A short form name of the document.
+                  description: A short-form name of the document.
                   example: Lab Result 05/01/22
                 description:
                   type: string
@@ -2235,14 +2235,14 @@ paths:
                 internal:
                   type: boolean
                   description:
-                    " Whether only internal users or a member can view this document. If not
-                    specified, the default is false and a member can view the document."
+                    Whether only internal users or a member can view this document. If not
+                    specified, the default is false and a member can view the document.
                   example: true
                 name:
                   type: string
                   minLength: 1
                   maxLength: 255
-                  description: A short form name of the document.
+                  description: A short-form name of the document.
                   example: Lab Result 05/01/22
                 description:
                   type: string
@@ -2262,7 +2262,7 @@ paths:
     get:
       summary: Retrieve a Document
       description:
-        Retrieves the details of an existing document.  You need only supply the unique document
+        Retrieves the details of an existing document. You need only supply the unique document
         identifier that was returned upon creation or when listing documents.
       tags:
         - Document
@@ -4657,7 +4657,7 @@ paths:
                         additionalProperties: {}
                         description: >-
                           A map of your own metadata to be included alongside this attachment. For
-                          example, you can use this metadata for  bookkeeping or rendering in your
+                          example, you can use this metadata for bookkeeping or rendering in your
                           member experience.
 
 
@@ -4682,9 +4682,9 @@ paths:
                   type: string
                   format: date-time
                   description:
-                    The time at which this message was sent.  When calling this endpoint with an API
+                    The time at which this message was sent. When calling this endpoint with an API
                     key you can optionally specify the sent_at time, such as when backloading
-                    historical messages.  By default and when called as a user or a member, the
+                    historical messages. By default and when called as a user or a member, the
                     current time is used.
                   example: 2021-05-13T16:33:00.000Z
               required:
@@ -4799,7 +4799,7 @@ paths:
     get:
       summary: Retrieve a Message
       description:
-        Retrieves the details of an Message. You need only supply the unique message identifier that
+        Retrieves the details of a message. You need only supply the unique message identifier that
         was returned upon creation.
       tags:
         - Message
@@ -4859,9 +4859,7 @@ paths:
   /v1/members:
     post:
       summary: Create a Member
-      description:
-        Creates a new member and registers them with Source. Members must be created in order to
-        ship devices or track measurements.
+      description: Creates a new member and registers them with Source.
       tags:
         - Member
       parameters: []
@@ -5496,7 +5494,7 @@ paths:
       summary: Delete a Member
       description:
         Deletes the specified member. Members that have meaningful objects associated with them,
-        such as tasks, threads, or files, may not be deleted.
+        such as tasks, threads, or documents, may not be deleted.
       tags:
         - Member
       parameters:
@@ -5781,7 +5779,7 @@ paths:
                     Defines how a new task should be routed to the possible users defined in
                     `routing_targets`. Because of the complexity in routing, it's best explained by
                     example. Assume you have created a task that must be completed by a user in the
-                    Physicians group, which you have specified in the queue's `routing_targets. The
+                    Physicians group, which you have specified in the queue's `routing_targets`. The
                     behavior of each routing strategy is as follows:
 
 
@@ -5839,8 +5837,8 @@ paths:
     get:
       summary: List all Queues
       description:
-        The queues returned are sorted by creation date, with the most recently added queue
-        appearing first.
+        Returns a list of queues within the current account. The queues returned are sorted by
+        creation date, with the most recently added queue appearing first.
       tags:
         - Queue
       parameters:
@@ -6023,7 +6021,7 @@ paths:
                     Defines how a new task should be routed to the possible users defined in
                     `routing_targets`. Because of the complexity in routing, it's best explained by
                     example. Assume you have created a task that must be completed by a user in the
-                    Physicians group, which you have specified in the queue's `routing_targets. The
+                    Physicians group, which you have specified in the queue's `routing_targets`. The
                     behavior of each routing strategy is as follows:
 
 
@@ -8044,7 +8042,8 @@ paths:
                   type: string
                   example: usr_qoGndHzx8KwdYsEByt9X
                   description:
-                    The ID of the care team user to which this thread is currently assigned, if any.
+                    The user who is assigned to the thread and who will be notified of new messages
+                    via a task.
                 subject:
                   type: string
                   nullable: true
@@ -8116,8 +8115,8 @@ paths:
                             additionalProperties: {}
                             description: >-
                               A map of your own metadata to be included alongside this attachment.
-                              For example, you can use this metadata for  bookkeeping or rendering
-                              in your member experience.
+                              For example, you can use this metadata for bookkeeping or rendering in
+                              your member experience.
 
 
                               Metadata may only be set when calling the API with your API keys. It
@@ -8141,9 +8140,9 @@ paths:
                       type: string
                       format: date-time
                       description:
-                        The time at which this message was sent.  When calling this endpoint with an
+                        The time at which this message was sent. When calling this endpoint with an
                         API key you can optionally specify the sent_at time, such as when
-                        backloading historical messages.  By default and when called as a user or a
+                        backloading historical messages. By default and when called as a user or a
                         member, the current time is used.
                       example: 2021-05-13T16:33:00.000Z
                   required:
@@ -8312,9 +8311,12 @@ paths:
       x-belongsToResource: thread
     post:
       summary: Update a Thread
-      description:
-        Change the thread status or subject, and re-assign the thread to a different member of the
-        Care Team.
+      description: >-
+        Updates the specified thread by setting the values of the parameters passed. Any parameters
+        not provided will be left unchanged.
+
+
+        You can change the thread’s status or subject or reassign the thread to a different user.
       tags:
         - Thread
       parameters:
@@ -8339,7 +8341,8 @@ paths:
                   example: usr_NC6MQ3FyxddKoJJpfSVL
                   nullable: true
                   description:
-                    ID of a user on the member's Care Team - assigns the thread to the new user.
+                    The user who is assigned to the thread and who will be notified of new messages
+                    via a task.
                 status:
                   type: string
                   enum:
@@ -9029,7 +9032,9 @@ paths:
       x-belongsToResource: webhook
     get:
       summary: Retrieve a Webhook
-      description: A webhook endpoint must have a url and a list of events.
+      description:
+        Retrieves the details of an existing webhook. You need only supply the unique webhook
+        identifier that was returned upon creation.
       tags:
         - Webhook
       parameters:
@@ -9117,7 +9122,7 @@ components:
             it serves an important purpose for appointment booking. In order to ensure each day has
             consistent appointment slots available, we use this time zone to determine when midnight
             is for your organization. Slots will reset when crossing midnight into the next day. You
-            can read mroe about this in the documentation for the Slot resource.
+            can read more about this in the documentation for the [Slot resource](../slot/).
           example: America/New_York
         test_secret_key:
           type: string
@@ -10298,7 +10303,7 @@ components:
         name:
           type: string
           maxLength: 255
-          description: A short form name of the document.
+          description: A short-form name of the document.
           example: Lab Result 05/01/22
         description:
           type: string
@@ -10325,8 +10330,8 @@ components:
         internal:
           type: boolean
           description:
-            " Whether only internal users or a member can view this document. If not specified, the
-            default is false and a member can view the document."
+            Whether only internal users or a member can view this document. If not specified, the
+            default is false and a member can view the document.
           example: true
         date:
           type: string
@@ -10365,9 +10370,9 @@ components:
         - deleted_at
       title: Document
       description:
-        Documents are member-specific files stored within Source.  You can upload, list, retrieve,
-        and delete documents via API for a specific member.  A document references a file with a
-        purpose of `document` uploaded via the Files API.
+        Documents are member-specific files stored within Source. You can upload, list, retrieve,
+        and delete documents via API for a specific member. A document references a file with a
+        purpose of `document` uploaded via the [Files API](../file/).
       x-resourceId: document
       x-package: null
     EarlyExitPoint:
@@ -10478,15 +10483,13 @@ components:
 
 
         When an interesting event occurs, we create a new Event object. For example, when a member
-        is created, we create a `member.created` event; and when an measurement is received we
-        create a 'measurement.created' event. The shape of the object in the `data` property of the
-        event will be the object associated with the type of event. For example, a `member.created`
-        event will have a data property containing the Member object.
+        is created, we create a `member.created` event. The shape of the object in the `data`
+        property of the event will be the object associated with the type of event. For example, a
+        `member.created` event will have a data property containing the Member object.
 
 
-        Note that some actions may cause multiple events to be created. For example, when a device
-        order is fulfilled you will receive both an order.fulfilled event and a device.created event
-        for each device sent in the order.
+        Note that some actions may cause multiple events to be created. For example, when a member
+        is created, you will receive both a `member.created` and a `care_team.created` event.”
 
 
         You can view more information about receiving Source events via webhooks
@@ -11727,9 +11730,10 @@ components:
             - text
             - system
           description:
-            The type of message that was sent. Text messages are messages from one user to another,
-            and represent most messages sent on the platform. System messages are automatically
+            The type of message that was sent. Text messages are messages from a member or user and
+            represent most messages sent on the platform. System messages are automatically
             generated when notable thread events occur (such as reassignments and status changes).
+          example: text
         thread:
           oneOf:
             - type: string
@@ -11851,7 +11855,7 @@ components:
         - redacted_at
       title: Message
       description: >-
-        Messages are exchanged between patients and their care team.
+        Messages are exchanged between members and their care team.
 
 
         Each thread in the communications product consists of individual messages. Messages can be
@@ -12910,7 +12914,7 @@ components:
             Defines how a new task should be routed to the possible users defined in
             `routing_targets`. Because of the complexity in routing, it's best explained by example.
             Assume you have created a task that must be completed by a user in the Physicians group,
-            which you have specified in the queue's `routing_targets. The behavior of each routing
+            which you have specified in the queue's `routing_targets`. The behavior of each routing
             strategy is as follows:
 
 
@@ -13428,7 +13432,7 @@ components:
 
 
         Tasks can be created from any number of sources, including the API. The Source platform will
-        generate tasks itself in many cases, such as when a member sends a mesasge to their care
+        generate tasks itself in many cases, such as when a member sends a message to their care
         team. When Source generates a task automatically, we will also resolve it automatically when
         the work has been completed (for example, when the care team replies to the member.)
       x-resourceId: task
@@ -13740,7 +13744,7 @@ components:
         - last_message_at
       title: Thread
       description: >-
-        The Thread resource represents a conversation between a member and/or their care team.
+        The Thread resource represents a conversation between a member and their care team.
 
 
         Threads can be created at any time, and contain multiple messages. Each thread has a status
@@ -13785,7 +13789,7 @@ components:
           nullable: true
           description:
             Display text that describes the user's title. The display title will appear in the
-            Source application and the member-facing Elements SDK but will not affect any Source
+            Source application and the member experience SDKs but will not affect any Source
             configuration. For example, a physician user's title may be set to 'Physician.'
           example: Physician
         email:
@@ -13886,8 +13890,8 @@ components:
         Represents a user who has access to the Source account.
 
 
-        You can manage users in the Source Console, and control their role which determines which
-        resources they're able to access on the platform.
+        You can manage users within the Source application and specify their role, which determines
+        the actions they're able to take on the platform.
       x-resourceId: user
       x-package: null
     webhook:
