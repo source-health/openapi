@@ -3003,6 +3003,22 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "form",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "form_hSGPOT5BMusNLwDI3Z4N"
+              },
+              "description": "Filter results by form. If multiple form ids are provided, responses matching any of the provided forms will be returned."
+            },
+            "required": false,
+            "description": "Filter results by form. If multiple form ids are provided, responses matching any of the provided forms will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "member",
             "schema": {
               "type": "array",
