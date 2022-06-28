@@ -14002,6 +14002,8 @@ components:
         - queue.created
         - queue.updated
         - queue.deleted
+        - relationship.created
+        - relationship.updated
         - tag.created
         - tag.updated
         - tag.archived
