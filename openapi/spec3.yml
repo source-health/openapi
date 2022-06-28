@@ -13782,7 +13782,7 @@ components:
           type: string
           nullable: true
           description: Last name of the user.
-          example: mem_06Z9ZCYZu9HF0IGgGdZ4
+          example: Khan
         display_title:
           type: string
           maxLength: 50
