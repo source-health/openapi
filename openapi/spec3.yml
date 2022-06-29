@@ -13988,6 +13988,13 @@ components:
         - device.deactivated
         - device.deleted
         - file.created
+        - form.created
+        - form.updated
+        - form_response.created
+        - form_response.updated
+        - form_response.submitted
+        - form_version.created
+        - form_version.updated
         - group.created
         - group.updated
         - group.deleted
