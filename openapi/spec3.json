@@ -3539,6 +3539,10 @@
                           "description": "A unique key for this exit screen within the form. The keys are used in early exit points to indicate which screen is used for the early exit. An exit screen with key 'default' must exist in every form.",
                           "example": "ineligible_location"
                         },
+                        "description": {
+                          "type": "string",
+                          "description": "A description of this exit screen. If the responder reaches this exit screen, the screen's description is displayed within the completed form response."
+                        },
                         "content_type": {
                           "type": "string",
                           "enum": [
@@ -3556,6 +3560,7 @@
                       "required": [
                         "type",
                         "key",
+                        "description",
                         "content_type",
                         "content"
                       ],
@@ -11693,6 +11698,10 @@
                   "description": "A unique key for this exit screen within the form. The keys are used in early exit points to indicate which screen is used for the early exit. An exit screen with key 'default' must exist in every form.",
                   "example": "ineligible_location"
                 },
+                "description": {
+                  "type": "string",
+                  "description": "A description of this exit screen. If the responder reaches this exit screen, the screen's description is displayed within the completed form response."
+                },
                 "content_type": {
                   "type": "string",
                   "enum": [
@@ -11710,6 +11719,7 @@
               "required": [
                 "type",
                 "key",
+                "description",
                 "content_type",
                 "content"
               ],
