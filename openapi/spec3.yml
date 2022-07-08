@@ -12154,6 +12154,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12225,6 +12230,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12288,6 +12298,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12393,6 +12408,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12446,6 +12466,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12499,6 +12524,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12553,6 +12583,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12629,6 +12664,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12674,6 +12714,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12728,6 +12773,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:
@@ -12821,6 +12871,11 @@ components:
               description:
                 Display title of this question in the form, i.e. the question text itself.
               example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
             required:
               type: boolean
               description:

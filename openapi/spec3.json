@@ -12952,6 +12952,10 @@
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
               },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
@@ -13031,6 +13035,10 @@
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
               },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
@@ -13098,6 +13106,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
@@ -13211,6 +13223,10 @@
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
               },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
@@ -13269,6 +13285,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
@@ -13329,6 +13349,10 @@
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
               },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
@@ -13387,6 +13411,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
@@ -13475,6 +13503,10 @@
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
               },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
@@ -13526,6 +13558,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
@@ -13588,6 +13624,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
@@ -13695,6 +13735,10 @@
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
                 "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
               },
               "required": {
                 "type": "boolean",
