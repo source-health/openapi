@@ -9815,8 +9815,9 @@
             "x-expandable": {
               "$ref": "#/components/schemas/appointment_type"
             },
-            "description": "Reference to the type of appointemnt that was booked.",
-            "example": "aptp_meYUvkuaI2akjnb5Kwt7"
+            "description": "Reference to the type of appointment that was booked.",
+            "example": "aptp_meYUvkuaI2akjnb5Kwt7",
+            "nullable": true
           },
           "member": {
             "oneOf": [
@@ -9966,6 +9967,11 @@
             "nullable": true,
             "description": "Information about the video call generated or provided for this appointment. By default, Source will generate a visit URL for all created appointments when the appointment type has `video_enabled = true`."
           },
+          "externally_managed": {
+            "type": "boolean",
+            "description": "Indicates that this appointment was imported from an external integrated calendar, such as Google Calendar. External appointments are managed by Source directly and cannot be updated via API.",
+            "example": false
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -9993,6 +9999,7 @@
           "duration",
           "participants",
           "video_call",
+          "externally_managed",
           "created_at",
           "updated_at"
         ],
