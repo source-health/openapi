@@ -875,13 +875,13 @@ paths:
                 planning_horizon:
                   type: number
                   minimum: 0
-                  nullable: true
+                  maximum: 365
                   description:
                     Controls how far in the future appointments can be booked. By default,
                     appointment types have a 60 day planning horizon. You can extend this if you'd
-                    like members to be able to book appointments farther in the future. Setting to
-                    null disables the planning horizon limit, and allows an appointment to be
-                    created indefinitely into the future. Measured in days.
+                    like members to be able to book appointments farther in the future. Omitting
+                    this field will set the planning horizon to the maximum supported value of 365
+                    days.
                   example: 60
                 minimum_notice:
                   type: number
@@ -1340,13 +1340,13 @@ paths:
                 planning_horizon:
                   type: number
                   minimum: 0
-                  nullable: true
+                  maximum: 365
                   description:
                     Controls how far in the future appointments can be booked. By default,
                     appointment types have a 60 day planning horizon. You can extend this if you'd
-                    like members to be able to book appointments farther in the future. Setting to
-                    null disables the planning horizon limit, and allows an appointment to be
-                    created indefinitely into the future. Measured in days.
+                    like members to be able to book appointments farther in the future. Omitting
+                    this field will set the planning horizon to the maximum supported value of 365
+                    days.
                   example: 60
                 minimum_notice:
                   type: number
@@ -9534,13 +9534,11 @@ components:
           example: 5
         planning_horizon:
           type: number
-          nullable: true
           description:
             Controls how far in the future appointments can be booked. By default, appointment types
             have a 60 day planning horizon. You can extend this if you'd like members to be able to
-            book appointments farther in the future. Setting to null disables the planning horizon
-            limit, and allows an appointment to be created indefinitely into the future. Measured in
-            days.
+            book appointments farther in the future. Omitting this field will set the planning
+            horizon to the maximum supported value of 365 days.
           example: 60
         minimum_notice:
           type: number
