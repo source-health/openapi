@@ -1807,6 +1807,283 @@ paths:
                 $ref: "#/components/schemas/care_team"
       x-methodName: retrieve
       x-belongsToResource: care_team
+  "/v1/tasks/{taskId}/comments":
+    post:
+      summary: Create a Comment on a Task
+      description: Creates a new comment on a task.
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: taskId
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  description:
+                    Markdown formatted contents of the comment. Comments support limited Markdown
+                    syntax.
+                  example: "@John can you take a look at this?"
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    example: file_0A9zrLzCO7KPcnIbs40e
+                  description:
+                    Any attachments related to this comment. Currently, up to five file attachments
+                    are supported.
+                  example: []
+              required:
+                - text
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+      x-methodName: create
+      x-belongsToResource: comment
+    get:
+      summary: List all Comments on a Task
+      description: >-
+        Returns a list of all comments related to a task.
+
+
+        The comments returned are sorted by creation date, with the most recently added comments
+        appearing first.
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: taskId
+          schema:
+            type: string
+          required: true
+        - in: query
+          style: form
+          explode: true
+          name: ending_before
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `ending_before` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
+              to fetch the previous page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `ending_before` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, starting
+            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
+            the previous page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: starting_after
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `starting_after` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
+              to fetch the next page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `starting_after` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, ending
+            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
+            the next page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: limit
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            description:
+              A limit on the number of objects to be returned. Limit can range between 1 and 100.
+          required: false
+          description:
+            A limit on the number of objects to be returned. Limit can range between 1 and 100.
+        - in: query
+          style: form
+          explode: true
+          name: sort
+          schema:
+            type: string
+            enum:
+              - created_at
+              - -created_at
+            description:
+              Sort field for the results. A '-' prefix indicates sorting by that field in descending
+              order, otherwise the order will be ascending.
+            example: created_at
+          required: false
+          description:
+            Sort field for the results. A '-' prefix indicates sorting by that field in descending
+            order, otherwise the order will be ascending.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                    enum:
+                      - list
+                    example: list
+                    description: Always `list`.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/comment"
+                    description: Array of results
+                  has_more:
+                    type: boolean
+                    description: Contains `true` if there is another page of results available.
+                required:
+                  - object
+                  - data
+                  - has_more
+      x-methodName: list
+      x-belongsToResource: comment
+  "/v1/tasks/{taskId}/comments/{id}":
+    post:
+      summary: Update a Comment on a Task
+      description: Updates an existing comment on a task.
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: taskId
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cmt_qJfs2rwurnbKXt2kbRYz
+            description: Unique ID of the comment.
+          required: true
+          description: Unique ID of the comment.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                text:
+                  type: string
+                  minLength: 1
+                  description:
+                    Markdown formatted contents of the comment. Comments support limited Markdown
+                    syntax.
+                  example: "@John can you take a look at this?"
+                attachments:
+                  type: array
+                  items:
+                    type: string
+                    example: file_0A9zrLzCO7KPcnIbs40e
+                  description:
+                    Any attachments related to this comment. Currently, up to five file attachments
+                    are supported.
+                  example: []
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+      x-methodName: update
+      x-belongsToResource: comment
+    get:
+      summary: Retrieve a Comment on a Task
+      description: Finds a comment on a task
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: taskId
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cmt_qJfs2rwurnbKXt2kbRYz
+            description: Unique ID of the comment.
+          required: true
+          description: Unique ID of the comment.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+      x-methodName: retrieve
+      x-belongsToResource: comment
+    delete:
+      summary: Delete a Comment on a Task
+      description: Deletes the specified comment. A deleted comment is no longer visible.
+      tags:
+        - Comment
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: taskId
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cmt_qJfs2rwurnbKXt2kbRYz
+            description: Unique ID of the comment.
+          required: true
+          description: Unique ID of the comment.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/comment"
+      x-methodName: delete
+      x-belongsToResource: comment
   "/v1/devices/{id}":
     get:
       summary: Retrieve a Device
@@ -2475,6 +2752,7 @@ paths:
                     - photo
                     - user_profile_photo
                     - document
+                    - comment_attachment
                   description:
                     The purpose of the uploaded file. Each purpose imposes restrictions on supported
                     file types and use cases.
@@ -2508,12 +2786,14 @@ paths:
               - photo
               - user_profile_photo
               - document
+              - comment_attachment
             _tag: EnumCodec
             enumValues:
               - message_attachment
               - photo
               - user_profile_photo
               - document
+              - comment_attachment
         _tag: ObjectCodec
         properties:
           - file
@@ -10036,6 +10316,92 @@ components:
         team to determine how they're routed.
       x-resourceId: care_team
       x-package: null
+    comment:
+      type: object
+      properties:
+        object:
+          type: string
+          default: comment
+          enum:
+            - comment
+          example: comment
+          description: Always `comment`.
+        id:
+          type: string
+          example: cmt_qJfs2rwurnbKXt2kbRYz
+          description: Unique ID for the comment.
+        text:
+          type: string
+          description:
+            Markdown formatted contents of the comment. Comments support limited Markdown syntax.
+          example: "@John can you take a look at this?"
+        resource:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/task"
+          x-expandable:
+            $ref: "#/components/schemas/task"
+          description:
+            The ID of the resource to which the comment is related. Currently, comments are only
+            supported on tasks.
+          example: usr_qoGndHzx8KwdYsEByt9X
+        author:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/user"
+          x-expandable:
+            $ref: "#/components/schemas/user"
+          description: Text contents of the comment.
+          example: usr_qoGndHzx8KwdYsEByt9X
+        attachments:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/file"
+            x-expandable:
+              $ref: "#/components/schemas/file"
+            description: Expandable reference to a File
+            example: file_gdIyXM9d4LKGnewOV4OM
+          description:
+            Any attachments related to this comment. Currently, only file attachments are supported.
+          example: []
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp when the comment was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp when the comment was last updated.
+          example: 2021-05-13T16:33:00.000Z
+        deleted_at:
+          type: string
+          format: date-time
+          description:
+            Timestamp when the comment was deleted. This will only be returned if the comment is
+            deleted.
+      required:
+        - object
+        - id
+        - text
+        - resource
+        - author
+        - attachments
+        - created_at
+        - updated_at
+      title: Comment
+      description: >-
+        Comments represent internal communication about another resource in Source. For example, you
+        can use comments to collaborate with others on your team about a particular task. Comments
+        are not accessible to members.
+
+
+        Currently, comments are only supported on tasks. However, we intend to add comment support
+        to additional resources in the future.
+      x-resourceId: comment
+      x-package: null
     CompoundConditional:
       type: object
       properties:
@@ -10531,6 +10897,7 @@ components:
             - photo
             - user_profile_photo
             - document
+            - comment_attachment
           description:
             The purpose of this uploaded file. Each file is required to have a clearly defined
             purpose, which controls what types of uploads are allowed and where the file may be
@@ -13439,6 +13806,11 @@ components:
             Whether or not the task is managed automatically by Source. If a task is managed, only
             Source can resolve or create the task. You can still update other properties of the
             task."
+          example: false
+        comments:
+          type: number
+          description: The number of comments that have been made on this task.
+          example: 0
         created_at:
           type: string
           format: date-time
@@ -13491,6 +13863,7 @@ components:
         - status
         - assignment_method
         - managed
+        - comments
         - created_at
         - updated_at
         - due_at
