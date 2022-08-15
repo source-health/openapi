@@ -106,6 +106,11 @@
                     "type": "string",
                     "description": "The time zone identifier for this account. Account level time zone identifiers are used to determine when \"midnight\" exists for your practice, and feed into Source's understanding of your organization's business hours. Note that each user has their own time zone as well, which is what is used when declaring user availability and booking appointments.",
                     "example": "America/New_York"
+                  },
+                  "logo": {
+                    "type": "string",
+                    "example": "file_0A9zrLzCO7KPcnIbs40e",
+                    "description": "Pointer to the file to use as the logo for this account. Must be of purpose account_logo."
                   }
                 }
               }
@@ -2773,7 +2778,8 @@
                       "photo",
                       "user_profile_photo",
                       "document",
-                      "comment_attachment"
+                      "comment_attachment",
+                      "account_logo"
                     ],
                     "description": "The purpose of the uploaded file. Each purpose imposes restrictions on supported file types and use cases.",
                     "example": "message_attachment"
@@ -2818,7 +2824,8 @@
                 "photo",
                 "user_profile_photo",
                 "document",
-                "comment_attachment"
+                "comment_attachment",
+                "account_logo"
               ],
               "_tag": "EnumCodec",
               "enumValues": {}
@@ -10039,6 +10046,22 @@
             "description": "Subdomain for the account.",
             "example": "sourcehealth"
           },
+          "logo": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/file"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/file"
+            },
+            "description": "Pointer to the file that should be used as the logo for this account",
+            "example": "file_0A9zrLzCO7KPcnIbs40e",
+            "nullable": true
+          },
           "time_zone": {
             "type": "string",
             "description": "The time zone associated with this account. This value is rarely used in Source, however it serves an important purpose for appointment booking. In order to ensure each day has consistent appointment slots available, we use this time zone to determine when midnight is for your organization. Slots will reset when crossing midnight into the next day. You can read more about this in the documentation for the [Slot resource](../slot/).",
@@ -10072,6 +10095,7 @@
           "id",
           "name",
           "subdomain",
+          "logo",
           "time_zone",
           "created_at",
           "updated_at"
@@ -11564,7 +11588,8 @@
               "photo",
               "user_profile_photo",
               "document",
-              "comment_attachment"
+              "comment_attachment",
+              "account_logo"
             ],
             "description": "The purpose of this uploaded file. Each file is required to have a clearly defined purpose, which controls what types of uploads are allowed and where the file may be referenced.",
             "example": "message_attachment"

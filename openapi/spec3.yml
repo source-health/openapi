@@ -90,6 +90,12 @@ paths:
                     user has their own time zone as well, which is what is used when declaring user
                     availability and booking appointments.
                   example: America/New_York
+                logo:
+                  type: string
+                  example: file_0A9zrLzCO7KPcnIbs40e
+                  description:
+                    Pointer to the file to use as the logo for this account. Must be of purpose
+                    account_logo.
       responses:
         default:
           description: Successful response.
@@ -2753,6 +2759,7 @@ paths:
                     - user_profile_photo
                     - document
                     - comment_attachment
+                    - account_logo
                   description:
                     The purpose of the uploaded file. Each purpose imposes restrictions on supported
                     file types and use cases.
@@ -2787,6 +2794,7 @@ paths:
               - user_profile_photo
               - document
               - comment_attachment
+              - account_logo
             _tag: EnumCodec
             enumValues:
               - message_attachment
@@ -2794,6 +2802,7 @@ paths:
               - user_profile_photo
               - document
               - comment_attachment
+              - account_logo
         _tag: ObjectCodec
         properties:
           - file
@@ -9402,6 +9411,15 @@ components:
           type: string
           description: Subdomain for the account.
           example: sourcehealth
+        logo:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/file"
+          x-expandable:
+            $ref: "#/components/schemas/file"
+          description: Pointer to the file that should be used as the logo for this account
+          example: file_0A9zrLzCO7KPcnIbs40e
+          nullable: true
         time_zone:
           type: string
           description:
@@ -9436,6 +9454,7 @@ components:
         - id
         - name
         - subdomain
+        - logo
         - time_zone
         - created_at
         - updated_at
@@ -10898,6 +10917,7 @@ components:
             - user_profile_photo
             - document
             - comment_attachment
+            - account_logo
           description:
             The purpose of this uploaded file. Each file is required to have a clearly defined
             purpose, which controls what types of uploads are allowed and where the file may be
