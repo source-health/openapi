@@ -413,6 +413,18 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "externally_managed",
+            "schema": {
+              "type": "boolean",
+              "description": "Filter appointments by whether they are externally managed or not (e.g. imported from a Google calendar)."
+            },
+            "required": false,
+            "description": "Filter appointments by whether they are externally managed or not (e.g. imported from a Google calendar)."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "start_at",
             "schema": {
               "type": "object",
