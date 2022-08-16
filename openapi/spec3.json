@@ -351,6 +351,9 @@
                 "type": "string",
                 "enum": [
                   "booked",
+                  "confirmed",
+                  "no_show",
+                  "completed",
                   "canceled"
                 ]
               },
@@ -546,6 +549,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "appointment_type": {
+                    "type": "string",
+                    "description": "Unique ID or key of the appointment type for this appointment.",
+                    "example": "intake_visit"
+                  },
                   "time_zone": {
                     "type": "string",
                     "description": "Time zone in which the appointment should be scheduled. Changing this value has no impact on the actual time of the appointment, which is always provided in UTC. However, this value may be used when formatting the appointment time for representation, and recalculating the UTC time in the event of a time zone rule change.",
@@ -689,6 +697,68 @@
           }
         },
         "x-methodName": "retrieve",
+        "x-belongsToResource": "appointment"
+      }
+    },
+    "/v1/scheduling/appointments/{id}/transition": {
+      "post": {
+        "summary": "Transition an Appointment",
+        "description": "Transitions an existing appointment into another status.\n\nCanceled appointments will not show up by default when listing appointments, but they can be optionally requested. Appointments must be canceled before they can be deleted. Once an appointment is canceled, it can no longer be modified.",
+        "tags": [
+          "Appointment"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+              "description": "Unique ID of the appointment."
+            },
+            "required": true,
+            "description": "Unique ID of the appointment."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "booked",
+                      "confirmed",
+                      "no_show",
+                      "completed",
+                      "canceled"
+                    ]
+                  }
+                },
+                "required": [
+                  "status"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/appointment"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "transition",
         "x-belongsToResource": "appointment"
       }
     },
@@ -10230,6 +10300,9 @@
             "type": "string",
             "enum": [
               "booked",
+              "confirmed",
+              "no_show",
+              "completed",
               "canceled"
             ],
             "description": "Current status of this appointment. By default, newly created appointments will be in the booked status. When an appointment is in a terminal status, such as `canceled`, it can no longer be modified.",
@@ -15527,6 +15600,9 @@
           "care_team.created",
           "care_team.updated",
           "care_team.deleted",
+          "comment.created",
+          "comment.updated",
+          "comment.deleted",
           "document.created",
           "document.updated",
           "document.deleted",
