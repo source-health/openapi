@@ -110,6 +110,7 @@
                   "logo": {
                     "type": "string",
                     "example": "file_0A9zrLzCO7KPcnIbs40e",
+                    "nullable": true,
                     "description": "Pointer to the file to use as the logo for this account. Must be of purpose account_logo."
                   }
                 }
