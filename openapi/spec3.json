@@ -1548,6 +1548,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "time_zone": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The time zone in which rules on this schedule should be evaluated."
+                  },
                   "rules": {
                     "type": "array",
                     "items": {
@@ -10740,6 +10745,42 @@
             "description": "User to whom this availability schedule corresponds. At this time, each user can only have one availability schedule, and it's automatically created by Source.",
             "example": "usr_NC6MQ3FyxddKoJJpfSVL"
           },
+          "resource": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/user"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "description": "Expandable reference to a User",
+                "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+              },
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/location"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/location"
+                },
+                "description": "Expandable reference to a Location",
+                "example": "loc_EtTXhFHUtCXO1JWBd8TN"
+              }
+            ],
+            "description": "Resource to which this availability schedule corresponds. Availability schedules may belong to either a location or a user. Note that this property replaces the `user` property, and should be preferred in all contexts.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+          },
           "time_zone": {
             "type": "string",
             "description": "The IANA time zone identifier in which this schedule should be interpreted. A time zone must be provided, but can be set to UTC. All times in a user's availability schedule are considered to be in \"local\" time, so they are impossible to interpret without a time zone.\n\nNote that while availability schedules have a time zone field on them for reference, the time zone is replicated from the bookable resource to which the schedule is attached (currently only users). If you want to change the time zone for the schedule, you need to instead change the time zone on the user. Source will automatically detect the time zone change and update the schedule as well, triggering an `availability.updated` event with the new zone.",
@@ -10916,6 +10957,7 @@
           "object",
           "id",
           "user",
+          "resource",
           "time_zone",
           "rules",
           "overrides",
@@ -12510,6 +12552,70 @@
         "title": "License",
         "description": "Licenses represent the legal permission to perform an occupation, such as to deliver medical care. A license is specific to a region (in the US, a state or territory) whose licensing body has granted the license.\n\nSource uses licenses to guide, for example, automatic routing of tasks and appointments configured to require licensure. Source compares a user's license region with the member's address region to evaluate appropriate licensure. Each user can have any number of licenses. Licenses can be created, updated, and deleted for a user.",
         "x-resourceId": "license",
+        "x-package": null
+      },
+      "location": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "location",
+            "enum": [
+              "location"
+            ],
+            "example": "location",
+            "description": "Always `location`."
+          },
+          "id": {
+            "type": "string",
+            "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+            "description": "Unique ID for the location."
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "Unique name for this location.",
+            "example": "Main Campus"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "physical",
+              "virtual"
+            ],
+            "description": "Whether the location is a physical location, or a virtual one. There is always one and only one virtual location for each Source account. You may have any number of physical locations, however.",
+            "example": "virtual"
+          },
+          "time_zone": {
+            "type": "string",
+            "description": "The time zone in which this location operations. It is used whenever we need to determine the local time for a location.",
+            "example": "America/New_York"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the location was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the location was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "name",
+          "type",
+          "time_zone",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Location",
+        "description": "Locations are the places where you provide care to your members.\n\nWhen you configure locations in Source, you'll have complete control over when and how appointments are offered to your members, as well as the services that can be delivered at each location.\n\nEvery Source account is created with one virtual location, which houses the settings that will be used when booking and managing virtual visits. Additional physical locations can be added for practices that need it.",
+        "x-resourceId": "location",
         "x-package": null
       },
       "measurement": {
