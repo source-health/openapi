@@ -1705,6 +1705,24 @@ paths:
                           times may range from 00:00 to 24:00, where 24:00 represents midnight at
                           the end of the day.
                         example: 17:00
+                      start_date:
+                        type: string
+                        format: date
+                        nullable: true
+                        description:
+                          The first date from which this rule should apply, expressed as an ISO
+                          date. If set to a non-null value, this rule will not be considered when
+                          evaluating availability before the given date.
+                        example: 2022-08-10
+                      end_date:
+                        type: string
+                        format: date
+                        nullable: true
+                        description:
+                          The last date on which this rule should apply, expressed as an ISO date.
+                          If set to a non-null value, this rule will not be considered when
+                          evaluating availability after the given date.
+                        example: null
                       appointment_types:
                         type: array
                         items:
@@ -10204,6 +10222,24 @@ components:
                   formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may
                   range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.
                 example: 17:00
+              start_date:
+                type: string
+                format: date
+                nullable: true
+                description:
+                  The first date from which this rule should apply, expressed as an ISO date. If set
+                  to a non-null value, this rule will not be considered when evaluating availability
+                  before the given date.
+                example: 2022-08-10
+              end_date:
+                type: string
+                format: date
+                nullable: true
+                description:
+                  The last date on which this rule should apply, expressed as an ISO date. If set to
+                  a non-null value, this rule will not be considered when evaluating availability
+                  after the given date.
+                example: null
               appointment_types:
                 type: array
                 items:
@@ -10228,6 +10264,8 @@ components:
               - day
               - start
               - end
+              - start_date
+              - end_date
               - appointment_types
           description:
             The list of rules for this person's availability. Each rule defines a day of week, start
@@ -10240,23 +10278,33 @@ components:
             - day: 1
               start: 09:00
               end: 17:00
+              start_date: null
+              end_date: null
               appointment_types:
                 - aptp_meYUvkuaI2akjnb5Kwt7
             - day: 2
               start: 09:00
               end: 17:00
+              start_date: null
+              end_date: null
               appointment_types: []
             - day: 3
               start: 09:00
               end: 17:00
+              start_date: null
+              end_date: null
               appointment_types: []
             - day: 4
               start: 09:00
               end: 17:00
+              start_date: null
+              end_date: null
               appointment_types: []
             - day: 5
               start: 09:00
               end: 17:00
+              start_date: null
+              end_date: null
               appointment_types: []
         overrides:
           type: array

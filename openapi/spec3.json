@@ -1577,6 +1577,20 @@
                           "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
                           "example": "17:00"
                         },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date",
+                          "nullable": true,
+                          "description": "The first date from which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability before the given date.",
+                          "example": "2022-08-10"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date",
+                          "nullable": true,
+                          "description": "The last date on which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability after the given date.",
+                          "example": null
+                        },
                         "appointment_types": {
                           "type": "array",
                           "items": {
@@ -10808,6 +10822,20 @@
                   "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
                   "example": "17:00"
                 },
+                "start_date": {
+                  "type": "string",
+                  "format": "date",
+                  "nullable": true,
+                  "description": "The first date from which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability before the given date.",
+                  "example": "2022-08-10"
+                },
+                "end_date": {
+                  "type": "string",
+                  "format": "date",
+                  "nullable": true,
+                  "description": "The last date on which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability after the given date.",
+                  "example": null
+                },
                 "appointment_types": {
                   "type": "array",
                   "items": {
@@ -10832,6 +10860,8 @@
                 "day",
                 "start",
                 "end",
+                "start_date",
+                "end_date",
                 "appointment_types"
               ]
             },
@@ -10841,6 +10871,8 @@
                 "day": 1,
                 "start": "09:00",
                 "end": "17:00",
+                "start_date": null,
+                "end_date": null,
                 "appointment_types": [
                   "aptp_meYUvkuaI2akjnb5Kwt7"
                 ]
@@ -10849,24 +10881,32 @@
                 "day": 2,
                 "start": "09:00",
                 "end": "17:00",
+                "start_date": null,
+                "end_date": null,
                 "appointment_types": []
               },
               {
                 "day": 3,
                 "start": "09:00",
                 "end": "17:00",
+                "start_date": null,
+                "end_date": null,
                 "appointment_types": []
               },
               {
                 "day": 4,
                 "start": "09:00",
                 "end": "17:00",
+                "start_date": null,
+                "end_date": null,
                 "appointment_types": []
               },
               {
                 "day": 5,
                 "start": "09:00",
                 "end": "17:00",
+                "start_date": null,
+                "end_date": null,
                 "appointment_types": []
               }
             ]
