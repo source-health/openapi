@@ -11693,6 +11693,55 @@
             "description": "Type of event.",
             "example": "group.created"
           },
+          "actor": {
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/member"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/member"
+                },
+                "description": "Expandable reference to a Member",
+                "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+              },
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/user"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/user"
+                },
+                "description": "Expandable reference to a User",
+                "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+              }
+            ],
+            "nullable": true,
+            "description": "Actor whose action triggered this event. The actor may be a user, member, or null. When the actor value is null, such as for an action being performed by the system, the `actor_type` field is fully descriptive."
+          },
+          "actor_type": {
+            "type": "string",
+            "enum": [
+              "user",
+              "member",
+              "api",
+              "system",
+              "anonymous",
+              "unknown"
+            ],
+            "description": "The type of actor whose action triggered this event. The `unknown` value should only be present in historical events created prior to December 2021.",
+            "example": "user"
+          },
           "data": {
             "type": "object",
             "properties": {
@@ -11730,6 +11779,8 @@
           "object",
           "id",
           "type",
+          "actor",
+          "actor_type",
           "data",
           "created_at"
         ],
