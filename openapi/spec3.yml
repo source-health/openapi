@@ -5632,6 +5632,27 @@ paths:
         - in: query
           style: form
           explode: true
+          name: sort
+          schema:
+            type: string
+            enum:
+              - created_at
+              - name
+              - date_of_birth
+              - -created_at
+              - -name
+              - -date_of_birth
+            description:
+              Sort field for the results. A '-' prefix indicates sorting by that field in descending
+              order, otherwise the order will be ascending.
+            example: created_at
+          required: false
+          description:
+            Sort field for the results. A '-' prefix indicates sorting by that field in descending
+            order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
           name: tag
           schema:
             type: array
@@ -5651,10 +5672,109 @@ paths:
           explode: true
           name: email
           schema:
-            type: string
-            description: Limit results to members with the given email.
+            type: array
+            items:
+              type: string
+            description:
+              Limit results to members with the specified email. If multiple emails are provided,
+              members who have any of the emails are returned.
           required: false
-          description: Limit results to members with the given email.
+          description:
+            Limit results to members with the specified email. If multiple emails are provided,
+            members who have any of the emails are returned.
+        - in: query
+          style: form
+          explode: true
+          name: care_team
+          schema:
+            type: array
+            items:
+              type: string
+            description:
+              Filter results to members who have a specified user on their care team. Users must be
+              provided as a list of user identifiers. If multiple users are provided, members who
+              have any of the specified users on their care team are returned.
+          required: false
+          description:
+            Filter results to members who have a specified user on their care team. Users must be
+            provided as a list of user identifiers. If multiple users are provided, members who have
+            any of the specified users on their care team are returned.
+        - in: query
+          style: form
+          explode: true
+          name: enrollment_status
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - enrolled
+                - not_enrolled
+            description: Filter results to members who have a specified enrollment status.
+          required: false
+          description: Filter results to members who have a specified enrollment status.
+        - in: query
+          style: form
+          explode: true
+          name: region
+          schema:
+            type: array
+            items:
+              type: string
+            description:
+              Filter results to members whose addresses match the specified region. In the US this
+              should be the two-letter state code. If multiple regions are provided, members who are
+              located in any of the specified regions are returned.
+          required: false
+          description:
+            Filter results to members whose addresses match the specified region. In the US this
+            should be the two-letter state code. If multiple regions are provided, members who are
+            located in any of the specified regions are returned.
+        - in: query
+          style: form
+          explode: true
+          name: sex_at_birth
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - male
+                - female
+                - other
+                - undisclosed
+            description:
+              Filter results to members who have a specified sex at birth. If multiple sexes at
+              birth are provided, members who have any of those specified are returned.
+          required: false
+          description:
+            Filter results to members who have a specified sex at birth. If multiple sexes at birth
+            are provided, members who have any of those specified are returned.
+        - in: query
+          style: form
+          explode: true
+          name: gender_identity
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - female
+                - male
+                - non_binary
+                - other
+                - transgender_female
+                - transgender_male
+                - undisclosed
+            description:
+              Filter results to members who have a specified gender identity. You must specify the
+              `gender_identity.value`. If multiple gender identities are provided, members who have
+              any of those specified are returned.
+          required: false
+          description:
+            Filter results to members who have a specified gender identity. You must specify the
+            `gender_identity.value`. If multiple gender identities are provided, members who have
+            any of those specified are returned.
       responses:
         default:
           description: Successful response.
