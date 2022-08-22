@@ -2809,6 +2809,108 @@
             },
             "required": false,
             "description": "Filter results by event type. Repeat this parameter to filter by multiple event types,         e.g. `?type=member.created&type=member.updated`"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "actor_type",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "user",
+                  "member",
+                  "api",
+                  "system",
+                  "anonymous",
+                  "unknown"
+                ]
+              },
+              "description": "Filter results to show only those events that were performed by a certain type of actor",
+              "example": [
+                "anonymous"
+              ]
+            },
+            "required": false,
+            "description": "Filter results to show only those events that were performed by a certain type of actor"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "actor",
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X"
+                  },
+                  {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+                  }
+                ]
+              },
+              "description": "Filter results to show only those events that were performed by a specific actor",
+              "example": [
+                "usr_qoGndHzx8KwdYsEByt9X"
+              ]
+            },
+            "required": false,
+            "description": "Filter results to show only those events that were performed by a specific actor"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "resource",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter results to show only those events that were performed on a specific resource"
+            },
+            "required": false,
+            "description": "Filter results to show only those events that were performed on a specific resource"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "created_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
           }
         ],
         "responses": {
