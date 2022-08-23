@@ -9608,6 +9608,12 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "title": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Title of this user.",
+                    "example": "Dr."
+                  },
                   "first_name": {
                     "type": "string",
                     "minLength": 1,
@@ -9619,6 +9625,12 @@
                     "minLength": 1,
                     "description": "Last name of the user.",
                     "example": "Adame"
+                  },
+                  "suffix": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Suffix for this user.",
+                    "example": "MD"
                   },
                   "display_title": {
                     "type": "string",
@@ -9942,6 +9954,12 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "title": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Title of this user.",
+                    "example": "Dr."
+                  },
                   "first_name": {
                     "type": "string",
                     "minLength": 1,
@@ -9953,6 +9971,12 @@
                     "minLength": 1,
                     "description": "Last name of the user.",
                     "example": "Adame"
+                  },
+                  "suffix": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Suffix for this user.",
+                    "example": "MD"
                   },
                   "display_title": {
                     "type": "string",
@@ -15809,6 +15833,12 @@
             "example": "usr_qoGndHzx8KwdYsEByt9X",
             "description": "Unique ID for the user."
           },
+          "title": {
+            "type": "string",
+            "nullable": true,
+            "description": "Title of this user.",
+            "example": "Dr."
+          },
           "first_name": {
             "type": "string",
             "nullable": true,
@@ -15820,6 +15850,12 @@
             "nullable": true,
             "description": "Last name of the user.",
             "example": "Khan"
+          },
+          "suffix": {
+            "type": "string",
+            "nullable": true,
+            "description": "Suffix for this user.",
+            "example": "MD"
           },
           "display_title": {
             "type": "string",
@@ -15923,8 +15959,10 @@
         "required": [
           "object",
           "id",
+          "title",
           "first_name",
           "last_name",
+          "suffix",
           "display_title",
           "email",
           "role",

@@ -9038,6 +9038,11 @@ paths:
             schema:
               type: object
               properties:
+                title:
+                  type: string
+                  nullable: true
+                  description: Title of this user.
+                  example: Dr.
                 first_name:
                   type: string
                   minLength: 1
@@ -9048,6 +9053,11 @@ paths:
                   minLength: 1
                   description: Last name of the user.
                   example: Adame
+                suffix:
+                  type: string
+                  nullable: true
+                  description: Suffix for this user.
+                  example: MD
                 display_title:
                   type: string
                   minLength: 1
@@ -9363,6 +9373,11 @@ paths:
             schema:
               type: object
               properties:
+                title:
+                  type: string
+                  nullable: true
+                  description: Title of this user.
+                  example: Dr.
                 first_name:
                   type: string
                   minLength: 1
@@ -9373,6 +9388,11 @@ paths:
                   minLength: 1
                   description: Last name of the user.
                   example: Adame
+                suffix:
+                  type: string
+                  nullable: true
+                  description: Suffix for this user.
+                  example: MD
                 display_title:
                   type: string
                   minLength: 1
@@ -14705,6 +14725,11 @@ components:
           type: string
           example: usr_qoGndHzx8KwdYsEByt9X
           description: Unique ID for the user.
+        title:
+          type: string
+          nullable: true
+          description: Title of this user.
+          example: Dr.
         first_name:
           type: string
           nullable: true
@@ -14715,6 +14740,11 @@ components:
           nullable: true
           description: Last name of the user.
           example: Khan
+        suffix:
+          type: string
+          nullable: true
+          description: Suffix for this user.
+          example: MD
         display_title:
           type: string
           maxLength: 50
@@ -14804,8 +14834,10 @@ components:
       required:
         - object
         - id
+        - title
         - first_name
         - last_name
+        - suffix
         - display_title
         - email
         - role
