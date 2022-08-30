@@ -4678,371 +4678,6 @@
         "x-belongsToResource": "group"
       }
     },
-    "/v1/measurements": {
-      "post": {
-        "summary": "Create a Measurement",
-        "description": "Creates a measurement, which can be of kind `numeric` (with a single value) or     kind `composite` (with a collection of logically inseparable values (such as a     blood pressure reading). The shapes of these requests are different.",
-        "tags": [
-          "Measurement"
-        ],
-        "parameters": [],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "anyOf": [
-                  {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "blood_glucose",
-                          "blood_oxygen_saturation",
-                          "blood_pressure",
-                          "body_weight",
-                          "diastolic_blood_pressure",
-                          "heart_rate",
-                          "systolic_blood_pressure"
-                        ],
-                        "description": "Source measurement type to create."
-                      },
-                      "device": {
-                        "type": "string",
-                        "example": "dev_79Dek9tjwNUZqMWU576Q",
-                        "description": "Device to which this measurement belongs."
-                      },
-                      "member": {
-                        "type": "string",
-                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-                        "description": "Member to which this measurement belongs."
-                      },
-                      "time": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Timestamp that the measurement was taken.",
-                        "example": "2021-05-13T16:33:00.000Z"
-                      },
-                      "kind": {
-                        "type": "string",
-                        "default": "composite",
-                        "enum": [
-                          "composite"
-                        ],
-                        "example": "composite",
-                        "description": "Always `composite`."
-                      },
-                      "items": {
-                        "type": "object",
-                        "additionalProperties": {
-                          "type": "object",
-                          "properties": {
-                            "value": {
-                              "type": "string",
-                              "description": "Value for the measurement."
-                            },
-                            "unit": {
-                              "type": "string",
-                              "description": "Unit that the measurement is reported in."
-                            }
-                          },
-                          "required": [
-                            "value",
-                            "unit"
-                          ]
-                        },
-                        "description": "Items to be included in the composite measurement."
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "device",
-                      "member",
-                      "time",
-                      "kind",
-                      "items"
-                    ]
-                  },
-                  {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "blood_glucose",
-                          "blood_oxygen_saturation",
-                          "blood_pressure",
-                          "body_weight",
-                          "diastolic_blood_pressure",
-                          "heart_rate",
-                          "systolic_blood_pressure"
-                        ],
-                        "description": "Source measurement type to create."
-                      },
-                      "device": {
-                        "type": "string",
-                        "example": "dev_79Dek9tjwNUZqMWU576Q",
-                        "description": "Device to which this measurement belongs."
-                      },
-                      "member": {
-                        "type": "string",
-                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-                        "description": "Member to which this measurement belongs."
-                      },
-                      "time": {
-                        "type": "string",
-                        "format": "date-time",
-                        "description": "Timestamp that the measurement was taken.",
-                        "example": "2021-05-13T16:33:00.000Z"
-                      },
-                      "kind": {
-                        "type": "string",
-                        "default": "numeric",
-                        "enum": [
-                          "numeric"
-                        ],
-                        "example": "numeric",
-                        "description": "Always `numeric`."
-                      },
-                      "value": {
-                        "type": "string",
-                        "minLength": 1,
-                        "description": "Value for the measurement."
-                      },
-                      "unit": {
-                        "type": "string",
-                        "minLength": 1,
-                        "description": "Unit that the measurement is reported in."
-                      }
-                    },
-                    "required": [
-                      "type",
-                      "device",
-                      "member",
-                      "time",
-                      "kind",
-                      "value",
-                      "unit"
-                    ]
-                  }
-                ]
-              }
-            }
-          }
-        },
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/measurement"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "create",
-        "x-belongsToResource": "measurement"
-      },
-      "get": {
-        "summary": "List all Measurements",
-        "description": "Lists all measurements for the current account. The measurements returned are sorted by     their timestamp, with the most recently created measurements appearing first.",
-        "tags": [
-          "Measurement"
-        ],
-        "parameters": [
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "ending_before",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "starting_after",
-            "schema": {
-              "type": "string",
-              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-            },
-            "required": false,
-            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "limit",
-            "schema": {
-              "type": "number",
-              "minimum": 1,
-              "maximum": 100,
-              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-            },
-            "required": false,
-            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "time",
-            "schema": {
-              "type": "object",
-              "properties": {
-                "lt": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "Return results where the time field is less than this value."
-                },
-                "lte": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "Return results where the time field is less than or equal to this value."
-                },
-                "gt": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "Return results where the time field is greater than this value."
-                },
-                "gte": {
-                  "type": "string",
-                  "format": "date-time",
-                  "description": "Return results where the time field is greater than or equal to this value."
-                }
-              },
-              "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
-            },
-            "required": false,
-            "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "member",
-            "schema": {
-              "type": "string",
-              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-              "description": "Filter measurements to only those belonging to the given member."
-            },
-            "required": false,
-            "description": "Filter measurements to only those belonging to the given member."
-          },
-          {
-            "in": "query",
-            "style": "form",
-            "explode": true,
-            "name": "type",
-            "schema": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "enum": [
-                  "blood_glucose",
-                  "blood_oxygen_saturation",
-                  "blood_pressure",
-                  "body_weight",
-                  "diastolic_blood_pressure",
-                  "heart_rate",
-                  "systolic_blood_pressure"
-                ]
-              },
-              "description": "Filter measurements to only those of the given type."
-            },
-            "required": false,
-            "description": "Filter measurements to only those of the given type."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "object": {
-                      "type": "string",
-                      "default": "list",
-                      "enum": [
-                        "list"
-                      ],
-                      "example": "list",
-                      "description": "Always `list`."
-                    },
-                    "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/measurement"
-                      },
-                      "description": "Array of results"
-                    },
-                    "has_more": {
-                      "type": "boolean",
-                      "description": "Contains `true` if there is another page of results available."
-                    }
-                  },
-                  "required": [
-                    "object",
-                    "data",
-                    "has_more"
-                  ]
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "list",
-        "x-belongsToResource": "measurement"
-      }
-    },
-    "/v1/measurements/{id}": {
-      "get": {
-        "summary": "Retrieve a Measurement",
-        "description": "Return the details of a measurement (a reading from a Device)",
-        "tags": [
-          "Measurement"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "example": "meas_tk5YgrmO1baddbZreGts",
-              "description": "Unique ID of the measurement."
-            },
-            "required": true,
-            "description": "Unique ID of the measurement."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/measurement"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "retrieve",
-        "x-belongsToResource": "measurement"
-      }
-    },
     "/v1/licenses": {
       "post": {
         "summary": "Create a License",
@@ -5439,113 +5074,153 @@
         "x-belongsToResource": "license"
       }
     },
-    "/v1/communication/messages": {
+    "/v1/measurements": {
       "post": {
-        "summary": "Create a Message",
-        "description": "Creates a message within a thread.",
+        "summary": "Create a Measurement",
+        "description": "Creates a measurement, which can be of kind `numeric` (with a single value) or     kind `composite` (with a collection of logically inseparable values (such as a     blood pressure reading). The shapes of these requests are different.",
         "tags": [
-          "Message"
+          "Measurement"
         ],
         "parameters": [],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "thread": {
-                    "type": "string",
-                    "example": "thrd_mi5bnWscvLf7q74k6Nzj",
-                    "description": "Unique ID of the thread to which the message belongs."
-                  },
-                  "text": {
-                    "type": "string",
-                    "minLength": 1,
-                    "description": "Contents of the message to send."
-                  },
-                  "thread_actions": {
+                "anyOf": [
+                  {
                     "type": "object",
                     "properties": {
-                      "status": {
+                      "type": {
                         "type": "string",
                         "enum": [
-                          "awaiting_care_team",
-                          "awaiting_member",
-                          "closed"
+                          "blood_glucose",
+                          "blood_oxygen_saturation",
+                          "blood_pressure",
+                          "body_weight",
+                          "diastolic_blood_pressure",
+                          "heart_rate",
+                          "systolic_blood_pressure"
                         ],
-                        "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
-                        "example": "closed"
+                        "description": "Source measurement type to create."
+                      },
+                      "device": {
+                        "type": "string",
+                        "example": "dev_79Dek9tjwNUZqMWU576Q",
+                        "description": "Device to which this measurement belongs."
+                      },
+                      "member": {
+                        "type": "string",
+                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                        "description": "Member to which this measurement belongs."
+                      },
+                      "time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp that the measurement was taken.",
+                        "example": "2021-05-13T16:33:00.000Z"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "default": "composite",
+                        "enum": [
+                          "composite"
+                        ],
+                        "example": "composite",
+                        "description": "Always `composite`."
+                      },
+                      "items": {
+                        "type": "object",
+                        "additionalProperties": {
+                          "type": "object",
+                          "properties": {
+                            "value": {
+                              "type": "string",
+                              "description": "Value for the measurement."
+                            },
+                            "unit": {
+                              "type": "string",
+                              "description": "Unit that the measurement is reported in."
+                            }
+                          },
+                          "required": [
+                            "value",
+                            "unit"
+                          ]
+                        },
+                        "description": "Items to be included in the composite measurement."
                       }
                     },
-                    "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
+                    "required": [
+                      "type",
+                      "device",
+                      "member",
+                      "time",
+                      "kind",
+                      "items"
+                    ]
                   },
-                  "attachments": {
-                    "type": "array",
-                    "items": {
-                      "type": "object",
-                      "properties": {
-                        "type": {
-                          "type": "string",
-                          "enum": [
-                            "file",
-                            "link"
-                          ],
-                          "description": "The type of attachment. Currently, the supported attachment types are `file` and `link`. If set to file, then a resource must be provided. If set to link, then a URL must be provided. Other attachment types may be added in the future."
-                        },
-                        "description": {
-                          "type": "string",
-                          "maxLength": 4096,
-                          "nullable": true,
-                          "description": "A description of the attachment to display. If a file uploaded to Source is attached, the file's name overrides a description and is displayed. Otherwise, this description is displayed.",
-                          "example": null
-                        },
-                        "resource": {
-                          "type": "string",
-                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
-                        },
-                        "url": {
-                          "type": "string",
-                          "description": "The URL where the attachment's contents can be accessed. For link attachments, the link to redirect. For file attachments, the URL returned by Source is a link to the file."
-                        },
-                        "metadata": {
-                          "type": "object",
-                          "additionalProperties": {},
-                          "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
-                          "example": {
-                            "patient_id": 456789,
-                            "visit_id": "123"
-                          }
-                        }
-                      },
-                      "required": [
-                        "type"
-                      ]
-                    }
-                  },
-                  "sender": {
-                    "anyOf": [
-                      {
+                  {
+                    "type": "object",
+                    "properties": {
+                      "type": {
                         "type": "string",
-                        "example": "usr_qoGndHzx8KwdYsEByt9X"
+                        "enum": [
+                          "blood_glucose",
+                          "blood_oxygen_saturation",
+                          "blood_pressure",
+                          "body_weight",
+                          "diastolic_blood_pressure",
+                          "heart_rate",
+                          "systolic_blood_pressure"
+                        ],
+                        "description": "Source measurement type to create."
                       },
-                      {
+                      "device": {
                         "type": "string",
-                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+                        "example": "dev_79Dek9tjwNUZqMWU576Q",
+                        "description": "Device to which this measurement belongs."
+                      },
+                      "member": {
+                        "type": "string",
+                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                        "description": "Member to which this measurement belongs."
+                      },
+                      "time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Timestamp that the measurement was taken.",
+                        "example": "2021-05-13T16:33:00.000Z"
+                      },
+                      "kind": {
+                        "type": "string",
+                        "default": "numeric",
+                        "enum": [
+                          "numeric"
+                        ],
+                        "example": "numeric",
+                        "description": "Always `numeric`."
+                      },
+                      "value": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Value for the measurement."
+                      },
+                      "unit": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "Unit that the measurement is reported in."
                       }
-                    ],
-                    "description": "When calling this endpoint with an API key, you must use this field to specify the user or member on whose behalf the message is sent.",
-                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
-                  },
-                  "sent_at": {
-                    "type": "string",
-                    "format": "date-time",
-                    "description": "The time at which this message was sent. When calling this endpoint with an API key you can optionally specify the sent_at time, such as when backloading historical messages. By default and when called as a user or a member, the current time is used.",
-                    "example": "2021-05-13T16:33:00.000Z"
+                    },
+                    "required": [
+                      "type",
+                      "device",
+                      "member",
+                      "time",
+                      "kind",
+                      "value",
+                      "unit"
+                    ]
                   }
-                },
-                "required": [
-                  "thread",
-                  "text"
                 ]
               }
             }
@@ -5557,20 +5232,20 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/message"
+                  "$ref": "#/components/schemas/measurement"
                 }
               }
             }
           }
         },
         "x-methodName": "create",
-        "x-belongsToResource": "message"
+        "x-belongsToResource": "measurement"
       },
       "get": {
-        "summary": "List all Messages",
-        "description": "Returns a list of messages within a thread.\n\nThe messages returned are sorted with the most recently sent appearing first.",
+        "summary": "List all Measurements",
+        "description": "Lists all measurements for the current account. The measurements returned are sorted by     their timestamp, with the most recently created measurements appearing first.",
         "tags": [
-          "Message"
+          "Measurement"
         ],
         "parameters": [
           {
@@ -5615,14 +5290,72 @@
             "in": "query",
             "style": "form",
             "explode": true,
-            "name": "thread",
+            "name": "time",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the time field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the time field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the time field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the time field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object time field. For example `?time[gt]=2021-05-10T16:51:38.075Z&time[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
             "schema": {
               "type": "string",
-              "example": "thrd_mi5bnWscvLf7q74k6Nzj",
-              "description": "Unique ID of the thread whose messages should be shown."
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+              "description": "Filter measurements to only those belonging to the given member."
             },
-            "required": true,
-            "description": "Unique ID of the thread whose messages should be shown."
+            "required": false,
+            "description": "Filter measurements to only those belonging to the given member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "type",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "blood_glucose",
+                  "blood_oxygen_saturation",
+                  "blood_pressure",
+                  "body_weight",
+                  "diastolic_blood_pressure",
+                  "heart_rate",
+                  "systolic_blood_pressure"
+                ]
+              },
+              "description": "Filter measurements to only those of the given type."
+            },
+            "required": false,
+            "description": "Filter measurements to only those of the given type."
           }
         ],
         "responses": {
@@ -5645,7 +5378,7 @@
                     "data": {
                       "type": "array",
                       "items": {
-                        "$ref": "#/components/schemas/message"
+                        "$ref": "#/components/schemas/measurement"
                       },
                       "description": "Array of results"
                     },
@@ -5665,15 +5398,15 @@
           }
         },
         "x-methodName": "list",
-        "x-belongsToResource": "message"
+        "x-belongsToResource": "measurement"
       }
     },
-    "/v1/communication/messages/{id}": {
+    "/v1/measurements/{id}": {
       "get": {
-        "summary": "Retrieve a Message",
-        "description": "Retrieves the details of a message. You need only supply the unique message identifier that was returned upon creation.",
+        "summary": "Retrieve a Measurement",
+        "description": "Return the details of a measurement (a reading from a Device)",
         "tags": [
-          "Message"
+          "Measurement"
         ],
         "parameters": [
           {
@@ -5683,11 +5416,11 @@
             "name": "id",
             "schema": {
               "type": "string",
-              "example": "msg_J2XECWlmq20uiX1PBdku",
-              "description": "Unique ID of the message."
+              "example": "meas_tk5YgrmO1baddbZreGts",
+              "description": "Unique ID of the measurement."
             },
             "required": true,
-            "description": "Unique ID of the message."
+            "description": "Unique ID of the measurement."
           }
         ],
         "responses": {
@@ -5696,52 +5429,14 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/message"
+                  "$ref": "#/components/schemas/measurement"
                 }
               }
             }
           }
         },
         "x-methodName": "retrieve",
-        "x-belongsToResource": "message"
-      }
-    },
-    "/v1/communication/messages/{id}/redact": {
-      "post": {
-        "summary": "Redact a Message",
-        "description": "Redacts a message and its attachments that were sent in error to a member. You can redact a message sent by a user or an API key on behalf of a user.\n\nOnce redacted, the message content and any attachments are no longer accessible to the member, however the fact that the message was redacted is displayed to the member. The message is labeled as redacted and remains visible to users in the Source UI or via API.",
-        "tags": [
-          "Message"
-        ],
-        "parameters": [
-          {
-            "in": "path",
-            "style": "simple",
-            "explode": true,
-            "name": "id",
-            "schema": {
-              "type": "string",
-              "example": "msg_J2XECWlmq20uiX1PBdku",
-              "description": "Unique ID of the message."
-            },
-            "required": true,
-            "description": "Unique ID of the message."
-          }
-        ],
-        "responses": {
-          "default": {
-            "description": "Successful response.",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/message"
-                }
-              }
-            }
-          }
-        },
-        "x-methodName": "redact",
-        "x-belongsToResource": "message"
+        "x-belongsToResource": "measurement"
       }
     },
     "/v1/members": {
@@ -6591,6 +6286,311 @@
         },
         "x-methodName": "delete",
         "x-belongsToResource": "member"
+      }
+    },
+    "/v1/communication/messages": {
+      "post": {
+        "summary": "Create a Message",
+        "description": "Creates a message within a thread.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "thread": {
+                    "type": "string",
+                    "example": "thrd_mi5bnWscvLf7q74k6Nzj",
+                    "description": "Unique ID of the thread to which the message belongs."
+                  },
+                  "text": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Contents of the message to send."
+                  },
+                  "thread_actions": {
+                    "type": "object",
+                    "properties": {
+                      "status": {
+                        "type": "string",
+                        "enum": [
+                          "awaiting_care_team",
+                          "awaiting_member",
+                          "closed"
+                        ],
+                        "description": "New status for the thread after sending this message. By default, Source will set the thread status to 'awaiting_care_team' if the member sends the message, and 'awaiting_member' if someone on the care team send the message.",
+                        "example": "closed"
+                      }
+                    },
+                    "description": "Actions to apply to the thread after the message has been sent. Source guarantees that these actions will only be applied if the message has been successfully sent. See the documentation for nested params for information about each available action."
+                  },
+                  "attachments": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "enum": [
+                            "file",
+                            "link"
+                          ],
+                          "description": "The type of attachment. Currently, the supported attachment types are `file` and `link`. If set to file, then a resource must be provided. If set to link, then a URL must be provided. Other attachment types may be added in the future."
+                        },
+                        "description": {
+                          "type": "string",
+                          "maxLength": 4096,
+                          "nullable": true,
+                          "description": "A description of the attachment to display. If a file uploaded to Source is attached, the file's name overrides a description and is displayed. Otherwise, this description is displayed.",
+                          "example": null
+                        },
+                        "resource": {
+                          "type": "string",
+                          "description": "Unique ID of the resource to be attached to this message. When attaching a file, this should be set to the uploaded file's ID."
+                        },
+                        "url": {
+                          "type": "string",
+                          "description": "The URL where the attachment's contents can be accessed. For link attachments, the link to redirect. For file attachments, the URL returned by Source is a link to the file."
+                        },
+                        "metadata": {
+                          "type": "object",
+                          "additionalProperties": {},
+                          "description": "A map of your own metadata to be included alongside this attachment. For example, you can use this metadata for bookkeeping or rendering in your member experience.\n\nMetadata may only be set when calling the API with your API keys. It cannot be set when using member tokens.",
+                          "example": {
+                            "patient_id": 456789,
+                            "visit_id": "123"
+                          }
+                        }
+                      },
+                      "required": [
+                        "type"
+                      ]
+                    }
+                  },
+                  "sender": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "usr_qoGndHzx8KwdYsEByt9X"
+                      },
+                      {
+                        "type": "string",
+                        "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+                      }
+                    ],
+                    "description": "When calling this endpoint with an API key, you must use this field to specify the user or member on whose behalf the message is sent.",
+                    "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+                  },
+                  "sent_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The time at which this message was sent. When calling this endpoint with an API key you can optionally specify the sent_at time, such as when backloading historical messages. By default and when called as a user or a member, the current time is used.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  }
+                },
+                "required": [
+                  "thread",
+                  "text"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "message"
+      },
+      "get": {
+        "summary": "List all Messages",
+        "description": "Returns a list of messages within a thread.\n\nThe messages returned are sorted with the most recently sent appearing first.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "thread",
+            "schema": {
+              "type": "string",
+              "example": "thrd_mi5bnWscvLf7q74k6Nzj",
+              "description": "Unique ID of the thread whose messages should be shown."
+            },
+            "required": true,
+            "description": "Unique ID of the thread whose messages should be shown."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/message"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "message"
+      }
+    },
+    "/v1/communication/messages/{id}": {
+      "get": {
+        "summary": "Retrieve a Message",
+        "description": "Retrieves the details of a message. You need only supply the unique message identifier that was returned upon creation.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "msg_J2XECWlmq20uiX1PBdku",
+              "description": "Unique ID of the message."
+            },
+            "required": true,
+            "description": "Unique ID of the message."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "message"
+      }
+    },
+    "/v1/communication/messages/{id}/redact": {
+      "post": {
+        "summary": "Redact a Message",
+        "description": "Redacts a message and its attachments that were sent in error to a member. You can redact a message sent by a user or an API key on behalf of a user.\n\nOnce redacted, the message content and any attachments are no longer accessible to the member, however the fact that the message was redacted is displayed to the member. The message is labeled as redacted and remains visible to users in the Source UI or via API.",
+        "tags": [
+          "Message"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "msg_J2XECWlmq20uiX1PBdku",
+              "description": "Unique ID of the message."
+            },
+            "required": true,
+            "description": "Unique ID of the message."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/message"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "redact",
+        "x-belongsToResource": "message"
       }
     },
     "/v1/orders": {
