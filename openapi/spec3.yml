@@ -1738,6 +1738,38 @@ paths:
                           Rules are additive - when rules with different appointment type
                           restrictions overlap in time, the set of all allowed appointment types in
                           all overlapping rules may be booked during the overlap.
+                      release_window:
+                        type: object
+                        properties:
+                          unit:
+                            type: string
+                            enum:
+                              - day
+                              - hour
+                              - minute
+                          time:
+                            type: number
+                        required:
+                          - unit
+                          - time
+                        nullable: true
+                        description: >-
+                          The time (in hours) before this availability rule when this availability
+                          is released and appointments that don't match the rule criteria can be
+                          booked.
+
+
+                          For example, say you have a 3pm - 5pm availability rule restricted to
+                          Urgent Care visits. Typically, this would mean that only Urgent Care
+                          visits could be scheduled during that time. If you only had one hour of
+                          Urgent Care visits booked, then an hour of your day would go unutilized.
+
+
+                          Using release windows, you can set the time at which the remaining Urgent
+                          Care visit capacity is released for any appointment type. if you set
+                          release window to 1 hour, for example, then starting at 2pm, your members
+                          would be able to book non-Urgent Care visits at 3pm. Starting at 3pm,
+                          members would be able to book non-Urgent Care visits at 4pm, and so on.
                     required:
                       - day
                       - start
@@ -1802,6 +1834,40 @@ paths:
                                 different appointment type restrictions overlap in time, the set of
                                 all allowed appointment types in all overlapping rules may be booked
                                 during the overlap.
+                            release_window:
+                              type: object
+                              properties:
+                                unit:
+                                  type: string
+                                  enum:
+                                    - day
+                                    - hour
+                                    - minute
+                                time:
+                                  type: number
+                              required:
+                                - unit
+                                - time
+                              nullable: true
+                              description: >-
+                                The time (in hours) before this availability rule when this
+                                availability is released and appointments that don't match the rule
+                                criteria can be booked.
+
+
+                                For example, say you have a 3pm - 5pm availability rule restricted
+                                to Urgent Care visits. Typically, this would mean that only Urgent
+                                Care visits could be scheduled during that time. If you only had one
+                                hour of Urgent Care visits booked, then an hour of your day would go
+                                unutilized.
+
+
+                                Using release windows, you can set the time at which the remaining
+                                Urgent Care visit capacity is released for any appointment type. if
+                                you set release window to 1 hour, for example, then starting at 2pm,
+                                your members would be able to book non-Urgent Care visits at 3pm.
+                                Starting at 3pm, members would be able to book non-Urgent Care
+                                visits at 4pm, and so on.
                           required:
                             - start
                             - end
@@ -10487,6 +10553,37 @@ components:
                   Rules are additive - when rules with different appointment type restrictions
                   overlap in time, the set of all allowed appointment types in all overlapping rules
                   may be booked during the overlap.
+              release_window:
+                type: object
+                properties:
+                  unit:
+                    type: string
+                    enum:
+                      - day
+                      - hour
+                      - minute
+                  time:
+                    type: number
+                required:
+                  - unit
+                  - time
+                nullable: true
+                description: >-
+                  The time (in hours) before this availability rule when this availability is
+                  released and appointments that don't match the rule criteria can be booked.
+
+
+                  For example, say you have a 3pm - 5pm availability rule restricted to Urgent Care
+                  visits. Typically, this would mean that only Urgent Care visits could be scheduled
+                  during that time. If you only had one hour of Urgent Care visits booked, then an
+                  hour of your day would go unutilized.
+
+
+                  Using release windows, you can set the time at which the remaining Urgent Care
+                  visit capacity is released for any appointment type. if you set release window to
+                  1 hour, for example, then starting at 2pm, your members would be able to book
+                  non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
+                  non-Urgent Care visits at 4pm, and so on.
             required:
               - day
               - start
@@ -10494,6 +10591,7 @@ components:
               - start_date
               - end_date
               - appointment_types
+              - release_window
           description:
             The list of rules for this person's availability. Each rule defines a day of week, start
             and end time, and an optional array of appointment types to which the rule applies.
@@ -10509,30 +10607,35 @@ components:
               end_date: null
               appointment_types:
                 - aptp_meYUvkuaI2akjnb5Kwt7
+              release_window: null
             - day: 2
               start: 09:00
               end: 17:00
               start_date: null
               end_date: null
               appointment_types: []
+              release_window: null
             - day: 3
               start: 09:00
               end: 17:00
               start_date: null
               end_date: null
               appointment_types: []
+              release_window: null
             - day: 4
               start: 09:00
               end: 17:00
               start_date: null
               end_date: null
               appointment_types: []
+              release_window: null
             - day: 5
               start: 09:00
               end: 17:00
               start_date: null
               end_date: null
               appointment_types: []
+              release_window: null
         overrides:
           type: array
           items:
@@ -10587,10 +10690,42 @@ components:
                         Appointment type constraints are additive - when overrides with different
                         appointment type restrictions overlap in time, the set of all allowed
                         appointment types in all overlapping rules may be booked during the overlap.
+                    release_window:
+                      type: object
+                      properties:
+                        unit:
+                          type: string
+                          enum:
+                            - day
+                            - hour
+                            - minute
+                        time:
+                          type: number
+                      required:
+                        - unit
+                        - time
+                      nullable: true
+                      description: >-
+                        The time (in hours) before this availability rule when this availability is
+                        released and appointments that don't match the rule criteria can be booked.
+
+
+                        For example, say you have a 3pm - 5pm availability rule restricted to Urgent
+                        Care visits. Typically, this would mean that only Urgent Care visits could
+                        be scheduled during that time. If you only had one hour of Urgent Care
+                        visits booked, then an hour of your day would go unutilized.
+
+
+                        Using release windows, you can set the time at which the remaining Urgent
+                        Care visit capacity is released for any appointment type. if you set release
+                        window to 1 hour, for example, then starting at 2pm, your members would be
+                        able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would
+                        be able to book non-Urgent Care visits at 4pm, and so on.
                   required:
                     - start
                     - end
                     - appointment_types
+                    - release_window
             required:
               - date
               - rules
