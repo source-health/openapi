@@ -7743,6 +7743,38 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "participant_operator",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "and",
+                "or"
+              ],
+              "description": "Controls the operator used when providing multiple groups to the `participants` parameter. By default, participants use the `or` operator. If you want to only show participants who are in multiple groups, you can use the `and` operator. This operator will only impact the `participants` parameter, please see `exclude_participant_operator` for the same option for exclusion.\n\nNote: when using the `and` filter, you should not provide user identifiers to the `participants` parameter, because a user cannot have multiple identifiers at the same time."
+            },
+            "required": false,
+            "description": "Controls the operator used when providing multiple groups to the `participants` parameter. By default, participants use the `or` operator. If you want to only show participants who are in multiple groups, you can use the `and` operator. This operator will only impact the `participants` parameter, please see `exclude_participant_operator` for the same option for exclusion.\n\nNote: when using the `and` filter, you should not provide user identifiers to the `participants` parameter, because a user cannot have multiple identifiers at the same time."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "exclude_participant_operator",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "and",
+                "or"
+              ],
+              "description": "Controls the operator used when providing multiple groups to the `exclude_participants` parameter. By default, participants use the `or` operator. If you want to only show participants who are in multiple groups, you can use the `and` operator. This operator will only impact the `exclude_participants` parameter, please see `participant_operator` for the same option for inclusion.\n\nNote: when using the `and` filter, you should not provide user identifiers to the `exclude_participants` parameter, because a user cannot have multiple identifiers at the same time."
+            },
+            "required": false,
+            "description": "Controls the operator used when providing multiple groups to the `exclude_participants` parameter. By default, participants use the `or` operator. If you want to only show participants who are in multiple groups, you can use the `and` operator. This operator will only impact the `exclude_participants` parameter, please see `participant_operator` for the same option for inclusion.\n\nNote: when using the `and` filter, you should not provide user identifiers to the `exclude_participants` parameter, because a user cannot have multiple identifiers at the same time."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "routing_strategy",
             "schema": {
               "type": "string",
