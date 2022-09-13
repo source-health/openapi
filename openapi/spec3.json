@@ -2926,6 +2926,22 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+              },
+              "description": "Filter events for only those which pertain to the given members"
+            },
+            "required": false,
+            "description": "Filter events for only those which pertain to the given members"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "created_at",
             "schema": {
               "type": "object",
@@ -12113,6 +12129,22 @@
             "description": "The type of actor whose action triggered this event. The `unknown` value should only be present in historical events created prior to December 2021.",
             "example": "user"
           },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "The member on which this event was performed. This will be null on events that are not specific to a single member.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D",
+            "nullable": true
+          },
           "data": {
             "type": "object",
             "properties": {
@@ -12152,6 +12184,7 @@
           "type",
           "actor",
           "actor_type",
+          "member",
           "data",
           "created_at"
         ],
