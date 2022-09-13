@@ -5740,6 +5740,28 @@
                     ],
                     "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.\n\nWhen viewing a member with `access_level = 'limited'`, the value of `enrollment_status` will be `redacted`. This is not valid as an input.",
                     "example": "enrolled"
+                  },
+                  "external_identifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "integration": {
+                          "type": "string",
+                          "example": "int_CoI0pt2LSWjGOTWRLZeT"
+                        },
+                        "external_id": {
+                          "type": "string",
+                          "description": "The unique identifier of the member in the integrated system.",
+                          "example": "ext_ybNXqZDkat6pJ7d39Zx9"
+                        }
+                      },
+                      "required": [
+                        "integration",
+                        "external_id"
+                      ]
+                    },
+                    "description": "An array of external identifiers for the member. Each identifier is associated with a particular external integration. The member's external identifier must be unique for a given integration."
                   }
                 },
                 "required": [
@@ -6290,6 +6312,28 @@
                     ],
                     "description": "Current status of the member's enrollment in receiving care services. By default, newly created members are in the `enrolled` status. If a member is not actively receiving care, use the `not_enrolled` status.\n\nWhen viewing a member with `access_level = 'limited'`, the value of `enrollment_status` will be `redacted`. This is not valid as an input.",
                     "example": "enrolled"
+                  },
+                  "external_identifiers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "integration": {
+                          "type": "string",
+                          "example": "int_CoI0pt2LSWjGOTWRLZeT"
+                        },
+                        "external_id": {
+                          "type": "string",
+                          "description": "The unique identifier of the member in the integrated system.",
+                          "example": "ext_ybNXqZDkat6pJ7d39Zx9"
+                        }
+                      },
+                      "required": [
+                        "integration",
+                        "external_id"
+                      ]
+                    },
+                    "description": "An array of external identifiers for the member. Each identifier is associated with a particular external integration. The member's external identifier must be unique for a given integration."
                   }
                 }
               }
@@ -12941,6 +12985,111 @@
         "x-resourceId": "group",
         "x-package": null
       },
+      "integration": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "integration",
+            "enum": [
+              "integration"
+            ],
+            "example": "integration",
+            "description": "Always `integration`."
+          },
+          "id": {
+            "type": "string"
+          },
+          "user": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "Expandable reference to a User",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+            "nullable": true
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "cronofy",
+              "canvas"
+            ]
+          },
+          "enabled": {
+            "type": "boolean"
+          },
+          "config": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "canvas",
+                "enum": [
+                  "canvas"
+                ],
+                "example": "canvas"
+              },
+              "api_base_url": {
+                "type": "string",
+                "description": "The URL of the Canvas instance FHIR API to connect to.",
+                "example": "https://fhir-subdomain.canvas.com"
+              },
+              "web_base_url": {
+                "type": "string",
+                "description": "The URL of the Canvas instance web application to connect to.",
+                "example": "https://subdomain.canvas.com"
+              }
+            },
+            "required": [
+              "type",
+              "api_base_url",
+              "web_base_url"
+            ],
+            "nullable": true
+          },
+          "external_id": {
+            "type": "string",
+            "nullable": true,
+            "description": "The corresponding ID of this integration in the external system.",
+            "example": null
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the integration was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the integration was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "user",
+          "type",
+          "enabled",
+          "config",
+          "external_id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Integration",
+        "description": "This resource represents an integration (such as Google Calendar)",
+        "x-resourceId": "integration",
+        "x-package": null
+      },
       "license": {
         "type": "object",
         "properties": {
@@ -13544,6 +13693,39 @@
             "description": "Indicates whether any of the member's information has been redacted for security reasons. Possible values are: full - all member fields that are populated in Source have been returned, for example a member viewing themselves, or a care team or API key retrieving a member within their account; or limited - only some very basic identifying information such as name and profile image has been returned, for example a caregiver who can see another caregiver participating in message threads for a member they are both related to, even when the caregivers are not directly related.",
             "example": "full"
           },
+          "external_identifiers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "integration": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/integration"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/integration"
+                  },
+                  "description": "Expandable reference to an Integration",
+                  "example": "int_CoI0pt2LSWjGOTWRLZeT"
+                },
+                "external_id": {
+                  "type": "string",
+                  "description": "The unique identifier of the member in the integrated system.",
+                  "example": "ext_ybNXqZDkat6pJ7d39Zx9"
+                }
+              },
+              "required": [
+                "integration",
+                "external_id"
+              ]
+            },
+            "description": "An array of external identifiers for the member. Each identifier is associated with a particular external integration. The member's external identifier must be unique for a given integration."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -13580,6 +13762,7 @@
           "tags",
           "enrollment_status",
           "access_level",
+          "external_identifiers",
           "created_at",
           "updated_at"
         ],
