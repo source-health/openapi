@@ -4738,6 +4738,369 @@
         "x-belongsToResource": "group"
       }
     },
+    "/v1/intents": {
+      "post": {
+        "summary": "Create an Intent",
+        "description": "Creates a new intent of the type you specify. You must specify configuration within the intent that corresponds  to the intent type you create. You can create as many intents as you wish for a member.",
+        "tags": [
+          "Intent"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                    "description": "The member to whom this intent belongs."
+                  },
+                  "type": {
+                    "type": "string",
+                    "enum": [
+                      "scheduling",
+                      "form"
+                    ],
+                    "description": "The type of intent that needs to be completed. Source supports two intent types: 'scheduling' and 'form'.",
+                    "example": "scheduling"
+                  },
+                  "expires_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp when this intent expires. By default, intents expire 30 days after creation. Once the intent  reaches its expiration, the intent status is automatically updated to 'expired' and can no longer be used.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "configuration": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "properties": {
+                          "appointment_type": {
+                            "type": "string",
+                            "example": "aptp_meYUvkuaI2akjnb5Kwt7",
+                            "description": "The key or identifier of the appointment type. If the intent type is 'scheduling', this configuration  parameter is required."
+                          },
+                          "start_search_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The start time for the appointment availability search associated with this intent. If not set, the  availability window will start at the time the member accesses this intent to search for an appointment."
+                          },
+                          "end_search_at": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "The latest time for the appointment availability search associated with this intent. If not set, the  availability window will end at the planning horizon of the appointment type associated with the intent."
+                          },
+                          "participants": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            },
+                            "description": "Provide a set of users and groups that should be included when searching for available slots using this intent.  The users and groups included in this parameter must still be included in the appointment type's configuration  in order for the availability API to return slots for them."
+                          },
+                          "duration": {
+                            "type": "number",
+                            "description": "The duration of the appointment to book, in minutes, using this intent. By default, Source will use either the  appointment type's duration. However, you may specify an alternative duration here to calculate slots for an  appointment of a different length.\n\nMust be a number between 5 and 360 minutes (6 hours)."
+                          }
+                        },
+                        "required": [
+                          "appointment_type"
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "form": {
+                            "type": "string",
+                            "example": "form_hSGPOT5BMusNLwDI3Z4N",
+                            "description": "The key or identifier of the form. When the member accesses this intent, the published version  of the form at that time is used to create the form response. If the intent type is 'form', this  configuration parameter is required."
+                          }
+                        },
+                        "required": [
+                          "form"
+                        ]
+                      }
+                    ],
+                    "description": "A set of configuration describing the appointment you wish the member to book or form you wish the member to  complete. This parameter's configuration depends on the intent type you specify."
+                  }
+                },
+                "required": [
+                  "member",
+                  "type",
+                  "configuration"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/intent"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "intent"
+      },
+      "get": {
+        "summary": "List all Intents",
+        "description": "Returns a list of intents within the current account.\n\nThe intents returned are sorted by creation date, with the most recently added intent appearing first.",
+        "tags": [
+          "Intent"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+              },
+              "description": "Filter results by member. If multiple member ids are provided, intents matching any of the provided members will be returned. This param will be ignored if calling this endpoint with a Member JWT."
+            },
+            "required": false,
+            "description": "Filter results by member. If multiple member ids are provided, intents matching any of the provided members will be returned. This param will be ignored if calling this endpoint with a Member JWT."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "type",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "scheduling",
+                  "form"
+                ]
+              },
+              "description": "Filter results by type. If multiple types are provided, intents matching any of the provided types will be returned."
+            },
+            "required": false,
+            "description": "Filter results by type. If multiple types are provided, intents matching any of the provided types will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "expired",
+                  "canceled",
+                  "completed"
+                ]
+              },
+              "description": "Filter results by status. If multiple statuses are provided, intents matching any of the provided statuses will be returned."
+            },
+            "required": false,
+            "description": "Filter results by status. If multiple statuses are provided, intents matching any of the provided statuses will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "created_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the created_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object created_at field. For example `?created_at[gt]=2021-05-10T16:51:38.075Z&created_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/intent"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "intent"
+      }
+    },
+    "/v1/intents/{id}": {
+      "get": {
+        "summary": "Retrieve an Intent",
+        "description": "Retrieves an existing intent by its unique identifier or its secret.\n\nIntents can be accessed by users in your organization, and members can access their own intents. Additionally, intents can be accessed by passing the intent secret as a parameter.",
+        "tags": [
+          "Intent"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/intent"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "intent"
+      }
+    },
+    "/v1/intents/{id}/cancel": {
+      "post": {
+        "summary": "Cancel an Intent",
+        "description": "Cancels an existing intent.\n\nMembers can no longer access canceled intents and can optionally be filtered out when displaying a list of intents.  Since existing intents cannot be updated, you can instead cancel an intent and create a new intent to replace it.",
+        "tags": [
+          "Intent"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "itnt_CPCpl5PfZmCzqMLlCi1v",
+              "description": "Unique ID of the intent."
+            },
+            "required": true,
+            "description": "Unique ID of the intent."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/intent"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "cancel",
+        "x-belongsToResource": "intent"
+      }
+    },
     "/v1/licenses": {
       "post": {
         "summary": "Create a License",
@@ -13252,6 +13615,165 @@
         "description": "This resource represents an integration (such as Google Calendar)",
         "x-resourceId": "integration",
         "x-package": null
+      },
+      "intent": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "intent",
+            "enum": [
+              "intent"
+            ],
+            "example": "intent",
+            "description": "Always `intent`."
+          },
+          "id": {
+            "type": "string",
+            "example": "itnt_CPCpl5PfZmCzqMLlCi1v",
+            "description": "Unique ID for the intent."
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "The member to whom this intent belongs.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "scheduling",
+              "form"
+            ],
+            "description": "The type of intent that needs to be completed. Source supports two intent types: 'scheduling' and 'form'.",
+            "example": "scheduling"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "expired",
+              "canceled",
+              "completed"
+            ],
+            "description": "The current status of the intent. When the status is 'expired', 'canceled', or 'completed', a member can no  longer use the intent. When a member fulfills an intent, for example by booking an appointment or completing  a form response, the status is updated automatically to 'completed'. When an intent is past its expires_at time,  the status is updated automatically to 'expired'.",
+            "example": "active"
+          },
+          "expires_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when this intent expires. By default, intents expire 30 days after creation. Once the intent  reaches its expiration, the intent status is automatically updated to 'expired' and can no longer be used.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "link": {
+            "type": "string",
+            "description": "The URL to access the intent. Anyone with this link will be able to access the intent, so you should ensure  it is kept safe.",
+            "example": "https://subdomain.connect.sourcehealth.com/elements/scheduler/is_PFzr0osaO3NzDYQXaiC7MLk9"
+          },
+          "secret": {
+            "type": "string",
+            "description": "A unique, secure token that identifies the intent and allows a member to access it. You can use this token to  pass an intent into embeddable Source elements. This token is also present in the the link URL.",
+            "example": "is_PFzr0osaO3NzDYQXaiC7MLk9"
+          },
+          "configuration": {
+            "anyOf": [
+              {
+                "type": "object",
+                "properties": {
+                  "appointment_type": {
+                    "type": "string",
+                    "example": "aptp_meYUvkuaI2akjnb5Kwt7",
+                    "description": "The key or identifier of the appointment type. If the intent type is 'scheduling', this configuration  parameter is required."
+                  },
+                  "start_search_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The start time for the appointment availability search associated with this intent. If not set, the  availability window will start at the time the member accesses this intent to search for an appointment."
+                  },
+                  "end_search_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The latest time for the appointment availability search associated with this intent. If not set, the  availability window will end at the planning horizon of the appointment type associated with the intent."
+                  },
+                  "participants": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    },
+                    "description": "Provide a set of users and groups that should be included when searching for available slots using this intent.  The users and groups included in this parameter must still be included in the appointment type's configuration  in order for the availability API to return slots for them."
+                  },
+                  "duration": {
+                    "type": "number",
+                    "description": "The duration of the appointment to book, in minutes, using this intent. By default, Source will use either the  appointment type's duration. However, you may specify an alternative duration here to calculate slots for an  appointment of a different length.\n\nMust be a number between 5 and 360 minutes (6 hours)."
+                  }
+                },
+                "required": [
+                  "appointment_type"
+                ]
+              },
+              {
+                "type": "object",
+                "properties": {
+                  "form": {
+                    "type": "string",
+                    "example": "form_hSGPOT5BMusNLwDI3Z4N",
+                    "description": "The key or identifier of the form. When the member accesses this intent, the published version  of the form at that time is used to create the form response. If the intent type is 'form', this  configuration parameter is required."
+                  }
+                },
+                "required": [
+                  "form"
+                ]
+              }
+            ],
+            "description": "A set of configuration describing the appointment you wish the member to book or form you wish the member to  complete. This parameter's configuration depends on the intent type you specify."
+          },
+          "outcome": {
+            "type": "string",
+            "nullable": true,
+            "description": "A resource created using this intent. For example, if an appointment is booked using this intent, this field  contains that appointment ID. If a form response is completed using this request, this field contains that form  response ID.",
+            "example": "appt_yTlENx4x7EhlvoCRcN0t"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the intent was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the intent was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "member",
+          "type",
+          "status",
+          "expires_at",
+          "link",
+          "secret",
+          "configuration",
+          "outcome",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Intent",
+        "description": "Intents support a range of workflows in which you want to request that a member take a specific action given  configuration you provide when creating the intent. For example, you can create an intent in order to request that  a member book a particular appointment type within a date range. As another example, you can create an intent in order  to request that a member complete a specific form response. The intent you create includes a link you can then share  with a member in order to fulfill the intent.\n\nIntents use statuses to indicate whether they are active or have reached a terminal status, such as completed,  expired, or canceled. You can create intents at any time and cancel intents that are no longer relevant. You cannot  update an existing intent other than to cancel it, and then create a new intent.",
+        "x-resourceId": "intent",
+        "x-package": null,
+        "x-preview": true
       },
       "license": {
         "type": "object",
