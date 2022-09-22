@@ -13737,10 +13737,40 @@
             "description": "A set of configuration describing the appointment you wish the member to book or form you wish the member to  complete. This parameter's configuration depends on the intent type you specify."
           },
           "outcome": {
-            "type": "string",
+            "anyOf": [
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/appointment"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/appointment"
+                },
+                "description": "Expandable reference to an Appointment",
+                "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+              },
+              {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "$ref": "#/components/schemas/form_response"
+                  }
+                ],
+                "x-expandable": {
+                  "$ref": "#/components/schemas/form_response"
+                },
+                "description": "Expandable reference to a form response",
+                "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+              }
+            ],
             "nullable": true,
-            "description": "A resource created using this intent. For example, if an appointment is booked using this intent, this field  contains that appointment ID. If a form response is completed using this request, this field contains that form  response ID.",
-            "example": "appt_yTlENx4x7EhlvoCRcN0t"
+            "description": "A resource created using this intent. For example, if an appointment is booked using this intent, this field  contains that appointment ID. If a form response is completed using this request, this field contains that form  response ID."
           },
           "created_at": {
             "type": "string",
