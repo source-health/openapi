@@ -3870,14 +3870,6 @@ paths:
                                           - display_type
                                           - content_type
                                           - content
-                                      - oneOf:
-                                          - $ref: "#/components/schemas/EarlyExitPoint"
-                                        x-wrapped: true
-                                        description:
-                                          An early exit point is a point in a form at which a
-                                          responder may be directed to a specific exit screen,
-                                          identified by the `exit_screen_key`, based on answers to
-                                          previous questions referenced in the `conditional`.
                                     discriminator:
                                       propertyName: type
                                   description:
@@ -3946,14 +3938,6 @@ paths:
                                 - display_type
                                 - content_type
                                 - content
-                            - oneOf:
-                                - $ref: "#/components/schemas/EarlyExitPoint"
-                              x-wrapped: true
-                              description:
-                                An early exit point is a point in a form at which a responder may be
-                                directed to a specific exit screen, identified by the
-                                `exit_screen_key`, based on answers to previous questions referenced
-                                in the `conditional`.
                           discriminator:
                             propertyName: type
                         description:
@@ -3966,6 +3950,32 @@ paths:
                         description:
                           A conditional statement - if it evaluates to true, this group will be
                           displayed, if false the items inside this group will not be displayed.
+                      exits:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            type:
+                              type: string
+                              default: exit
+                              enum:
+                                - exit
+                              example: exit
+                            exit_screen_key:
+                              type: string
+                              description:
+                                Indicates which exit screen to display if the conditions are met.
+                            conditional:
+                              $ref: "#/components/schemas/CompoundConditional"
+                          required:
+                            - type
+                            - exit_screen_key
+                            - conditional
+                          description:
+                            An exit is a point in a form at which a responder may be directed to a
+                            specific exit screen, identified by the `exit_screen_key`, based on
+                            answers to previous questions referenced in the `conditional`.
+                        description: Array of exit points.
                     required:
                       - type
                       - items
@@ -3976,7 +3986,7 @@ paths:
                   description:
                     An array of items that describe the form version's content and configuration.
                     Pages form the top-level item and contain additional elements, such as
-                    questions, display elements, early exit points, and groups of items.
+                    questions, display elements, and groups of items.
                 exit_screens:
                   type: array
                   items:
@@ -3992,8 +4002,8 @@ paths:
                         type: string
                         description:
                           A unique key for this exit screen within the form. The keys are used in
-                          early exit points to indicate which screen is used for the early exit. An
-                          exit screen with key 'default' must exist in every form.
+                          exits to indicate which screen is used for the exit. An exit screen with
+                          key 'default' must exist in every form.
                         example: ineligible_location
                       description:
                         type: string
@@ -4030,17 +4040,16 @@ paths:
                       SDK.
 
 
-                      You can also configure early exits within a form by adding an early exit point
-                      within your form that references an exit screen key. You can create as many
-                      exit screens and early exit points as you need. A common example is when a
-                      responder answers questions as part of an intake form that indicate they are
-                      not eligible for services. In that case, you can create an exit screen and
-                      early exit point that indicate to the responder they are ineligible and end
-                      their form response early.
+                      You can also configure exits within a form by adding an exit within your form
+                      that references an exit screen key. You can create as many exit screens and
+                      exits as you need. A common example is when a responder answers question as
+                      part of an intake form that indicates they are not eligible for services. In
+                      that case, you can create an exit screen and exit that indicate to the
+                      responder they are ineligible and end their form response early.
                   description:
-                    A map of early exit point keys to exit screen content. Each form version must
-                    contain an exit screen with the key 'default', and additional exit screens can
-                    be configured and referenced by early exit points within the form version.
+                    A map of exit keys to exit screen content. Each form version must contain an
+                    exit screen with the key 'default', and additional exit screens can be
+                    configured and referenced by exits within the form version.
               required:
                 - items
                 - exit_screens
@@ -11896,24 +11905,6 @@ components:
         purpose of `document` uploaded via the [Files API](../file/).
       x-resourceId: document
       x-package: null
-    EarlyExitPoint:
-      type: object
-      properties:
-        type:
-          type: string
-          default: early_exit_point
-          enum:
-            - early_exit_point
-          example: early_exit_point
-        exit_screen_key:
-          type: string
-          description: Indicates which exit screen to display if the conditions are met.
-        conditional:
-          $ref: "#/components/schemas/CompoundConditional"
-      required:
-        - type
-        - exit_screen_key
-        - conditional
     error:
       type: object
       properties:
@@ -12336,13 +12327,13 @@ components:
             Current status of this form response. By default, newly created form responses use the
             'started' status.  When a form is submitted, the status changes to 'completed'.
           example: started
-        early_exit_point:
+        exit_screen:
           type: string
           nullable: true
           description:
-            The key of the early exit point the author reached, if any. Forms support conditional
-            early exits that appear based on the author's responses. If the author reaches an early
-            exit point during the response, the key of that early exit point is specified here.
+            The key of the exit screen the author reached, if any. Forms support conditional exits
+            that appear based on the author's responses. If the author reaches an exit during the
+            response, the key of that exit screen is specified here.
         created_at:
           type: string
           format: date-time
@@ -12368,7 +12359,7 @@ components:
         - form_version
         - responses
         - status
-        - early_exit_point
+        - exit_screen
         - created_at
         - updated_at
         - completed_at
@@ -12511,14 +12502,6 @@ components:
                                   - display_type
                                   - content_type
                                   - content
-                              - oneOf:
-                                  - $ref: "#/components/schemas/EarlyExitPoint"
-                                x-wrapped: true
-                                description:
-                                  An early exit point is a point in a form at which a responder may
-                                  be directed to a specific exit screen, identified by the
-                                  `exit_screen_key`, based on answers to previous questions
-                                  referenced in the `conditional`.
                             discriminator:
                               propertyName: type
                           description: Array of form items, such as questions and display elements.
@@ -12585,13 +12568,6 @@ components:
                         - display_type
                         - content_type
                         - content
-                    - oneOf:
-                        - $ref: "#/components/schemas/EarlyExitPoint"
-                      x-wrapped: true
-                      description:
-                        An early exit point is a point in a form at which a responder may be
-                        directed to a specific exit screen, identified by the `exit_screen_key`,
-                        based on answers to previous questions referenced in the `conditional`.
                   discriminator:
                     propertyName: type
                 description:
@@ -12603,6 +12579,31 @@ components:
                 description:
                   A conditional statement - if it evaluates to true, this group will be displayed,
                   if false the items inside this group will not be displayed.
+              exits:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    type:
+                      type: string
+                      default: exit
+                      enum:
+                        - exit
+                      example: exit
+                    exit_screen_key:
+                      type: string
+                      description: Indicates which exit screen to display if the conditions are met.
+                    conditional:
+                      $ref: "#/components/schemas/CompoundConditional"
+                  required:
+                    - type
+                    - exit_screen_key
+                    - conditional
+                  description:
+                    An exit is a point in a form at which a responder may be directed to a specific
+                    exit screen, identified by the `exit_screen_key`, based on answers to previous
+                    questions referenced in the `conditional`.
+                description: Array of exit points.
             required:
               - type
               - items
@@ -12613,7 +12614,7 @@ components:
           description:
             An array of items that describe the form version's content and configuration. Pages form
             the top-level item and contain additional elements, such as questions, display elements,
-            early exit points, and groups of items.
+            and groups of items.
         exit_screens:
           type: array
           items:
@@ -12628,9 +12629,9 @@ components:
               key:
                 type: string
                 description:
-                  A unique key for this exit screen within the form. The keys are used in early exit
-                  points to indicate which screen is used for the early exit. An exit screen with
-                  key 'default' must exist in every form.
+                  A unique key for this exit screen within the form. The keys are used in exits to
+                  indicate which screen is used for the exit. An exit screen with key 'default' must
+                  exist in every form.
                 example: ineligible_location
               description:
                 type: string
@@ -12664,16 +12665,16 @@ components:
               form. You can optionally intercept the form completion flow via the Source SDK.
 
 
-              You can also configure early exits within a form by adding an early exit point within
-              your form that references an exit screen key. You can create as many exit screens and
-              early exit points as you need. A common example is when a responder answers questions
-              as part of an intake form that indicate they are not eligible for services. In that
-              case, you can create an exit screen and early exit point that indicate to the
-              responder they are ineligible and end their form response early.
+              You can also configure exits within a form by adding an exit within your form that
+              references an exit screen key. You can create as many exit screens and exits as you
+              need. A common example is when a responder answers question as part of an intake form
+              that indicates they are not eligible for services. In that case, you can create an
+              exit screen and exit that indicate to the responder they are ineligible and end their
+              form response early.
           description:
             A map of 'key' to exit screen content. Each form must contain an exit screen with the
-            key 'default', and additional exit screens can be configured and referenced by early
-            exit points within the form.
+            key 'default', and additional exit screens can be configured and referenced by exits
+            within the form.
         created_at:
           type: string
           format: date-time
