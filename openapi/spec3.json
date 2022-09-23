@@ -4140,6 +4140,7 @@
                             ],
                             "description": "An exit is a point in a form at which a responder may be directed to a specific exit screen, identified by the `exit_screen_key`, based on answers to previous questions referenced in the `conditional`."
                           },
+                          "nullable": true,
                           "description": "Array of exit points."
                         }
                       },
@@ -4194,7 +4195,7 @@
                         "content_type",
                         "content"
                       ],
-                      "description": "Each form has a default exit screen that is shown when the responder completes the form. You can optionally intercept the form completion flow via the Source SDK.\n\nYou can also configure exits within a form by adding an exit within your form that references an exit screen key. You can create as many exit screens and exits as you need. A common example is when a responder answers question as part of an intake form that indicates they are not eligible for services. In that case, you can create an exit screen and exit that indicate to the responder they are ineligible and end their form response early."
+                      "description": "Each form has a default exit screen that is shown when the responder completes the form. You can optionally intercept the form completion flow via the Source SDK.\n\nYou can also configure exits within a form by adding an exit within your form that references an exit screen key. You can create as many exit screens and exits as you need. A common example is when a responder answers questions as part of an intake form that indicates they are not eligible for services. In that case, you can create an exit screen and exit that indicate to the responder they are ineligible and end their form response early."
                     },
                     "description": "A map of exit keys to exit screen content. Each form version must contain an exit screen with the key 'default', and additional exit screens can be configured and referenced by exits within the form version."
                   }
@@ -13351,6 +13352,7 @@
                     ],
                     "description": "An exit is a point in a form at which a responder may be directed to a specific exit screen, identified by the `exit_screen_key`, based on answers to previous questions referenced in the `conditional`."
                   },
+                  "nullable": true,
                   "description": "Array of exit points."
                 }
               },
@@ -13405,7 +13407,7 @@
                 "content_type",
                 "content"
               ],
-              "description": "Each form has a default exit screen that is shown when the responder completes the form. You can optionally intercept the form completion flow via the Source SDK.\n\nYou can also configure exits within a form by adding an exit within your form that references an exit screen key. You can create as many exit screens and exits as you need. A common example is when a responder answers question as part of an intake form that indicates they are not eligible for services. In that case, you can create an exit screen and exit that indicate to the responder they are ineligible and end their form response early."
+              "description": "Each form has a default exit screen that is shown when the responder completes the form. You can optionally intercept the form completion flow via the Source SDK.\n\nYou can also configure exits within a form by adding an exit within your form that references an exit screen key. You can create as many exit screens and exits as you need. A common example is when a responder answers questions as part of an intake form that indicates they are not eligible for services. In that case, you can create an exit screen and exit that indicate to the responder they are ineligible and end their form response early."
             },
             "description": "A map of 'key' to exit screen content. Each form must contain an exit screen with the key 'default', and additional exit screens can be configured and referenced by exits within the form."
           },
@@ -15964,6 +15966,81 @@
               "input_type"
             ],
             "description": "A question type for recording a multiple choices among provided options. Using the 'other' config, this question can optionally include one or more user-generated 'other' options."
+          },
+          {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "default": "question",
+                "enum": [
+                  "question"
+                ],
+                "example": "question"
+              },
+              "question_type": {
+                "type": "string",
+                "default": "yes_no",
+                "enum": [
+                  "yes_no"
+                ],
+                "example": "yes_no"
+              },
+              "key": {
+                "type": "string",
+                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
+              },
+              "title": {
+                "type": "string",
+                "description": "Display title of this question in the form, i.e. the question text itself.",
+                "example": "How do you feel today?"
+              },
+              "description": {
+                "type": "string",
+                "description": "An optional secondary text for this question, which will be displayed under the title and can contain, for example, instructions on how to answer the question."
+              },
+              "required": {
+                "type": "boolean",
+                "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "conditional": {
+                "oneOf": [
+                  {
+                    "$ref": "#/components/schemas/CompoundConditional"
+                  }
+                ],
+                "x-wrapped": true,
+                "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
+              },
+              "labels": {
+                "type": "object",
+                "properties": {
+                  "yes": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Display label for the 'yes' option.",
+                    "example": "True"
+                  },
+                  "no": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Display label for the 'no' option.",
+                    "example": "False"
+                  }
+                },
+                "nullable": true,
+                "description": "Display labels for the yes or no options."
+              }
+            },
+            "required": [
+              "type",
+              "question_type",
+              "key",
+              "title",
+              "required"
+            ],
+            "description": "A question type for recording a discrete yes or no response."
           }
         ],
         "discriminator": {
