@@ -3857,34 +3857,55 @@ paths:
 
                                               - List Item 1
                                               -List Item 2
+                                          key:
+                                            type: string
+                                            minLength: 1
+                                            maxLength: 255
+                                            pattern: ^[a-zA-Z0-9_]+$
+                                            description:
+                                              Unique key of this item within the form. Used in
+                                              responses and conditional logic.
+                                            example: demographics_name
                                           conditional:
                                             oneOf:
                                               - $ref: "#/components/schemas/CompoundConditional"
                                             x-wrapped: true
                                             description:
                                               A conditional statement - if it evaluates to true,
-                                              this element will be displayed, if false the element
-                                              will not be displayed.
+                                              this question will be displayed, if false the question
+                                              will not be displayed and no response will be recorded
+                                              for it.
                                         required:
                                           - type
                                           - display_type
                                           - content_type
                                           - content
+                                          - key
                                     discriminator:
                                       propertyName: type
                                   description:
                                     Array of form items, such as questions and display elements.
+                                key:
+                                  type: string
+                                  minLength: 1
+                                  maxLength: 255
+                                  pattern: ^[a-zA-Z0-9_]+$
+                                  description:
+                                    Unique key of this item within the form. Used in responses and
+                                    conditional logic.
+                                  example: demographics_name
                                 conditional:
                                   oneOf:
                                     - $ref: "#/components/schemas/CompoundConditional"
                                   x-wrapped: true
                                   description:
-                                    A conditional statement - if it evaluates to true, this group
-                                    will be displayed, if false the items inside this group will not
-                                    be displayed.
+                                    A conditional statement - if it evaluates to true, this question
+                                    will be displayed, if false the question will not be displayed
+                                    and no response will be recorded for it.
                               required:
                                 - type
                                 - items
+                                - key
                               description: >-
                                 A group within a form is used to apply a conditional display to a
                                 group of questions and display elements. One common use for groups
@@ -3926,30 +3947,34 @@ paths:
 
                                     - List Item 1
                                     -List Item 2
+                                key:
+                                  type: string
+                                  minLength: 1
+                                  maxLength: 255
+                                  pattern: ^[a-zA-Z0-9_]+$
+                                  description:
+                                    Unique key of this item within the form. Used in responses and
+                                    conditional logic.
+                                  example: demographics_name
                                 conditional:
                                   oneOf:
                                     - $ref: "#/components/schemas/CompoundConditional"
                                   x-wrapped: true
                                   description:
-                                    A conditional statement - if it evaluates to true, this element
-                                    will be displayed, if false the element will not be displayed.
+                                    A conditional statement - if it evaluates to true, this question
+                                    will be displayed, if false the question will not be displayed
+                                    and no response will be recorded for it.
                               required:
                                 - type
                                 - display_type
                                 - content_type
                                 - content
+                                - key
                           discriminator:
                             propertyName: type
                         description:
                           Array of form elements. Pages can include any element, except another
                           page.
-                      conditional:
-                        oneOf:
-                          - $ref: "#/components/schemas/CompoundConditional"
-                        x-wrapped: true
-                        description:
-                          A conditional statement - if it evaluates to true, this group will be
-                          displayed, if false the items inside this group will not be displayed.
                       exits:
                         type: array
                         items:
@@ -3977,9 +4002,27 @@ paths:
                             answers to previous questions referenced in the `conditional`.
                         nullable: true
                         description: Array of exit points.
+                      key:
+                        type: string
+                        minLength: 1
+                        maxLength: 255
+                        pattern: ^[a-zA-Z0-9_]+$
+                        description:
+                          Unique key of this item within the form. Used in responses and conditional
+                          logic.
+                        example: demographics_name
+                      conditional:
+                        oneOf:
+                          - $ref: "#/components/schemas/CompoundConditional"
+                        x-wrapped: true
+                        description:
+                          A conditional statement - if it evaluates to true, this question will be
+                          displayed, if false the question will not be displayed and no response
+                          will be recorded for it.
                     required:
                       - type
                       - items
+                      - key
                     description:
                       Pages are the top-level organization of a form. At least one page must exist.
                       Each page defines the elements that display together to a responder and
@@ -12490,32 +12533,53 @@ components:
 
                                       - List Item 1
                                       -List Item 2
+                                  key:
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 255
+                                    pattern: ^[a-zA-Z0-9_]+$
+                                    description:
+                                      Unique key of this item within the form. Used in responses and
+                                      conditional logic.
+                                    example: demographics_name
                                   conditional:
                                     oneOf:
                                       - $ref: "#/components/schemas/CompoundConditional"
                                     x-wrapped: true
                                     description:
                                       A conditional statement - if it evaluates to true, this
-                                      element will be displayed, if false the element will not be
-                                      displayed.
+                                      question will be displayed, if false the question will not be
+                                      displayed and no response will be recorded for it.
                                 required:
                                   - type
                                   - display_type
                                   - content_type
                                   - content
+                                  - key
                             discriminator:
                               propertyName: type
                           description: Array of form items, such as questions and display elements.
+                        key:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          pattern: ^[a-zA-Z0-9_]+$
+                          description:
+                            Unique key of this item within the form. Used in responses and
+                            conditional logic.
+                          example: demographics_name
                         conditional:
                           oneOf:
                             - $ref: "#/components/schemas/CompoundConditional"
                           x-wrapped: true
                           description:
-                            A conditional statement - if it evaluates to true, this group will be
-                            displayed, if false the items inside this group will not be displayed.
+                            A conditional statement - if it evaluates to true, this question will be
+                            displayed, if false the question will not be displayed and no response
+                            will be recorded for it.
                       required:
                         - type
                         - items
+                        - key
                       description: >-
                         A group within a form is used to apply a conditional display to a group of
                         questions and display elements. One common use for groups is to ask one
@@ -12557,29 +12621,33 @@ components:
 
                             - List Item 1
                             -List Item 2
+                        key:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          pattern: ^[a-zA-Z0-9_]+$
+                          description:
+                            Unique key of this item within the form. Used in responses and
+                            conditional logic.
+                          example: demographics_name
                         conditional:
                           oneOf:
                             - $ref: "#/components/schemas/CompoundConditional"
                           x-wrapped: true
                           description:
-                            A conditional statement - if it evaluates to true, this element will be
-                            displayed, if false the element will not be displayed.
+                            A conditional statement - if it evaluates to true, this question will be
+                            displayed, if false the question will not be displayed and no response
+                            will be recorded for it.
                       required:
                         - type
                         - display_type
                         - content_type
                         - content
+                        - key
                   discriminator:
                     propertyName: type
                 description:
                   Array of form elements. Pages can include any element, except another page.
-              conditional:
-                oneOf:
-                  - $ref: "#/components/schemas/CompoundConditional"
-                x-wrapped: true
-                description:
-                  A conditional statement - if it evaluates to true, this group will be displayed,
-                  if false the items inside this group will not be displayed.
               exits:
                 type: array
                 items:
@@ -12606,9 +12674,26 @@ components:
                     questions referenced in the `conditional`.
                 nullable: true
                 description: Array of exit points.
+              key:
+                type: string
+                minLength: 1
+                maxLength: 255
+                pattern: ^[a-zA-Z0-9_]+$
+                description:
+                  Unique key of this item within the form. Used in responses and conditional logic.
+                example: demographics_name
+              conditional:
+                oneOf:
+                  - $ref: "#/components/schemas/CompoundConditional"
+                x-wrapped: true
+                description:
+                  A conditional statement - if it evaluates to true, this question will be
+                  displayed, if false the question will not be displayed and no response will be
+                  recorded for it.
             required:
               - type
               - items
+              - key
             description:
               Pages are the top-level organization of a form. At least one page must exist. Each
               page defines the elements that display together to a responder and consists of an
@@ -14149,12 +14234,6 @@ components:
               enum:
                 - name
               example: name
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14170,6 +14249,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14204,9 +14291,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - fields
           description:
             "A question for recording a person's name. Source uses multiple fields for names: First,
@@ -14225,12 +14312,6 @@ components:
               enum:
                 - date
               example: date
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14246,6 +14327,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14271,9 +14360,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - input_type
           description:
             "A question for recording a date. You can choose from two types of date input: one with
@@ -14293,12 +14382,6 @@ components:
               enum:
                 - address
               example: address
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14314,6 +14397,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14381,9 +14472,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - fields
           description:
             "A question for recording an address. Source uses multiple fields for addresses:
@@ -14403,12 +14494,6 @@ components:
               enum:
                 - gender_identity
               example: gender_identity
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14424,6 +14509,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14441,9 +14534,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description:
             A question for recording a gender identity. Source supports selecting between some
             standardized values or entering a user-generated text response.
@@ -14461,12 +14554,6 @@ components:
               enum:
                 - sex_at_birth
               example: sex_at_birth
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14482,6 +14569,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14499,9 +14594,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description:
             "A question for recording person's birth sex, which is a selection between standardized
             values only. See also: gender identity."
@@ -14519,12 +14614,6 @@ components:
               enum:
                 - pronouns
               example: pronouns
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14540,6 +14629,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14557,9 +14654,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description:
             "A question for recording a person's pronouns. Source supports selecting between some
             standardized values or entering a user-generated text response. See also: gender
@@ -14578,12 +14675,6 @@ components:
               enum:
                 - phone_numbers
               example: phone_numbers
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14599,6 +14690,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14637,9 +14736,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - allowed_uses
             - max
           description:
@@ -14659,12 +14758,6 @@ components:
               enum:
                 - free_text
               example: free_text
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14680,6 +14773,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14690,9 +14791,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description:
             A question type for recording free text responses in a single line of plain text.
         - type: object
@@ -14709,12 +14810,6 @@ components:
               enum:
                 - number
               example: number
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14730,6 +14825,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14748,9 +14851,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description:
             A question type for recording numerical responses as a single number, either an integer
             or decimal.
@@ -14768,12 +14871,6 @@ components:
               enum:
                 - single_select
               example: single_select
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14789,6 +14886,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14844,9 +14949,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - options
             - input_type
           description:
@@ -14866,12 +14971,6 @@ components:
               enum:
                 - multi_select
               example: multi_select
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14887,6 +14986,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -14941,9 +15048,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
             - options
             - input_type
           description:
@@ -14964,12 +15071,6 @@ components:
               enum:
                 - yes_no
               example: yes_no
-            key:
-              type: string
-              description:
-                Unique key of this question within the form. Used in responses and conditional
-                logic.
-              example: demographics_name
             title:
               type: string
               description:
@@ -14985,6 +15086,14 @@ components:
               description:
                 Whether a response to this question is required or optional. Questions that are
                 hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
             conditional:
               oneOf:
                 - $ref: "#/components/schemas/CompoundConditional"
@@ -15010,9 +15119,9 @@ components:
           required:
             - type
             - question_type
-            - key
             - title
             - required
+            - key
           description: A question type for recording a discrete yes or no response.
       discriminator:
         propertyName: question_type

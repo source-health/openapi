@@ -4004,6 +4004,14 @@
                                               "description": "The rich text content, represented as Markdown text.",
                                               "example": "# The Title\n\nA paragraph\n\n- List Item 1\n-List Item 2"
                                             },
+                                            "key": {
+                                              "type": "string",
+                                              "minLength": 1,
+                                              "maxLength": 255,
+                                              "pattern": "^[a-zA-Z0-9_]+$",
+                                              "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                                              "example": "demographics_name"
+                                            },
                                             "conditional": {
                                               "oneOf": [
                                                 {
@@ -4011,14 +4019,15 @@
                                                 }
                                               ],
                                               "x-wrapped": true,
-                                              "description": "A conditional statement - if it evaluates to true, this element will be displayed, if false the element will not be displayed."
+                                              "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                                             }
                                           },
                                           "required": [
                                             "type",
                                             "display_type",
                                             "content_type",
-                                            "content"
+                                            "content",
+                                            "key"
                                           ]
                                         }
                                       ],
@@ -4028,6 +4037,14 @@
                                     },
                                     "description": "Array of form items, such as questions and display elements."
                                   },
+                                  "key": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255,
+                                    "pattern": "^[a-zA-Z0-9_]+$",
+                                    "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                                    "example": "demographics_name"
+                                  },
                                   "conditional": {
                                     "oneOf": [
                                       {
@@ -4035,12 +4052,13 @@
                                       }
                                     ],
                                     "x-wrapped": true,
-                                    "description": "A conditional statement - if it evaluates to true, this group will be displayed, if false the items inside this group will not be displayed."
+                                    "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                                   }
                                 },
                                 "required": [
                                   "type",
-                                  "items"
+                                  "items",
+                                  "key"
                                 ],
                                 "description": "A group within a form is used to apply a conditional display to a group of questions and display elements. One common use for groups is to ask one question and then a series of follow-up questions for certain responses to the first question.\n\nGroups cannot span multiple pages nor contain other groups."
                               },
@@ -4079,6 +4097,14 @@
                                     "description": "The rich text content, represented as Markdown text.",
                                     "example": "# The Title\n\nA paragraph\n\n- List Item 1\n-List Item 2"
                                   },
+                                  "key": {
+                                    "type": "string",
+                                    "minLength": 1,
+                                    "maxLength": 255,
+                                    "pattern": "^[a-zA-Z0-9_]+$",
+                                    "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                                    "example": "demographics_name"
+                                  },
                                   "conditional": {
                                     "oneOf": [
                                       {
@@ -4086,14 +4112,15 @@
                                       }
                                     ],
                                     "x-wrapped": true,
-                                    "description": "A conditional statement - if it evaluates to true, this element will be displayed, if false the element will not be displayed."
+                                    "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                                   }
                                 },
                                 "required": [
                                   "type",
                                   "display_type",
                                   "content_type",
-                                  "content"
+                                  "content",
+                                  "key"
                                 ]
                               }
                             ],
@@ -4102,15 +4129,6 @@
                             }
                           },
                           "description": "Array of form elements. Pages can include any element, except another page."
-                        },
-                        "conditional": {
-                          "oneOf": [
-                            {
-                              "$ref": "#/components/schemas/CompoundConditional"
-                            }
-                          ],
-                          "x-wrapped": true,
-                          "description": "A conditional statement - if it evaluates to true, this group will be displayed, if false the items inside this group will not be displayed."
                         },
                         "exits": {
                           "type": "array",
@@ -4142,11 +4160,29 @@
                           },
                           "nullable": true,
                           "description": "Array of exit points."
+                        },
+                        "key": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 255,
+                          "pattern": "^[a-zA-Z0-9_]+$",
+                          "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                          "example": "demographics_name"
+                        },
+                        "conditional": {
+                          "oneOf": [
+                            {
+                              "$ref": "#/components/schemas/CompoundConditional"
+                            }
+                          ],
+                          "x-wrapped": true,
+                          "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                         }
                       },
                       "required": [
                         "type",
-                        "items"
+                        "items",
+                        "key"
                       ],
                       "description": "Pages are the top-level organization of a form. At least one page must exist. Each page defines the elements that display together to a responder and consists of an array of other form items."
                     },
@@ -13216,6 +13252,14 @@
                                       "description": "The rich text content, represented as Markdown text.",
                                       "example": "# The Title\n\nA paragraph\n\n- List Item 1\n-List Item 2"
                                     },
+                                    "key": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "maxLength": 255,
+                                      "pattern": "^[a-zA-Z0-9_]+$",
+                                      "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                                      "example": "demographics_name"
+                                    },
                                     "conditional": {
                                       "oneOf": [
                                         {
@@ -13223,14 +13267,15 @@
                                         }
                                       ],
                                       "x-wrapped": true,
-                                      "description": "A conditional statement - if it evaluates to true, this element will be displayed, if false the element will not be displayed."
+                                      "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                                     }
                                   },
                                   "required": [
                                     "type",
                                     "display_type",
                                     "content_type",
-                                    "content"
+                                    "content",
+                                    "key"
                                   ]
                                 }
                               ],
@@ -13240,6 +13285,14 @@
                             },
                             "description": "Array of form items, such as questions and display elements."
                           },
+                          "key": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 255,
+                            "pattern": "^[a-zA-Z0-9_]+$",
+                            "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                            "example": "demographics_name"
+                          },
                           "conditional": {
                             "oneOf": [
                               {
@@ -13247,12 +13300,13 @@
                               }
                             ],
                             "x-wrapped": true,
-                            "description": "A conditional statement - if it evaluates to true, this group will be displayed, if false the items inside this group will not be displayed."
+                            "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                           }
                         },
                         "required": [
                           "type",
-                          "items"
+                          "items",
+                          "key"
                         ],
                         "description": "A group within a form is used to apply a conditional display to a group of questions and display elements. One common use for groups is to ask one question and then a series of follow-up questions for certain responses to the first question.\n\nGroups cannot span multiple pages nor contain other groups."
                       },
@@ -13291,6 +13345,14 @@
                             "description": "The rich text content, represented as Markdown text.",
                             "example": "# The Title\n\nA paragraph\n\n- List Item 1\n-List Item 2"
                           },
+                          "key": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 255,
+                            "pattern": "^[a-zA-Z0-9_]+$",
+                            "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                            "example": "demographics_name"
+                          },
                           "conditional": {
                             "oneOf": [
                               {
@@ -13298,14 +13360,15 @@
                               }
                             ],
                             "x-wrapped": true,
-                            "description": "A conditional statement - if it evaluates to true, this element will be displayed, if false the element will not be displayed."
+                            "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                           }
                         },
                         "required": [
                           "type",
                           "display_type",
                           "content_type",
-                          "content"
+                          "content",
+                          "key"
                         ]
                       }
                     ],
@@ -13314,15 +13377,6 @@
                     }
                   },
                   "description": "Array of form elements. Pages can include any element, except another page."
-                },
-                "conditional": {
-                  "oneOf": [
-                    {
-                      "$ref": "#/components/schemas/CompoundConditional"
-                    }
-                  ],
-                  "x-wrapped": true,
-                  "description": "A conditional statement - if it evaluates to true, this group will be displayed, if false the items inside this group will not be displayed."
                 },
                 "exits": {
                   "type": "array",
@@ -13354,11 +13408,29 @@
                   },
                   "nullable": true,
                   "description": "Array of exit points."
+                },
+                "key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "pattern": "^[a-zA-Z0-9_]+$",
+                  "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                  "example": "demographics_name"
+                },
+                "conditional": {
+                  "oneOf": [
+                    {
+                      "$ref": "#/components/schemas/CompoundConditional"
+                    }
+                  ],
+                  "x-wrapped": true,
+                  "description": "A conditional statement - if it evaluates to true, this question will be displayed, if false the question will not be displayed and no response will be recorded for it."
                 }
               },
               "required": [
                 "type",
-                "items"
+                "items",
+                "key"
               ],
               "description": "Pages are the top-level organization of a form. At least one page must exist. Each page defines the elements that display together to a responder and consists of an array of other form items."
             },
@@ -15092,11 +15164,6 @@
                 ],
                 "example": "name"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15109,6 +15176,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15149,9 +15224,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "fields"
             ],
             "description": "A question for recording a person's name. Source uses multiple fields for names: First, middle, and last names, and an optional 'preferred' name field which can be disabled."
@@ -15175,11 +15250,6 @@
                 ],
                 "example": "date"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15192,6 +15262,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15221,9 +15299,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "input_type"
             ],
             "description": "A question for recording a date. You can choose from two types of date input: one with a calendar-style date picker, intended for dates around the current date; and another designed for keyboard input, such as for historical dates like dates of birth."
@@ -15247,11 +15325,6 @@
                 ],
                 "example": "address"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15264,6 +15337,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15337,9 +15418,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "fields"
             ],
             "description": "A question for recording an address. Source uses multiple fields for addresses: `region` (corresponding to US state) is required, and the others can be configured as optional, required, or not shown at all."
@@ -15363,11 +15444,6 @@
                 ],
                 "example": "gender_identity"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15380,6 +15456,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15401,9 +15485,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question for recording a gender identity. Source supports selecting between some standardized values or entering a user-generated text response."
           },
@@ -15426,11 +15510,6 @@
                 ],
                 "example": "sex_at_birth"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15443,6 +15522,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15464,9 +15551,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question for recording person's birth sex, which is a selection between standardized values only. See also: gender identity."
           },
@@ -15489,11 +15576,6 @@
                 ],
                 "example": "pronouns"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15506,6 +15588,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15527,9 +15617,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question for recording a person's pronouns. Source supports selecting between some standardized values or entering a user-generated text response. See also: gender identity."
           },
@@ -15552,11 +15642,6 @@
                 ],
                 "example": "phone_numbers"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15569,6 +15654,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15616,9 +15709,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "allowed_uses",
               "max"
             ],
@@ -15643,11 +15736,6 @@
                 ],
                 "example": "free_text"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15660,6 +15748,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15674,9 +15770,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question type for recording free text responses in a single line of plain text."
           },
@@ -15699,11 +15795,6 @@
                 ],
                 "example": "number"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15716,6 +15807,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15740,9 +15839,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question type for recording numerical responses as a single number, either an integer or decimal."
           },
@@ -15765,11 +15864,6 @@
                 ],
                 "example": "single_select"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15782,6 +15876,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15849,9 +15951,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "options",
               "input_type"
             ],
@@ -15876,11 +15978,6 @@
                 ],
                 "example": "multi_select"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -15893,6 +15990,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -15959,9 +16064,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
               "required",
+              "key",
               "options",
               "input_type"
             ],
@@ -15986,11 +16091,6 @@
                 ],
                 "example": "yes_no"
               },
-              "key": {
-                "type": "string",
-                "description": "Unique key of this question within the form. Used in responses and conditional logic.",
-                "example": "demographics_name"
-              },
               "title": {
                 "type": "string",
                 "description": "Display title of this question in the form, i.e. the question text itself.",
@@ -16003,6 +16103,14 @@
               "required": {
                 "type": "boolean",
                 "description": "Whether a response to this question is required or optional. Questions that are hidden by conditional rules are never required to have a response."
+              },
+              "key": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 255,
+                "pattern": "^[a-zA-Z0-9_]+$",
+                "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                "example": "demographics_name"
               },
               "conditional": {
                 "oneOf": [
@@ -16036,9 +16144,9 @@
             "required": [
               "type",
               "question_type",
-              "key",
               "title",
-              "required"
+              "required",
+              "key"
             ],
             "description": "A question type for recording a discrete yes or no response."
           }
