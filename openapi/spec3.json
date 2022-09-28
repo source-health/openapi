@@ -12621,7 +12621,8 @@
               "api_connection_error",
               "invalid_request_error",
               "authentication_error",
-              "authorization_error"
+              "authorization_error",
+              "unprocessable_request_error"
             ],
             "description": "The type of error encountered."
           },
