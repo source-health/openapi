@@ -12372,12 +12372,53 @@ components:
             'started' status.  When a form is submitted, the status changes to 'completed'.
           example: started
         exit_screen:
-          type: string
-          nullable: true
+          type: object
+          properties:
+            type:
+              type: string
+              default: exit_screen
+              enum:
+                - exit_screen
+              example: exit_screen
+            key:
+              type: string
+              description:
+                A unique key for this exit screen within the form. The keys are used in exits to
+                indicate which screen is used for the exit. An exit screen with key 'default' must
+                exist in every form.
+              example: ineligible_location
+            description:
+              type: string
+              description:
+                A description of this exit screen. If the responder reaches this exit screen, the
+                screen's description is displayed within the completed form response.
+            content_type:
+              type: string
+              enum:
+                - md
+              description:
+                Type of the rich text content. Currently only `md` (i.e. Markdown) is supported.
+              example: md
+            content:
+              type: string
+              description: The rich text content, represented as Markdown text.
+              example: |-
+                # Thank You
+
+                We appreciate you completing this form.
+
+                Your care team will be in touch.
+          required:
+            - type
+            - key
+            - description
+            - content_type
+            - content
           description:
-            The key of the exit screen the author reached, if any. Forms support conditional exits
-            that appear based on the author's responses. If the author reaches an exit during the
-            response, the key of that exit screen is specified here.
+            The exit screen the author reached, if any. Forms support conditional exits that appear
+            based on the author's responses. If the author reaches an exit during the response, the
+            exit screen is specified here.
+          nullable: true
         created_at:
           type: string
           format: date-time
