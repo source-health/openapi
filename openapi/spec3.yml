@@ -11622,7 +11622,7 @@ components:
           type: string
           enum:
             - $eq
-            - $neq
+            - $ne
             - $exists
             - $gt
             - $gte
