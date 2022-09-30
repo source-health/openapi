@@ -4613,7 +4613,11 @@ paths:
                         participants:
                           type: array
                           items:
-                            type: string
+                            anyOf:
+                              - type: string
+                                example: usr_qoGndHzx8KwdYsEByt9X
+                              - type: string
+                                example: grp_IlGhgsstvgsagl6lV89Q
                           description:
                             Provide a set of users and groups that should be included when searching
                             for available slots using this intent.  The users and groups included in
@@ -13075,7 +13079,11 @@ components:
                 participants:
                   type: array
                   items:
-                    type: string
+                    anyOf:
+                      - type: string
+                        example: usr_qoGndHzx8KwdYsEByt9X
+                      - type: string
+                        example: grp_IlGhgsstvgsagl6lV89Q
                   description:
                     Provide a set of users and groups that should be included when searching for
                     available slots using this intent.  The users and groups included in this

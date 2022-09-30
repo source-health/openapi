@@ -4844,7 +4844,16 @@
                           "participants": {
                             "type": "array",
                             "items": {
-                              "type": "string"
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "example": "usr_qoGndHzx8KwdYsEByt9X"
+                                },
+                                {
+                                  "type": "string",
+                                  "example": "grp_IlGhgsstvgsagl6lV89Q"
+                                }
+                              ]
                             },
                             "description": "Provide a set of users and groups that should be included when searching for available slots using this intent.  The users and groups included in this parameter must still be included in the appointment type's configuration  in order for the availability API to return slots for them."
                           },
@@ -13820,7 +13829,16 @@
                   "participants": {
                     "type": "array",
                     "items": {
-                      "type": "string"
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "example": "usr_qoGndHzx8KwdYsEByt9X"
+                        },
+                        {
+                          "type": "string",
+                          "example": "grp_IlGhgsstvgsagl6lV89Q"
+                        }
+                      ]
                     },
                     "description": "Provide a set of users and groups that should be included when searching for available slots using this intent.  The users and groups included in this parameter must still be included in the appointment type's configuration  in order for the availability API to return slots for them."
                   },
