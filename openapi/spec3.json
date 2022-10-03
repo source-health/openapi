@@ -3293,6 +3293,18 @@
             },
             "required": false,
             "description": "Filter forms by archived or unarchived."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "published",
+            "schema": {
+              "type": "boolean",
+              "description": "Filter forms by published or unpublished."
+            },
+            "required": false,
+            "description": "Filter forms by published or unpublished."
           }
         ],
         "responses": {
