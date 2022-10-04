@@ -3526,10 +3526,7 @@
                         "key": {
                           "type": "string"
                         },
-                        "values": {
-                          "type": "object",
-                          "additionalProperties": {}
-                        }
+                        "values": {}
                       },
                       "required": [
                         "key",
@@ -3843,10 +3840,7 @@
                         "key": {
                           "type": "string"
                         },
-                        "values": {
-                          "type": "object",
-                          "additionalProperties": {}
-                        }
+                        "values": {}
                       },
                       "required": [
                         "key",
@@ -14854,10 +14848,7 @@
                 "item": {
                   "$ref": "#/components/schemas/Question"
                 },
-                "response": {
-                  "type": "object",
-                  "additionalProperties": {}
-                }
+                "response": {}
               },
               "required": [
                 "item",
