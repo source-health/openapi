@@ -19948,6 +19948,9 @@ components:
         - group.created
         - group.updated
         - group.deleted
+        - license.created
+        - license.updated
+        - license.deleted
         - measurement.created
         - member.created
         - member.updated
