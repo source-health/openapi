@@ -18393,17 +18393,19 @@
               "virtual"
             ],
             "description": "Whether the location is a physical location, or a virtual one. There is always one and only one virtual location for each Source account. You may have any number of physical locations, however.",
-            "example": "virtual"
+            "example": "physical"
           },
           "description": {
             "type": "string",
             "nullable": true,
-            "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+            "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours.",
+            "example": "Our new flagship in the heard of New York City."
           },
           "directions": {
             "type": "string",
             "nullable": true,
-            "description": "Free text directions for accessing this location. Typically, this is used to store information that is broadly applicable, such as \"take exit 45 off of I-485, and turn right on Front Street.\" You may also use it to provide more specific building level access information, such as \"enter through the north lobby, pass the security desk and take the elevator to the 3rd floor.\""
+            "description": "Free text directions for accessing this location. Typically, this is used to store information that is broadly applicable, such as \"take exit 45 off of I-485, and turn right on Front Street.\" You may also use it to provide more specific building level access information, such as \"enter through the north lobby, pass the security desk and take the elevator to the 3rd floor.\"",
+            "example": "Pass security in the lobby, and take the elevator to the 2nd floor."
           },
           "address": {
             "type": "object",
@@ -18502,7 +18504,11 @@
               "type": "number"
             },
             "nullable": true,
-            "description": "The latitude/longitude pair for this location, if it's a phyiscal location. Source attempts to geocode all physical locations at the time of creation."
+            "description": "The latitude/longitude pair for this location, if it's a phyiscal location. Source attempts to geocode all physical locations at the time of creation.",
+            "example": [
+              -120.23307,
+              38.62936
+            ]
           },
           "time_zone": {
             "type": "string",
