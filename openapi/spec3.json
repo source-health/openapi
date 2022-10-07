@@ -3043,7 +3043,8 @@
                       "user_profile_photo",
                       "document",
                       "comment_attachment",
-                      "account_logo"
+                      "account_logo",
+                      "location_photo"
                     ],
                     "description": "The purpose of the uploaded file. Each purpose imposes restrictions on supported file types and use cases.",
                     "example": "message_attachment"
@@ -3089,7 +3090,8 @@
                 "user_profile_photo",
                 "document",
                 "comment_attachment",
-                "account_logo"
+                "account_logo",
+                "location_photo"
               ],
               "_tag": "EnumCodec",
               "enumValues": {}
@@ -7329,6 +7331,533 @@
         },
         "x-methodName": "delete",
         "x-belongsToResource": "license"
+      }
+    },
+    "/v1/locations/{id}": {
+      "get": {
+        "summary": "Retrieve a Location",
+        "description": "Retrieves the details of an existing location. You need only supply the unique location identifier that was returned upon creation.",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the location.",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN"
+            },
+            "required": true,
+            "description": "Unique ID of the location."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "location"
+      },
+      "post": {
+        "summary": "Update a Location",
+        "description": "Updates an existing location by its unique identifier.",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the location.",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN"
+            },
+            "required": true,
+            "description": "Unique ID of the location."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Unique, friendly name for this location."
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+                  },
+                  "directions": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Free text directions for accessing this location. Typically, this is used to store information that is broadly applicable, such as \"take exit 45 off of I-485, and turn right on Front Street.\" You may also use it to provide more specific building level access information, such as \"enter through the north lobby, pass the security desk and take the elevator to the 3rd floor.\""
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": "file_0A9zrLzCO7KPcnIbs40e",
+                    "nullable": true,
+                    "description": "Image associated with the physical location. Must be a file of type `location_photo`. Images are optional, but can be helpful for patients to identify the location."
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this phyiscal location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually sepecify coordinates to override our geolocation."
+                  },
+                  "phone_numbers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "use": {
+                          "type": "string",
+                          "enum": [
+                            "home",
+                            "work",
+                            "mobile",
+                            "fax",
+                            "other"
+                          ],
+                          "description": "Type of phone number.",
+                          "example": "mobile"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "The phone number to use. This should be formatted in E.164 format.",
+                          "example": "+12125551234"
+                        }
+                      },
+                      "required": [
+                        "use",
+                        "value"
+                      ]
+                    },
+                    "nullable": true
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "street_line_1": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The first line of the street address.",
+                        "example": "1 City Point"
+                      },
+                      "street_line_2": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The second line of the street address."
+                      },
+                      "city": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The city.",
+                        "example": "Brooklyn"
+                      },
+                      "region": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The region - in the US this should be the two-letter state code.",
+                        "example": "NY"
+                      },
+                      "postal_code": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The postal code (i.e. zip code).",
+                        "example": "11215"
+                      },
+                      "country": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
+                        "example": "US"
+                      }
+                    },
+                    "required": [
+                      "street_line_1",
+                      "city",
+                      "region",
+                      "postal_code",
+                      "country"
+                    ],
+                    "description": "The phyiscal address for this location. Note that added locations must have a phyiscal address, which Source must be able to geocode."
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "The time zone in which this location operates. It is used whenever Source need to determine the local time for a location.\n\nIf no time zone is provided, Source will attempt to automatically determine a time zone based on the physical location's address.",
+                    "example": "America/New_York"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "location"
+      },
+      "delete": {
+        "summary": "Delete a Location",
+        "description": "Deletes a location by its unique identifier.\n\nOnce a location is deleted, it can no longer be used for searching availability or booking appointments. Existing appointments which already exist at the location will remain unaffected.",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "description": "Unique ID of the location.",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN"
+            },
+            "required": true,
+            "description": "Unique ID of the location."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "location"
+      }
+    },
+    "/v1/locations": {
+      "post": {
+        "summary": "Create a Location",
+        "description": "Creates a new location where services are offered.\n\nYou may add any number of locations at which services are offered. Each account is currently limited to one virtual location, which contains information and practice-wide availability schedules for your virtual visits.",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "description": "Unique, friendly name for this location."
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+                  },
+                  "directions": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Free text directions for accessing this location. Typically, this is used to store information that is broadly applicable, such as \"take exit 45 off of I-485, and turn right on Front Street.\" You may also use it to provide more specific building level access information, such as \"enter through the north lobby, pass the security desk and take the elevator to the 3rd floor.\""
+                  },
+                  "image": {
+                    "type": "string",
+                    "example": "file_0A9zrLzCO7KPcnIbs40e",
+                    "nullable": true,
+                    "description": "Image associated with the physical location. Must be a file of type `location_photo`. Images are optional, but can be helpful for patients to identify the location."
+                  },
+                  "coordinates": {
+                    "type": "array",
+                    "items": {
+                      "type": "number"
+                    },
+                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this phyiscal location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually sepecify coordinates to override our geolocation."
+                  },
+                  "phone_numbers": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "use": {
+                          "type": "string",
+                          "enum": [
+                            "home",
+                            "work",
+                            "mobile",
+                            "fax",
+                            "other"
+                          ],
+                          "description": "Type of phone number.",
+                          "example": "mobile"
+                        },
+                        "value": {
+                          "type": "string",
+                          "description": "The phone number to use. This should be formatted in E.164 format.",
+                          "example": "+12125551234"
+                        }
+                      },
+                      "required": [
+                        "use",
+                        "value"
+                      ]
+                    },
+                    "nullable": true
+                  },
+                  "address": {
+                    "type": "object",
+                    "properties": {
+                      "street_line_1": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The first line of the street address.",
+                        "example": "1 City Point"
+                      },
+                      "street_line_2": {
+                        "type": "string",
+                        "nullable": true,
+                        "description": "The second line of the street address."
+                      },
+                      "city": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The city.",
+                        "example": "Brooklyn"
+                      },
+                      "region": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The region - in the US this should be the two-letter state code.",
+                        "example": "NY"
+                      },
+                      "postal_code": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The postal code (i.e. zip code).",
+                        "example": "11215"
+                      },
+                      "country": {
+                        "type": "string",
+                        "minLength": 1,
+                        "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
+                        "example": "US"
+                      }
+                    },
+                    "required": [
+                      "street_line_1",
+                      "city",
+                      "region",
+                      "postal_code",
+                      "country"
+                    ],
+                    "description": "The phyiscal address for this location. Note that added locations must have a phyiscal address, which Source must be able to geocode."
+                  },
+                  "time_zone": {
+                    "type": "string",
+                    "description": "The time zone in which this location operates. It is used whenever Source need to determine the local time for a location.\n\nIf no time zone is provided, Source will attempt to automatically determine a time zone based on the physical location's address.",
+                    "example": "America/New_York"
+                  }
+                },
+                "required": [
+                  "name",
+                  "address"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/location"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "location"
+      },
+      "get": {
+        "summary": "List all Locations",
+        "description": "Returns a list of locations within the current account.\n\nThe locations returned are sorted by creation date, with the most recently added location appearing first.",
+        "tags": [
+          "Location"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "name",
+                "distance",
+                "-created_at",
+                "-name",
+                "-distance"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "name",
+            "schema": {
+              "type": "string",
+              "description": "Limit results to groups with name containing the given query."
+            },
+            "required": false,
+            "description": "Limit results to groups with name containing the given query."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "nearby",
+            "schema": {
+              "type": "string",
+              "description": "Filter for locations that are within a specified distance of the provided location. The value provided here can be a postal code, city/state combination, or a fully specified address. If you have coordinates, such as from a GPS device, you may also provide a coordinate pair as a comma-separated string, providing the longitude first, and then the latitude.\n\nWhen this filter is applied, the default sorting mechanism will automatically switch to \"distance\" unless an explicit sort option is provided."
+            },
+            "required": false,
+            "description": "Filter for locations that are within a specified distance of the provided location. The value provided here can be a postal code, city/state combination, or a fully specified address. If you have coordinates, such as from a GPS device, you may also provide a coordinate pair as a comma-separated string, providing the longitude first, and then the latitude.\n\nWhen this filter is applied, the default sorting mechanism will automatically switch to \"distance\" unless an explicit sort option is provided."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "distance",
+            "schema": {
+              "type": "number",
+              "description": "When using geo-search, this limits the locations that will be shown to only those that are within the provided number of miles of the target location."
+            },
+            "required": false,
+            "description": "When using geo-search, this limits the locations that will be shown to only those that are within the provided number of miles of the target location."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/location"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "location"
       }
     },
     "/v1/measurements": {
@@ -14598,7 +15127,8 @@
               "user_profile_photo",
               "document",
               "comment_attachment",
-              "account_logo"
+              "account_logo",
+              "location_photo"
             ],
             "description": "The purpose of this uploaded file. Each file is required to have a clearly defined purpose, which controls what types of uploads are allowed and where the file may be referenced.",
             "example": "message_attachment"
@@ -17619,10 +18149,123 @@
             "description": "Whether the location is a physical location, or a virtual one. There is always one and only one virtual location for each Source account. You may have any number of physical locations, however.",
             "example": "virtual"
           },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+          },
+          "directions": {
+            "type": "string",
+            "nullable": true,
+            "description": "Free text directions for accessing this location. Typically, this is used to store information that is broadly applicable, such as \"take exit 45 off of I-485, and turn right on Front Street.\" You may also use it to provide more specific building level access information, such as \"enter through the north lobby, pass the security desk and take the elevator to the 3rd floor.\""
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "street_line_1": {
+                "type": "string",
+                "description": "The first line of the street address.",
+                "example": "1 City Point"
+              },
+              "street_line_2": {
+                "type": "string",
+                "nullable": true,
+                "description": "The second line of the street address."
+              },
+              "city": {
+                "type": "string",
+                "description": "The city.",
+                "example": "Brooklyn"
+              },
+              "region": {
+                "type": "string",
+                "description": "The region - in the US this should be the two-letter state code.",
+                "example": "NY"
+              },
+              "postal_code": {
+                "type": "string",
+                "description": "The postal code (i.e. zip code).",
+                "example": "11215"
+              },
+              "country": {
+                "type": "string",
+                "description": "The country, as a two-letter ISO 3166-1 code. US is the only supported country at this time.",
+                "example": "US"
+              }
+            },
+            "required": [
+              "street_line_1",
+              "street_line_2",
+              "city",
+              "region",
+              "postal_code",
+              "country"
+            ],
+            "nullable": true,
+            "description": "The physical address of the location. Only provided when the location type is \"physical.\""
+          },
+          "image": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/file"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/file"
+            },
+            "description": "Image associated with the physical location. Must be a file of type `location_photo`. Images are optional, but can be helpful for patients to identify the location.",
+            "example": "file_gdIyXM9d4LKGnewOV4OM",
+            "nullable": true
+          },
+          "phone_numbers": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "use": {
+                  "type": "string",
+                  "enum": [
+                    "home",
+                    "work",
+                    "mobile",
+                    "fax",
+                    "other"
+                  ],
+                  "description": "Type of phone number.",
+                  "example": "mobile"
+                },
+                "value": {
+                  "type": "string",
+                  "description": "The phone number to use. This should be formatted in E.164 format.",
+                  "example": "+12125551234"
+                }
+              },
+              "required": [
+                "use",
+                "value"
+              ]
+            },
+            "description": "An array of phone numbers associated with the location."
+          },
+          "coordinates": {
+            "type": "array",
+            "items": {
+              "type": "number"
+            },
+            "nullable": true,
+            "description": "The latitude/longitude pair for this location, if it's a phyiscal location. Source attempts to geocode all physical locations at the time of creation."
+          },
           "time_zone": {
             "type": "string",
-            "description": "The time zone in which this location operations. It is used whenever we need to determine the local time for a location.",
+            "description": "The time zone in which this location operates. It is used whenever Source needs to determine the local time for a location.",
             "example": "America/New_York"
+          },
+          "distance": {
+            "type": "number",
+            "description": "When searching locations nearby a coordinate, this field will contain the distance (in km) between the location and provided coordinate. This field will only be present when a geo-searching request is issued via the List all Locations endpoint."
           },
           "created_at": {
             "type": "string",
@@ -17635,6 +18278,12 @@
             "format": "date-time",
             "description": "Timestamp when the location was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the location was deleted, which is only present for deleted locations. Deleted locations are not typically returned by the API, however they are returned in `location.deleted` events and expanded references on other objects.",
+            "example": "2021-05-13T16:33:00.000Z"
           }
         },
         "required": [
@@ -17642,14 +18291,21 @@
           "id",
           "name",
           "type",
+          "description",
+          "directions",
+          "address",
+          "image",
+          "phone_numbers",
+          "coordinates",
           "time_zone",
           "created_at",
           "updated_at"
         ],
         "title": "Location",
-        "description": "Locations are the places where you provide care to your members.\n\nWhen you configure locations in Source, you'll have complete control over when and how appointments are offered to your members, as well as the services that can be delivered at each location.\n\nEvery Source account is created with one virtual location, which houses the settings that will be used when booking and managing virtual visits. Additional physical locations can be added for practices that need it.",
+        "description": "Locations are the places where you provide care to your members.\n\nWhen you configure locations in Source, you'll have complete control over when and how appointments are offered to your members, as well as the services that can be delivered at each location.\n\nEvery Source account is created with one virtual location, which houses the settings that will be used when booking and managing virtual visits. Additional physical locations can be added for practices that need them.\n\nPlease note: managing locations is currently in preview, and not available to all customers. Reach out to Source if you'd like to enable this for your account.",
         "x-resourceId": "location",
-        "x-package": null
+        "x-package": null,
+        "x-preview": true
       },
       "measurement": {
         "type": "object",
