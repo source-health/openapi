@@ -7651,7 +7651,7 @@
                   "description": {
                     "type": "string",
                     "nullable": true,
-                    "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+                    "description": "Free text description for this location. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
                   },
                   "directions": {
                     "type": "string",
@@ -7669,7 +7669,7 @@
                     "items": {
                       "type": "number"
                     },
-                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this phyiscal location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually sepecify coordinates to override our geolocation."
+                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this physical location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually specify coordinates to override our geolocation."
                   },
                   "phone_numbers": {
                     "type": "array",
@@ -7747,7 +7747,7 @@
                       "postal_code",
                       "country"
                     ],
-                    "description": "The phyiscal address for this location. Note that added locations must have a phyiscal address, which Source must be able to geocode."
+                    "description": "The physical address for this location. Note that added locations must have a physical address, which Source must be able to geocode."
                   },
                   "time_zone": {
                     "type": "string",
@@ -7833,7 +7833,7 @@
                   "description": {
                     "type": "string",
                     "nullable": true,
-                    "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
+                    "description": "Free text description for this location. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours."
                   },
                   "directions": {
                     "type": "string",
@@ -7851,7 +7851,7 @@
                     "items": {
                       "type": "number"
                     },
-                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this phyiscal location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually sepecify coordinates to override our geolocation."
+                    "description": "The physical coordinates (expressed as a pair of [longitude, latitude]) for this physical location. Source attempts to geocode addresses and set coordinates automatically when creating locations. However, in some cases, such as when opening an office in new construction, geolocation may not succeed. If this occurs, you may manually specify coordinates to override our geolocation."
                   },
                   "phone_numbers": {
                     "type": "array",
@@ -7929,7 +7929,7 @@
                       "postal_code",
                       "country"
                     ],
-                    "description": "The phyiscal address for this location. Note that added locations must have a phyiscal address, which Source must be able to geocode."
+                    "description": "The physical address for this location. Note that added locations must have a physical address, which Source must be able to geocode."
                   },
                   "time_zone": {
                     "type": "string",
@@ -18398,7 +18398,7 @@
           "description": {
             "type": "string",
             "nullable": true,
-            "description": "Free text description for this locationn. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours.",
+            "description": "Free text description for this location. This might be used to include information about this location, the services that are offered here, or exceptions to operating hours.",
             "example": "Our new flagship in the heard of New York City."
           },
           "directions": {
@@ -18504,7 +18504,7 @@
               "type": "number"
             },
             "nullable": true,
-            "description": "The latitude/longitude pair for this location, if it's a phyiscal location. Source attempts to geocode all physical locations at the time of creation.",
+            "description": "The latitude/longitude pair for this location, if it's a physical location. Source attempts to geocode all physical locations at the time of creation.",
             "example": [
               -120.23307,
               38.62936

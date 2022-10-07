@@ -7395,7 +7395,7 @@ paths:
                   type: string
                   nullable: true
                   description:
-                    Free text description for this locationn. This might be used to include
+                    Free text description for this location. This might be used to include
                     information about this location, the services that are offered here, or
                     exceptions to operating hours.
                 directions:
@@ -7421,10 +7421,10 @@ paths:
                     type: number
                   description:
                     The physical coordinates (expressed as a pair of [longitude, latitude]) for this
-                    phyiscal location. Source attempts to geocode addresses and set coordinates
+                    physical location. Source attempts to geocode addresses and set coordinates
                     automatically when creating locations. However, in some cases, such as when
                     opening an office in new construction, geolocation may not succeed. If this
-                    occurs, you may manually sepecify coordinates to override our geolocation.
+                    occurs, you may manually specify coordinates to override our geolocation.
                 phone_numbers:
                   type: array
                   items:
@@ -7490,8 +7490,8 @@ paths:
                     - postal_code
                     - country
                   description:
-                    The phyiscal address for this location. Note that added locations must have a
-                    phyiscal address, which Source must be able to geocode.
+                    The physical address for this location. Note that added locations must have a
+                    physical address, which Source must be able to geocode.
                 time_zone:
                   type: string
                   description: >-
@@ -7569,7 +7569,7 @@ paths:
                   type: string
                   nullable: true
                   description:
-                    Free text description for this locationn. This might be used to include
+                    Free text description for this location. This might be used to include
                     information about this location, the services that are offered here, or
                     exceptions to operating hours.
                 directions:
@@ -7595,10 +7595,10 @@ paths:
                     type: number
                   description:
                     The physical coordinates (expressed as a pair of [longitude, latitude]) for this
-                    phyiscal location. Source attempts to geocode addresses and set coordinates
+                    physical location. Source attempts to geocode addresses and set coordinates
                     automatically when creating locations. However, in some cases, such as when
                     opening an office in new construction, geolocation may not succeed. If this
-                    occurs, you may manually sepecify coordinates to override our geolocation.
+                    occurs, you may manually specify coordinates to override our geolocation.
                 phone_numbers:
                   type: array
                   items:
@@ -7664,8 +7664,8 @@ paths:
                     - postal_code
                     - country
                   description:
-                    The phyiscal address for this location. Note that added locations must have a
-                    phyiscal address, which Source must be able to geocode.
+                    The physical address for this location. Note that added locations must have a
+                    physical address, which Source must be able to geocode.
                 time_zone:
                   type: string
                   description: >-
@@ -17703,9 +17703,8 @@ components:
           type: string
           nullable: true
           description:
-            Free text description for this locationn. This might be used to include information
-            about this location, the services that are offered here, or exceptions to operating
-            hours.
+            Free text description for this location. This might be used to include information about
+            this location, the services that are offered here, or exceptions to operating hours.
           example: Our new flagship in the heard of New York City.
         directions:
           type: string
@@ -17797,7 +17796,7 @@ components:
             type: number
           nullable: true
           description:
-            The latitude/longitude pair for this location, if it's a phyiscal location. Source
+            The latitude/longitude pair for this location, if it's a physical location. Source
             attempts to geocode all physical locations at the time of creation.
           example:
             - -120.23307
