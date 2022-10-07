@@ -1730,6 +1730,252 @@
         "x-belongsToResource": "availability"
       }
     },
+    "/v1/locations/{location}/availability": {
+      "get": {
+        "summary": "Retrieve a Location Availability Schedule",
+        "description": "Retrieves the availability schedule for a location.",
+        "tags": [
+          "Availability"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "location",
+            "schema": {
+              "type": "string",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+              "description": "Unique ID for the location."
+            },
+            "required": true,
+            "description": "Unique ID for the location."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/availability"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieveForLocation",
+        "x-belongsToResource": "availability"
+      },
+      "post": {
+        "summary": "Update a Location Availability Schedule",
+        "description": "Updates an availability schedule for a location.",
+        "tags": [
+          "Availability"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "location",
+            "schema": {
+              "type": "string",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+              "description": "Unique ID for the location."
+            },
+            "required": true,
+            "description": "Unique ID for the location."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "time_zone": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "The time zone in which rules on this schedule should be evaluated."
+                  },
+                  "rules": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "day": {
+                          "type": "number",
+                          "minimum": 1,
+                          "maximum": 7,
+                          "description": "The day of the week to which this rule applies, as an ISO day of week. The value of this property must be a number from 1 to 7, where 1 represents Monday, and 7 represents Sunday.",
+                          "example": 1
+                        },
+                        "start": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                          "example": "09:00"
+                        },
+                        "end": {
+                          "type": "string",
+                          "format": "time",
+                          "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                          "example": "17:00"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date",
+                          "nullable": true,
+                          "description": "The first date from which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability before the given date.",
+                          "example": "2022-08-10"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date",
+                          "nullable": true,
+                          "description": "The last date on which this rule should apply, expressed as an ISO date. If set to a non-null value, this rule will not be considered when evaluating availability after the given date.",
+                          "example": null
+                        },
+                        "appointment_types": {
+                          "type": "array",
+                          "items": {
+                            "type": "string",
+                            "example": "aptp_meYUvkuaI2akjnb5Kwt7"
+                          },
+                          "description": "An optional set of appointment types that this availability rule is restricted to. Only appointments of the specified types are bookable during the period of this rule. Omitting this field or providing an empty array implies the rule can accommodate booking any appointment type.\n\nRules are additive - when rules with different appointment type restrictions overlap in time, the set of all allowed appointment types in all overlapping rules may be booked during the overlap."
+                        },
+                        "release_window": {
+                          "type": "object",
+                          "properties": {
+                            "unit": {
+                              "type": "string",
+                              "enum": [
+                                "day",
+                                "hour",
+                                "minute"
+                              ]
+                            },
+                            "time": {
+                              "type": "number"
+                            }
+                          },
+                          "required": [
+                            "unit",
+                            "time"
+                          ],
+                          "nullable": true,
+                          "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                        }
+                      },
+                      "required": [
+                        "day",
+                        "start",
+                        "end"
+                      ]
+                    },
+                    "description": "The list of rules for this person's availability. Each rule defines a day of week, start time, and end time of the rule. There may be multiple rules for a single day of the week. When that happens, the rules represent multiple blocks of times that the user is available in a given day. For example, you may be available from 9am-12pm, break for lunch, and then be available 1pm-5pm. If two availability blocks are provided on the same day which overlap with one another, Source will merge those rules into one rule."
+                  },
+                  "overrides": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "date": {
+                          "type": "string",
+                          "format": "date",
+                          "description": "The specific date of the override, specified as an ISO 8601 date string in the format YYYY-mm-dd. There can only be one override object per date in this list.",
+                          "example": "2022-01-01"
+                        },
+                        "rules": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "start": {
+                                "type": "string",
+                                "format": "time",
+                                "description": "The start time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Valid values for the start time of a rule range from 00:00 to 23:59.",
+                                "example": "09:00"
+                              },
+                              "end": {
+                                "type": "string",
+                                "format": "time",
+                                "description": "The end time of this rule. The value of this property is an ISO local time, formatted as HH:mm, using 24 hour time. Unlike rule start times, end times may range from 00:00 to 24:00, where 24:00 represents midnight at the end of the day.",
+                                "example": "17:00"
+                              },
+                              "appointment_types": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string",
+                                  "example": "aptp_meYUvkuaI2akjnb5Kwt7"
+                                },
+                                "description": "An optional set of appointment types that this override rule is restricted to. Only appointments of the specified types are bookable during the period of this override. Omitting this field or providing an empty array implies the override can accommodate booking any appointment type.\n\nAppointment type constraints are additive - when overrides with different appointment type restrictions overlap in time, the set of all allowed appointment types in all overlapping rules may be booked during the overlap."
+                              },
+                              "release_window": {
+                                "type": "object",
+                                "properties": {
+                                  "unit": {
+                                    "type": "string",
+                                    "enum": [
+                                      "day",
+                                      "hour",
+                                      "minute"
+                                    ]
+                                  },
+                                  "time": {
+                                    "type": "number"
+                                  }
+                                },
+                                "required": [
+                                  "unit",
+                                  "time"
+                                ],
+                                "nullable": true,
+                                "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                              }
+                            },
+                            "required": [
+                              "start",
+                              "end"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "date",
+                        "rules"
+                      ]
+                    },
+                    "description": "Overrides to the availability rules for this schedule. Overrides are specific dates on which the user's availability differs from their general rules. For example, you may be available Monday through Friday 9am-5pm, but not available on New Years Day.",
+                    "example": [
+                      {
+                        "date": "2022-01-01",
+                        "rules": []
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/availability"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "updateForLocation",
+        "x-belongsToResource": "availability"
+      }
+    },
     "/v1/care_teams/{id}": {
       "post": {
         "summary": "Update a Care Team",
