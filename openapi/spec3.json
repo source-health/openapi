@@ -3774,11 +3774,11 @@
                         "key": {
                           "type": "string"
                         },
+                        "value": {},
                         "values": {}
                       },
                       "required": [
-                        "key",
-                        "values"
+                        "key"
                       ]
                     },
                     "description": "The individual responses that capture the author's answers to corresponding items within the form version. Each response is associated with the item key of the corresponding question in the form version."
@@ -4088,11 +4088,11 @@
                         "key": {
                           "type": "string"
                         },
+                        "value": {},
                         "values": {}
                       },
                       "required": [
-                        "key",
-                        "values"
+                        "key"
                       ]
                     },
                     "description": "The individual responses that capture the author's answers to corresponding items within the form version. Each response is associated with the item key of the corresponding question in the form version."

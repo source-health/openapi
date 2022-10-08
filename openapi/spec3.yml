@@ -3706,10 +3706,10 @@ paths:
                     properties:
                       key:
                         type: string
+                      value: {}
                       values: {}
                     required:
                       - key
-                      - values
                   description:
                     The individual responses that capture the author's answers to corresponding
                     items within the form version. Each response is associated with the item key of
@@ -3991,10 +3991,10 @@ paths:
                     properties:
                       key:
                         type: string
+                      value: {}
                       values: {}
                     required:
                       - key
-                      - values
                   description:
                     The individual responses that capture the author's answers to corresponding
                     items within the form version. Each response is associated with the item key of
