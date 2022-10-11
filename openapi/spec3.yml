@@ -21010,9 +21010,14 @@ components:
         - group.created
         - group.updated
         - group.deleted
+        - intent.created
+        - intent.updated
         - license.created
         - license.updated
         - license.deleted
+        - location.created
+        - location.updated
+        - location.deleted
         - measurement.created
         - member.created
         - member.updated
