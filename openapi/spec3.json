@@ -107,6 +107,97 @@
                     "description": "The time zone identifier for this account. Account level time zone identifiers are used to determine when \"midnight\" exists for your practice, and feed into Source's understanding of your organization's business hours. Note that each user has their own time zone as well, which is what is used when declaring user availability and booking appointments.",
                     "example": "America/New_York"
                   },
+                  "theme": {
+                    "type": "object",
+                    "properties": {
+                      "colors": {
+                        "type": "object",
+                        "properties": {
+                          "primary": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the primary interface elements such as buttons."
+                          },
+                          "primary_text": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for text that appears on primary interface elements."
+                          },
+                          "accent": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the accent elements like checkboxes, radio buttons, links, and similar second-level indications."
+                          },
+                          "accent_text": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for text that appears on accent interface elements."
+                          },
+                          "surface": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the color of the primary page background."
+                          },
+                          "surface_text": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the text that appears directly on the primary surface."
+                          },
+                          "component": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the background color of elements sitting on the surface, such as a card."
+                          },
+                          "component_text": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the text that appears within a component element."
+                          },
+                          "border": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Color hex for the border color on interactive elements."
+                          }
+                        },
+                        "required": [
+                          "primary",
+                          "primary_text",
+                          "accent",
+                          "accent_text",
+                          "surface",
+                          "surface_text",
+                          "component",
+                          "component_text",
+                          "border"
+                        ],
+                        "description": "Brand colors used throughout the application."
+                      },
+                      "shapes": {
+                        "type": "object",
+                        "properties": {
+                          "border_radius": {
+                            "type": "string",
+                            "nullable": true,
+                            "description": "Border radius, defined in pixels."
+                          },
+                          "shadows": {
+                            "type": "boolean",
+                            "description": "Whether or not to enable default shadows on elements."
+                          }
+                        },
+                        "required": [
+                          "border_radius",
+                          "shadows"
+                        ],
+                        "description": "Brand settings that affect the shape of elements."
+                      }
+                    },
+                    "required": [
+                      "colors",
+                      "shapes"
+                    ],
+                    "description": "Theme configuration to apply to the account."
+                  },
                   "logo": {
                     "type": "string",
                     "example": "file_0A9zrLzCO7KPcnIbs40e",
@@ -13563,6 +13654,97 @@
             "description": "The time zone associated with this account. This value is rarely used in Source, however it serves an important purpose for appointment booking. In order to ensure each day has consistent appointment slots available, we use this time zone to determine when midnight is for your organization. Slots will reset when crossing midnight into the next day. You can read more about this in the documentation for the [Slot resource](../slot/).",
             "example": "America/New_York"
           },
+          "theme": {
+            "type": "object",
+            "properties": {
+              "colors": {
+                "type": "object",
+                "properties": {
+                  "primary": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the primary interface elements such as buttons."
+                  },
+                  "primary_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for text that appears on primary interface elements."
+                  },
+                  "accent": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the accent elements like checkboxes, radio buttons, links, and similar second-level indications."
+                  },
+                  "accent_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for text that appears on accent interface elements."
+                  },
+                  "surface": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the color of the primary page background."
+                  },
+                  "surface_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the text that appears directly on the primary surface."
+                  },
+                  "component": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the background color of elements sitting on the surface, such as a card."
+                  },
+                  "component_text": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the text that appears within a component element."
+                  },
+                  "border": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Color hex for the border color on interactive elements."
+                  }
+                },
+                "required": [
+                  "primary",
+                  "primary_text",
+                  "accent",
+                  "accent_text",
+                  "surface",
+                  "surface_text",
+                  "component",
+                  "component_text",
+                  "border"
+                ],
+                "description": "Brand colors used throughout the application."
+              },
+              "shapes": {
+                "type": "object",
+                "properties": {
+                  "border_radius": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Border radius, defined in pixels."
+                  },
+                  "shadows": {
+                    "type": "boolean",
+                    "description": "Whether or not to enable default shadows on elements."
+                  }
+                },
+                "required": [
+                  "border_radius",
+                  "shadows"
+                ],
+                "description": "Brand settings that affect the shape of elements."
+              }
+            },
+            "required": [
+              "colors",
+              "shapes"
+            ],
+            "description": "Theme settings to apply when using Source-hosted elements."
+          },
           "test_secret_key": {
             "type": "string",
             "description": "Test mode API secret key for the account, only returned during account creation.",
@@ -13593,6 +13775,7 @@
           "subdomain",
           "logo",
           "time_zone",
+          "theme",
           "created_at",
           "updated_at"
         ],
