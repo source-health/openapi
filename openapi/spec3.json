@@ -3798,7 +3798,7 @@
     "/v1/forms/{id}/archive": {
       "post": {
         "summary": "Archive a Form",
-        "description": "Archives a form. Once archived, it can no longer be used to generate new form responses.  Existing form responses are not affected when a form is archived.",
+        "description": "Archives a specified form. Once archived, it can no longer be used to generate new form responses.  Existing form responses are not affected when a form is archived.",
         "tags": [
           "Form"
         ],
@@ -3830,6 +3830,44 @@
           }
         },
         "x-methodName": "archive",
+        "x-belongsToResource": "form"
+      }
+    },
+    "/v1/forms/{id}/unarchive": {
+      "post": {
+        "summary": "Unarchive a Form",
+        "description": "Unarchives the specified form. Once unarchived, the form's published version can be again accessed to create form responses and the draft version of the form can be edited.",
+        "tags": [
+          "Form"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "form_hSGPOT5BMusNLwDI3Z4N",
+              "description": "Unique ID of the form."
+            },
+            "required": true,
+            "description": "Unique ID of the form."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/form"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "unarchive",
         "x-belongsToResource": "form"
       }
     },
