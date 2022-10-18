@@ -1848,6 +1848,26 @@ paths:
                           release window to 1 hour, for example, then starting at 2pm, your members
                           would be able to book non-Urgent Care visits at 3pm. Starting at 3pm,
                           members would be able to book non-Urgent Care visits at 4pm, and so on.
+                      virtual:
+                        type: boolean
+                        description:
+                          Whether or not the user should be considered available for virtual
+                          appointments (i.e. video and phone calls) during the available time block.
+                          You may choose to set this to false if the user is working in a physical
+                          location and should not be taking telemedicine visits during this time.
+                      location:
+                        type: string
+                        example: loc_EtTXhFHUtCXO1JWBd8TN
+                        nullable: true
+                        description: >-
+                          The physical location in which the user will be located during this
+                          availability block. A user may only be assigned to a single physical
+                          location per time block. When a location is added to a time block, the
+                          user will be able to be booked at that location.
+
+
+                          Note that this field is present on availability schedules for locations as
+                          well, but is ignored.
                     required:
                       - day
                       - start
@@ -1946,6 +1966,27 @@ paths:
                                 your members would be able to book non-Urgent Care visits at 3pm.
                                 Starting at 3pm, members would be able to book non-Urgent Care
                                 visits at 4pm, and so on.
+                            virtual:
+                              type: boolean
+                              description:
+                                Whether or not the user should be considered available for virtual
+                                appointments (i.e. video and phone calls) during the available time
+                                block. You may choose to set this to false if the user is working in
+                                a physical location and should not be taking telemedicine visits
+                                during this time.
+                            location:
+                              type: string
+                              example: loc_EtTXhFHUtCXO1JWBd8TN
+                              nullable: true
+                              description: >-
+                                The physical location in which the user will be located during this
+                                availability block. A user may only be assigned to a single physical
+                                location per time block. When a location is added to a time block,
+                                the user will be able to be booked at that location.
+
+
+                                Note that this field is present on availability schedules for
+                                locations as well, but is ignored.
                           required:
                             - start
                             - end
@@ -2117,6 +2158,26 @@ paths:
                           release window to 1 hour, for example, then starting at 2pm, your members
                           would be able to book non-Urgent Care visits at 3pm. Starting at 3pm,
                           members would be able to book non-Urgent Care visits at 4pm, and so on.
+                      virtual:
+                        type: boolean
+                        description:
+                          Whether or not the user should be considered available for virtual
+                          appointments (i.e. video and phone calls) during the available time block.
+                          You may choose to set this to false if the user is working in a physical
+                          location and should not be taking telemedicine visits during this time.
+                      location:
+                        type: string
+                        example: loc_EtTXhFHUtCXO1JWBd8TN
+                        nullable: true
+                        description: >-
+                          The physical location in which the user will be located during this
+                          availability block. A user may only be assigned to a single physical
+                          location per time block. When a location is added to a time block, the
+                          user will be able to be booked at that location.
+
+
+                          Note that this field is present on availability schedules for locations as
+                          well, but is ignored.
                     required:
                       - day
                       - start
@@ -2215,6 +2276,27 @@ paths:
                                 your members would be able to book non-Urgent Care visits at 3pm.
                                 Starting at 3pm, members would be able to book non-Urgent Care
                                 visits at 4pm, and so on.
+                            virtual:
+                              type: boolean
+                              description:
+                                Whether or not the user should be considered available for virtual
+                                appointments (i.e. video and phone calls) during the available time
+                                block. You may choose to set this to false if the user is working in
+                                a physical location and should not be taking telemedicine visits
+                                during this time.
+                            location:
+                              type: string
+                              example: loc_EtTXhFHUtCXO1JWBd8TN
+                              nullable: true
+                              description: >-
+                                The physical location in which the user will be located during this
+                                availability block. A user may only be assigned to a single physical
+                                location per time block. When a location is added to a time block,
+                                the user will be able to be booked at that location.
+
+
+                                Note that this field is present on availability schedules for
+                                locations as well, but is ignored.
                           required:
                             - start
                             - end
@@ -7876,12 +7958,24 @@ paths:
         - in: query
           style: form
           explode: true
+          name: type
+          schema:
+            type: string
+            enum:
+              - virtual
+              - physical
+            description: Limit results to locations of the provided type.
+          required: false
+          description: Limit results to locations of the provided type.
+        - in: query
+          style: form
+          explode: true
           name: name
           schema:
             type: string
-            description: Limit results to groups with name containing the given query.
+            description: Limit results to locations with name containing the given query.
           required: false
-          description: Limit results to groups with name containing the given query.
+          description: Limit results to locations with name containing the given query.
         - in: query
           style: form
           explode: true
@@ -13945,6 +14039,30 @@ components:
                   1 hour, for example, then starting at 2pm, your members would be able to book
                   non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book
                   non-Urgent Care visits at 4pm, and so on.
+              virtual:
+                type: boolean
+                description:
+                  Whether or not the user should be considered available for virtual appointments
+                  (i.e. video and phone calls) during the available time block. You may choose to
+                  set this to false if the user is working in a physical location and should not be
+                  taking telemedicine visits during this time.
+              location:
+                oneOf:
+                  - type: string
+                  - $ref: "#/components/schemas/location"
+                x-expandable:
+                  $ref: "#/components/schemas/location"
+                description: >-
+                  The physical location in which the user will be located during this availability
+                  block. A user may only be assigned to a single physical location per time block.
+                  When a location is added to a time block, the user will be able to be booked at
+                  that location.
+
+
+                  Note that this field is present on availability schedules for locations as well,
+                  but is ignored.
+                example: loc_EtTXhFHUtCXO1JWBd8TN
+                nullable: true
             required:
               - day
               - start
@@ -13953,6 +14071,8 @@ components:
               - end_date
               - appointment_types
               - release_window
+              - virtual
+              - location
           description:
             The list of rules for this person's availability. Each rule defines a day of week, start
             and end time, and an optional array of appointment types to which the rule applies.
@@ -13969,6 +14089,8 @@ components:
               appointment_types:
                 - aptp_meYUvkuaI2akjnb5Kwt7
               release_window: null
+              virtual: true
+              location: null
             - day: 2
               start: 09:00
               end: 17:00
@@ -13976,6 +14098,8 @@ components:
               end_date: null
               appointment_types: []
               release_window: null
+              virtual: true
+              location: null
             - day: 3
               start: 09:00
               end: 17:00
@@ -13983,6 +14107,8 @@ components:
               end_date: null
               appointment_types: []
               release_window: null
+              virtual: true
+              location: null
             - day: 4
               start: 09:00
               end: 17:00
@@ -13990,6 +14116,8 @@ components:
               end_date: null
               appointment_types: []
               release_window: null
+              virtual: true
+              location: null
             - day: 5
               start: 09:00
               end: 17:00
@@ -13997,6 +14125,8 @@ components:
               end_date: null
               appointment_types: []
               release_window: null
+              virtual: true
+              location: null
         overrides:
           type: array
           items:
@@ -14082,11 +14212,37 @@ components:
                         window to 1 hour, for example, then starting at 2pm, your members would be
                         able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would
                         be able to book non-Urgent Care visits at 4pm, and so on.
+                    virtual:
+                      type: boolean
+                      description:
+                        Whether or not the user should be considered available for virtual
+                        appointments (i.e. video and phone calls) during the available time block.
+                        You may choose to set this to false if the user is working in a physical
+                        location and should not be taking telemedicine visits during this time.
+                    location:
+                      oneOf:
+                        - type: string
+                        - $ref: "#/components/schemas/location"
+                      x-expandable:
+                        $ref: "#/components/schemas/location"
+                      description: >-
+                        The physical location in which the user will be located during this
+                        availability block. A user may only be assigned to a single physical
+                        location per time block. When a location is added to a time block, the user
+                        will be able to be booked at that location.
+
+
+                        Note that this field is present on availability schedules for locations as
+                        well, but is ignored.
+                      example: loc_EtTXhFHUtCXO1JWBd8TN
+                      nullable: true
                   required:
                     - start
                     - end
                     - appointment_types
                     - release_window
+                    - virtual
+                    - location
             required:
               - date
               - rules

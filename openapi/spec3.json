@@ -1711,6 +1711,16 @@
                           ],
                           "nullable": true,
                           "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                        },
+                        "virtual": {
+                          "type": "boolean",
+                          "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                        },
+                        "location": {
+                          "type": "string",
+                          "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                          "nullable": true,
+                          "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                         }
                       },
                       "required": [
@@ -1778,6 +1788,16 @@
                                 ],
                                 "nullable": true,
                                 "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                              },
+                              "virtual": {
+                                "type": "boolean",
+                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                              },
+                              "location": {
+                                "type": "string",
+                                "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                                "nullable": true,
+                                "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                               }
                             },
                             "required": [
@@ -1957,6 +1977,16 @@
                           ],
                           "nullable": true,
                           "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                        },
+                        "virtual": {
+                          "type": "boolean",
+                          "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                        },
+                        "location": {
+                          "type": "string",
+                          "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                          "nullable": true,
+                          "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                         }
                       },
                       "required": [
@@ -2024,6 +2054,16 @@
                                 ],
                                 "nullable": true,
                                 "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                              },
+                              "virtual": {
+                                "type": "boolean",
+                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                              },
+                              "location": {
+                                "type": "string",
+                                "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                                "nullable": true,
+                                "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                               }
                             },
                             "required": [
@@ -8159,13 +8199,29 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "virtual",
+                "physical"
+              ],
+              "description": "Limit results to locations of the provided type."
+            },
+            "required": false,
+            "description": "Limit results to locations of the provided type."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "name",
             "schema": {
               "type": "string",
-              "description": "Limit results to groups with name containing the given query."
+              "description": "Limit results to locations with name containing the given query."
             },
             "required": false,
-            "description": "Limit results to groups with name containing the given query."
+            "description": "Limit results to locations with name containing the given query."
           },
           {
             "in": "query",
@@ -14491,6 +14547,26 @@
                   ],
                   "nullable": true,
                   "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                },
+                "virtual": {
+                  "type": "boolean",
+                  "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                },
+                "location": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/location"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/location"
+                  },
+                  "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored.",
+                  "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                  "nullable": true
                 }
               },
               "required": [
@@ -14500,7 +14576,9 @@
                 "start_date",
                 "end_date",
                 "appointment_types",
-                "release_window"
+                "release_window",
+                "virtual",
+                "location"
               ]
             },
             "description": "The list of rules for this person's availability. Each rule defines a day of week, start and end time, and an optional array of appointment types to which the rule applies. There may be multiple rules for a single day of the week. When that happens, the rules represent multiple blocks of times that the user is available in a given day. For example, you may be available from 9am-12pm, break for lunch, and then be available 1pm-5pm.",
@@ -14514,7 +14592,9 @@
                 "appointment_types": [
                   "aptp_meYUvkuaI2akjnb5Kwt7"
                 ],
-                "release_window": null
+                "release_window": null,
+                "virtual": true,
+                "location": null
               },
               {
                 "day": 2,
@@ -14523,7 +14603,9 @@
                 "start_date": null,
                 "end_date": null,
                 "appointment_types": [],
-                "release_window": null
+                "release_window": null,
+                "virtual": true,
+                "location": null
               },
               {
                 "day": 3,
@@ -14532,7 +14614,9 @@
                 "start_date": null,
                 "end_date": null,
                 "appointment_types": [],
-                "release_window": null
+                "release_window": null,
+                "virtual": true,
+                "location": null
               },
               {
                 "day": 4,
@@ -14541,7 +14625,9 @@
                 "start_date": null,
                 "end_date": null,
                 "appointment_types": [],
-                "release_window": null
+                "release_window": null,
+                "virtual": true,
+                "location": null
               },
               {
                 "day": 5,
@@ -14550,7 +14636,9 @@
                 "start_date": null,
                 "end_date": null,
                 "appointment_types": [],
-                "release_window": null
+                "release_window": null,
+                "virtual": true,
+                "location": null
               }
             ]
           },
@@ -14622,13 +14710,35 @@
                         ],
                         "nullable": true,
                         "description": "The time (in hours) before this availability rule when this availability is released and appointments that don't match the rule criteria can be booked.\n\nFor example, say you have a 3pm - 5pm availability rule restricted to Urgent Care visits. Typically, this would mean that only Urgent Care visits could be scheduled during that time. If you only had one hour of Urgent Care visits booked, then an hour of your day would go unutilized.\n\nUsing release windows, you can set the time at which the remaining Urgent Care visit capacity is released for any appointment type. if you set release window to 1 hour, for example, then starting at 2pm, your members would be able to book non-Urgent Care visits at 3pm. Starting at 3pm, members would be able to book non-Urgent Care visits at 4pm, and so on."
+                      },
+                      "virtual": {
+                        "type": "boolean",
+                        "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                      },
+                      "location": {
+                        "oneOf": [
+                          {
+                            "type": "string"
+                          },
+                          {
+                            "$ref": "#/components/schemas/location"
+                          }
+                        ],
+                        "x-expandable": {
+                          "$ref": "#/components/schemas/location"
+                        },
+                        "description": "The physical location in which the user will be located during this availability block. A user may only be assigned to a single physical location per time block. When a location is added to a time block, the user will be able to be booked at that location.\n\nNote that this field is present on availability schedules for locations as well, but is ignored.",
+                        "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                        "nullable": true
                       }
                     },
                     "required": [
                       "start",
                       "end",
                       "appointment_types",
-                      "release_window"
+                      "release_window",
+                      "virtual",
+                      "location"
                     ]
                   }
                 }
