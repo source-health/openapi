@@ -2766,6 +2766,7 @@ paths:
           name: member
           schema:
             type: string
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
             description: The ID of the member whose devices should be returned.
           required: false
           description: The ID of the member whose devices should be returned.
@@ -8103,6 +8104,15 @@ paths:
                             description: Value for the measurement.
                           unit:
                             type: string
+                            enum:
+                              - lbs
+                              - kg
+                              - mmHg
+                              - Pa
+                              - kPa
+                              - bpm
+                              - mg/dL
+                              - "%"
                             description: Unit that the measurement is reported in.
                         required:
                           - value
@@ -8154,7 +8164,15 @@ paths:
                       description: Value for the measurement.
                     unit:
                       type: string
-                      minLength: 1
+                      enum:
+                        - lbs
+                        - kg
+                        - mmHg
+                        - Pa
+                        - kPa
+                        - bpm
+                        - mg/dL
+                        - "%"
                       description: Unit that the measurement is reported in.
                   required:
                     - type
