@@ -1384,6 +1384,18 @@
             },
             "required": false,
             "description": "When set to true, filter appointment types to only those which are bookable by a member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "include_deleted",
+            "schema": {
+              "type": "boolean",
+              "description": "When set to true, deleted appointment types are included."
+            },
+            "required": false,
+            "description": "When set to true, deleted appointment types are included."
           }
         ],
         "responses": {
@@ -14729,6 +14741,13 @@
             "format": "date-time",
             "description": "Timestamp when the appointment type was last updated.",
             "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the appointment type was deleted.",
+            "example": "2021-05-13T16:33:00.000Z"
           }
         },
         "required": [
@@ -14753,7 +14772,8 @@
           "reminders",
           "recurrence",
           "created_at",
-          "updated_at"
+          "updated_at",
+          "deleted_at"
         ],
         "title": "Appointment Type",
         "description": "Appointment types describe the different types of appointments that members can book with you.\n\nEach appointment type has associated configuration that describes how events of that type should be booked, including when they're available to be booked, the standard duration and timing information, as well as with whom they can be booked. You can create and manage appointment types based on your specific booking needs.\n\nNote that appointment types include several fields which are copied to an appointment at the time of creation. These fields, such as the duration, pre buffer and post buffer, can be changed on the appointment type at any time, but will not be reflected on appointments of that type which have already been booked.",
