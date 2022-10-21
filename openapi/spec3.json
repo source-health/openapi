@@ -338,6 +338,60 @@
                     ],
                     "nullable": true,
                     "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
+                  },
+                  "recurrence": {
+                    "type": "object",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "weekly"
+                        ],
+                        "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval').",
+                        "example": "weekly"
+                      },
+                      "interval": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 20,
+                        "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                        "example": 1
+                      },
+                      "count": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 52,
+                        "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `until` must be set."
+                      },
+                      "until": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date at which the recurring series will end. This date is inclusive, so if an appointment instance falls on this date, that appointment will be booked. One and only one of `count` or `until` must be set."
+                      },
+                      "days_of_week": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "MO",
+                            "TU",
+                            "WE",
+                            "TH",
+                            "FR",
+                            "SA",
+                            "SU"
+                          ]
+                        },
+                        "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
+                      }
+                    },
+                    "required": [
+                      "frequency",
+                      "interval",
+                      "days_of_week"
+                    ],
+                    "nullable": true,
+                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 },
                 "required": [
@@ -745,6 +799,60 @@
                     ],
                     "nullable": true,
                     "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
+                  },
+                  "recurrence": {
+                    "type": "object",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "weekly"
+                        ],
+                        "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval').",
+                        "example": "weekly"
+                      },
+                      "interval": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 20,
+                        "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                        "example": 1
+                      },
+                      "count": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 52,
+                        "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `until` must be set."
+                      },
+                      "until": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "The date at which the recurring series will end. This date is inclusive, so if an appointment instance falls on this date, that appointment will be booked. One and only one of `count` or `until` must be set."
+                      },
+                      "days_of_week": {
+                        "type": "array",
+                        "items": {
+                          "type": "string",
+                          "enum": [
+                            "MO",
+                            "TU",
+                            "WE",
+                            "TH",
+                            "FR",
+                            "SA",
+                            "SU"
+                          ]
+                        },
+                        "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
+                      }
+                    },
+                    "required": [
+                      "frequency",
+                      "interval",
+                      "days_of_week"
+                    ],
+                    "nullable": true,
+                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 }
               }
@@ -1099,6 +1207,58 @@
                       ]
                     },
                     "description": "The reminder configuration for this appointment type. Each appointment created with this type will inherit the reminder configuration of the appointment type. Changes to reminder configuration will be applied to all future appointments.\n\nYou may configure up to five reminders per appointment type."
+                  },
+                  "recurrence": {
+                    "type": "object",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "weekly"
+                        ],
+                        "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval')",
+                        "example": "weekly"
+                      },
+                      "interval": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 12,
+                        "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                        "example": 1
+                      },
+                      "count": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 52,
+                        "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `duration` must be set."
+                      },
+                      "duration": {
+                        "type": "object",
+                        "properties": {
+                          "amount": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "enum": [
+                              "days",
+                              "weeks"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "amount",
+                          "unit"
+                        ],
+                        "description": "Total length of time, expressed in number of days or weeks.\n\nOne and only one of `count` or `duration` must be set."
+                      }
+                    },
+                    "required": [
+                      "frequency",
+                      "interval"
+                    ],
+                    "nullable": true,
+                    "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 },
                 "required": [
@@ -1516,6 +1676,58 @@
                       ]
                     },
                     "description": "The reminder configuration for this appointment type. Each appointment created with this type will inherit the reminder configuration of the appointment type. Changes to reminder configuration will be applied to all future appointments.\n\nYou may configure up to five reminders per appointment type."
+                  },
+                  "recurrence": {
+                    "type": "object",
+                    "properties": {
+                      "frequency": {
+                        "type": "string",
+                        "enum": [
+                          "weekly"
+                        ],
+                        "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval')",
+                        "example": "weekly"
+                      },
+                      "interval": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 12,
+                        "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                        "example": 1
+                      },
+                      "count": {
+                        "type": "number",
+                        "minimum": 1,
+                        "maximum": 52,
+                        "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `duration` must be set."
+                      },
+                      "duration": {
+                        "type": "object",
+                        "properties": {
+                          "amount": {
+                            "type": "number"
+                          },
+                          "unit": {
+                            "type": "string",
+                            "enum": [
+                              "days",
+                              "weeks"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "amount",
+                          "unit"
+                        ],
+                        "description": "Total length of time, expressed in number of days or weeks.\n\nOne and only one of `count` or `duration` must be set."
+                      }
+                    },
+                    "required": [
+                      "frequency",
+                      "interval"
+                    ],
+                    "nullable": true,
+                    "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 }
               }
@@ -14139,6 +14351,80 @@
             "description": "Indicates that this appointment was imported from an external integrated calendar, such as Google Calendar. External appointments are managed by Source directly and cannot be updated via API.",
             "example": false
           },
+          "recurrence": {
+            "type": "object",
+            "properties": {
+              "frequency": {
+                "type": "string",
+                "enum": [
+                  "weekly"
+                ],
+                "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval').",
+                "example": "weekly"
+              },
+              "interval": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 20,
+                "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                "example": 1
+              },
+              "count": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 52,
+                "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `until` must be set."
+              },
+              "until": {
+                "type": "string",
+                "format": "date",
+                "description": "The date at which the recurring series will end. This date is inclusive, so if an appointment instance falls on this date, that appointment will be booked. One and only one of `count` or `until` must be set."
+              },
+              "days_of_week": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": [
+                    "MO",
+                    "TU",
+                    "WE",
+                    "TH",
+                    "FR",
+                    "SA",
+                    "SU"
+                  ]
+                },
+                "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
+              }
+            },
+            "required": [
+              "frequency",
+              "interval",
+              "days_of_week"
+            ],
+            "nullable": true,
+            "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+          },
+          "virtual": {
+            "type": "boolean",
+            "description": "'Virtual' appointments do not represent an actual booking at that moment in time, but are used for configuring a recurring series of appointments.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+          },
+          "series": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/appointment"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/appointment"
+            },
+            "description": "Indicates that the appointment is part of a recurring series. The configuration of the series is stored as virtual 'series' appointment, and this field is an expandable reference to that series appointment.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.\n\nTo cancel a series, transition the series appointment into 'canceled' status, which will cancel any future appointments in the series.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details.",
+            "example": "appt_mTvufYJBBgYmbEAEZ6rE",
+            "nullable": true
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -14167,6 +14453,9 @@
           "participants",
           "video_call",
           "externally_managed",
+          "recurrence",
+          "virtual",
+          "series",
           "created_at",
           "updated_at"
         ],
@@ -14377,6 +14666,58 @@
             },
             "description": "The reminder configuration for this appointment type. Each appointment created with this type will inherit the reminder configuration of the appointment type. Changes to reminder configuration will be applied to all future appointments.\n\nYou may configure up to five reminders per appointment type."
           },
+          "recurrence": {
+            "type": "object",
+            "properties": {
+              "frequency": {
+                "type": "string",
+                "enum": [
+                  "weekly"
+                ],
+                "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval')",
+                "example": "weekly"
+              },
+              "interval": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 12,
+                "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
+                "example": 1
+              },
+              "count": {
+                "type": "number",
+                "minimum": 1,
+                "maximum": 52,
+                "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `duration` must be set."
+              },
+              "duration": {
+                "type": "object",
+                "properties": {
+                  "amount": {
+                    "type": "number"
+                  },
+                  "unit": {
+                    "type": "string",
+                    "enum": [
+                      "days",
+                      "weeks"
+                    ]
+                  }
+                },
+                "required": [
+                  "amount",
+                  "unit"
+                ],
+                "description": "Total length of time, expressed in number of days or weeks.\n\nOne and only one of `count` or `duration` must be set."
+              }
+            },
+            "required": [
+              "frequency",
+              "interval"
+            ],
+            "nullable": true,
+            "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -14410,6 +14751,7 @@
           "groups",
           "license_types",
           "reminders",
+          "recurrence",
           "created_at",
           "updated_at"
         ],
