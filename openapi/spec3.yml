@@ -3717,6 +3717,366 @@ paths:
                   - has_more
       x-methodName: list
       x-belongsToResource: event
+  "/v1/objects/{object}/fields":
+    post:
+      description: >-
+        Creates a new field.
+
+
+        Currently, Source only allows the creation of custom fields on a member resource. Other
+        resources will support fields in future API updates.
+      tags: []
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: object
+          schema:
+            type: string
+          required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                key:
+                  type: string
+                  minLength: 1
+                  maxLength: 255
+                  pattern: ^[a-z0-9_-]+$
+                  description: >-
+                    The key for this field, for use in the API. Keys must be alphanumeric strings
+                    and can contain hyphens or underscores.
+
+
+                    Once a field has been created, its key cannot change. You are able to change its
+                    display name.
+                  example: payer
+                name:
+                  type: string
+                  description:
+                    The display name for a custom field. This is the name that will show in visual
+                    presentations of this field to members or users.
+                  example: Payer
+                type:
+                  type: string
+                  enum:
+                    - string
+                    - text
+                    - number
+                    - date
+                    - enum
+                  description: >-
+                    The data type of this custom field. The following data types are supported:
+
+
+                    - string: a single line of text, up to 255 characters - text: a long form text
+                    input, with no predefined length - number: a number, or string which can be
+                    interpreted as a number - date: a date, without a time component
+
+
+                    Note that once a field is created, its data type cannot change.
+                  example: string
+                description:
+                  type: string
+                  nullable: true
+                  description:
+                    User-facing description for this field. This description can be updated as
+                    needed. Descriptions are not shared with members.
+                  example: Carrier for this member's insurance policy
+                member_access:
+                  type: string
+                  enum:
+                    - none
+                    - read
+                    - write
+                  description:
+                    Access level that members should be granted to this field. By default, fields
+                    are created with member access level 'none', indicating they can not read or
+                    write ot the field. You may also use 'read', which will allow members to read
+                    field data, but not write. Alternatively, you can use 'write' which grants the
+                    member read/write access.
+                  example: none
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      label:
+                        type: string
+                    required:
+                      - key
+                      - label
+                  description:
+                    A list of options available for this field. You can create and update an array
+                    of options, each with a unique key and a display label, in order to store
+                    discrete values within the field.
+                  example:
+                    - key: aetna
+                      label: Aetna
+                    - key: humana
+                      label: Humana
+              required:
+                - key
+                - name
+                - type
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/field"
+      x-methodName: create
+      x-belongsToResource: field
+    get:
+      description: Lists all fields belonging to the provided object.
+      tags: []
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: object
+          schema:
+            type: string
+          required: true
+        - in: query
+          style: form
+          explode: true
+          name: ending_before
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `ending_before` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
+              to fetch the previous page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `ending_before` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, starting
+            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
+            the previous page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: starting_after
+          schema:
+            type: string
+            description:
+              A cursor for use in pagination. `starting_after` is an object ID that defines your
+              place in the list. For instance, if you make a list request and receive 100 objects,
+              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
+              to fetch the next page of the list.
+          required: false
+          description:
+            A cursor for use in pagination. `starting_after` is an object ID that defines your place
+            in the list. For instance, if you make a list request and receive 100 objects, ending
+            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
+            the next page of the list.
+        - in: query
+          style: form
+          explode: true
+          name: limit
+          schema:
+            type: number
+            minimum: 1
+            maximum: 100
+            description:
+              A limit on the number of objects to be returned. Limit can range between 1 and 100.
+          required: false
+          description:
+            A limit on the number of objects to be returned. Limit can range between 1 and 100.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  object:
+                    type: string
+                    default: list
+                    enum:
+                      - list
+                    example: list
+                    description: Always `list`.
+                  data:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/field"
+                    description: Array of results
+                  has_more:
+                    type: boolean
+                    description: Contains `true` if there is another page of results available.
+                required:
+                  - object
+                  - data
+                  - has_more
+      x-methodName: list
+      x-belongsToResource: field
+  "/v1/objects/{object}/fields/{id}":
+    post:
+      description: >-
+        Updates an existing field, referenced by its unique identifier.
+
+
+        Once a field is created, its neither its key nor data type can be modified. If you need to
+        change data types, you may create another field, migrate the data using the API, and delete
+        the first field.
+      tags: []
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: object
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cf_LQliw4doEFtGKl1Bb9vJ
+            description: Unique ID of the field.
+          required: true
+          description: Unique ID of the field.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description:
+                    The display name for a custom field. This is the name that will show in visual
+                    presentations of this field to members or users.
+                  example: Payer
+                description:
+                  type: string
+                  nullable: true
+                  description:
+                    User-facing description for this field. This description can be updated as
+                    needed. Descriptions are not shared with members.
+                  example: Carrier for this member's insurance policy
+                member_access:
+                  type: string
+                  enum:
+                    - none
+                    - read
+                    - write
+                  description:
+                    Access level that members should be granted to this field. By default, fields
+                    are created with member access level 'none', indicating they can not read or
+                    write ot the field. You may also use 'read', which will allow members to read
+                    field data, but not write. Alternatively, you can use 'write' which grants the
+                    member read/write access.
+                  example: none
+                options:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      key:
+                        type: string
+                      label:
+                        type: string
+                    required:
+                      - key
+                      - label
+                  description:
+                    A list of options available for this field. You can create and update an array
+                    of options, each with a unique key and a display label, in order to store
+                    discrete values within the field.
+                  example:
+                    - key: aetna
+                      label: Aetna
+                    - key: humana
+                      label: Humana
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/field"
+      x-methodName: update
+      x-belongsToResource: field
+    get:
+      tags: []
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: object
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cf_LQliw4doEFtGKl1Bb9vJ
+            description: Unique ID of the field.
+          required: true
+          description: Unique ID of the field.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/field"
+      x-methodName: retrieve
+      x-belongsToResource: field
+    delete:
+      description: >-
+        Deletes an existing field, referenced by its unique identifier.
+
+
+        **Important**: Deleting a field is a destructive action. When deleting a field, Source
+        schedules a cleanup action that will remove any value provided to that field, for any
+        resource referencing the field. This action is irreversible.
+
+
+        Please ensure you no longer need the data in a field before deleting it.
+      tags: []
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: object
+          schema:
+            type: string
+          required: true
+        - in: path
+          style: simple
+          explode: true
+          name: id
+          schema:
+            type: string
+            example: cf_LQliw4doEFtGKl1Bb9vJ
+            description: Unique ID of the field.
+          required: true
+          description: Unique ID of the field.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/field"
+      x-methodName: delete
+      x-belongsToResource: field
   /v1/files:
     post:
       summary: Upload a File
@@ -8915,6 +9275,17 @@ paths:
                     An array of external identifiers for the member. Each identifier is associated
                     with a particular external integration. The member's external identifier must be
                     unique for a given integration.
+                custom_fields:
+                  type: object
+                  additionalProperties: {}
+                  description: >-
+                    Custom fields associated with the user. Custom fields must be registered with
+                    the Fields API before they can be used on resources, such as a member.
+
+
+                    Once you've created a custom field, its value will be returned on the related
+                    member. You may also use custom fields when filtering members, using the List
+                    all Members endpoint.
               required:
                 - first_name
                 - last_name
@@ -9450,6 +9821,17 @@ paths:
                     An array of external identifiers for the member. Each identifier is associated
                     with a particular external integration. The member's external identifier must be
                     unique for a given integration.
+                custom_fields:
+                  type: object
+                  additionalProperties: {}
+                  description: >-
+                    Custom fields associated with the user. Custom fields must be registered with
+                    the Fields API before they can be used on resources, such as a member.
+
+
+                    Once you've created a custom field, its value will be returned on the related
+                    member. You may also use custom fields when filtering members, using the List
+                    all Members endpoint.
       responses:
         default:
           description: Successful response.
@@ -15575,6 +15957,152 @@ components:
         [here](https://docs.sourcehealth.com/docs/api/webhooks/).
       x-resourceId: event
       x-package: null
+    field:
+      type: object
+      properties:
+        object:
+          type: string
+          default: field
+          enum:
+            - field
+          example: field
+          description: Always `field`.
+        id:
+          type: string
+          example: cf_LQliw4doEFtGKl1Bb9vJ
+          description: Unique ID for the field.
+        key:
+          type: string
+          minLength: 1
+          maxLength: 255
+          pattern: ^[a-z0-9_-]+$
+          description: >-
+            The key for this field, for use in the API. Keys must be alphanumeric strings and can
+            contain hyphens or underscores.
+
+
+            Once a field has been created, its key cannot change. You are able to change its display
+            name.
+          example: payer
+        name:
+          type: string
+          description:
+            The display name for a custom field. This is the name that will show in visual
+            presentations of this field to members or users.
+          example: Payer
+        resource_type:
+          type: string
+          description:
+            The resource to which the field belongs. Currently, custom fields are only supported on
+            members.
+          example: member
+        type:
+          type: string
+          enum:
+            - string
+            - text
+            - number
+            - date
+            - enum
+          description: >-
+            The data type of this custom field. The following data types are supported:
+
+
+            - string: a single line of text, up to 255 characters - text: a long form text input,
+            with no predefined length - number: a number, or string which can be interpreted as a
+            number - date: a date, without a time component
+
+
+            Note that once a field is created, its data type cannot change.
+          example: string
+        description:
+          type: string
+          nullable: true
+          description:
+            User-facing description for this field. This description can be updated as needed.
+            Descriptions are not shared with members.
+          example: Carrier for this member's insurance policy
+        member_access:
+          type: string
+          enum:
+            - none
+            - read
+            - write
+          description:
+            Access level that members should be granted to this field. By default, fields are
+            created with member access level 'none', indicating they can not read or write ot the
+            field. You may also use 'read', which will allow members to read field data, but not
+            write. Alternatively, you can use 'write' which grants the member read/write access.
+          example: none
+        options:
+          type: array
+          items:
+            type: object
+            properties:
+              key:
+                type: string
+              label:
+                type: string
+            required:
+              - key
+              - label
+          description:
+            A list of options available for this field. You can create and update an array of
+            options, each with a unique key and a display label, in order to store discrete values
+            within the field.
+          example:
+            - key: aetna
+              label: Aetna
+            - key: humana
+              label: Humana
+        created_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the field was created.
+          example: 2021-05-13T16:33:00.000Z
+        updated_at:
+          type: string
+          format: date-time
+          description: Timestamp of when the field was last updated.
+          example: 2021-05-13T16:33:00.000Z
+        deleted_at:
+          type: string
+          format: date-time
+          description:
+            Timestamp when the field was deleted, which is only present for deleted fields. Deleted
+            fields are not typically returned by the API, however they are returned in
+            `field.deleted` events and expanded references on other objects.
+          example: 2021-05-13T16:33:00.000Z
+      required:
+        - object
+        - id
+        - key
+        - name
+        - resource_type
+        - type
+        - description
+        - member_access
+        - options
+        - created_at
+        - updated_at
+      title: Field
+      description: >-
+        The Fields API allows you to define custom fields to extend the default behavior of Source
+        resources, such as members. Using Fields, you can store customer-defined attributes with
+        each resource, eliminating the need to manage separate databases and storage systems when
+        you have information that doesn't quite match to a pre-defined field.
+
+
+        You might use Fields to define the plan level to which a member is subscribed, information
+        about the  specific care protocol they're on, or even just where they are in their treatment
+        journey.
+
+
+        During this preview period, Fields are only available on the member resource. When they're
+        released out of preview mode, they'll be made available on other resources as well.
+      x-resourceId: field
+      x-package: null
+      x-preview: true
     file:
       type: object
       properties:
@@ -19122,6 +19650,17 @@ components:
             An array of external identifiers for the member. Each identifier is associated with a
             particular external integration. The member's external identifier must be unique for a
             given integration.
+        custom_fields:
+          type: object
+          additionalProperties: {}
+          description: >-
+            Custom fields associated with the user. Custom fields must be registered with the Fields
+            API before they can be used on resources, such as a member.
+
+
+            Once you've created a custom field, its value will be returned on the related member.
+            You may also use custom fields when filtering members, using the List all Members
+            endpoint.
         created_at:
           type: string
           format: date-time
@@ -19156,6 +19695,7 @@ components:
         - enrollment_status
         - access_level
         - external_identifiers
+        - custom_fields
         - created_at
         - updated_at
       title: Member
@@ -21698,6 +22238,9 @@ components:
         - device.deactivated
         - device.deleted
         - file.created
+        - field.created
+        - field.updated
+        - field.deleted
         - form.created
         - form.updated
         - form_response.created
