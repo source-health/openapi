@@ -3620,6 +3620,7 @@
     },
     "/v1/objects/{object}/fields": {
       "post": {
+        "summary": "Create a Field",
         "description": "Creates a new field.\n\nCurrently, Source only allows the creation of custom fields on a member resource. Other resources will support fields in future API updates.",
         "tags": [],
         "parameters": [
@@ -3662,7 +3663,7 @@
                       "date",
                       "enum"
                     ],
-                    "description": "The data type of this custom field. The following data types are supported:\n\n- string: a single line of text, up to 255 characters - text: a long form text input, with no predefined length - number: a number, or string which can be interpreted as a number - date: a date, without a time component\n\nNote that once a field is created, its data type cannot change.",
+                    "description": "The data type of this custom field. The following data types are supported:\n\n- string: a single line of text, up to 255 characters\n\n- text: a long form text input, with no predefined length\n\n- number: a number, or string which can be interpreted as a number\n\n- date: a date, without a time component\n\nNote that once a field is created, its data type cannot change.",
                     "example": "string"
                   },
                   "description": {
@@ -3736,6 +3737,7 @@
         "x-belongsToResource": "field"
       },
       "get": {
+        "summary": "List all Fields",
         "description": "Lists all fields belonging to the provided object.",
         "tags": [],
         "parameters": [
@@ -3833,6 +3835,7 @@
     },
     "/v1/objects/{object}/fields/{id}": {
       "post": {
+        "summary": "Update a Field",
         "description": "Updates an existing field, referenced by its unique identifier.\n\nOnce a field is created, its neither its key nor data type can be modified. If you need to change data types, you may create another field, migrate the data using the API, and delete the first field.",
         "tags": [],
         "parameters": [
@@ -3937,6 +3940,8 @@
         "x-belongsToResource": "field"
       },
       "get": {
+        "summary": "Retrieve a Field",
+        "description": "Retrieves the details of an existing field on an object.",
         "tags": [],
         "parameters": [
           {
@@ -3979,6 +3984,7 @@
         "x-belongsToResource": "field"
       },
       "delete": {
+        "summary": "Delete a Field",
         "description": "Deletes an existing field, referenced by its unique identifier.\n\n**Important**: Deleting a field is a destructive action. When deleting a field, Source schedules a cleanup action that will remove any value provided to that field, for any resource referencing the field. This action is irreversible.\n\nPlease ensure you no longer need the data in a field before deleting it.",
         "tags": [],
         "parameters": [
@@ -16519,7 +16525,7 @@
               "date",
               "enum"
             ],
-            "description": "The data type of this custom field. The following data types are supported:\n\n- string: a single line of text, up to 255 characters - text: a long form text input, with no predefined length - number: a number, or string which can be interpreted as a number - date: a date, without a time component\n\nNote that once a field is created, its data type cannot change.",
+            "description": "The data type of this custom field. The following data types are supported:\n\n- string: a single line of text, up to 255 characters\n\n- text: a long form text input, with no predefined length\n\n- number: a number, or string which can be interpreted as a number\n\n- date: a date, without a time component\n\nNote that once a field is created, its data type cannot change.",
             "example": "string"
           },
           "description": {

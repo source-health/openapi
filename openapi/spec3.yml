@@ -3719,6 +3719,7 @@ paths:
       x-belongsToResource: event
   "/v1/objects/{object}/fields":
     post:
+      summary: Create a Field
       description: >-
         Creates a new field.
 
@@ -3771,9 +3772,16 @@ paths:
                     The data type of this custom field. The following data types are supported:
 
 
-                    - string: a single line of text, up to 255 characters - text: a long form text
-                    input, with no predefined length - number: a number, or string which can be
-                    interpreted as a number - date: a date, without a time component
+                    - string: a single line of text, up to 255 characters
+
+
+                    - text: a long form text input, with no predefined length
+
+
+                    - number: a number, or string which can be interpreted as a number
+
+
+                    - date: a date, without a time component
 
 
                     Note that once a field is created, its data type cannot change.
@@ -3833,6 +3841,7 @@ paths:
       x-methodName: create
       x-belongsToResource: field
     get:
+      summary: List all Fields
       description: Lists all fields belonging to the provided object.
       tags: []
       parameters:
@@ -3921,6 +3930,7 @@ paths:
       x-belongsToResource: field
   "/v1/objects/{object}/fields/{id}":
     post:
+      summary: Update a Field
       description: >-
         Updates an existing field, referenced by its unique identifier.
 
@@ -4010,6 +4020,8 @@ paths:
       x-methodName: update
       x-belongsToResource: field
     get:
+      summary: Retrieve a Field
+      description: Retrieves the details of an existing field on an object.
       tags: []
       parameters:
         - in: path
@@ -4039,6 +4051,7 @@ paths:
       x-methodName: retrieve
       x-belongsToResource: field
     delete:
+      summary: Delete a Field
       description: >-
         Deletes an existing field, referenced by its unique identifier.
 
@@ -16008,9 +16021,16 @@ components:
             The data type of this custom field. The following data types are supported:
 
 
-            - string: a single line of text, up to 255 characters - text: a long form text input,
-            with no predefined length - number: a number, or string which can be interpreted as a
-            number - date: a date, without a time component
+            - string: a single line of text, up to 255 characters
+
+
+            - text: a long form text input, with no predefined length
+
+
+            - number: a number, or string which can be interpreted as a number
+
+
+            - date: a date, without a time component
 
 
             Note that once a field is created, its data type cannot change.
