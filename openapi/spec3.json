@@ -2015,7 +2015,7 @@
                               },
                               "virtual": {
                                 "type": "boolean",
-                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. By default, this field is true. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                               },
                               "location": {
                                 "type": "string",
@@ -2281,7 +2281,7 @@
                               },
                               "virtual": {
                                 "type": "boolean",
-                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time."
+                                "description": "Whether or not the user should be considered available for virtual appointments (i.e. video and phone calls) during the available time block. By default, this field is true. You may choose to set this to false if the user is working in a physical location and should not be taking telemedicine visits during this time.\n\nNote that this field is present on availability schedules for locations as well, but is ignored."
                               },
                               "location": {
                                 "type": "string",
@@ -8838,8 +8838,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "virtual",
-                "physical"
+                "physical",
+                "virtual"
               ],
               "description": "Limit results to locations of the provided type."
             },
@@ -11546,11 +11546,11 @@
             "name": "license_region",
             "schema": {
               "type": "string",
-              "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member.",
+              "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member. If a physical location is specified in the location parameter, this parameter should not be used.",
               "example": "US-NY"
             },
             "required": false,
-            "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member."
+            "description": "Region of the member for whom the appointment is being booked. This is represented as an ISO-3166-2:US code. You can use this parameter when finding slots when you don't yet have a member or if the member's address is missing. If a member with an address is specified or inferred (using a member token), this parameter should not be used and fails if the license_region does not match that of the member. If a physical location is specified in the location parameter, this parameter should not be used."
           },
           {
             "in": "query",
@@ -11719,6 +11719,35 @@
             },
             "required": false,
             "description": "The duration of the appointment to book, in minutes. By default, Source will use either the appointment type's duration or, if provided, the rescheduling appointment's duration. However, you may specify an alternative duration here to calculate slots for an appointment of a different length.\n\nMust be a number between 5 and 360 minutes (6 hours)."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "location_type",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "physical",
+                "virtual"
+              ],
+              "description": "Type of location for which to find availability. By default, slots are returned for the `virtual` location type. If you specify a `physical` location type, you must also specify the location's identifier in the `location` parameter."
+            },
+            "required": false,
+            "description": "Type of location for which to find availability. By default, slots are returned for the `virtual` location type. If you specify a `physical` location type, you must also specify the location's identifier in the `location` parameter."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "location",
+            "schema": {
+              "type": "string",
+              "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+              "description": "Identifier of the location for which to find availability. This parameter is required if you specify a `physical` location in the `location_type` parameter. If you are searching for `virtual` availability, this parameter should not be used and fails if a location identifier is passed. If the appointment type requires that license checks be performed, the location's region is used to evaluate participants' licensure."
+            },
+            "required": false,
+            "description": "Identifier of the location for which to find availability. This parameter is required if you specify a `physical` location in the `location_type` parameter. If you are searching for `virtual` availability, this parameter should not be used and fails if a location identifier is passed. If the appointment type requires that license checks be performed, the location's region is used to evaluate participants' licensure."
           }
         ],
         "responses": {
