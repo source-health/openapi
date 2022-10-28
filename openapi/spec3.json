@@ -1222,7 +1222,7 @@
                       "interval": {
                         "type": "number",
                         "minimum": 1,
-                        "maximum": 12,
+                        "maximum": 20,
                         "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
                         "example": 1
                       },
@@ -1703,7 +1703,7 @@
                       "interval": {
                         "type": "number",
                         "minimum": 1,
-                        "maximum": 12,
+                        "maximum": 20,
                         "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
                         "example": 1
                       },
@@ -15141,7 +15141,7 @@
               "interval": {
                 "type": "number",
                 "minimum": 1,
-                "maximum": 12,
+                "maximum": 20,
                 "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
                 "example": 1
               },
