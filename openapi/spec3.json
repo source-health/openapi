@@ -244,6 +244,35 @@
                     "description": "Unique ID or key of the appointment type for this appointment.",
                     "example": "intake_visit"
                   },
+                  "location": {
+                    "type": "object",
+                    "properties": {
+                      "type": {
+                        "type": "string",
+                        "enum": [
+                          "physical",
+                          "virtual"
+                        ],
+                        "description": "Type of location where the appointment is booked. If you specify a `physical` location type, you must also specify the location's identifier in the `location` parameter.",
+                        "example": "physical"
+                      },
+                      "location": {
+                        "type": "string",
+                        "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+                        "nullable": true,
+                        "description": "Identifier of the location where the appointment is booked. The location is required if you specify a `physical` location type. If you are booking a `virtual` appointment, this parameter should not be used and fails if a location identifier is passed. If the appointment type requires that license checks be performed, the location's region is used to evaluate participants' licensure."
+                      }
+                    },
+                    "required": [
+                      "type"
+                    ],
+                    "nullable": true,
+                    "description": "The location where the appointment is booked. By default, the appointment is booked in the `virtual` location. In order to book the appointment at a physical location, you must specify both the `physical` location type and the identifier of the physical location.",
+                    "example": {
+                      "type": "physical",
+                      "location": "loc_EtTXhFHUtCXO1JWBd8TN"
+                    }
+                  },
                   "time_zone": {
                     "type": "string",
                     "description": "Time zone in which the appointment should be scheduled. Changing this value has no impact on the actual time of the appointment, which is always provided in UTC. However, this value may be used when formatting the appointment time for representation, and recalculating the UTC time in the event of a time zone rule change.",
@@ -14656,6 +14685,22 @@
             "example": "aptp_meYUvkuaI2akjnb5Kwt7",
             "nullable": true
           },
+          "location": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/location"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/location"
+            },
+            "description": "The location where this appointment is booked.",
+            "example": "loc_EtTXhFHUtCXO1JWBd8TN",
+            "nullable": true
+          },
           "member": {
             "oneOf": [
               {
@@ -14903,6 +14948,7 @@
           "object",
           "id",
           "appointment_type",
+          "location",
           "member",
           "subject",
           "instructions",
