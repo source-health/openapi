@@ -11580,6 +11580,141 @@ paths:
                   - participants
       x-methodName: list
       x-belongsToResource: slot
+  /v1/scheduling/recurring_slots:
+    post:
+      summary: List slot availability for a series of recurring appointments
+      description: >-
+        This endpoint lists all potential recurring instances of a recurring series, given the
+        proposed start timestamp of the first appointment in the series. The response will indicate
+        which instances of the series are not bookable due to lack of provider availability or
+        conflicting appointments.
+
+
+        This endpoint is accessible using member tokens, allowing your patient portal to query the
+        Source API for availability directly.
+      tags:
+        - Slots
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                appointment_type:
+                  type: string
+                  description:
+                    The appointment type of the proposed recurring series. You may provide either
+                    the appointment types ID or key.
+                  example: intake_visit
+                start_at:
+                  type: string
+                  format: date-time
+                  description: The start time of the proposed first appointment in the series.
+                  example: 2021-05-13T16:33:00.000Z
+                end_at:
+                  type: string
+                  format: date-time
+                  description: The end time of the proposed first appointment in the series.
+                  example: 2021-05-13T16:33:00.000Z
+                time_zone:
+                  type: string
+                  description:
+                    'The time zone that recurring slots are calculated in. When the recurring series
+                    crosses a daylight savings boundary, the time zone defines the behavior: "Every
+                    Monday at 4pm" means "4pm in this time zone" and the appointment time will be
+                    4pm on before and after the daylight savings change.'
+                  example: America/Los_Angeles
+                output_time_zone:
+                  type: string
+                  description:
+                    "By default, slots are formatted in UTC time. Providing another time zone here
+                    has only effect: the slots returned from the API will be formatted in this time
+                    zone. This differs from most other endpoints, which always return times in UTC."
+                  example: America/New_York
+                participants:
+                  type: array
+                  items:
+                    type: string
+                    example: usr_qoGndHzx8KwdYsEByt9X
+                  description:
+                    Provide a set of users that will be participating in the recurring appointments.
+                    This should match the particpants selected for the proposed initial appointment.
+                recurrence:
+                  type: object
+                  properties:
+                    frequency:
+                      type: string
+                      enum:
+                        - weekly
+                      description:
+                        How often the appointments should recur. Source only supports 'weekly' at
+                        this time (including "every N weeks", using 'interval').
+                      example: weekly
+                    interval:
+                      type: number
+                      minimum: 1
+                      maximum: 20
+                      description:
+                        How many of the `frequency` intervals between each appointment, i.e. 'every
+                        N weeks'.
+                      example: 1
+                    count:
+                      type: number
+                      minimum: 1
+                      maximum: 52
+                      description: |-
+                        How many total appointments should be in the series.
+
+                        One and only one of `count` or `until` must be set.
+                    until:
+                      type: string
+                      format: date
+                      description:
+                        The date at which the recurring series will end. This date is inclusive, so
+                        if an appointment instance falls on this date, that appointment will be
+                        booked. One and only one of `count` or `until` must be set.
+                    days_of_week:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - MO
+                          - TU
+                          - WE
+                          - TH
+                          - FR
+                          - SA
+                          - SU
+                      description:
+                        The days of the week on which appointments should occur. By providing
+                        multiple days, you can indicate multiple recurring appointments per week.
+                  required:
+                    - frequency
+                    - interval
+                    - days_of_week
+                  description: The configuration of the recurring series.
+                location:
+                  type: string
+                  example: loc_EtTXhFHUtCXO1JWBd8TN
+                  description:
+                    Identifier of the physical location for which to find availability. If no
+                    location is provided, slots are returned for the `virtual` location type.
+              required:
+                - appointment_type
+                - start_at
+                - end_at
+                - time_zone
+                - participants
+                - recurrence
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/recurring_slot"
+      x-methodName: list
+      x-belongsToResource: recurring_slot
   /v1/tags:
     post:
       summary: Create a Tag
@@ -21224,6 +21359,80 @@ components:
         automatically to an assignee within and beyond a member's care team.
       x-resourceId: queue
       x-package: null
+    recurring_slot:
+      type: object
+      properties:
+        object:
+          type: string
+          default: recurring_slot
+          enum:
+            - recurring_slot
+          example: recurring_slot
+          description: Always `recurring_slot`.
+        instances:
+          type: array
+          items:
+            type: object
+            properties:
+              start_at:
+                type: string
+                description: The start time of this recurring appointment slot.
+                example: 2021-05-13T16:33:00.000Z
+              end_at:
+                type: string
+                description: The end time of this recurring appointment slot.
+                example: 2021-05-13T16:33:00.000Z
+              conflicts:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    resource:
+                      anyOf:
+                        - type: string
+                          example: usr_qoGndHzx8KwdYsEByt9X
+                        - type: string
+                          example: loc_EtTXhFHUtCXO1JWBd8TN
+                    reasons:
+                      type: array
+                      items:
+                        type: string
+                        enum:
+                          - existing_appointment
+                          - participant_unavailable
+                          - location_unavailable
+                  required:
+                    - resource
+                    - reasons
+                description:
+                  The reasons, if any, why one or more of the requested participants cannot be
+                  booked for this recurring appointment slot, provided as an array of conflict
+                  reasons per participant. When empty, all particpants have scheduled availability
+                  for this slot and none have conflicting appointments.
+            required:
+              - start_at
+              - end_at
+              - conflicts
+      required:
+        - object
+        - instances
+      title: Recurring Slot
+      description: >-
+        Recurring slots represent the status of each instance of a series of recurring appointments.
+
+
+        Source's scheduling APIs can be used to power rich member self-booking workflows. For
+        recurring appointments, it is expected that the initial appointment time be selected first
+        using the Slots API, then the status of each instance within the recurring series can be
+        retrieved using this recurring slots API, before proceeding to book the series via the
+        Appointments API.
+
+
+        Unlike most other resources in the Source API, slots are not stored. As a result, they do
+        not have an identifier, nor do they trigger any kind of events. Instead, slots are
+        dynamically calculated as needed based on the availability of people in your team.
+      x-resourceId: slot
+      x-package: scheduling
     relationship:
       type: object
       properties:
