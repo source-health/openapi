@@ -402,13 +402,13 @@ paths:
                       items:
                         type: string
                         enum:
-                          - MO
-                          - TU
-                          - WE
-                          - TH
-                          - FR
-                          - SA
-                          - SU
+                          - monday
+                          - tuesday
+                          - wednesday
+                          - thursday
+                          - friday
+                          - saturday
+                          - sunday
                       description:
                         The days of the week on which appointments should occur. By providing
                         multiple days, you can indicate multiple recurring appointments per week.
@@ -419,11 +419,11 @@ paths:
                   nullable: true
                   description: >-
                     Defines the configuration of a recurring appointment. Appointments created as
-                    recurring series will be 'virtual', and Source will automatically create an
-                    appointment for each available time in the series.
+                    recurring series will have `series_parent` = true, and Source will automatically
+                    create an appointment for each available time in the series.
 
 
-                    Updating the virtual 'series' appointment will update any unmodified future
+                    Updating the series 'parent' appointment will update any unmodified future
                     appointments in the series, except for the start time, end times or duration.
                     Updating an individual appointment within the series will prevent the modified
                     fields from being updated when the series appointment is updated.  by default,
@@ -911,13 +911,13 @@ paths:
                       items:
                         type: string
                         enum:
-                          - MO
-                          - TU
-                          - WE
-                          - TH
-                          - FR
-                          - SA
-                          - SU
+                          - monday
+                          - tuesday
+                          - wednesday
+                          - thursday
+                          - friday
+                          - saturday
+                          - sunday
                       description:
                         The days of the week on which appointments should occur. By providing
                         multiple days, you can indicate multiple recurring appointments per week.
@@ -928,11 +928,11 @@ paths:
                   nullable: true
                   description: >-
                     Defines the configuration of a recurring appointment. Appointments created as
-                    recurring series will be 'virtual', and Source will automatically create an
-                    appointment for each available time in the series.
+                    recurring series will have `series_parent` = true, and Source will automatically
+                    create an appointment for each available time in the series.
 
 
-                    Updating the virtual 'series' appointment will update any unmodified future
+                    Updating the series 'parent' appointment will update any unmodified future
                     appointments in the series, except for the start time, end times or duration.
                     Updating an individual appointment within the series will prevent the modified
                     fields from being updated when the series appointment is updated.  by default,
@@ -11678,13 +11678,13 @@ paths:
                       items:
                         type: string
                         enum:
-                          - MO
-                          - TU
-                          - WE
-                          - TH
-                          - FR
-                          - SA
-                          - SU
+                          - monday
+                          - tuesday
+                          - wednesday
+                          - thursday
+                          - friday
+                          - saturday
+                          - sunday
                       description:
                         The days of the week on which appointments should occur. By providing
                         multiple days, you can indicate multiple recurring appointments per week.
@@ -14489,13 +14489,13 @@ components:
               items:
                 type: string
                 enum:
-                  - MO
-                  - TU
-                  - WE
-                  - TH
-                  - FR
-                  - SA
-                  - SU
+                  - monday
+                  - tuesday
+                  - wednesday
+                  - thursday
+                  - friday
+                  - saturday
+                  - sunday
               description:
                 The days of the week on which appointments should occur. By providing multiple days,
                 you can indicate multiple recurring appointments per week.
@@ -14506,11 +14506,11 @@ components:
           nullable: true
           description: >-
             Defines the configuration of a recurring appointment. Appointments created as recurring
-            series will be 'virtual', and Source will automatically create an appointment for each
-            available time in the series.
+            series will have `series_parent` = true, and Source will automatically create an
+            appointment for each available time in the series.
 
 
-            Updating the virtual 'series' appointment will update any unmodified future appointments
+            Updating the series 'parent' appointment will update any unmodified future appointments
             in the series, except for the start time, end times or duration. Updating an individual
             appointment within the series will prevent the modified fields from being updated when
             the series appointment is updated.  by default, create a series of recurring
@@ -14526,11 +14526,11 @@ components:
 
             Note: the recurring appointments feature is currently in preview. Please contact Source
             for more details.
-        virtual:
+        series_parent:
           type: boolean
           description: >-
-            'Virtual' appointments do not represent an actual booking at that moment in time, but
-            are used for configuring a recurring series of appointments.
+            'Parent' appointments do not represent an actual booking at that moment in time, but are
+            used for configuring a recurring series of appointments.
 
 
             Note: the recurring appointments feature is currently in preview. Please contact Source
@@ -14543,13 +14543,13 @@ components:
             $ref: "#/components/schemas/appointment"
           description: >-
             Indicates that the appointment is part of a recurring series. The configuration of the
-            series is stored as virtual 'series' appointment, and this field is an expandable
-            reference to that series appointment.
+            series is stored as a virtual 'parent' appointment, and this field is an expandable
+            reference to that parent appointment.
 
 
-            Updating the virtual 'series' appointment will update any unmodified future appointments
-            in the series. Updating an individual appointment within the series will prevent the
-            modified fields from being updated when the series appointment is updated.
+            Updating the parent appointment will update any unmodified future appointments in the
+            series. Updating an individual appointment within the series will prevent the modified
+            fields from being updated when the series appointment is updated.
 
 
             To cancel a series, transition the series appointment into 'canceled' status, which will
@@ -14587,7 +14587,7 @@ components:
         - video_call
         - externally_managed
         - recurrence
-        - virtual
+        - series_parent
         - series
         - created_at
         - updated_at

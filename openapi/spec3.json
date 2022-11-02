@@ -379,13 +379,13 @@
                         "items": {
                           "type": "string",
                           "enum": [
-                            "MO",
-                            "TU",
-                            "WE",
-                            "TH",
-                            "FR",
-                            "SA",
-                            "SU"
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday",
+                            "saturday",
+                            "sunday"
                           ]
                         },
                         "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
@@ -397,7 +397,7 @@
                       "days_of_week"
                     ],
                     "nullable": true,
-                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will have `series_parent` = true, and Source will automatically create an appointment for each available time in the series.\n\nUpdating the series 'parent' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 },
                 "required": [
@@ -840,13 +840,13 @@
                         "items": {
                           "type": "string",
                           "enum": [
-                            "MO",
-                            "TU",
-                            "WE",
-                            "TH",
-                            "FR",
-                            "SA",
-                            "SU"
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday",
+                            "saturday",
+                            "sunday"
                           ]
                         },
                         "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
@@ -858,7 +858,7 @@
                       "days_of_week"
                     ],
                     "nullable": true,
-                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will have `series_parent` = true, and Source will automatically create an appointment for each available time in the series.\n\nUpdating the series 'parent' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 }
               }
@@ -11886,13 +11886,13 @@
                         "items": {
                           "type": "string",
                           "enum": [
-                            "MO",
-                            "TU",
-                            "WE",
-                            "TH",
-                            "FR",
-                            "SA",
-                            "SU"
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday",
+                            "saturday",
+                            "sunday"
                           ]
                         },
                         "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
@@ -15003,13 +15003,13 @@
                 "items": {
                   "type": "string",
                   "enum": [
-                    "MO",
-                    "TU",
-                    "WE",
-                    "TH",
-                    "FR",
-                    "SA",
-                    "SU"
+                    "monday",
+                    "tuesday",
+                    "wednesday",
+                    "thursday",
+                    "friday",
+                    "saturday",
+                    "sunday"
                   ]
                 },
                 "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
@@ -15021,11 +15021,11 @@
               "days_of_week"
             ],
             "nullable": true,
-            "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will be 'virtual', and Source will automatically create an appointment for each available time in the series.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+            "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will have `series_parent` = true, and Source will automatically create an appointment for each available time in the series.\n\nUpdating the series 'parent' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
           },
-          "virtual": {
+          "series_parent": {
             "type": "boolean",
-            "description": "'Virtual' appointments do not represent an actual booking at that moment in time, but are used for configuring a recurring series of appointments.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+            "description": "'Parent' appointments do not represent an actual booking at that moment in time, but are used for configuring a recurring series of appointments.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
           },
           "series": {
             "oneOf": [
@@ -15039,7 +15039,7 @@
             "x-expandable": {
               "$ref": "#/components/schemas/appointment"
             },
-            "description": "Indicates that the appointment is part of a recurring series. The configuration of the series is stored as virtual 'series' appointment, and this field is an expandable reference to that series appointment.\n\nUpdating the virtual 'series' appointment will update any unmodified future appointments in the series. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.\n\nTo cancel a series, transition the series appointment into 'canceled' status, which will cancel any future appointments in the series.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details.",
+            "description": "Indicates that the appointment is part of a recurring series. The configuration of the series is stored as a virtual 'parent' appointment, and this field is an expandable reference to that parent appointment.\n\nUpdating the parent appointment will update any unmodified future appointments in the series. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.\n\nTo cancel a series, transition the series appointment into 'canceled' status, which will cancel any future appointments in the series.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details.",
             "example": "appt_mTvufYJBBgYmbEAEZ6rE",
             "nullable": true
           },
@@ -15073,7 +15073,7 @@
           "video_call",
           "externally_managed",
           "recurrence",
-          "virtual",
+          "series_parent",
           "series",
           "created_at",
           "updated_at"
