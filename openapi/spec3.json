@@ -576,6 +576,34 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "include_series_parent",
+            "schema": {
+              "type": "boolean",
+              "description": "When set to true, include the `series_parent` appointments that represent the parent appointments for recurring series."
+            },
+            "required": false,
+            "description": "When set to true, include the `series_parent` appointments that represent the parent appointments for recurring series."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "series",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+              },
+              "description": "Filter appointments to those within the recurring series specified by the ID of the `series_parent` appointment(s)."
+            },
+            "required": false,
+            "description": "Filter appointments to those within the recurring series specified by the ID of the `series_parent` appointment(s)."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "start_at",
             "schema": {
               "type": "object",
@@ -805,60 +833,6 @@
                     ],
                     "nullable": true,
                     "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
-                  },
-                  "recurrence": {
-                    "type": "object",
-                    "properties": {
-                      "frequency": {
-                        "type": "string",
-                        "enum": [
-                          "weekly"
-                        ],
-                        "description": "How often the appointments should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using 'interval').",
-                        "example": "weekly"
-                      },
-                      "interval": {
-                        "type": "number",
-                        "minimum": 1,
-                        "maximum": 20,
-                        "description": "How many of the `frequency` intervals between each appointment, i.e. 'every N weeks'.",
-                        "example": 1
-                      },
-                      "count": {
-                        "type": "number",
-                        "minimum": 1,
-                        "maximum": 52,
-                        "description": "How many total appointments should be in the series.\n\nOne and only one of `count` or `until` must be set."
-                      },
-                      "until": {
-                        "type": "string",
-                        "format": "date",
-                        "description": "The date at which the recurring series will end. This date is inclusive, so if an appointment instance falls on this date, that appointment will be booked. One and only one of `count` or `until` must be set."
-                      },
-                      "days_of_week": {
-                        "type": "array",
-                        "items": {
-                          "type": "string",
-                          "enum": [
-                            "monday",
-                            "tuesday",
-                            "wednesday",
-                            "thursday",
-                            "friday",
-                            "saturday",
-                            "sunday"
-                          ]
-                        },
-                        "description": "The days of the week on which appointments should occur. By providing multiple days, you can indicate multiple recurring appointments per week."
-                      }
-                    },
-                    "required": [
-                      "frequency",
-                      "interval",
-                      "days_of_week"
-                    ],
-                    "nullable": true,
-                    "description": "Defines the configuration of a recurring appointment. Appointments created as recurring series will have `series_parent` = true, and Source will automatically create an appointment for each available time in the series.\n\nUpdating the series 'parent' appointment will update any unmodified future appointments in the series, except for the start time, end times or duration. Updating an individual appointment within the series will prevent the modified fields from being updated when the series appointment is updated.  by default, create a series of recurring appointments. Expressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nNote that creating an appointment using an appointment type that defines default 'recurrence' configuration will not automatically result in a recurring series being created. You must define the full recurrence configuration on the appointment itself.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
                   }
                 }
               }
@@ -920,7 +894,7 @@
     "/v1/scheduling/appointments/{id}/transition": {
       "post": {
         "summary": "Transition an Appointment",
-        "description": "Transitions an existing appointment into another status.\n\nCanceled appointments will not show up by default when listing appointments, but they can be optionally requested. Appointments must be canceled before they can be deleted. Once an appointment is canceled, it can no longer be modified.",
+        "description": "Transitions an existing appointment into another status.\n\nCanceled appointments will not show up by default when listing appointments, but they can be optionally requested. Appointments must be canceled before they can be deleted. Once an appointment is canceled, it can no longer be modified.\n\nWhen canceling an appointment that is part of a series, you can optionally set `apply_to_series: true`, which will additionally cancel any appointments in the series after the given appointment.",
         "tags": [
           "Appointment"
         ],
@@ -954,6 +928,9 @@
                       "completed",
                       "canceled"
                     ]
+                  },
+                  "apply_to_series": {
+                    "type": "boolean"
                   }
                 },
                 "required": [
