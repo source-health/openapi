@@ -22479,6 +22479,9 @@ components:
         - availability.created
         - availability.updated
         - availability.deleted
+        - care_plan.created
+        - care_plan.updated
+        - care_plan.deleted
         - care_team.created
         - care_team.updated
         - care_team.deleted
