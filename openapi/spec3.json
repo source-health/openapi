@@ -343,7 +343,7 @@
                       "provider"
                     ],
                     "nullable": true,
-                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
+                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nTo remove all video call details, set this parameter to null."
                   },
                   "recurrence": {
                     "type": "object",
@@ -832,7 +832,7 @@
                       "provider"
                     ],
                     "nullable": true,
-                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nIt is not possible to modify the video call provider of an appointment, once set."
+                    "description": "Set the details of a video call, if this appointment will be a video visit. By default any appointment for an appointment type with `video_enabled: true` will have a Source video call created when the appointment is created.\n\nMembers may not override the video call settings of an appointment, but users and API keys are able to set `provider: 'source'` to create a Source-managed call, or provide the details of a third-party video call.\n\nTo remove all video call details, set this parameter to null."
                   }
                 }
               }
@@ -10520,6 +10520,606 @@
         },
         "x-methodName": "redact",
         "x-belongsToResource": "message"
+      }
+    },
+    "/v1/notes": {
+      "post": {
+        "summary": "Create a Note",
+        "description": "Creates a new note and an initial note version.\n\nTo supersede an existing note, pass the identifier of the original note in the supersedes parameter.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                    "description": "The member to which this note belongs."
+                  },
+                  "author": {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
+                    "description": "Required if the caller is an API key and otherwise inferred when called as a user. This is the user ID  of the note's author."
+                  },
+                  "content": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/note_content_node"
+                    },
+                    "description": "Initial content of the note. By default, the note's content is blank."
+                  },
+                  "supersedes": {
+                    "type": "string",
+                    "example": "note_8pitvSre35TyAyhSVIzA",
+                    "description": "Identifier of the note you wish to supersede."
+                  },
+                  "encounter_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date to which the note pertains. By default, the current date/timestamp is used."
+                  }
+                },
+                "required": [
+                  "member"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "note"
+      },
+      "get": {
+        "summary": "List all Notes",
+        "description": "Lists all notes.\n\nBy default, this method does not return deleted or superseded notes. You can optionally specify `include_deleted`  to view deleted notes and `include_superseded` to view superseded notes.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "encounter_date",
+                "-created_at",
+                "-encounter_date"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+              },
+              "description": "Filter results by member. If multiple member ids are provided, notes matching any of the provided members will be returned."
+            },
+            "required": false,
+            "description": "Filter results by member. If multiple member ids are provided, notes matching any of the provided members will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "author",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "usr_qoGndHzx8KwdYsEByt9X"
+              },
+              "description": "Filter notes by author. Authors must be provided as a list of user identifiers. If multiple author ids are  provided, notes matching any of the provided authors will be returned."
+            },
+            "required": false,
+            "description": "Filter notes by author. Authors must be provided as a list of user identifiers. If multiple author ids are  provided, notes matching any of the provided authors will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "encounter_date",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the encounter_date field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the encounter_date field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the encounter_date field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the encounter_date field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object encounter_date field. For example `?encounter_date[gt]=2021-05-10T16:51:38.075Z&encounter_date[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object encounter_date field. For example `?encounter_date[gt]=2021-05-10T16:51:38.075Z&encounter_date[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "signed",
+            "schema": {
+              "type": "boolean",
+              "description": "Filter results by signed status."
+            },
+            "required": false,
+            "description": "Filter results by signed status."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "include_superseded",
+            "schema": {
+              "type": "boolean",
+              "description": "When set to true, superseded notes are included."
+            },
+            "required": false,
+            "description": "When set to true, superseded notes are included."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "include_deleted",
+            "schema": {
+              "type": "boolean",
+              "description": "When set to true, deleted notes are included."
+            },
+            "required": false,
+            "description": "When set to true, deleted notes are included."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/note"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "note"
+      }
+    },
+    "/v1/notes/{id}": {
+      "post": {
+        "summary": "Update a Note",
+        "description": "Updates a note.\n\nOnly the note's author or an API key acting on behalf of the author can update a note. When the note content is  updated, a new note version is created automatically.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "author": {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
+                    "description": "Required if the caller is an API key and otherwise inferred when called as a user. This is the user ID  of the note's author. If a user ID not matching the note's author is specified, the request fails."
+                  },
+                  "content": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/note_content_node"
+                    },
+                    "description": "Content you wish to save in the note. Updating note content creates a new note version, replacing the current  note version."
+                  },
+                  "encounter_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "The date to which the note pertains. By default, the current date/timestamp is used."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "note"
+      },
+      "delete": {
+        "summary": "Delete a Note",
+        "description": "Deletes a note.\n\nIf a note requires correction or an addendum, supersede the note rather than delete it. Deleting a note should be  reserved for use when correcting notes during a backfill or when a note is associated to the wrong member. Once a  note is deleted, it can no longer be accessed other than via the list all notes endpoint.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "note"
+      },
+      "get": {
+        "summary": "Find a Note",
+        "description": "Retrieves an existing note by its unique identifier.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "note"
+      }
+    },
+    "/v1/notes/{id}/sign": {
+      "post": {
+        "summary": "Sign a Note",
+        "description": "Signs an unsigned note.\n\nOnly the note's author or an API key acting on behalf of the author can sign a note. Signing a note sets the latest  note version as the final, signed version of the note. Once signed, the note can no longer be modified. If a  correction to a signed note is required, create a new note that supersedes the original.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "sign",
+        "x-belongsToResource": "note"
+      }
+    },
+    "/v1/notes/{id}/versions/{noteVersionId}": {
+      "get": {
+        "summary": "Retrieve a Note Version",
+        "description": "Retrieves a note version for a given note by its unique identifier.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          },
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "noteVersionId",
+            "schema": {
+              "type": "string",
+              "example": "nv_aWYK3Ie1SnNFeIQQceoG",
+              "description": "Unique ID of the note version."
+            },
+            "required": true,
+            "description": "Unique ID of the note version."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/note_version"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/notes/{id}/versions": {
+      "get": {
+        "summary": "List all Note Versions",
+        "description": "Lists all note versions for a given note.",
+        "tags": [
+          "Note"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "note_8pitvSre35TyAyhSVIzA",
+              "description": "Unique ID of the note."
+            },
+            "required": true,
+            "description": "Unique ID of the note."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/note_version"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        }
       }
     },
     "/v1/orders": {
@@ -20765,6 +21365,314 @@
         "x-resourceId": "message",
         "x-package": "communications"
       },
+      "note": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "note",
+            "enum": [
+              "note"
+            ],
+            "example": "note",
+            "description": "Always `note`."
+          },
+          "id": {
+            "type": "string",
+            "example": "note_8pitvSre35TyAyhSVIzA",
+            "description": "Unique ID for the note."
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "Member to which this note belongs.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+          },
+          "author": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "Author of this note. The author must always be a user and cannot be modified once the note is created. If a new author is required for a note, the original note must be superseded.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL"
+          },
+          "encounter_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Date of the encounter that the note describes. If a note is created at some point after the encounter or event, this date may differ from the date of the created_at timestamp.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "latest_version": {
+            "oneOf": [
+              {
+                "$ref": "#/components/schemas/note_version"
+              }
+            ],
+            "x-wrapped": true,
+            "description": "Latest version of the note. The latest version is automatically updated as the note is drafted and signed."
+          },
+          "signed_version": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/note"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/note"
+            },
+            "description": "Finalized, signed version of the note. Once signed, a note cannot be modified, except by superseding the note. A subsequent version may only be created by the system, for example in order to populate references to other resources within the structure of the note.",
+            "example": "nv_CtPZUd5nZ3QOKKGgq0Mg",
+            "nullable": true
+          },
+          "signed_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the note was signed.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "superseded_by": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/note"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/note"
+            },
+            "description": "Identifier of the note that supersedes this note. You can supersede a signed note in order to addend or  correct the original note.",
+            "example": "note_FqDRM52wu8lQoUnJsXBH",
+            "nullable": true
+          },
+          "supersedes": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/note"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/note"
+            },
+            "description": " Identifier of the note that this note supersedes.",
+            "example": "note_FqDRM52wu8lQoUnJsXBH",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the note was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the note was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of when the note was deleted.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "member",
+          "author",
+          "encounter_date",
+          "latest_version",
+          "signed_version",
+          "signed_at",
+          "superseded_by",
+          "supersedes",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ],
+        "title": "Note",
+        "description": "A note represents the structured documentation of an encounter.\n\nDepending on your needs, you can create notes to document new information, decisions, and actions made as part  of an encounter. Every note relates to a single encounter, and you can choose what encounters require a note.\n\nEach note has a single author who is the only user who can modify or sign the note once it is created, other than  an API key acting on behalf of the author. Once signed, the note cannot be changed and the latest note version is  considered the final note. A user can supersede a signed note with a new note, when necessary to correct or addend  the original note.",
+        "x-resourceId": "note",
+        "x-package": null,
+        "x-preview": true
+      },
+      "note_content_node": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "attrs": {
+            "type": "object",
+            "additionalProperties": {}
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/note_content_node"
+            }
+          },
+          "marks": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string"
+                },
+                "attrs": {
+                  "type": "object",
+                  "additionalProperties": {}
+                }
+              }
+            }
+          },
+          "text": {
+            "type": "string"
+          }
+        }
+      },
+      "note_version": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "note_version",
+            "enum": [
+              "note_version"
+            ],
+            "example": "note_version",
+            "description": "Always `note_version`."
+          },
+          "id": {
+            "type": "string",
+            "example": "nv_aWYK3Ie1SnNFeIQQceoG",
+            "description": "Unique ID for the note version."
+          },
+          "note": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/note"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/note"
+            },
+            "description": "Parent note of this note version",
+            "example": "note_FqDRM52wu8lQoUnJsXBH"
+          },
+          "author_type": {
+            "type": "string",
+            "enum": [
+              "user",
+              "system"
+            ],
+            "description": "The type of author of this note version. If the type is `system`, this note version was automatically created by the system, for example in order to populate references to other resources within the structure of the note."
+          },
+          "author": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/user"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/user"
+            },
+            "description": "Author of this note version. The author must always be a user.",
+            "example": "usr_NC6MQ3FyxddKoJJpfSVL",
+            "nullable": true
+          },
+          "impersonator": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/api_key"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/api_key"
+            },
+            "description": "The API key who created the note version on behalf of the author. If null, the note version's author was not impersonated.",
+            "example": "key_XRJbHlfuCKSZQ1T2U0ax",
+            "nullable": true
+          },
+          "version": {
+            "type": "number",
+            "description": "Version number of this note version. The version number is automatically incremented by the system when a new note version is created."
+          },
+          "content": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/note_content_node"
+            },
+            "description": "Content of the note version. The content can consist of text and structured data. Keep in mind that the content structure is subject to change over time as note features are developed."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the note version was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the note version was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "note",
+          "author_type",
+          "author",
+          "impersonator",
+          "version",
+          "content",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "Note Version",
+        "description": "Note versions contain the content of an instance of a note. Each note may have multiple versions, with the  latest version reflecting the most up-to-date content of the note. A signed note only ever has a single  signed version.",
+        "x-resourceId": "note_version",
+        "x-package": null,
+        "x-preview": true
+      },
       "order": {
         "type": "object",
         "properties": {
@@ -23448,6 +24356,10 @@
           "member.deleted",
           "message.created",
           "message.redacted",
+          "note.created",
+          "note.updated",
+          "note.deleted",
+          "note.signed",
           "order.created",
           "order.shipped",
           "queue.created",
