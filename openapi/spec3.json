@@ -11018,7 +11018,9 @@
               }
             }
           }
-        }
+        },
+        "x-methodName": "retrieveVersion",
+        "x-belongsToResource": "note"
       }
     },
     "/v1/notes/{id}/versions": {
@@ -11119,7 +11121,9 @@
               }
             }
           }
-        }
+        },
+        "x-methodName": "listVersions",
+        "x-belongsToResource": "note"
       }
     },
     "/v1/orders": {

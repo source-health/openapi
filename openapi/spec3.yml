@@ -10596,6 +10596,8 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/note_version"
+      x-methodName: retrieveVersion
+      x-belongsToResource: note
   "/v1/notes/{id}/versions":
     get:
       summary: List all Note Versions
@@ -10687,6 +10689,8 @@ paths:
                   - object
                   - data
                   - has_more
+      x-methodName: listVersions
+      x-belongsToResource: note
   /v1/orders:
     post:
       summary: Create an Order
