@@ -12628,6 +12628,7 @@ paths:
                     - blocked
                     - on_hold
                     - resolved
+                    - canceled
                   description: The status of the task
                   example: open
                 due_at:
@@ -12750,6 +12751,7 @@ paths:
                 - blocked
                 - on_hold
                 - resolved
+                - canceled
             description:
               Filter results by status. If multiple statuses are provided, tasks matching any of the
               provided statuses will be returned.
@@ -12986,6 +12988,7 @@ paths:
                     - blocked
                     - on_hold
                     - resolved
+                    - canceled
                   description: The status of the task
                   example: open
                 due_at:
@@ -22510,6 +22513,7 @@ components:
             - blocked
             - on_hold
             - resolved
+            - canceled
           description: Status the task is currently in
           example: open
         assignment_method:

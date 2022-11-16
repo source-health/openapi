@@ -12997,7 +12997,8 @@
                       "in_progress",
                       "blocked",
                       "on_hold",
-                      "resolved"
+                      "resolved",
+                      "canceled"
                     ],
                     "description": "The status of the task",
                     "example": "open"
@@ -13122,7 +13123,8 @@
                   "in_progress",
                   "blocked",
                   "on_hold",
-                  "resolved"
+                  "resolved",
+                  "canceled"
                 ]
               },
               "description": "Filter results by status. If multiple statuses are provided, tasks matching any of the provided statuses will be returned."
@@ -13366,7 +13368,8 @@
                       "in_progress",
                       "blocked",
                       "on_hold",
-                      "resolved"
+                      "resolved",
+                      "canceled"
                     ],
                     "description": "The status of the task",
                     "example": "open"
@@ -23463,7 +23466,8 @@
               "in_progress",
               "blocked",
               "on_hold",
-              "resolved"
+              "resolved",
+              "canceled"
             ],
             "description": "Status the task is currently in",
             "example": "open"
