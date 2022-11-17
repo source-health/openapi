@@ -21474,7 +21474,7 @@
         "title": "Note",
         "description": "A note represents the structured documentation of an encounter.\n\nDepending on your needs, you can create notes to document new information, decisions, and actions made as part  of an encounter. Every note relates to a single encounter, and you can choose what encounters require a note.\n\nEach note has a single author who is the only user who can modify or sign the note once it is created, other than  an API key acting on behalf of the author. Once signed, the note cannot be changed and the latest note version is  considered the final note. A user can supersede a signed note with a new note, when necessary to correct or addend  the original note.",
         "x-resourceId": "note",
-        "x-package": null,
+        "x-package": "clinical",
         "x-preview": true
       },
       "note_content_node": {
@@ -21624,7 +21624,7 @@
         "title": "Note Version",
         "description": "Note versions contain the content of an instance of a note. Each note may have multiple versions, with the  latest version reflecting the most up-to-date content of the note. A signed note only ever has a single  signed version.",
         "x-resourceId": "note_version",
-        "x-package": null,
+        "x-package": "clinical",
         "x-preview": true
       },
       "order": {

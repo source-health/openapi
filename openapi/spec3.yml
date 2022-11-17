@@ -20724,7 +20724,7 @@ components:
         supersede a signed note with a new note, when necessary to correct or addend  the original
         note.
       x-resourceId: note
-      x-package: null
+      x-package: clinical
       x-preview: true
     note_content_node:
       type: object
@@ -20841,7 +20841,7 @@ components:
         versions, with the  latest version reflecting the most up-to-date content of the note. A
         signed note only ever has a single  signed version.
       x-resourceId: note_version
-      x-package: null
+      x-package: clinical
       x-preview: true
     order:
       type: object
