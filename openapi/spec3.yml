@@ -10196,12 +10196,6 @@ paths:
                   type: string
                   example: note_8pitvSre35TyAyhSVIzA
                   description: Identifier of the note you wish to supersede.
-                encounter_date:
-                  type: string
-                  format: date-time
-                  description:
-                    The date to which the note pertains. By default, the current date/timestamp is
-                    used.
               required:
                 - member
       responses:
@@ -10280,9 +10274,7 @@ paths:
             type: string
             enum:
               - created_at
-              - encounter_date
               - -created_at
-              - -encounter_date
             description:
               Sort field for the results. A '-' prefix indicates sorting by that field in descending
               order, otherwise the order will be ascending.
@@ -10325,40 +10317,6 @@ paths:
             Filter notes by author. Authors must be provided as a list of user identifiers. If
             multiple author ids are  provided, notes matching any of the provided authors will be
             returned.
-        - in: query
-          style: form
-          explode: true
-          name: encounter_date
-          schema:
-            type: object
-            properties:
-              lt:
-                type: string
-                format: date-time
-                description: Return results where the encounter_date field is less than this value.
-              lte:
-                type: string
-                format: date-time
-                description:
-                  Return results where the encounter_date field is less than or equal to this value.
-              gt:
-                type: string
-                format: date-time
-                description:
-                  Return results where the encounter_date field is greater than this value.
-              gte:
-                type: string
-                format: date-time
-                description:
-                  Return results where the encounter_date field is greater than or equal to this
-                  value.
-            description: "A time based range filter on the list based on the object encounter_date
-              field. For example `?encounter_date[gt]=2021-05-10T16:51:38.075Z&encounter_date[lte]\
-              =2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
-          required: false
-          description: "A time based range filter on the list based on the object encounter_date
-            field. For example `?encounter_date[gt]=2021-05-10T16:51:38.075Z&encounter_date[lte]=2\
-            021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
         - in: query
           style: form
           explode: true
@@ -10457,12 +10415,6 @@ paths:
                   description:
                     Content you wish to save in the note. Updating note content creates a new note
                     version, replacing the current  note version.
-                encounter_date:
-                  type: string
-                  format: date-time
-                  description:
-                    The date to which the note pertains. By default, the current date/timestamp is
-                    used.
       responses:
         default:
           description: Successful response.
@@ -20681,13 +20633,6 @@ components:
             note is created. If a new author is required for a note, the original note must be
             superseded.
           example: usr_NC6MQ3FyxddKoJJpfSVL
-        encounter_date:
-          type: string
-          format: date-time
-          description:
-            Date of the encounter that the note describes. If a note is created at some point after
-            the encounter or event, this date may differ from the date of the created_at timestamp.
-          example: 2021-05-13T16:33:00.000Z
         latest_version:
           oneOf:
             - $ref: "#/components/schemas/note_version"
@@ -20755,7 +20700,6 @@ components:
         - id
         - member
         - author
-        - encounter_date
         - latest_version
         - signed_version
         - signed_at
@@ -20846,7 +20790,7 @@ components:
           description: Author of this note version. The author must always be a user.
           example: usr_NC6MQ3FyxddKoJJpfSVL
           nullable: true
-        impersonator:
+        impersonated_by:
           oneOf:
             - type: string
             - $ref: "#/components/schemas/api_key"
@@ -20886,7 +20830,7 @@ components:
         - note
         - author_type
         - author
-        - impersonator
+        - impersonated_by
         - version
         - content
         - created_at
