@@ -13128,10 +13128,10 @@
                 "type": "string",
                 "example": "tskd_2Lc2yr7YIYxfN3RCSlBU"
               },
-              "description": "Filter results by task definitons. If multiple task defintion ids are provided, tasks matching any of the provided definitions will be returned."
+              "description": "Filter results by task definitons. If multiple task definition ids are provided, tasks matching any of the provided definitions will be returned."
             },
             "required": false,
-            "description": "Filter results by task definitons. If multiple task defintion ids are provided, tasks matching any of the provided definitions will be returned."
+            "description": "Filter results by task definitons. If multiple task definition ids are provided, tasks matching any of the provided definitions will be returned."
           },
           {
             "in": "query",
