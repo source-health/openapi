@@ -10536,6 +10536,10 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "encounter": {
+                    "type": "string",
+                    "description": "The encounter to which this note belongs"
+                  },
                   "member": {
                     "type": "string",
                     "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
@@ -10560,6 +10564,7 @@
                   }
                 },
                 "required": [
+                  "encounter",
                   "member"
                 ]
               }
@@ -24283,6 +24288,9 @@
           "device.activated",
           "device.deactivated",
           "device.deleted",
+          "encounter.created",
+          "encounter.updated",
+          "encounter.deleted",
           "file.created",
           "field.created",
           "field.updated",
