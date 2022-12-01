@@ -3340,6 +3340,436 @@
         "x-belongsToResource": "document"
       }
     },
+    "/v1/encounters": {
+      "post": {
+        "summary": "Create an Encounter",
+        "description": "Creates a new encounter for the specified member. An encounter requires at least a start timestamp and can optionally include resources related to the encounter.",
+        "tags": [
+          "Encounter"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                    "description": "The member to which this encounter belongs."
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "closed"
+                    ],
+                    "description": "Whether or not the encounter is open and requires follow-up or further documentation. Any note associated with an encounter must be signed before the encounter can be closed.",
+                    "example": "open"
+                  },
+                  "start_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the encounter started.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "end_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the encounter ended.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "related": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                        },
+                        {
+                          "type": "string",
+                          "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+                        }
+                      ],
+                      "description": "Unique identifier for the related resource.",
+                      "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                    },
+                    "nullable": true,
+                    "description": "List of unique identifiers of resources related to the encounter, such as appointments and form responses. Providing related resources input replaces any existing related resources on the encounter. Providing null or an empty list empties out the list of related resources."
+                  }
+                },
+                "required": [
+                  "member"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "encounter"
+      },
+      "get": {
+        "summary": "List all Encounters",
+        "description": "Returns a list of encounters within the current account.\n\nThe encounters by default are sorted by creation date, with the most recently created encounter appearing first.",
+        "tags": [
+          "Encounter"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "-created_at"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "mem_5QW8j1oKqQjNaPk4Hv3f"
+              },
+              "description": "Filter results by member. If multiple member ids are provided, encounters matching any of the provided members will be returned."
+            },
+            "required": false,
+            "description": "Filter results by member. If multiple member ids are provided, encounters matching any of the provided members will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "closed"
+                ]
+              },
+              "description": "Filter results by status."
+            },
+            "required": false,
+            "description": "Filter results by status."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "start_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the start_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object start_at field. For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object start_at field. For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "include_deleted",
+            "schema": {
+              "type": "boolean",
+              "description": "When set to true, deleted encounters are included."
+            },
+            "required": false,
+            "description": "When set to true, deleted encounters are included."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/encounter"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "encounter"
+      }
+    },
+    "/v1/encounters/{id}": {
+      "post": {
+        "summary": "Update an Encounter",
+        "description": "Updates the specified encounter by setting the values of the parameters passed. Any parameters not provided will be left unchanged.",
+        "tags": [
+          "Encounter"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "enc_QTt9bgcEaw5e9jpGnmzj",
+              "description": "Unique ID of the encounter."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "open",
+                      "closed"
+                    ],
+                    "description": "Whether or not the encounter is open and requires follow-up or further documentation. Any note associated with an encounter must be signed before the encounter can be closed.",
+                    "example": "open"
+                  },
+                  "start_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the encounter started.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "end_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of when the encounter ended.",
+                    "example": "2021-05-13T16:33:00.000Z"
+                  },
+                  "related": {
+                    "type": "array",
+                    "items": {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                        },
+                        {
+                          "type": "string",
+                          "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+                        }
+                      ],
+                      "description": "Unique identifier for the related resource.",
+                      "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                    },
+                    "nullable": true,
+                    "description": "List of unique identifiers of resources related to the encounter, such as appointments and form responses. Providing related resources input replaces any existing related resources on the encounter. Providing null or an empty list empties out the list of related resources."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "encounter"
+      },
+      "delete": {
+        "summary": "Delete an Encounter",
+        "description": "Deletes an encounter.\n\nDeleting an encounter is only possible when any associated notes are themselves deleted. The associated encounter.deleted event will contain the array of related resources for the encounter as it existed prior to deletion. When retrieving deleted encounters, note that the array or related resources will be empty.",
+        "tags": [
+          "Encounter"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "enc_QTt9bgcEaw5e9jpGnmzj",
+              "description": "Unique ID of the encounter."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "encounter"
+      },
+      "get": {
+        "summary": "Find an Encounter",
+        "description": "Retrieves the details of an existing encounter. You need only supply the unique encounter identifier that was returned upon creation.",
+        "tags": [
+          "Encounter"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "enc_QTt9bgcEaw5e9jpGnmzj",
+              "description": "Unique ID of the encounter."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "encounter"
+      }
+    },
     "/v1/events/{id}": {
       "get": {
         "summary": "Retrieve an Event",
@@ -10538,6 +10968,7 @@
                 "properties": {
                   "encounter": {
                     "type": "string",
+                    "example": "enc_QTt9bgcEaw5e9jpGnmzj",
                     "description": "The encounter to which this note belongs"
                   },
                   "member": {
@@ -17026,6 +17457,155 @@
         "x-resourceId": "document",
         "x-package": null
       },
+      "encounter": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "encounter",
+            "enum": [
+              "encounter"
+            ],
+            "example": "encounter",
+            "description": "Always `encounter`."
+          },
+          "id": {
+            "type": "string",
+            "example": "enc_QTt9bgcEaw5e9jpGnmzj",
+            "description": "Unique ID for the encounter."
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "Member to which the encounter belongs.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "closed"
+            ],
+            "description": "Whether or not the encounter is open and requires follow-up or further documentation. Any note associated with an encounter must be signed before the encounter can be closed.",
+            "example": "open"
+          },
+          "start_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the encounter started.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "end_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of when the encounter ended.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "related": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "resource_type": {
+                  "type": "string",
+                  "enum": [
+                    "appointment",
+                    "form_response"
+                  ],
+                  "description": "Type of related resource.",
+                  "example": "appointment"
+                },
+                "resource": {
+                  "anyOf": [
+                    {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/components/schemas/appointment"
+                        }
+                      ],
+                      "x-expandable": {
+                        "$ref": "#/components/schemas/appointment"
+                      },
+                      "description": "Expandable reference to an Appointment",
+                      "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                    },
+                    {
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/components/schemas/form_response"
+                        }
+                      ],
+                      "x-expandable": {
+                        "$ref": "#/components/schemas/form_response"
+                      },
+                      "description": "Expandable reference to a form response",
+                      "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+                    }
+                  ],
+                  "description": "Unique identifier for the related resource."
+                }
+              },
+              "required": [
+                "resource_type",
+                "resource"
+              ]
+            },
+            "description": "Array of resources related to the encounter, such as appointments and form responses. When retrieving encounters via API, related resources can be expanded by including `&expand=related.resource` in the encounter query."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the encounter was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the encounter was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of when the encounter was deleted.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "member",
+          "status",
+          "start_at",
+          "end_at",
+          "related",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ],
+        "title": "Encounter",
+        "description": "Encounters represent the details of one or more related interactions with a member as part of their health care.\n\nDepending on your needs, you can use encounters to document an appointment with a member, a form response, or a combination of interactions. Each encounter must have a specific start and end time, representing the time period of the interactions documented by the encounter. Currently, Source supports encounters for appointments and form responses, and will support other types of encounters over time.\n\nEncounters are the entry point for notes in Source. Each encounter can optionally include one or more notes that themselves represent the documentation of the member's care. When creating encounters and notes via API, first create the encounter and then create the note related to the encounter.",
+        "x-resourceId": "encounter",
+        "x-package": "clinical",
+        "x-preview": true
+      },
       "error": {
         "type": "object",
         "properties": {
@@ -21348,6 +21928,21 @@
             "example": "note_8pitvSre35TyAyhSVIzA",
             "description": "Unique ID for the note."
           },
+          "encounter": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/encounter"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/encounter"
+            },
+            "description": "Encounter to which this note belongs.",
+            "example": "enc_05j8GyFykJwGI5pEyUmY"
+          },
           "member": {
             "oneOf": [
               {
@@ -21465,6 +22060,7 @@
         "required": [
           "object",
           "id",
+          "encounter",
           "member",
           "author",
           "latest_version",
