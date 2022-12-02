@@ -11115,6 +11115,22 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "encounter",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "enc_QTt9bgcEaw5e9jpGnmzj"
+              },
+              "description": "Filter notes by encounter. If multiple encounter ids are  provided, notes matching any of the provided encounters will be returned."
+            },
+            "required": false,
+            "description": "Filter notes by encounter. If multiple encounter ids are  provided, notes matching any of the provided encounters will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "signed",
             "schema": {
               "type": "boolean",
