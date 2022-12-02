@@ -3523,6 +3523,32 @@
             "in": "query",
             "style": "form",
             "explode": true,
+            "name": "related",
+            "schema": {
+              "type": "array",
+              "items": {
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+                  },
+                  {
+                    "type": "string",
+                    "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+                  }
+                ],
+                "description": "Unique identifier for the related resource.",
+                "example": "appt_mTvufYJBBgYmbEAEZ6rE"
+              },
+              "description": "Filter results by related resources."
+            },
+            "required": false,
+            "description": "Filter results by related resources."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
             "name": "start_at",
             "schema": {
               "type": "object",
