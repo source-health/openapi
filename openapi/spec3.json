@@ -11629,11 +11629,6 @@
                     "example": "enc_QTt9bgcEaw5e9jpGnmzj",
                     "description": "The encounter to which this note belongs"
                   },
-                  "member": {
-                    "type": "string",
-                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
-                    "description": "The member to which this note belongs."
-                  },
                   "author": {
                     "type": "string",
                     "example": "usr_qoGndHzx8KwdYsEByt9X",
@@ -11653,8 +11648,7 @@
                   }
                 },
                 "required": [
-                  "encounter",
-                  "member"
+                  "encounter"
                 ]
               }
             }
