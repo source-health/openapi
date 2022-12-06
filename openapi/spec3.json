@@ -18957,10 +18957,9 @@
           "updated_at"
         ],
         "title": "Field",
-        "description": "The Fields API allows you to define custom fields to extend the default behavior of Source resources, such as members. Using Fields, you can store customer-defined attributes with each resource, eliminating the need to manage separate databases and storage systems when you have information that doesn't quite match to a pre-defined field.\n\nYou might use Fields to define the plan level to which a member is subscribed, information about the  specific care protocol they're on, or even just where they are in their treatment journey.\n\nDuring this preview period, Fields are only available on the member resource. When they're released out of preview mode, they'll be made available on other resources as well.",
+        "description": "The Fields API allows you to define custom fields to extend the default behavior of Source resources, such as members. Using Fields, you can store customer-defined attributes with each resource, eliminating the need to manage separate databases and storage systems when you have information that doesn't quite match to a pre-defined field.\n\nYou might use Fields to define the plan level to which a member is subscribed, information about the  specific care protocol they're on, or even just where they are in their treatment journey.",
         "x-resourceId": "field",
-        "x-package": null,
-        "x-preview": true
+        "x-package": null
       },
       "file": {
         "type": "object",
@@ -19159,8 +19158,7 @@
         "title": "Form",
         "description": "Forms are questionnaire tools that allow you to gather information of any kind from a responder. You can use forms to collect responses from members or from anonymous responders, such as during an intake workflow.\n\nEach form references one or more form versions, which contain the form's configuration and content. A form always has a single draft version that can be updated. Once published, a form version becomes the active version of a form, with which responders interact. Each time a form version is published, a new draft version is created. A published form version cannot be deleted or modified. To make a form with a published form version inaccessible for new responses, archive the form.",
         "x-resourceId": "form",
-        "x-package": "forms",
-        "x-preview": true
+        "x-package": "forms"
       },
       "form_response": {
         "type": "object",
@@ -19337,8 +19335,7 @@
         "title": "Form Response",
         "description": "Form responses represent a collection of answers to a particular form version, optionally associated with a particular member.\n\nYou can create form responses to capture answers to a form by specifying the form to which the response relates. Source automatically relates the response to the form's current published version at the time you create the response. Note that a form response remains tied to a given form version, and updates to other versions of that form do not affect existing responses.\n\nForm responses support both responses created by members and those created by anonymous authors, such as during an intake workflow, before you have created a member in Source.  You can update an existing response with additional answers and optionally submit it in order to update its status.",
         "x-resourceId": "form_response",
-        "x-package": "forms",
-        "x-preview": true
+        "x-package": "forms"
       },
       "form_version": {
         "type": "object",
@@ -21501,8 +21498,7 @@
         "title": "Form Version",
         "description": "Form versions contain the contents and configuration of a form. Each form may have multiple versions over time as you update the form's contents. A given form only ever has a single draft version at a time.\n\nOnce published, a form version becomes the active version of a form, with which responders interact. Each time a form version is published, a new draft version for that form is created. A published form version cannot be deleted or modified.",
         "x-resourceId": "form_version",
-        "x-package": "forms",
-        "x-preview": true
+        "x-package": "forms"
       },
       "group": {
         "type": "object",
@@ -24804,8 +24800,7 @@
         "title": "Relationship",
         "description": "Relationships connect a member who is receiving care with a member who is involved in supporting that care. You can use relationships to allow caregivers, family members, or other people to whom the member has consented to participate in the member's care. Active relationships allow a caregiver to view, edit, and create data for a member, such as viewing and sending messages or booking appointments. The member to whom the relationship applies can view basic demographic information about the related person. You can create or update any number of relationships for a given member at any time.",
         "x-resourceId": "relationship",
-        "x-package": null,
-        "x-preview": true
+        "x-package": null
       },
       "slot": {
         "type": "object",

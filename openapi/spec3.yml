@@ -18262,13 +18262,8 @@ components:
         You might use Fields to define the plan level to which a member is subscribed, information
         about the  specific care protocol they're on, or even just where they are in their treatment
         journey.
-
-
-        During this preview period, Fields are only available on the member resource. When they're
-        released out of preview mode, they'll be made available on other resources as well.
       x-resourceId: field
       x-package: null
-      x-preview: true
     file:
       type: object
       properties:
@@ -18457,7 +18452,6 @@ components:
         responses, archive the form.
       x-resourceId: form
       x-package: forms
-      x-preview: true
     form_response:
       type: object
       properties:
@@ -18628,7 +18622,6 @@ components:
         update its status.
       x-resourceId: form_response
       x-package: forms
-      x-preview: true
     form_version:
       type: object
       properties:
@@ -20791,7 +20784,6 @@ components:
         created. A published form version cannot be deleted or modified.
       x-resourceId: form_version
       x-package: forms
-      x-preview: true
     group:
       type: object
       properties:
@@ -23734,7 +23726,6 @@ components:
         any number of relationships for a given member at any time.
       x-resourceId: relationship
       x-package: null
-      x-preview: true
     slot:
       type: object
       properties:
