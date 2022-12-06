@@ -2314,6 +2314,638 @@
         "x-belongsToResource": "availability"
       }
     },
+    "/v1/care_plans": {
+      "post": {
+        "summary": "Create a Care Plan",
+        "description": "Creates a new care plan for a member.\n\nBy default, the care plan is created in an active status using the current time as the `started_at` timestamp. You can optionally set `started_at` to a time in the past if you are creating a care plan that is already in progress. In order to backload a care plan that has already ended, you can set both the `started_at` and `ended_at` parameters to times in the past, in which case you must also set the status parameter to either `completed` or `canceled`. A completed or canceled care plan cannot be reactivated or updated.",
+        "tags": [
+          "Care Plan"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "member": {
+                    "type": "string",
+                    "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+                    "description": "Member to whom this care plan relates. Each care plan must relate to a specific member."
+                  },
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255,
+                    "description": "Name of this care plan. This name is visible to both members and users.",
+                    "example": "Diabetes Maintenance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "A long-form description of this care plan. This description is visible to members and can be used to describe the purpose of the care plan in more detail.",
+                    "example": "Long-term care plan for diabetes"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "paused",
+                      "completed",
+                      "canceled"
+                    ],
+                    "description": "Current status of this care plan. By default, care plans are created in an `active` status. You can use the `paused` status to stop activities associated with the care plan and prevent any updates to the care plan, with the expectation that the care plan will be reactivated in the future. Pausing a care plan does not cancel associated tasks and intents. If you set both started_at and ended_at, for example to backload a care plan in the past, you must also set the status to either `completed` or `canceled` status. A completed or canceled care plan cannot be reactivated.",
+                    "example": "active"
+                  },
+                  "started_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Timestamp indicating the start of the period to which the care plan relates. By default, `started_at` is set to the current time on care plan creation. You can optionally set `started_at` to a time in the past, for example in order to load a historical care plan. `started_at` cannot be set to a time in the future.",
+                    "example": null
+                  },
+                  "ended_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "nullable": true,
+                    "description": "Timestamp indicating the end of the period to which the care plan relates. When a care plan is completed or canceled, the `ended_at` time is automatically updated. You can optionally explicitly set `ended_at` when creating a care plan in a canceled or completed status, in order to reflect a time in the past, for example when updating a historical care plan. `ended_at` must be a time at or after `started_at` and cannot be a time in the future.",
+                    "example": null
+                  },
+                  "activities": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "action": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "default": "task",
+                                  "enum": [
+                                    "task"
+                                  ],
+                                  "example": "task"
+                                },
+                                "config": {
+                                  "type": "object",
+                                  "properties": {
+                                    "task_definition": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "description": "The ID or key of the task definition to use when creating the task.",
+                                      "example": "tskd_2Lc2yr7YIYxfN3RCSlBU"
+                                    },
+                                    "summary": {
+                                      "type": "string",
+                                      "minLength": 1,
+                                      "description": "A brief summary of the task.",
+                                      "example": "Measure A1C level."
+                                    }
+                                  },
+                                  "required": [
+                                    "task_definition",
+                                    "summary"
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "config"
+                              ]
+                            }
+                          ],
+                          "discriminator": {
+                            "propertyName": "type"
+                          },
+                          "description": "Action to take when the activity is run. The action must specify an action type and corresponding configuration matching the action type.",
+                          "example": {
+                            "type": "task",
+                            "config": {
+                              "task_definition": "tskd_2Lc2yr7YIYxfN3RCSlBU",
+                              "summary": "Quarterly checkin"
+                            }
+                          }
+                        },
+                        "trigger": {
+                          "oneOf": [
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "default": "absolute",
+                                  "enum": [
+                                    "absolute"
+                                  ],
+                                  "example": "absolute",
+                                  "description": "Type of time-based trigger to use for this activity. If set to `absolute`, specify the timestamp in the date parameter when this activity should run. If set to `relative`, specify in the `amount` and `unit` parameters the amount of time to wait after creation for the activity to run."
+                                },
+                                "date": {
+                                  "type": "string",
+                                  "format": "date-time",
+                                  "description": "Timestamp at which to trigger the activity."
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "date"
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "type": {
+                                  "type": "string",
+                                  "default": "relative",
+                                  "enum": [
+                                    "relative"
+                                  ],
+                                  "example": "relative",
+                                  "description": "Type of time-based trigger to use for this activity. If set to `absolute`, specify the timestamp in the date parameter when this activity should run. If set to `relative`, specify in the `amount` and `unit` parameters the amount of time to wait after creation for the activity to run."
+                                },
+                                "unit": {
+                                  "type": "string",
+                                  "enum": [
+                                    "days",
+                                    "weeks",
+                                    "months"
+                                  ],
+                                  "description": "Units for the time specified in `amount`."
+                                },
+                                "amount": {
+                                  "type": "number",
+                                  "description": "Together with the `unit` parameter, the amount of time to wait after activity creation until triggering the activity."
+                                }
+                              },
+                              "required": [
+                                "type",
+                                "unit",
+                                "amount"
+                              ]
+                            }
+                          ],
+                          "discriminator": {
+                            "propertyName": "type"
+                          },
+                          "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `days`, `weeks`, and `months`.",
+                          "example": {
+                            "type": "relative",
+                            "unit": "weeks",
+                            "amount": 1
+                          }
+                        },
+                        "recurrence": {
+                          "type": "object",
+                          "properties": {
+                            "frequency": {
+                              "type": "string",
+                              "enum": [
+                                "weekly"
+                              ],
+                              "description": "How often the activity should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using `interval`).",
+                              "example": "weekly"
+                            },
+                            "interval": {
+                              "type": "number",
+                              "minimum": 1,
+                              "description": "How many of the `frequency` intervals between each activity execution, i.e. 'every N weeks'.",
+                              "example": 1
+                            },
+                            "count": {
+                              "type": "number",
+                              "minimum": 1,
+                              "description": "How many total times the activity should execute.\n\nOne and only one of `count` or `until` can be set."
+                            },
+                            "until": {
+                              "type": "string",
+                              "format": "date",
+                              "description": "The date at which the recurring activity will end. This date is inclusive, so if an activity execution falls on this date, it will run. One and only one of `count` or `until` can be set."
+                            },
+                            "days_of_week": {
+                              "type": "array",
+                              "items": {
+                                "type": "string",
+                                "enum": [
+                                  "monday",
+                                  "tuesday",
+                                  "wednesday",
+                                  "thursday",
+                                  "friday",
+                                  "saturday",
+                                  "sunday"
+                                ]
+                              },
+                              "description": "The days of the week on which the activity should occur. By providing multiple days, you can indicate multiple recurring activities per week."
+                            }
+                          },
+                          "required": [
+                            "frequency",
+                            "interval",
+                            "days_of_week"
+                          ],
+                          "description": "Defines the configuration of a recurring activity. If not set, the activity is expected to run once. When using `count`, the recurrence of an activity will change over time to indicate the remaining number of occurrences."
+                        },
+                        "time_zone": {
+                          "type": "string"
+                        },
+                        "completed_at": {
+                          "type": "string",
+                          "format": "date-time",
+                          "nullable": true,
+                          "description": "Timestamp when the activity was completed."
+                        }
+                      },
+                      "required": [
+                        "action",
+                        "time_zone"
+                      ]
+                    },
+                    "description": "An ordered list of activities associated with this care plan. Activities represent actions the system should take while the care plan remains active. An activity can optionally be configured to start at a future time or to recur. For example, you can configure an activity to create a particular type of task every month, starting one month after the care plan's start date."
+                  }
+                },
+                "required": [
+                  "member",
+                  "name"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/care_plan"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "care_plan"
+      },
+      "get": {
+        "summary": "List all Care Plans",
+        "description": "Lists all care plans.\n\nBy default, the care plans returned are sorted by creation date, with the most recently added care plan appearing first.",
+        "tags": [
+          "Care Plan"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "started_at",
+                "ended_at",
+                "-created_at",
+                "-started_at",
+                "-ended_at"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "member",
+            "schema": {
+              "type": "string",
+              "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
+              "description": "Filter results by member."
+            },
+            "required": false,
+            "description": "Filter results by member."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "status",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "active",
+                  "paused",
+                  "completed",
+                  "canceled"
+                ]
+              },
+              "description": "Filter results by status. If multiple statuses are provided, care plans matching any of the provided statuses will be returned."
+            },
+            "required": false,
+            "description": "Filter results by status. If multiple statuses are provided, care plans matching any of the provided statuses will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "started_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the started_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the started_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the started_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the started_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object started_at field. For example `?started_at[gt]=2021-05-10T16:51:38.075Z&started_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object started_at field. For example `?started_at[gt]=2021-05-10T16:51:38.075Z&started_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ended_at",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the ended_at field is less than this value."
+                },
+                "lte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the ended_at field is less than or equal to this value."
+                },
+                "gt": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the ended_at field is greater than this value."
+                },
+                "gte": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Return results where the ended_at field is greater than or equal to this value."
+                }
+              },
+              "description": "A time based range filter on the list based on the object ended_at field. For example `?ended_at[gt]=2021-05-10T16:51:38.075Z&ended_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+            },
+            "required": false,
+            "description": "A time based range filter on the list based on the object ended_at field. For example `?ended_at[gt]=2021-05-10T16:51:38.075Z&ended_at[lte]=2021-05-26T16:51:38.075Z`. The value is a dictionary with the following:"
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/care_plan"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "care_plan"
+      }
+    },
+    "/v1/care_plans/{id}": {
+      "post": {
+        "summary": "Update a Care Plan",
+        "description": "Updates a care plan. Any parameters not provided will be left unchanged.\n\nCanceled and completed care plans can no longer be modified or reactivated. Once a care plan is canceled or completed, associated unresolved actions (for example, tasks and intents) are canceled. You can pause a care plan to indicate that its activities should no longer generate new actions, while unresolved actions that have already been created remain active. You can later update the paused care plan to an active status when the plan is again in use.",
+        "tags": [
+          "Care Plan"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "cp_Ahql1iW9f9blBVgf40aL",
+              "description": "Unique ID of the care_plan."
+            },
+            "required": true,
+            "description": "Unique ID of the care_plan."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 255,
+                    "description": "Name of this care plan. This name is visible to both members and users.",
+                    "example": "Diabetes Maintenance"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "A long-form description of this care plan. This description is visible to members and can be used to describe the purpose of the care plan in more detail.",
+                    "example": "Long-term care plan for diabetes"
+                  },
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "active",
+                      "paused",
+                      "completed",
+                      "canceled"
+                    ],
+                    "description": "Current status of this care plan. By default, care plans are created in an `active` status. You can use the `paused` status to stop activities associated with the care plan and prevent any updates to the care plan, with the expectation that the care plan will be reactivated in the future. Pausing a care plan does not cancel associated tasks and intents. If you set both started_at and ended_at, for example to backload a care plan in the past, you must also set the status to either `completed` or `canceled` status. A completed or canceled care plan cannot be reactivated.",
+                    "example": "active"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/care_plan"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "care_plan"
+      },
+      "get": {
+        "summary": "Retrieve a Care Plan",
+        "description": "Retrieves an existing care plan by its unique identifier.\n\nCare plans can be accessed by users in your organization. Additionally, members can access their own care plans.",
+        "tags": [
+          "Care Plan"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "cp_Ahql1iW9f9blBVgf40aL",
+              "description": "Unique ID of the care_plan."
+            },
+            "required": true,
+            "description": "Unique ID of the care_plan."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/care_plan"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "care_plan"
+      },
+      "delete": {
+        "summary": "Delete a Care Plan",
+        "description": "Deletes a care plan.\n\nOnce a care plan is deleted, it can no longer be accessed or used. Associated unresolved actions (for example, tasks and intents) are canceled. The deleted care plan will still be visible on past completed and canceled actions that reference the care plan. In general, deleting a care plan should only be done to remove care plans that were entered in error. Otherwise, you can cancel or complete the care plan.",
+        "tags": [
+          "Care Plan"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "cp_Ahql1iW9f9blBVgf40aL",
+              "description": "Unique ID of the care_plan."
+            },
+            "required": true,
+            "description": "Unique ID of the care_plan."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/care_plan"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "delete",
+        "x-belongsToResource": "care_plan"
+      }
+    },
     "/v1/care_teams/{id}": {
       "post": {
         "summary": "Update a Care Team",
@@ -16789,6 +17421,379 @@
         "description": "Availability describes the schedule for a particular user and is used to power appointment booking.\n\nBy default, users are created with a schedule that marks them unavailable at all times. While this is a safe default, it means that members can't book appointments until you set up proper schedules.\n\nNote that availability is unique to each environment, so a user has a different schedule in live mode and test mode. Additionally, availability does not have a standard list or retrieve endpoint like most other resources. Instead, availability is a child resource of the user to which it belongs. Availability reosurces do still trigger events when they are modified.",
         "x-resourceId": "availability",
         "x-package": "scheduling"
+      },
+      "care_plan": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "care_plan",
+            "enum": [
+              "care_plan"
+            ],
+            "example": "care_plan",
+            "description": "Always `care_plan`."
+          },
+          "id": {
+            "type": "string",
+            "example": "cp_Ahql1iW9f9blBVgf40aL",
+            "description": "Unique ID for the care plan."
+          },
+          "member": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/member"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/member"
+            },
+            "description": "Member to whom this care plan relates. Each care plan must relate to a specific member.",
+            "example": "mem_JAfPRRc59eh2YQ1aeL3D"
+          },
+          "name": {
+            "type": "string",
+            "maxLength": 255,
+            "description": "Name of this care plan. This name is visible to both members and users.",
+            "example": "Diabetes Maintenance"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "A long-form description of this care plan. This description is visible to members and can be used to describe the purpose of the care plan in more detail.",
+            "example": "Long-term care plan for diabetes"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "paused",
+              "completed",
+              "canceled"
+            ],
+            "description": "Current status of this care plan. By default, care plans are created in an `active` status. You can use the `paused` status to stop activities associated with the care plan and prevent any updates to the care plan, with the expectation that the care plan will be reactivated in the future. Pausing a care plan does not cancel associated tasks and intents. If you set both started_at and ended_at, for example to backload a care plan in the past, you must also set the status to either `completed` or `canceled` status. A completed or canceled care plan cannot be reactivated.",
+            "example": "active"
+          },
+          "started_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp indicating the start of the period to which the care plan relates. By default, `started_at` is set to the current time on care plan creation. You can optionally set `started_at` to a time in the past, for example in order to load a historical care plan. `started_at` cannot be set to a time in the future.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "ended_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp indicating the end of the period to which the care plan relates. When a care plan is completed or canceled, the `ended_at` time is automatically updated. You can optionally explicitly set `ended_at` when creating a care plan in a canceled or completed status, in order to reflect a time in the past, for example when updating a historical care plan. `ended_at` must be a time at or after `started_at` and cannot be a time in the future.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "activities": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "example": "cpa_OzMZ8uRiuMoz86anjgOI",
+                  "description": "The unique identifier of this activity."
+                },
+                "action": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "default": "task",
+                          "enum": [
+                            "task"
+                          ],
+                          "example": "task"
+                        },
+                        "config": {
+                          "type": "object",
+                          "properties": {
+                            "task_definition": {
+                              "oneOf": [
+                                {
+                                  "type": "string"
+                                },
+                                {
+                                  "$ref": "#/components/schemas/task_definition"
+                                }
+                              ],
+                              "x-expandable": {
+                                "$ref": "#/components/schemas/task_definition"
+                              },
+                              "description": "Expandable reference to a Task Definition",
+                              "example": "tskd_2Lc2yr7YIYxfN3RCSlBU"
+                            },
+                            "summary": {
+                              "type": "string",
+                              "minLength": 1,
+                              "description": "A brief summary of the task.",
+                              "example": "Measure A1C level."
+                            }
+                          },
+                          "required": [
+                            "task_definition",
+                            "summary"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "config"
+                      ]
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type"
+                  },
+                  "description": "Action to take when the activity is run. The action must specify an action type and corresponding configuration matching the action type.",
+                  "example": {
+                    "type": "task",
+                    "config": {
+                      "task_definition": "tskd_2Lc2yr7YIYxfN3RCSlBU",
+                      "summary": "Quarterly checkin"
+                    }
+                  }
+                },
+                "trigger": {
+                  "oneOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "default": "absolute",
+                          "enum": [
+                            "absolute"
+                          ],
+                          "example": "absolute",
+                          "description": "Type of time-based trigger to use for this activity. If set to `absolute`, specify the timestamp in the date parameter when this activity should run. If set to `relative`, specify in the `amount` and `unit` parameters the amount of time to wait after creation for the activity to run."
+                        },
+                        "date": {
+                          "type": "string",
+                          "format": "date-time",
+                          "description": "Timestamp at which to trigger the activity."
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "date"
+                      ]
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "default": "relative",
+                          "enum": [
+                            "relative"
+                          ],
+                          "example": "relative",
+                          "description": "Type of time-based trigger to use for this activity. If set to `absolute`, specify the timestamp in the date parameter when this activity should run. If set to `relative`, specify in the `amount` and `unit` parameters the amount of time to wait after creation for the activity to run."
+                        },
+                        "unit": {
+                          "type": "string",
+                          "enum": [
+                            "days",
+                            "weeks",
+                            "months"
+                          ],
+                          "description": "Units for the time specified in `amount`."
+                        },
+                        "amount": {
+                          "type": "number",
+                          "description": "Together with the `unit` parameter, the amount of time to wait after activity creation until triggering the activity."
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "unit",
+                        "amount"
+                      ]
+                    }
+                  ],
+                  "discriminator": {
+                    "propertyName": "type"
+                  },
+                  "nullable": true,
+                  "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `days`, `weeks`, and `months`.",
+                  "example": {
+                    "type": "relative",
+                    "unit": "weeks",
+                    "amount": 1
+                  }
+                },
+                "recurrence": {
+                  "type": "object",
+                  "properties": {
+                    "frequency": {
+                      "type": "string",
+                      "enum": [
+                        "weekly"
+                      ],
+                      "description": "How often the activity should recur. Source only supports 'weekly' at this time (including \"every N weeks\", using `interval`).",
+                      "example": "weekly"
+                    },
+                    "interval": {
+                      "type": "number",
+                      "minimum": 1,
+                      "description": "How many of the `frequency` intervals between each activity execution, i.e. 'every N weeks'.",
+                      "example": 1
+                    },
+                    "count": {
+                      "type": "number",
+                      "minimum": 1,
+                      "description": "How many total times the activity should execute.\n\nOne and only one of `count` or `until` can be set."
+                    },
+                    "until": {
+                      "type": "string",
+                      "format": "date",
+                      "description": "The date at which the recurring activity will end. This date is inclusive, so if an activity execution falls on this date, it will run. One and only one of `count` or `until` can be set."
+                    },
+                    "days_of_week": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "enum": [
+                          "monday",
+                          "tuesday",
+                          "wednesday",
+                          "thursday",
+                          "friday",
+                          "saturday",
+                          "sunday"
+                        ]
+                      },
+                      "description": "The days of the week on which the activity should occur. By providing multiple days, you can indicate multiple recurring activities per week."
+                    }
+                  },
+                  "required": [
+                    "frequency",
+                    "interval",
+                    "days_of_week"
+                  ],
+                  "nullable": true,
+                  "description": "Defines the configuration of a recurring activity. If not set, the activity is expected to run once. When using `count`, the recurrence of an activity will change over time to indicate the remaining number of occurrences."
+                },
+                "time_zone": {
+                  "type": "string",
+                  "description": "The IANA time zone for the recurrence and trigger time for the activity. Timestamps associated with activities are represented in UTC time, however the zone is stored and used to calculate run times for the activity.",
+                  "example": "America/Denver"
+                },
+                "occurs_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true,
+                  "description": "Timestamp when the activity should run next. By default, the activity runs on creation if active. If recurrence is configured, the next run's timestamp is automatically calculated and shown in this field.",
+                  "example": "2021-05-13T16:33:00.000Z"
+                },
+                "last_occurred_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true,
+                  "description": "Timestamp when the activity last ran."
+                },
+                "last_outcome": {
+                  "oneOf": [
+                    {
+                      "type": "string"
+                    },
+                    {
+                      "$ref": "#/components/schemas/task"
+                    }
+                  ],
+                  "x-expandable": {
+                    "$ref": "#/components/schemas/task"
+                  },
+                  "description": "The identifier of the action last created by this activity. For example, if the activity is configured to produce a task, this is the identifier of the task the activity last created.",
+                  "example": "task_vAJyHgJ2VYwaYczijn9M",
+                  "nullable": true
+                },
+                "previous_occurrences": {
+                  "type": "number",
+                  "description": "Number of times this activity has occurred before now."
+                },
+                "completed_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "nullable": true,
+                  "description": "Timestamp when the activity was completed."
+                },
+                "created_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the activity was created."
+                },
+                "updated_at": {
+                  "type": "string",
+                  "format": "date-time",
+                  "description": "Timestamp when the activity was last updated."
+                }
+              },
+              "required": [
+                "id",
+                "action",
+                "trigger",
+                "recurrence",
+                "time_zone",
+                "occurs_at",
+                "last_occurred_at",
+                "last_outcome",
+                "previous_occurrences",
+                "completed_at",
+                "created_at",
+                "updated_at"
+              ]
+            },
+            "description": "An ordered list of activities associated with this care plan. Activities represent actions the system should take while the care plan remains active. An activity can optionally be configured to start at a future time or to recur. For example, you can configure an activity to create a particular type of task every month, starting one month after the care plan's start date."
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the care plan was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the care plan was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "deleted_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp when the care plan was deleted.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "member",
+          "name",
+          "description",
+          "status",
+          "started_at",
+          "ended_at",
+          "activities",
+          "created_at",
+          "updated_at",
+          "deleted_at"
+        ],
+        "title": "Care Plan",
+        "description": "A care plan is the primary method of organizing care delivery within Source. Care plans can vary in complexity, ranging from activities for a short episode of care to a long-term health maintenance plan for a specific condition. A member can have any number of active care plans at a time.\n\nEach care plan includes a set of activities that the member and care team plan to do in order to achieve the care plan’s outcomes. You can configure any number of activities that each result in a specific action, optionally at a future date or on a recurring schedule. Once a care plan is created, you must end the care plan and start a new one in order to update, remove, or add activities.\n\nWhile members cannot create care plans directly, via the API members are able to view care plan details and activities that result in member-facing actions.",
+        "x-resourceId": "care_plan",
+        "x-package": "clinical",
+        "x-preview": true
       },
       "care_team": {
         "type": "object",
