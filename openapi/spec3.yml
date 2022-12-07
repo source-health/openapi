@@ -6588,6 +6588,58 @@ paths:
                                         properties:
                                           type:
                                             type: string
+                                            default: long_text
+                                            enum:
+                                              - long_text
+                                            example: long_text
+                                          title:
+                                            type: string
+                                            description:
+                                              Display title of this question in the form, i.e. the
+                                              question text itself.
+                                            example: How do you feel today?
+                                          description:
+                                            type: string
+                                            description:
+                                              An optional secondary text for this question, which
+                                              will be displayed under the title and can contain, for
+                                              example, instructions on how to answer the question.
+                                          required:
+                                            type: boolean
+                                            description:
+                                              Whether a response to this question is required or
+                                              optional. Questions that are hidden by conditional
+                                              rules are never required to have a response.
+                                          key:
+                                            type: string
+                                            minLength: 1
+                                            maxLength: 255
+                                            pattern: ^[a-zA-Z0-9_]+$
+                                            description:
+                                              Unique key of this item within the form. Used in
+                                              responses and conditional logic.
+                                            example: demographics_name
+                                          conditional:
+                                            oneOf:
+                                              - $ref: "#/components/schemas/CompoundConditional"
+                                            x-wrapped: true
+                                            description:
+                                              A conditional statement - if it evaluates to true,
+                                              this question will be displayed, if false the question
+                                              will not be displayed and no response will be recorded
+                                              for it.
+                                        required:
+                                          - type
+                                          - title
+                                          - required
+                                          - key
+                                        description:
+                                          A question type for recording free text responses in a
+                                          text area suitable for paragraphs.
+                                      - type: object
+                                        properties:
+                                          type:
+                                            type: string
                                             default: number
                                             enum:
                                               - number
@@ -7582,6 +7634,57 @@ paths:
                               description:
                                 A question type for recording free text responses in a single line
                                 of plain text.
+                            - type: object
+                              properties:
+                                type:
+                                  type: string
+                                  default: long_text
+                                  enum:
+                                    - long_text
+                                  example: long_text
+                                title:
+                                  type: string
+                                  description:
+                                    Display title of this question in the form, i.e. the question
+                                    text itself.
+                                  example: How do you feel today?
+                                description:
+                                  type: string
+                                  description:
+                                    An optional secondary text for this question, which will be
+                                    displayed under the title and can contain, for example,
+                                    instructions on how to answer the question.
+                                required:
+                                  type: boolean
+                                  description:
+                                    Whether a response to this question is required or optional.
+                                    Questions that are hidden by conditional rules are never
+                                    required to have a response.
+                                key:
+                                  type: string
+                                  minLength: 1
+                                  maxLength: 255
+                                  pattern: ^[a-zA-Z0-9_]+$
+                                  description:
+                                    Unique key of this item within the form. Used in responses and
+                                    conditional logic.
+                                  example: demographics_name
+                                conditional:
+                                  oneOf:
+                                    - $ref: "#/components/schemas/CompoundConditional"
+                                  x-wrapped: true
+                                  description:
+                                    A conditional statement - if it evaluates to true, this question
+                                    will be displayed, if false the question will not be displayed
+                                    and no response will be recorded for it.
+                              required:
+                                - type
+                                - title
+                                - required
+                                - key
+                              description:
+                                A question type for recording free text responses in a text area
+                                suitable for paragraphs.
                             - type: object
                               properties:
                                 type:
@@ -19468,6 +19571,57 @@ components:
                                 properties:
                                   type:
                                     type: string
+                                    default: long_text
+                                    enum:
+                                      - long_text
+                                    example: long_text
+                                  title:
+                                    type: string
+                                    description:
+                                      Display title of this question in the form, i.e. the question
+                                      text itself.
+                                    example: How do you feel today?
+                                  description:
+                                    type: string
+                                    description:
+                                      An optional secondary text for this question, which will be
+                                      displayed under the title and can contain, for example,
+                                      instructions on how to answer the question.
+                                  required:
+                                    type: boolean
+                                    description:
+                                      Whether a response to this question is required or optional.
+                                      Questions that are hidden by conditional rules are never
+                                      required to have a response.
+                                  key:
+                                    type: string
+                                    minLength: 1
+                                    maxLength: 255
+                                    pattern: ^[a-zA-Z0-9_]+$
+                                    description:
+                                      Unique key of this item within the form. Used in responses and
+                                      conditional logic.
+                                    example: demographics_name
+                                  conditional:
+                                    oneOf:
+                                      - $ref: "#/components/schemas/CompoundConditional"
+                                    x-wrapped: true
+                                    description:
+                                      A conditional statement - if it evaluates to true, this
+                                      question will be displayed, if false the question will not be
+                                      displayed and no response will be recorded for it.
+                                required:
+                                  - type
+                                  - title
+                                  - required
+                                  - key
+                                description:
+                                  A question type for recording free text responses in a text area
+                                  suitable for paragraphs.
+                              - type: object
+                                properties:
+                                  type:
+                                    type: string
                                     default: number
                                     enum:
                                       - number
@@ -20446,6 +20600,57 @@ components:
                       description:
                         A question type for recording free text responses in a single line of plain
                         text.
+                    - type: object
+                      properties:
+                        type:
+                          type: string
+                          default: long_text
+                          enum:
+                            - long_text
+                          example: long_text
+                        title:
+                          type: string
+                          description:
+                            Display title of this question in the form, i.e. the question text
+                            itself.
+                          example: How do you feel today?
+                        description:
+                          type: string
+                          description:
+                            An optional secondary text for this question, which will be displayed
+                            under the title and can contain, for example, instructions on how to
+                            answer the question.
+                        required:
+                          type: boolean
+                          description:
+                            Whether a response to this question is required or optional. Questions
+                            that are hidden by conditional rules are never required to have a
+                            response.
+                        key:
+                          type: string
+                          minLength: 1
+                          maxLength: 255
+                          pattern: ^[a-zA-Z0-9_]+$
+                          description:
+                            Unique key of this item within the form. Used in responses and
+                            conditional logic.
+                          example: demographics_name
+                        conditional:
+                          oneOf:
+                            - $ref: "#/components/schemas/CompoundConditional"
+                          x-wrapped: true
+                          description:
+                            A conditional statement - if it evaluates to true, this question will be
+                            displayed, if false the question will not be displayed and no response
+                            will be recorded for it.
+                      required:
+                        - type
+                        - title
+                        - required
+                        - key
+                      description:
+                        A question type for recording free text responses in a text area suitable
+                        for paragraphs.
                     - type: object
                       properties:
                         type:
@@ -23325,6 +23530,52 @@ components:
             - key
           description:
             A question type for recording free text responses in a single line of plain text.
+        - type: object
+          properties:
+            type:
+              type: string
+              default: long_text
+              enum:
+                - long_text
+              example: long_text
+            title:
+              type: string
+              description:
+                Display title of this question in the form, i.e. the question text itself.
+              example: How do you feel today?
+            description:
+              type: string
+              description:
+                An optional secondary text for this question, which will be displayed under the
+                title and can contain, for example, instructions on how to answer the question.
+            required:
+              type: boolean
+              description:
+                Whether a response to this question is required or optional. Questions that are
+                hidden by conditional rules are never required to have a response.
+            key:
+              type: string
+              minLength: 1
+              maxLength: 255
+              pattern: ^[a-zA-Z0-9_]+$
+              description:
+                Unique key of this item within the form. Used in responses and conditional logic.
+              example: demographics_name
+            conditional:
+              oneOf:
+                - $ref: "#/components/schemas/CompoundConditional"
+              x-wrapped: true
+              description:
+                A conditional statement - if it evaluates to true, this question will be displayed,
+                if false the question will not be displayed and no response will be recorded for it.
+          required:
+            - type
+            - title
+            - required
+            - key
+          description:
+            A question type for recording free text responses in a text area suitable for
+            paragraphs.
         - type: object
           properties:
             type:
