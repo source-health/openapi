@@ -2607,11 +2607,11 @@ paths:
 
 
         By default, the care plan is created in an active status using the current time as the
-        `started_at` timestamp. You can optionally set `started_at` to a time in the past if you are
+        `start_at` timestamp. You can optionally set `start_at` to a time in the past if you are
         creating a care plan that is already in progress. In order to backload a care plan that has
-        already ended, you can set both the `started_at` and `ended_at` parameters to times in the
-        past, in which case you must also set the status parameter to either `completed` or
-        `canceled`. A completed or canceled care plan cannot be reactivated or updated.
+        already ended, you can set both the `start_at` and `end_at` parameters to times in the past,
+        in which case you must also set the status parameter to either `completed` or `canceled`. A
+        completed or canceled care plan cannot be reactivated or updated.
       tags:
         - Care Plan
       parameters: []
@@ -2624,9 +2624,7 @@ paths:
                 member:
                   type: string
                   example: mem_5QW8j1oKqQjNaPk4Hv3f
-                  description:
-                    Member to whom this care plan relates. Each care plan must relate to a specific
-                    member.
+                  description: Member to whom this care plan relates.
                 name:
                   type: string
                   minLength: 1
@@ -2653,32 +2651,32 @@ paths:
                     `active` status. You can use the `paused` status to stop activities associated
                     with the care plan and prevent any updates to the care plan, with the
                     expectation that the care plan will be reactivated in the future. Pausing a care
-                    plan does not cancel associated tasks and intents. If you set both started_at
-                    and ended_at, for example to backload a care plan in the past, you must also set
-                    the status to either `completed` or `canceled` status. A completed or canceled
-                    care plan cannot be reactivated.
+                    plan does not cancel associated tasks and intents that have already been
+                    created. If you create a care plan ending in the past, for example as a
+                    backload, you must also set the status to either `completed` or `canceled`. Care
+                    plans in a `canceled` or `completed` status cannot be reactivated.
                   example: active
-                started_at:
+                start_at:
                   type: string
                   format: date-time
                   nullable: true
                   description:
-                    Timestamp indicating the start of the period to which the care plan relates. By
-                    default, `started_at` is set to the current time on care plan creation. You can
-                    optionally set `started_at` to a time in the past, for example in order to load
-                    a historical care plan. `started_at` cannot be set to a time in the future.
+                    Timestamp indicating the start of the care plan. By default, `start_at` is set
+                    to the current time on care plan creation. You can optionally set start_at to a
+                    time in the past, for example in order to backload a historical care plan.
+                    `start_at` cannot be set to a time in the future.
                   example: null
-                ended_at:
+                end_at:
                   type: string
                   format: date-time
                   nullable: true
                   description:
-                    Timestamp indicating the end of the period to which the care plan relates. When
-                    a care plan is completed or canceled, the `ended_at` time is automatically
-                    updated. You can optionally explicitly set `ended_at` when creating a care plan
-                    in a canceled or completed status, in order to reflect a time in the past, for
-                    example when updating a historical care plan. `ended_at` must be a time at or
-                    after `started_at` and cannot be a time in the future.
+                    Timestamp indicating the end of the care plan. When a care plan is completed or
+                    canceled, the `end_at` time is automatically updated. You can optionally specify
+                    `end_at` when creating a care plan in a canceled or completed status, in order
+                    to reflect a time in the past, for example when backloading a historical care
+                    plan. `end_at` must be a time at or after `start_at` and cannot be a time in the
+                    future.
                   example: null
                 activities:
                   type: array
@@ -2815,14 +2813,14 @@ paths:
                             description: |-
                               How many total times the activity should execute.
 
-                              One and only one of `count` or `until` can be set.
+                              Only one of `count` or `until` can be set.
                           until:
                             type: string
                             format: date
                             description:
-                              The date at which the recurring activity will end. This date is
-                              inclusive, so if an activity execution falls on this date, it will
-                              run. One and only one of `count` or `until` can be set.
+                              The date at which the recurring activity ends. This date is inclusive,
+                              so if an activity execution falls on this date, it will run. Only one
+                              of `count` or `until` can be set.
                           days_of_week:
                             type: array
                             items:
@@ -2844,10 +2842,9 @@ paths:
                           - interval
                           - days_of_week
                         description:
-                          Defines the configuration of a recurring activity. If not set, the
-                          activity is expected to run once. When using `count`, the recurrence of an
-                          activity will change over time to indicate the remaining number of
-                          occurrences.
+                          Defines the activity’s recurrence. If not set, the activity is expected to
+                          run once. If neither `count` nor `until` is set, the activity runs
+                          indefinitely.
                       time_zone:
                         type: string
                       completed_at:
@@ -2861,9 +2858,9 @@ paths:
                   description:
                     An ordered list of activities associated with this care plan. Activities
                     represent actions the system should take while the care plan remains active. An
-                    activity can optionally be configured to start at a future time or to recur. For
-                    example, you can configure an activity to create a particular type of task every
-                    month, starting one month after the care plan's start date.
+                    activity can optionally be configured to start at a future time and to recur.
+                    For example, you can configure an activity to create a particular type of task
+                    every four weeks, starting one month after the care plan's start date.
               required:
                 - member
                 - name
@@ -2942,11 +2939,11 @@ paths:
             type: string
             enum:
               - created_at
-              - started_at
-              - ended_at
+              - start_at
+              - end_at
               - -created_at
-              - -started_at
-              - -ended_at
+              - -start_at
+              - -end_at
             description:
               Sort field for the results. A '-' prefix indicates sorting by that field in descending
               order, otherwise the order will be ascending.
@@ -2988,67 +2985,67 @@ paths:
         - in: query
           style: form
           explode: true
-          name: started_at
+          name: start_at
           schema:
             type: object
             properties:
               lt:
                 type: string
                 format: date-time
-                description: Return results where the started_at field is less than this value.
+                description: Return results where the start_at field is less than this value.
               lte:
                 type: string
                 format: date-time
                 description:
-                  Return results where the started_at field is less than or equal to this value.
+                  Return results where the start_at field is less than or equal to this value.
               gt:
                 type: string
                 format: date-time
-                description: Return results where the started_at field is greater than this value.
+                description: Return results where the start_at field is greater than this value.
               gte:
                 type: string
                 format: date-time
                 description:
-                  Return results where the started_at field is greater than or equal to this value.
-            description: "A time based range filter on the list based on the object started_at
-              field. For example `?started_at[gt]=2021-05-10T16:51:38.075Z&started_at[lte]=2021-05\
-              -26T16:51:38.075Z`. The value is a dictionary with the following:"
+                  Return results where the start_at field is greater than or equal to this value.
+            description: "A time based range filter on the list based on the object start_at field.
+              For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T\
+              16:51:38.075Z`. The value is a dictionary with the following:"
           required: false
-          description: "A time based range filter on the list based on the object started_at field.
-            For example `?started_at[gt]=2021-05-10T16:51:38.075Z&started_at[lte]=2021-05-2\
-            6T16:51:38.075Z`. The value is a dictionary with the following:"
+          description: "A time based range filter on the list based on the object start_at field.
+            For example `?start_at[gt]=2021-05-10T16:51:38.075Z&start_at[lte]=2021-05-26T16\
+            :51:38.075Z`. The value is a dictionary with the following:"
         - in: query
           style: form
           explode: true
-          name: ended_at
+          name: end_at
           schema:
             type: object
             properties:
               lt:
                 type: string
                 format: date-time
-                description: Return results where the ended_at field is less than this value.
+                description: Return results where the end_at field is less than this value.
               lte:
                 type: string
                 format: date-time
                 description:
-                  Return results where the ended_at field is less than or equal to this value.
+                  Return results where the end_at field is less than or equal to this value.
               gt:
                 type: string
                 format: date-time
-                description: Return results where the ended_at field is greater than this value.
+                description: Return results where the end_at field is greater than this value.
               gte:
                 type: string
                 format: date-time
                 description:
-                  Return results where the ended_at field is greater than or equal to this value.
-            description: "A time based range filter on the list based on the object ended_at field.
-              For example `?ended_at[gt]=2021-05-10T16:51:38.075Z&ended_at[lte]=2021-05-26T\
-              16:51:38.075Z`. The value is a dictionary with the following:"
+                  Return results where the end_at field is greater than or equal to this value.
+            description: "A time based range filter on the list based on the object end_at field.
+              For example `?end_at[gt]=2021-05-10T16:51:38.075Z&end_at[lte]=2021-05-26T16:5\
+              1:38.075Z`. The value is a dictionary with the following:"
           required: false
-          description: "A time based range filter on the list based on the object ended_at field.
-            For example `?ended_at[gt]=2021-05-10T16:51:38.075Z&ended_at[lte]=2021-05-26T16\
-            :51:38.075Z`. The value is a dictionary with the following:"
+          description: "A time based range filter on the list based on the object end_at field. For
+            example `?end_at[gt]=2021-05-10T16:51:38.075Z&end_at[lte]=2021-05-26T16:51:\
+            38.075Z`. The value is a dictionary with the following:"
       responses:
         default:
           description: Successful response.
@@ -3135,11 +3132,12 @@ paths:
                     `active` status. You can use the `paused` status to stop activities associated
                     with the care plan and prevent any updates to the care plan, with the
                     expectation that the care plan will be reactivated in the future. Pausing a care
-                    plan does not cancel associated tasks and intents. If you set both started_at
-                    and ended_at, for example to backload a care plan in the past, you must also set
-                    the status to either `completed` or `canceled` status. A completed or canceled
-                    care plan cannot be reactivated.
-                  example: active
+                    plan does not cancel associated tasks and intents that have already been
+                    created. If you create a care plan ending in the past, for example as a
+                    backload, you must also set the status to either `completed` or `canceled`. Once
+                    a care plan is canceled or completed, associated unresolved actions (for
+                    example, tasks and intents) are canceled. Care plans in a `canceled` or
+                    `completed` status cannot be reactivated.
       responses:
         default:
           description: Successful response.
@@ -13286,7 +13284,7 @@ paths:
       x-belongsToResource: slot
   /v1/scheduling/recurring_slots:
     post:
-      summary: List slot availability for a series of recurring appointments
+      summary: List recurring appointment slots
       description: >-
         This endpoint lists all potential recurring instances of a recurring series, given the
         proposed start timestamp of the first appointment in the series. The response will indicate
@@ -17129,8 +17127,7 @@ components:
             - $ref: "#/components/schemas/member"
           x-expandable:
             $ref: "#/components/schemas/member"
-          description:
-            Member to whom this care plan relates. Each care plan must relate to a specific member.
+          description: Member to whom this care plan relates.
           example: mem_JAfPRRc59eh2YQ1aeL3D
         name:
           type: string
@@ -17155,31 +17152,28 @@ components:
             Current status of this care plan. By default, care plans are created in an `active`
             status. You can use the `paused` status to stop activities associated with the care plan
             and prevent any updates to the care plan, with the expectation that the care plan will
-            be reactivated in the future. Pausing a care plan does not cancel associated tasks and
-            intents. If you set both started_at and ended_at, for example to backload a care plan in
-            the past, you must also set the status to either `completed` or `canceled` status. A
-            completed or canceled care plan cannot be reactivated.
+            be reactivated in the future. Care plans in a `canceled` or `completed` status cannot be
+            reactivated.
           example: active
-        started_at:
+        start_at:
           type: string
           format: date-time
           description:
-            Timestamp indicating the start of the period to which the care plan relates. By default,
-            `started_at` is set to the current time on care plan creation. You can optionally set
-            `started_at` to a time in the past, for example in order to load a historical care plan.
-            `started_at` cannot be set to a time in the future.
+            Timestamp indicating the start of the care plan. By default, `start_at` is set to the
+            current time on care plan creation. You can optionally set start_at to a time in the
+            past, for example in order to backload a historical care plan. `start_at` cannot be set
+            to a time in the future.
           example: 2021-05-13T16:33:00.000Z
-        ended_at:
+        end_at:
           type: string
           format: date-time
           nullable: true
           description:
-            Timestamp indicating the end of the period to which the care plan relates. When a care
-            plan is completed or canceled, the `ended_at` time is automatically updated. You can
-            optionally explicitly set `ended_at` when creating a care plan in a canceled or
-            completed status, in order to reflect a time in the past, for example when updating a
-            historical care plan. `ended_at` must be a time at or after `started_at` and cannot be a
-            time in the future.
+            Timestamp indicating the end of the care plan. When a care plan is completed or
+            canceled, the `end_at` time is automatically updated. You can optionally specify
+            `end_at` when creating a care plan in a canceled or completed status, in order to
+            reflect a time in the past, for example when backloading a historical care plan.
+            `end_at` must be a time at or after `start_at` and cannot be a time in the future.
           example: 2021-05-13T16:33:00.000Z
         activities:
           type: array
@@ -17319,14 +17313,14 @@ components:
                     description: |-
                       How many total times the activity should execute.
 
-                      One and only one of `count` or `until` can be set.
+                      Only one of `count` or `until` can be set.
                   until:
                     type: string
                     format: date
                     description:
-                      The date at which the recurring activity will end. This date is inclusive, so
-                      if an activity execution falls on this date, it will run. One and only one of
-                      `count` or `until` can be set.
+                      The date at which the recurring activity ends. This date is inclusive, so if
+                      an activity execution falls on this date, it will run. Only one of `count` or
+                      `until` can be set.
                   days_of_week:
                     type: array
                     items:
@@ -17348,9 +17342,8 @@ components:
                   - days_of_week
                 nullable: true
                 description:
-                  Defines the configuration of a recurring activity. If not set, the activity is
-                  expected to run once. When using `count`, the recurrence of an activity will
-                  change over time to indicate the remaining number of occurrences.
+                  Defines the activity’s recurrence. If not set, the activity is expected to run
+                  once. If neither `count` nor `until` is set, the activity runs indefinitely.
               time_zone:
                 type: string
                 description:
@@ -17364,8 +17357,8 @@ components:
                 nullable: true
                 description:
                   Timestamp when the activity should run next. By default, the activity runs on
-                  creation if active. If recurrence is configured, the next run's timestamp is
-                  automatically calculated and shown in this field.
+                  creation if active. If a trigger or recurrence is configured, the next run's
+                  timestamp is automatically calculated and shown in this field.
                 example: 2021-05-13T16:33:00.000Z
               last_occurred_at:
                 type: string
@@ -17416,18 +17409,18 @@ components:
           description:
             An ordered list of activities associated with this care plan. Activities represent
             actions the system should take while the care plan remains active. An activity can
-            optionally be configured to start at a future time or to recur. For example, you can
-            configure an activity to create a particular type of task every month, starting one
+            optionally be configured to start at a future time and to recur. For example, you can
+            configure an activity to create a particular type of task every four weeks, starting one
             month after the care plan's start date.
         created_at:
           type: string
           format: date-time
-          description: Timestamp of when the care plan was created.
+          description: Timestamp when the care plan was created.
           example: 2021-05-13T16:33:00.000Z
         updated_at:
           type: string
           format: date-time
-          description: Timestamp of when the care plan was last updated.
+          description: Timestamp when the care plan was last updated.
           example: 2021-05-13T16:33:00.000Z
         deleted_at:
           type: string
@@ -17442,8 +17435,8 @@ components:
         - name
         - description
         - status
-        - started_at
-        - ended_at
+        - start_at
+        - end_at
         - activities
         - created_at
         - updated_at
