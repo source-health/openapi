@@ -11659,6 +11659,150 @@ paths:
                   - has_more
       x-methodName: listVersions
       x-belongsToResource: note
+  "/v1/members/{recipient}/notification_preferences":
+    get:
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: recipient
+          schema:
+            type: string
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
+            description: The member whose notifications should be retrieved.
+          required: true
+          description: The member whose notifications should be retrieved.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notification_preferences"
+      x-name: retrieveForMember
+      x-belongsToResource: notification_preferences
+    post:
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: recipient
+          schema:
+            type: string
+            example: mem_5QW8j1oKqQjNaPk4Hv3f
+            description: The member whose notifications should be updated.
+          required: true
+          description: The member whose notifications should be updated.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      app:
+                        type: boolean
+                        description:
+                          Whether or not this notification is enabled via in-app notifications.
+                      email:
+                        type: boolean
+                        description: Whether or not this notification is enabled via email.
+                      sms:
+                        type: boolean
+                        description:
+                          Whether or not this notification is enabled via SMS. Please contact the
+                          Source team to enable SMS capabilities for your account.
+                    required:
+                      - app
+                      - email
+                      - sms
+              required:
+                - notifications
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notification_preferences"
+      x-name: updateForMember
+      x-belongsToResource: notification_preferences
+  "/v1/users/{recipient}/notification_preferences":
+    get:
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: recipient
+          schema:
+            type: string
+            example: usr_qoGndHzx8KwdYsEByt9X
+            description: The user whose notifications should be retrieved.
+          required: true
+          description: The user whose notifications should be retrieved.
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notification_preferences"
+      x-name: retrieveForUser
+      x-belongsToResource: notification_preferences
+    post:
+      parameters:
+        - in: path
+          style: simple
+          explode: true
+          name: recipient
+          schema:
+            type: string
+            example: usr_qoGndHzx8KwdYsEByt9X
+            description: The user whose notifications should be updated.
+          required: true
+          description: The user whose notifications should be updated.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                notifications:
+                  type: object
+                  additionalProperties:
+                    type: object
+                    properties:
+                      app:
+                        type: boolean
+                        description:
+                          Whether or not this notification is enabled via in-app notifications.
+                      email:
+                        type: boolean
+                        description: Whether or not this notification is enabled via email.
+                      sms:
+                        type: boolean
+                        description:
+                          Whether or not this notification is enabled via SMS. Please contact the
+                          Source team to enable SMS capabilities for your account.
+                    required:
+                      - app
+                      - email
+                      - sms
+              required:
+                - notifications
+      responses:
+        default:
+          description: Successful response.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/notification_preferences"
+      x-name: updateForUser
+      x-belongsToResource: notification_preferences
   /v1/orders:
     post:
       summary: Create an Order
@@ -22344,6 +22488,71 @@ components:
       x-resourceId: note_version
       x-package: clinical
       x-preview: true
+    notification_preferences:
+      type: object
+      properties:
+        object:
+          type: string
+          default: notification_preferences
+          enum:
+            - notification_preferences
+          example: notification_preferences
+          description: Always `notification_preferences`.
+        recipient:
+          anyOf:
+            - oneOf:
+                - type: string
+                - $ref: "#/components/schemas/member"
+              x-expandable:
+                $ref: "#/components/schemas/member"
+              description: Expandable reference to a Member
+              example: mem_JAfPRRc59eh2YQ1aeL3D
+            - oneOf:
+                - type: string
+                - $ref: "#/components/schemas/user"
+              x-expandable:
+                $ref: "#/components/schemas/user"
+              description: Expandable reference to a User
+              example: usr_NC6MQ3FyxddKoJJpfSVL
+          description: The recipient to which these preferences belong.
+        notifications:
+          type: object
+          additionalProperties:
+            type: object
+            properties:
+              app:
+                type: boolean
+                description: Whether or not this notification is enabled via in-app notifications.
+              email:
+                type: boolean
+                description: Whether or not this notification is enabled via email.
+              sms:
+                type: boolean
+                description:
+                  Whether or not this notification is enabled via SMS. Please contact the Source
+                  team to enable SMS capabilities for your account.
+            required:
+              - app
+              - email
+              - sms
+          description:
+            The settings for all notifications that apply to the recipient type. Each notification
+            will have a key in this dictionary, and the value will be the configuration for that
+            notification.
+      required:
+        - object
+        - recipient
+        - notifications
+      description: >-
+        Notification preferences allow you to control how Source contacts members and users of
+        important activity. Using this API, you can enable or disable notifications for each member
+        individually across each channel.
+
+
+        If you'd like to globally enable or disable certain notifications, you can manage these
+        settings through the notifications page of the Source Administration dashboard.
+      x-resourceId: notification_preferences
+      x-package: null
     order:
       type: object
       properties:
