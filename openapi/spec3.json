@@ -4029,6 +4029,12 @@
                     },
                     "nullable": true,
                     "description": "List of unique identifiers of resources related to the encounter, such as appointments and form responses. Providing related resources input replaces any existing related resources on the encounter. Providing null or an empty list empties out the list of related resources."
+                  },
+                  "assignee": {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
+                    "nullable": true,
+                    "description": "The user to which the task associated with the open encounter should be assigned. If not specified, the task follows task routing configuration to choose an assignee. When creating or updating an open encounter, you can use this parameter for convenience to route the encounter task to a specific assignee. The task itself can also be updated directly using the Task API."
                   }
                 },
                 "required": [
@@ -4333,6 +4339,12 @@
                     },
                     "nullable": true,
                     "description": "List of unique identifiers of resources related to the encounter, such as appointments and form responses. Providing related resources input replaces any existing related resources on the encounter. Providing null or an empty list empties out the list of related resources."
+                  },
+                  "assignee": {
+                    "type": "string",
+                    "example": "usr_qoGndHzx8KwdYsEByt9X",
+                    "nullable": true,
+                    "description": "The user to which the task associated with the open encounter should be assigned. If not specified, the task follows task routing configuration to choose an assignee. When creating or updating an open encounter, you can use this parameter for convenience to route the encounter task to a specific assignee. The task itself can also be updated directly using the Task API."
                   }
                 }
               }
@@ -18914,6 +18926,22 @@
             },
             "description": "Array of resources related to the encounter, such as appointments and form responses. When retrieving encounters via API, related resources can be expanded by including `&expand=related.resource` in the encounter query."
           },
+          "task": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/task"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/task"
+            },
+            "description": "The identifier of the task associated with the encounter. Open encounters automatically generate tasks to ensure that the encounter is documented and closed. For convenience, you can optionally specify a task assignee when creating or updating an encounter using the `assignee` parameter. When the encounter is closed, the associated task is automatically resolved and unlinked from the encounter. If the encounter is reopened, a new task is created and will follow task routing configuration unless you specify an assignee.",
+            "example": "task_vAJyHgJ2VYwaYczijn9M",
+            "nullable": true
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -18942,6 +18970,7 @@
           "start_at",
           "end_at",
           "related",
+          "task",
           "created_at",
           "updated_at",
           "deleted_at"
@@ -25639,25 +25668,46 @@
                 "resource_type": {
                   "type": "string",
                   "enum": [
-                    "thread"
+                    "thread",
+                    "encounter"
                   ],
                   "description": "Related object type",
                   "example": "thread"
                 },
                 "resource": {
-                  "oneOf": [
+                  "anyOf": [
                     {
-                      "type": "string"
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/components/schemas/thread"
+                        }
+                      ],
+                      "x-expandable": {
+                        "$ref": "#/components/schemas/thread"
+                      },
+                      "description": "Expandable reference to the message's thread.",
+                      "example": "thrd_7BqeKrhbVU7c4Cigqs60"
                     },
                     {
-                      "$ref": "#/components/schemas/thread"
+                      "oneOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "$ref": "#/components/schemas/encounter"
+                        }
+                      ],
+                      "x-expandable": {
+                        "$ref": "#/components/schemas/encounter"
+                      },
+                      "description": "Expandable reference to an Encounter",
+                      "example": "enc_05j8GyFykJwGI5pEyUmY"
                     }
                   ],
-                  "x-expandable": {
-                    "$ref": "#/components/schemas/thread"
-                  },
-                  "description": "Unique identifier for the related resource.",
-                  "example": "thrd_7BqeKrhbVU7c4Cigqs60"
+                  "description": "Unique identifier for the related resource."
                 }
               },
               "required": [
