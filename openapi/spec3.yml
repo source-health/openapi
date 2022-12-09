@@ -5246,6 +5246,11 @@ paths:
                     example, set public to true for a public-facing intake form that should be
                     accessible to anyone.
                   example: false
+                create_encounter:
+                  type: boolean
+                  description:
+                    Whether an encounter should be automatically created for this form when
+                    responses are submitted. Default to false.
               required:
                 - key
                 - name
@@ -5437,6 +5442,11 @@ paths:
                   nullable: true
                   description: Description of this form
                   example: Intake questionnaire to be filled out before first appointment.
+                create_encounter:
+                  type: boolean
+                  description:
+                    Whether an encounter should be automatically created for this form when
+                    responses are submitted. Default to false.
       responses:
         default:
           description: Successful response.
@@ -18686,6 +18696,11 @@ components:
           description: Most recently created version of the form. Always the current draft version.
           example: fv_ByJdV5tV3eJf6KRRfoGU
           nullable: true
+        create_encounter:
+          type: boolean
+          description:
+            Whether an encounter should be automatically created for this form when responses are
+            submitted. Default to false.
         created_at:
           type: string
           format: date-time
@@ -18711,6 +18726,7 @@ components:
         - public
         - published_version
         - latest_version
+        - create_encounter
         - created_at
         - updated_at
         - archived_at
