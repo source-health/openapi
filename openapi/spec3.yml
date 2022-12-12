@@ -25243,6 +25243,10 @@ components:
         - encounter.created
         - encounter.updated
         - encounter.deleted
+        - encounter_type.created
+        - encounter_type.updated
+        - encounter_type.archived
+        - encounter_type.unarchived
         - file.created
         - field.created
         - field.updated
