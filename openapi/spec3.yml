@@ -17660,7 +17660,7 @@ components:
           type: string
           description:
             Markdown formatted contents of the comment. Comments support limited Markdown syntax.
-          example: "@John can you take a look at this?"
+          example: "[@John](mention://user/usr_qoGndHzx8KwdYsEByt9X) can you take a look at this?"
         resource:
           oneOf:
             - type: string
@@ -17692,6 +17692,21 @@ components:
           description:
             Any attachments related to this comment. Currently, only file attachments are supported.
           example: []
+        mentioned_users:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/user"
+            x-expandable:
+              $ref: "#/components/schemas/user"
+            description: Expandable reference to a User
+            example: usr_NC6MQ3FyxddKoJJpfSVL
+          description:
+            List of users that were mentioned in this comment. Mentions are automatically detected
+            by scanning the markdown text content for links to the mention:// scheme.
+          example:
+            - usr_qoGndHzx8KwdYsEByt9X
         created_at:
           type: string
           format: date-time
@@ -17715,6 +17730,7 @@ components:
         - resource
         - author
         - attachments
+        - mentioned_users
         - created_at
         - updated_at
       title: Comment
