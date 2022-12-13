@@ -16295,6 +16295,17 @@ components:
             for more details.
           example: appt_mTvufYJBBgYmbEAEZ6rE
           nullable: true
+        encounter:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/encounter"
+          x-expandable:
+            $ref: "#/components/schemas/encounter"
+          description:
+            The identifier of the encounter to which this appointment relates.  This field is
+            returned when the appointment is related to an undeleted encounter.
+          example: enc_05j8GyFykJwGI5pEyUmY
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -16324,6 +16335,7 @@ components:
         - recurrence
         - series_parent
         - series
+        - encounter
         - created_at
         - updated_at
       title: Appointment
