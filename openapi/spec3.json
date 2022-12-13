@@ -2469,9 +2469,9 @@
                                 "unit": {
                                   "type": "string",
                                   "enum": [
-                                    "days",
-                                    "weeks",
-                                    "months"
+                                    "day",
+                                    "week",
+                                    "month"
                                   ],
                                   "description": "Units for the time specified in `amount`."
                                 },
@@ -2490,10 +2490,10 @@
                           "discriminator": {
                             "propertyName": "type"
                           },
-                          "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `days`, `weeks`, and `months`.",
+                          "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `day`, `week`, and `month`.",
                           "example": {
                             "type": "relative",
-                            "unit": "weeks",
+                            "unit": "week",
                             "amount": 1
                           }
                         },
@@ -17921,9 +17921,9 @@
                         "unit": {
                           "type": "string",
                           "enum": [
-                            "days",
-                            "weeks",
-                            "months"
+                            "day",
+                            "week",
+                            "month"
                           ],
                           "description": "Units for the time specified in `amount`."
                         },
@@ -17943,10 +17943,10 @@
                     "propertyName": "type"
                   },
                   "nullable": true,
-                  "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `days`, `weeks`, and `months`.",
+                  "description": "When the activity should begin running. You can specify either an `absolute` trigger type along with a specific date and time or a `relative` trigger type to indicate a period of time after the start of the care plan. The relative trigger type supports units of `day`, `week`, and `month`.",
                   "example": {
                     "type": "relative",
-                    "unit": "weeks",
+                    "unit": "week",
                     "amount": 1
                   }
                 },
