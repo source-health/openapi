@@ -4403,7 +4403,7 @@
         "x-belongsToResource": "encounter"
       },
       "get": {
-        "summary": "Find an Encounter",
+        "summary": "Retrieve an Encounter",
         "description": "Retrieves the details of an existing encounter. You need only supply the unique encounter identifier that was returned upon creation.",
         "tags": [
           "Encounter"
@@ -4437,6 +4437,370 @@
         },
         "x-methodName": "retrieve",
         "x-belongsToResource": "encounter"
+      }
+    },
+    "/v1/encounter_types": {
+      "post": {
+        "summary": "Create an Encounter Type",
+        "description": "Creates a new encounter type in Source.\n\nAfter creating an encounter type, you can relate the encounter type to appointment types and forms in order to begin creating encounters.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string",
+                    "description": "Unique key for this encounter type. You can use this when creating encounters via the API. In order to avoid potential confusion when distinguishing between encounter type IDs and keys, keys must not start with `entp_`.",
+                    "example": "form-response-completed"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Description of this encounter type. This description is not displayed and is used to capture administrative notes about the encounter type."
+                  },
+                  "queue": {
+                    "type": "string",
+                    "example": "que_6NGuKD4KdMCGXLP6uBda",
+                    "nullable": true,
+                    "description": "Queue through which tasks related to encounters of this type should be routed in order to find an assignee. This queue overrides any queue specified in the task definition for open encounters. You can always change the queue for a given task once that task has been created."
+                  }
+                },
+                "required": [
+                  "key"
+                ]
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter_type"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "create",
+        "x-belongsToResource": "encounter_type"
+      },
+      "get": {
+        "summary": "List all Encounter Types",
+        "description": "Returns a list of encounter types within the current account. The encounter types returned are sorted by creation date, with the most recently added encounter type appearing first.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "ending_before",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `ending_before` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, starting with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch the previous page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "starting_after",
+            "schema": {
+              "type": "string",
+              "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+            },
+            "required": false,
+            "description": "A cursor for use in pagination. `starting_after` is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch the next page of the list."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "limit",
+            "schema": {
+              "type": "number",
+              "minimum": 1,
+              "maximum": 100,
+              "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+            },
+            "required": false,
+            "description": "A limit on the number of objects to be returned. Limit can range between 1 and 100."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "sort",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "created_at",
+                "-created_at"
+              ],
+              "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending.",
+              "example": "created_at"
+            },
+            "required": false,
+            "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "queue",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "que_6NGuKD4KdMCGXLP6uBda"
+              },
+              "description": "Filter results by queue. If multiple queue ids are provided, encounter types matching any of the provided queues will be returned."
+            },
+            "required": false,
+            "description": "Filter results by queue. If multiple queue ids are provided, encounter types matching any of the provided queues will be returned."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "archived",
+            "schema": {
+              "type": "boolean",
+              "description": "Filter encounter types to only those whose archive status matches the provided value. By default, this operation return all encounter types. You may pass `archived=true` to show archived encounter types, or `archived=false` to show unarchived encounter types."
+            },
+            "required": false,
+            "description": "Filter encounter types to only those whose archive status matches the provided value. By default, this operation return all encounter types. You may pass `archived=true` to show archived encounter types, or `archived=false` to show unarchived encounter types."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "object": {
+                      "type": "string",
+                      "default": "list",
+                      "enum": [
+                        "list"
+                      ],
+                      "example": "list",
+                      "description": "Always `list`."
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/encounter_type"
+                      },
+                      "description": "Array of results"
+                    },
+                    "has_more": {
+                      "type": "boolean",
+                      "description": "Contains `true` if there is another page of results available."
+                    }
+                  },
+                  "required": [
+                    "object",
+                    "data",
+                    "has_more"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "list",
+        "x-belongsToResource": "encounter_type"
+      }
+    },
+    "/v1/encounter_types/{id}": {
+      "post": {
+        "summary": "Update an Encounter Type",
+        "description": "Updates the specified encounter type by setting the values of the parameters passed. Any parameters not provided will be left unchanged.\n\nEncounters are linked to encounter types in Source, so some changes made to an encounter type will be visible on past encounters. However, changes to fields that influence encounter behavior, such as the queue, will apply only to new tasks that are related to open encounters.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "entp_0IcPhnnAMjWduezNQRaC",
+              "description": "Unique ID of the encounter_type."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter_type."
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "key": {
+                    "type": "string",
+                    "description": "Unique key for this encounter type. You can use this when creating encounters via the API. In order to avoid potential confusion when distinguishing between encounter type IDs and keys, keys must not start with `entp_`.",
+                    "example": "form-response-completed"
+                  },
+                  "description": {
+                    "type": "string",
+                    "nullable": true,
+                    "description": "Description of this encounter type. This description is not displayed and is used to capture administrative notes about the encounter type."
+                  },
+                  "queue": {
+                    "type": "string",
+                    "example": "que_6NGuKD4KdMCGXLP6uBda",
+                    "nullable": true,
+                    "description": "Queue through which tasks related to encounters of this type should be routed in order to find an assignee. This queue overrides any queue specified in the task definition for open encounters. You can always change the queue for a given task once that task has been created."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter_type"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "update",
+        "x-belongsToResource": "encounter_type"
+      },
+      "get": {
+        "summary": "Retrieve an Encounter Type",
+        "description": "Retrieves an encounter type by its unique identifier.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "entp_0IcPhnnAMjWduezNQRaC",
+              "description": "Unique ID of the encounter_type."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter_type."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter_type"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "retrieve",
+        "x-belongsToResource": "encounter_type"
+      }
+    },
+    "/v1/encounter_types/{id}/archive": {
+      "post": {
+        "summary": "Archive an Encounter Type",
+        "description": "Archives the specified encounter type. An archived encounter type can be viewed on any encounter it relates to but cannot be used to create new encounters.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "entp_0IcPhnnAMjWduezNQRaC",
+              "description": "Unique ID of the encounter_type."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter_type."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter_type"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "archive",
+        "x-belongsToResource": "encounter_type"
+      }
+    },
+    "/v1/encounter_types/{id}/unarchive": {
+      "post": {
+        "summary": "Unarchive an Encounter Type",
+        "description": "Unarchives the specified encounter type. Once unarchived, the encounter type can be used to create new encounters.",
+        "tags": [
+          "Encounter Type"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "style": "simple",
+            "explode": true,
+            "name": "id",
+            "schema": {
+              "type": "string",
+              "example": "entp_0IcPhnnAMjWduezNQRaC",
+              "description": "Unique ID of the encounter_type."
+            },
+            "required": true,
+            "description": "Unique ID of the encounter_type."
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "Successful response.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/encounter_type"
+                }
+              }
+            }
+          }
+        },
+        "x-methodName": "unarchive",
+        "x-belongsToResource": "encounter_type"
       }
     },
     "/v1/events/{id}": {
@@ -12075,7 +12439,7 @@
         "x-belongsToResource": "note"
       },
       "get": {
-        "summary": "Find a Note",
+        "summary": "Retrieve a Note",
         "description": "Retrieves an existing note by its unique identifier.",
         "tags": [
           "Note"
@@ -19026,6 +19390,85 @@
         "title": "Encounter",
         "description": "Encounters represent the details of one or more related interactions with a member as part of their health care.\n\nDepending on your needs, you can use encounters to document an appointment with a member, a form response, or a combination of interactions. Each encounter must have a specific start and end time, representing the time period of the interactions documented by the encounter. Currently, Source supports encounters for appointments and form responses, and will support other types of encounters over time.\n\nEncounters are the entry point for notes in Source. Each encounter can optionally include one or more notes that themselves represent the documentation of the member's care. When creating encounters and notes via API, first create the encounter and then create the note related to the encounter.",
         "x-resourceId": "encounter",
+        "x-package": "clinical",
+        "x-preview": true
+      },
+      "encounter_type": {
+        "type": "object",
+        "properties": {
+          "object": {
+            "type": "string",
+            "default": "encounter_type",
+            "enum": [
+              "encounter_type"
+            ],
+            "example": "encounter_type",
+            "description": "Always `encounter_type`."
+          },
+          "id": {
+            "type": "string",
+            "example": "entp_0IcPhnnAMjWduezNQRaC",
+            "description": "Unique ID for the encounter type."
+          },
+          "key": {
+            "type": "string",
+            "description": "Unique key for this encounter type. You can use this when creating encounters via the API. In order to avoid potential confusion when distinguishing between encounter type IDs and keys, keys must not start with `entp_`.",
+            "example": "form-response-completed"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true,
+            "description": "Description of this encounter type. This description is not displayed and is used to capture administrative notes about the encounter type."
+          },
+          "queue": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/queue"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/queue"
+            },
+            "description": "Queue through which tasks related to encounters of this type should be routed in order to find an assignee. This queue overrides any queue specified in the task definition for open encounters. You can always change the queue for a given task once that task has been created.",
+            "example": "que_6NGuKD4KdMCGXLP6uBda",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the encounter type was created.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of when the encounter type was last updated.",
+            "example": "2021-05-13T16:33:00.000Z"
+          },
+          "archived_at": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true,
+            "description": "Timestamp of when the encounter type was archived.",
+            "example": "2021-05-13T16:33:00.000Z"
+          }
+        },
+        "required": [
+          "object",
+          "id",
+          "key",
+          "description",
+          "queue",
+          "created_at",
+          "updated_at",
+          "archived_at"
+        ],
+        "title": "Encounter Type",
+        "description": "Encounter types inform the display and behavior of encounters.\n\nYou can use encounter types to identify similar encounters and to control how tasks related to open encounters should route. Appointment types and forms can each relate to an encounter type, giving you the ability to route the encounters for booked appointments and submitted form responses to particular clinicians on your care team.\n\nEach encounter type contains the default configuration for how tasks associated with encounters of that type should route. You can always override these settings on individual tasks. If you update the configuration for an encounter type, changes are not reflected for existing tasks for encounters, only for newly opened tasks.",
+        "x-resourceId": "encounter_type",
         "x-package": "clinical",
         "x-preview": true
       },
