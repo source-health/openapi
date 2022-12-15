@@ -4088,6 +4088,10 @@ paths:
             schema:
               type: object
               properties:
+                encounter_type:
+                  type: string
+                  example: entp_0IcPhnnAMjWduezNQRaC
+                  description: The encounter type to use for this encounter.
                 member:
                   type: string
                   example: mem_5QW8j1oKqQjNaPk4Hv3f
@@ -4139,6 +4143,7 @@ paths:
                     this parameter for convenience to route the encounter task to a specific
                     assignee. The task itself can also be updated directly using the Task API.
               required:
+                - encounter_type
                 - member
       responses:
         default:
@@ -4224,6 +4229,22 @@ paths:
           description:
             Sort field for the results. A '-' prefix indicates sorting by that field in descending
             order, otherwise the order will be ascending.
+        - in: query
+          style: form
+          explode: true
+          name: encounter_type
+          schema:
+            type: array
+            items:
+              type: string
+              example: entp_0IcPhnnAMjWduezNQRaC
+            description:
+              Filter results by encounter type. If multiple encounter type ids are provided,
+              encounters matching any of the provided encounter types will be returned.
+          required: false
+          description:
+            Filter results by encounter type. If multiple encounter type ids are provided,
+            encounters matching any of the provided encounter types will be returned.
         - in: query
           style: form
           explode: true
@@ -5572,11 +5593,15 @@ paths:
                     example, set public to true for a public-facing intake form that should be
                     accessible to anyone.
                   example: false
-                create_encounter:
-                  type: boolean
+                encounter_type:
+                  anyOf:
+                    - type: string
+                      example: entp_0IcPhnnAMjWduezNQRaC
+                    - type: string
                   description:
-                    Whether an encounter should be automatically created for this form when
-                    responses are submitted. Default to false.
+                    The encounter type for the encounter that Source creates automatically when a
+                    response to this form is submitted. If this field is null, an encounter is not
+                    created automatically for each form response.
               required:
                 - key
                 - name
@@ -5768,11 +5793,16 @@ paths:
                   nullable: true
                   description: Description of this form
                   example: Intake questionnaire to be filled out before first appointment.
-                create_encounter:
-                  type: boolean
+                encounter_type:
+                  anyOf:
+                    - type: string
+                      example: entp_0IcPhnnAMjWduezNQRaC
+                    - type: string
+                  nullable: true
                   description:
-                    Whether an encounter should be automatically created for this form when
-                    responses are submitted. Default to false.
+                    The encounter type for the encounter that Source creates automatically when a
+                    response to this form is submitted. If this field is null, an encounter is not
+                    created automatically for each form response.
       responses:
         default:
           description: Successful response.
@@ -18470,6 +18500,14 @@ components:
           type: string
           example: enc_QTt9bgcEaw5e9jpGnmzj
           description: Unique ID for the encounter.
+        encounter_type:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/encounter_type"
+          x-expandable:
+            $ref: "#/components/schemas/encounter_type"
+          description: The type of encounter that was created.
+          example: entp_Al9BP6ZBzGmJy7A6EMU2
         member:
           oneOf:
             - type: string
@@ -18569,6 +18607,7 @@ components:
       required:
         - object
         - id
+        - encounter_type
         - member
         - status
         - start_at
@@ -19133,11 +19172,14 @@ components:
           description: Most recently created version of the form. Always the current draft version.
           example: fv_ByJdV5tV3eJf6KRRfoGU
           nullable: true
-        create_encounter:
-          type: boolean
+        encounter_type:
+          type: string
+          example: entp_0IcPhnnAMjWduezNQRaC
+          nullable: true
           description:
-            Whether an encounter should be automatically created for this form when responses are
-            submitted. Default to false.
+            The encounter type for the encounter that Source creates automatically when a response
+            to this form is submitted. If this field is null, an encounter is not created
+            automatically for each form response.
         created_at:
           type: string
           format: date-time
@@ -19163,7 +19205,7 @@ components:
         - public
         - published_version
         - latest_version
-        - create_encounter
+        - encounter_type
         - created_at
         - updated_at
         - archived_at

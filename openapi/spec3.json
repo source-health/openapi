@@ -3985,6 +3985,11 @@
               "schema": {
                 "type": "object",
                 "properties": {
+                  "encounter_type": {
+                    "type": "string",
+                    "example": "entp_0IcPhnnAMjWduezNQRaC",
+                    "description": "The encounter type to use for this encounter."
+                  },
                   "member": {
                     "type": "string",
                     "example": "mem_5QW8j1oKqQjNaPk4Hv3f",
@@ -4038,6 +4043,7 @@
                   }
                 },
                 "required": [
+                  "encounter_type",
                   "member"
                 ]
               }
@@ -4120,6 +4126,22 @@
             },
             "required": false,
             "description": "Sort field for the results. A '-' prefix indicates sorting by that field in descending order, otherwise the order will be ascending."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "encounter_type",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "example": "entp_0IcPhnnAMjWduezNQRaC"
+              },
+              "description": "Filter results by encounter type. If multiple encounter type ids are provided, encounters matching any of the provided encounter types will be returned."
+            },
+            "required": false,
+            "description": "Filter results by encounter type. If multiple encounter type ids are provided, encounters matching any of the provided encounter types will be returned."
           },
           {
             "in": "query",
@@ -5642,9 +5664,17 @@
                     "description": "Whether or not this form can be directly accessed by a public responder. For example, set public to true for a public-facing intake form that should be accessible to anyone.",
                     "example": false
                   },
-                  "create_encounter": {
-                    "type": "boolean",
-                    "description": "Whether an encounter should be automatically created for this form when responses are submitted. Default to false."
+                  "encounter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "entp_0IcPhnnAMjWduezNQRaC"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "description": "The encounter type for the encounter that Source creates automatically when a response to this form is submitted. If this field is null, an encounter is not created automatically for each form response."
                   }
                 },
                 "required": [
@@ -5863,9 +5893,18 @@
                     "description": "Description of this form",
                     "example": "Intake questionnaire to be filled out before first appointment."
                   },
-                  "create_encounter": {
-                    "type": "boolean",
-                    "description": "Whether an encounter should be automatically created for this form when responses are submitted. Default to false."
+                  "encounter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "entp_0IcPhnnAMjWduezNQRaC"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "nullable": true,
+                    "description": "The encounter type for the encounter that Source creates automatically when a response to this form is submitted. If this field is null, an encounter is not created automatically for each form response."
                   }
                 }
               }
@@ -19244,6 +19283,21 @@
             "example": "enc_QTt9bgcEaw5e9jpGnmzj",
             "description": "Unique ID for the encounter."
           },
+          "encounter_type": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/encounter_type"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/encounter_type"
+            },
+            "description": "The type of encounter that was created.",
+            "example": "entp_Al9BP6ZBzGmJy7A6EMU2"
+          },
           "member": {
             "oneOf": [
               {
@@ -19377,6 +19431,7 @@
         "required": [
           "object",
           "id",
+          "encounter_type",
           "member",
           "status",
           "start_at",
@@ -19947,9 +20002,11 @@
             "example": "fv_ByJdV5tV3eJf6KRRfoGU",
             "nullable": true
           },
-          "create_encounter": {
-            "type": "boolean",
-            "description": "Whether an encounter should be automatically created for this form when responses are submitted. Default to false."
+          "encounter_type": {
+            "type": "string",
+            "example": "entp_0IcPhnnAMjWduezNQRaC",
+            "nullable": true,
+            "description": "The encounter type for the encounter that Source creates automatically when a response to this form is submitted. If this field is null, an encounter is not created automatically for each form response."
           },
           "created_at": {
             "type": "string",
@@ -19980,7 +20037,7 @@
           "public",
           "published_version",
           "latest_version",
-          "create_encounter",
+          "encounter_type",
           "created_at",
           "updated_at",
           "archived_at"
