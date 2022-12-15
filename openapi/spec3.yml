@@ -1374,6 +1374,15 @@ paths:
 
                     Note: the recurring appointments feature is currently in preview. Please contact
                     Source for more details.
+                encounter_type:
+                  anyOf:
+                    - type: string
+                      example: entp_0IcPhnnAMjWduezNQRaC
+                    - type: string
+                  nullable: true
+                  description:
+                    The encounter type to use by default when creating encounters related to
+                    appointments of this type.
               required:
                 - key
                 - name
@@ -1919,6 +1928,15 @@ paths:
 
                     Note: the recurring appointments feature is currently in preview. Please contact
                     Source for more details.
+                encounter_type:
+                  anyOf:
+                    - type: string
+                      example: entp_0IcPhnnAMjWduezNQRaC
+                    - type: string
+                  nullable: true
+                  description:
+                    The encounter type to use by default when creating encounters related to
+                    appointments of this type.
       responses:
         default:
           description: Successful response.
@@ -17037,6 +17055,17 @@ components:
 
             Note: the recurring appointments feature is currently in preview. Please contact Source
             for more details.
+        encounter_type:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/encounter_type"
+          x-expandable:
+            $ref: "#/components/schemas/encounter_type"
+          description:
+            The encounter type used by default when creating encounters related to appointments of
+            this type.
+          example: entp_Al9BP6ZBzGmJy7A6EMU2
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -17074,6 +17103,7 @@ components:
         - license_types
         - reminders
         - recurrence
+        - encounter_type
         - created_at
         - updated_at
         - deleted_at

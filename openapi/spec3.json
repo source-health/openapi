@@ -1242,6 +1242,19 @@
                     ],
                     "nullable": true,
                     "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+                  },
+                  "encounter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "entp_0IcPhnnAMjWduezNQRaC"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "nullable": true,
+                    "description": "The encounter type to use by default when creating encounters related to appointments of this type."
                   }
                 },
                 "required": [
@@ -1723,6 +1736,19 @@
                     ],
                     "nullable": true,
                     "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
+                  },
+                  "encounter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "entp_0IcPhnnAMjWduezNQRaC"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "nullable": true,
+                    "description": "The encounter type to use by default when creating encounters related to appointments of this type."
                   }
                 }
               }
@@ -17724,6 +17750,22 @@
             "nullable": true,
             "description": "Defines the default recurrence of this appointment type, if any.  Because creating an actual recurring series requires more information than can be defined in the default (in particular, 'days_of_week' defining which day(s) to recur on), setting the appointment type recurrence will not cause an appointment created with that type to have a recurring series. The appointment must be explicitly created with the full recurrence config for the series.\n\nExpressed as a subset of RRULE fields (see [rrule.js docs](https://github.com/jakubroztocil/rrule#api) for more context, but note that we only support a limited subset of the full RRULE spec).\n\nRecurrence configuration at the appointment type level is slightly different than what is allowed on an actual recurring series, notably rather than `until`, we can specifiy a `duration`. Also, specifying the day of week or month using `days_of_week` is not allowed at the appointment type level.\n\nNote: the recurring appointments feature is currently in preview. Please contact Source for more details."
           },
+          "encounter_type": {
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "$ref": "#/components/schemas/encounter_type"
+              }
+            ],
+            "x-expandable": {
+              "$ref": "#/components/schemas/encounter_type"
+            },
+            "description": "The encounter type used by default when creating encounters related to appointments of this type.",
+            "example": "entp_Al9BP6ZBzGmJy7A6EMU2",
+            "nullable": true
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -17765,6 +17807,7 @@
           "license_types",
           "reminders",
           "recurrence",
+          "encounter_type",
           "created_at",
           "updated_at",
           "deleted_at"
