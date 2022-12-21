@@ -1383,6 +1383,17 @@ paths:
                   description:
                     The encounter type to use by default when creating encounters related to
                     appointments of this type.
+                forms:
+                  type: array
+                  items:
+                    type: string
+                    example: form_hSGPOT5BMusNLwDI3Z4N
+                  description:
+                    A list of forms that members should complete before appointments of this type.
+                    When an appointment is booked, form responses to these forms are automatically
+                    created for the member to complete.
+                  example:
+                    - form_hSGPOT5BMusNLwDI3Z4N
               required:
                 - key
                 - name
@@ -1937,6 +1948,17 @@ paths:
                   description:
                     The encounter type to use by default when creating encounters related to
                     appointments of this type.
+                forms:
+                  type: array
+                  items:
+                    type: string
+                    example: form_hSGPOT5BMusNLwDI3Z4N
+                  description:
+                    A list of forms that members should complete before appointments of this type.
+                    When an appointment is booked, form responses to these forms are automatically
+                    created for the member to complete.
+                  example:
+                    - form_hSGPOT5BMusNLwDI3Z4N
       responses:
         default:
           description: Successful response.
@@ -17066,6 +17088,22 @@ components:
             this type.
           example: entp_Al9BP6ZBzGmJy7A6EMU2
           nullable: true
+        forms:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/form"
+            x-expandable:
+              $ref: "#/components/schemas/form"
+            description: Expandable reference to a Form
+            example: form_hSGPOT5BMusNLwDI3Z4N
+          description:
+            A list of forms that members should complete before appointments of this type. When an
+            appointment is booked, form responses to these forms are automatically created for the
+            member to complete.
+          example:
+            - form_hSGPOT5BMusNLwDI3Z4N
         created_at:
           type: string
           format: date-time
@@ -17104,6 +17142,7 @@ components:
         - reminders
         - recurrence
         - encounter_type
+        - forms
         - created_at
         - updated_at
         - deleted_at
