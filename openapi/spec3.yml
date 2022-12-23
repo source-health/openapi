@@ -1036,7 +1036,6 @@ paths:
         searching your team and scheduling them.
       tags:
         - Appointment Type
-        - Preview
       parameters: []
       requestBody:
         content:
@@ -1411,7 +1410,6 @@ paths:
       description: Lists all available appointment types.
       tags:
         - Appointment Type
-        - Preview
       parameters:
         - in: query
           style: form
@@ -1557,7 +1555,6 @@ paths:
       description: Retrieve an appointment type by its unique identifier.
       tags:
         - Appointment Type
-        - Preview
       parameters:
         - in: path
           style: simple
@@ -1591,7 +1588,6 @@ paths:
         appointments.
       tags:
         - Appointment Type
-        - Preview
       parameters:
         - in: path
           style: simple
@@ -1979,7 +1975,6 @@ paths:
         delete an appontment type at any time.
       tags:
         - Appointment Type
-        - Preview
       parameters:
         - in: path
           style: simple
@@ -6121,6 +6116,7 @@ paths:
             items:
               type: string
               enum:
+                - not_started
                 - started
                 - completed
             description: Filter results by status.
@@ -16702,6 +16698,23 @@ components:
             returned when the appointment is related to an undeleted encounter.
           example: enc_05j8GyFykJwGI5pEyUmY
           nullable: true
+        form_responses:
+          type: array
+          items:
+            oneOf:
+              - type: string
+              - $ref: "#/components/schemas/form_response"
+            x-expandable:
+              $ref: "#/components/schemas/form_response"
+            description: Expandable reference to a form response
+            example: fr_mk29zZR6Qr5u5Q0BRHwu
+          description:
+            A list of form responses associated with this appointment. When an appointment is
+            booked, form responses can be created automatically based on appointment type
+            configuration. Members can then access and complete form responses, for example, via
+            appointment notifications.
+          example:
+            - fr_mk29zZR6Qr5u5Q0BRHwu
         created_at:
           type: string
           format: date-time
@@ -16732,6 +16745,7 @@ components:
         - series_parent
         - series
         - encounter
+        - form_responses
         - created_at
         - updated_at
       title: Appointment
@@ -19361,6 +19375,7 @@ components:
         status:
           type: string
           enum:
+            - not_started
             - started
             - completed
           description:

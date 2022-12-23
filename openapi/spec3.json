@@ -999,8 +999,7 @@
         "summary": "Create an Appointment Type",
         "description": "Creates a new appointment type on Source.\n\nAfter creating an appointment type, you can use the availability endpoints to begin searching your team and scheduling them.",
         "tags": [
-          "Appointment Type",
-          "Preview"
+          "Appointment Type"
         ],
         "parameters": [],
         "requestBody": {
@@ -1295,8 +1294,7 @@
         "summary": "List all Appointment Types",
         "description": "Lists all available appointment types.",
         "tags": [
-          "Appointment Type",
-          "Preview"
+          "Appointment Type"
         ],
         "parameters": [
           {
@@ -1453,8 +1451,7 @@
         "summary": "Retrieve an Appointment Type",
         "description": "Retrieve an appointment type by its unique identifier.",
         "tags": [
-          "Appointment Type",
-          "Preview"
+          "Appointment Type"
         ],
         "parameters": [
           {
@@ -1490,8 +1487,7 @@
         "summary": "Update an Appointment Type",
         "description": "Updates an appointment type.\n\nAppointments are linked to appointment types in Source, so changes made to an appointment type will be visible on past appointments as well. However, some fields, such as the duration and location of the appointment, are copied at the time the appointment is created. Changing the duration of an appointment type will not change the duration of past appointments.",
         "tags": [
-          "Appointment Type",
-          "Preview"
+          "Appointment Type"
         ],
         "parameters": [
           {
@@ -1796,8 +1792,7 @@
         "summary": "Delete an Appointment Type",
         "description": "Deletes an appointment type from Source.\n\nOnce an appointment type is deleted, it can no longer be used to schedule further appointments. It will still be visible on past appointments that used this type. You can delete an appontment type at any time.",
         "tags": [
-          "Appointment Type",
-          "Preview"
+          "Appointment Type"
         ],
         "parameters": [
           {
@@ -6276,6 +6271,7 @@
               "items": {
                 "type": "string",
                 "enum": [
+                  "not_started",
                   "started",
                   "completed"
                 ]
@@ -17477,6 +17473,28 @@
             "example": "enc_05j8GyFykJwGI5pEyUmY",
             "nullable": true
           },
+          "form_responses": {
+            "type": "array",
+            "items": {
+              "oneOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "$ref": "#/components/schemas/form_response"
+                }
+              ],
+              "x-expandable": {
+                "$ref": "#/components/schemas/form_response"
+              },
+              "description": "Expandable reference to a form response",
+              "example": "fr_mk29zZR6Qr5u5Q0BRHwu"
+            },
+            "description": "A list of form responses associated with this appointment. When an appointment is booked, form responses can be created automatically based on appointment type configuration. Members can then access and complete form responses, for example, via appointment notifications.",
+            "example": [
+              "fr_mk29zZR6Qr5u5Q0BRHwu"
+            ]
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -17510,6 +17528,7 @@
           "series_parent",
           "series",
           "encounter",
+          "form_responses",
           "created_at",
           "updated_at"
         ],
@@ -20223,6 +20242,7 @@
           "status": {
             "type": "string",
             "enum": [
+              "not_started",
               "started",
               "completed"
             ],
