@@ -4814,6 +4814,29 @@
             "description": "Unique ID of the encounter_type."
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "replacement_encounter_type": {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "example": "entp_0IcPhnnAMjWduezNQRaC"
+                      },
+                      {
+                        "type": "string"
+                      }
+                    ],
+                    "description": "The ID of the encounter type to use as a replacement for resources such as appointment types and forms that reference the archived encounter type. If not specified and the encounter type is related to an appointment type or a form, archiving will fail."
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "default": {
             "description": "Successful response.",
