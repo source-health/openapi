@@ -4561,6 +4561,12 @@ paths:
                     via the API. In order to avoid potential confusion when distinguishing between
                     encounter type IDs and keys, keys must not start with `entp_`.
                   example: form-response-completed
+                name:
+                  type: string
+                  description:
+                    Name of this encounter type. When a task associated with an encounter is
+                    created, the encounter type's name is used to populate the task summary.
+                  example: Form Response Completed
                 description:
                   type: string
                   nullable: true
@@ -4578,6 +4584,7 @@ paths:
                     once that task has been created.
               required:
                 - key
+                - name
       responses:
         default:
           description: Successful response.
@@ -4757,6 +4764,12 @@ paths:
                     via the API. In order to avoid potential confusion when distinguishing between
                     encounter type IDs and keys, keys must not start with `entp_`.
                   example: form-response-completed
+                name:
+                  type: string
+                  description:
+                    Name of this encounter type. When a task associated with an encounter is
+                    created, the encounter type's name is used to populate the task summary.
+                  example: Form Response Completed
                 description:
                   type: string
                   nullable: true
@@ -18755,7 +18768,12 @@ components:
             Unique key for this encounter type. You can use this when creating encounters via the
             API. In order to avoid potential confusion when distinguishing between encounter type
             IDs and keys, keys must not start with `entp_`.
-          example: form-response-completed
+          example: back-pain-intake
+        name:
+          type: string
+          maxLength: 255
+          description: Name of this encounter type.
+          example: Back Pain Intake
         description:
           type: string
           nullable: true
@@ -18795,6 +18813,7 @@ components:
         - object
         - id
         - key
+        - name
         - description
         - queue
         - created_at
