@@ -18291,7 +18291,6 @@ components:
         - type
         - operator
         - key
-        - fact
         - argument
       description: >-
         A 'concrete' conditional (in contrast to a 'compound' one) takes a fact, some fixed
@@ -19382,9 +19381,11 @@ components:
               item:
                 $ref: "#/components/schemas/Question"
               response: {}
+              value: {}
             required:
               - item
               - response
+              - value
           description:
             The individual responses that capture the author's answers to corresponding items within
             the form version.,

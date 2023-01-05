@@ -19049,7 +19049,6 @@
           "type",
           "operator",
           "key",
-          "fact",
           "argument"
         ],
         "description": "A 'concrete' conditional (in contrast to a 'compound' one) takes a fact, some fixed arguments, and applies the given operator to calculate the boolean result.\n\nThe input (left-hand-side) of the operator is specified by a question response key and path within that question's response schema to the fact we are using.\n\nThe argument (right-hand-side) of the operator is provided as config and its type must match the allowed types of the operator and the input type. For example, the '$eq' operator requires the argument type is the same as the input type."
@@ -20253,11 +20252,13 @@
                 "item": {
                   "$ref": "#/components/schemas/Question"
                 },
-                "response": {}
+                "response": {},
+                "value": {}
               },
               "required": [
                 "item",
-                "response"
+                "response",
+                "value"
               ]
             },
             "description": "The individual responses that capture the author's answers to corresponding items within the form version.,"
