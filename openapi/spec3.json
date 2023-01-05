@@ -12813,7 +12813,7 @@
             }
           }
         },
-        "x-name": "retrieveForMember",
+        "x-methodName": "retrieveForMember",
         "x-belongsToResource": "notification_preferences"
       },
       "post": {
@@ -12883,7 +12883,7 @@
             }
           }
         },
-        "x-name": "updateForMember",
+        "x-methodName": "updateForMember",
         "x-belongsToResource": "notification_preferences"
       }
     },
@@ -12916,7 +12916,7 @@
             }
           }
         },
-        "x-name": "retrieveForUser",
+        "x-methodName": "retrieveForUser",
         "x-belongsToResource": "notification_preferences"
       },
       "post": {
@@ -12986,7 +12986,7 @@
             }
           }
         },
-        "x-name": "updateForUser",
+        "x-methodName": "updateForUser",
         "x-belongsToResource": "notification_preferences"
       }
     },
@@ -14380,8 +14380,8 @@
             }
           }
         },
-        "x-methodName": "list",
-        "x-belongsToResource": "recurring_slot"
+        "x-methodName": "listRecurring",
+        "x-belongsToResource": "slot"
       }
     },
     "/v1/tags": {
@@ -25954,7 +25954,7 @@
         ],
         "title": "Recurring Slot",
         "description": "Recurring slots represent the status of each instance of a series of recurring appointments.\n\nSource's scheduling APIs can be used to power rich member self-booking workflows. For recurring appointments, it is expected that the initial appointment time be selected first using the Slots API, then the status of each instance within the recurring series can be retrieved using this recurring slots API, before proceeding to book the series via the Appointments API.\n\nUnlike most other resources in the Source API, slots are not stored. As a result, they do not have an identifier, nor do they trigger any kind of events. Instead, slots are dynamically calculated as needed based on the availability of people in your team.",
-        "x-resourceId": "slot",
+        "x-resourceId": "recurring_slot",
         "x-package": "scheduling"
       },
       "relationship": {
