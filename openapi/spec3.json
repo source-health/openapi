@@ -5167,7 +5167,9 @@
       "post": {
         "summary": "Create a Field",
         "description": "Creates a new field.\n\nCurrently, Source only allows the creation of custom fields on a member resource. Other resources will support fields in future API updates.",
-        "tags": [],
+        "tags": [
+          "Field"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -5284,7 +5286,9 @@
       "get": {
         "summary": "List all Fields",
         "description": "Lists all fields belonging to the provided object.",
-        "tags": [],
+        "tags": [
+          "Field"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -5382,7 +5386,9 @@
       "post": {
         "summary": "Update a Field",
         "description": "Updates an existing field, referenced by its unique identifier.\n\nOnce a field is created, its neither its key nor data type can be modified. If you need to change data types, you may create another field, migrate the data using the API, and delete the first field.",
-        "tags": [],
+        "tags": [
+          "Field"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -5487,7 +5493,9 @@
       "get": {
         "summary": "Retrieve a Field",
         "description": "Retrieves the details of an existing field on an object.",
-        "tags": [],
+        "tags": [
+          "Field"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -5531,7 +5539,9 @@
       "delete": {
         "summary": "Delete a Field",
         "description": "Deletes an existing field, referenced by its unique identifier.\n\n**Important**: Deleting a field is a destructive action. When deleting a field, Source schedules a cleanup action that will remove any value provided to that field, for any resource referencing the field. This action is irreversible.\n\nPlease ensure you no longer need the data in a field before deleting it.",
-        "tags": [],
+        "tags": [
+          "Field"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -12786,6 +12796,9 @@
     },
     "/v1/members/{recipient}/notification_preferences": {
       "get": {
+        "tags": [
+          "Notification Preferences"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -12817,6 +12830,9 @@
         "x-belongsToResource": "notification_preferences"
       },
       "post": {
+        "tags": [
+          "Notification Preferences"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -12889,6 +12905,9 @@
     },
     "/v1/users/{recipient}/notification_preferences": {
       "get": {
+        "tags": [
+          "Notification Preferences"
+        ],
         "parameters": [
           {
             "in": "path",
@@ -12920,6 +12939,9 @@
         "x-belongsToResource": "notification_preferences"
       },
       "post": {
+        "tags": [
+          "Notification Preferences"
+        ],
         "parameters": [
           {
             "in": "path",

@@ -5129,7 +5129,8 @@ paths:
 
         Currently, Source only allows the creation of custom fields on a member resource. Other
         resources will support fields in future API updates.
-      tags: []
+      tags:
+        - Field
       parameters:
         - in: path
           style: simple
@@ -5246,7 +5247,8 @@ paths:
     get:
       summary: List all Fields
       description: Lists all fields belonging to the provided object.
-      tags: []
+      tags:
+        - Field
       parameters:
         - in: path
           style: simple
@@ -5341,7 +5343,8 @@ paths:
         Once a field is created, its neither its key nor data type can be modified. If you need to
         change data types, you may create another field, migrate the data using the API, and delete
         the first field.
-      tags: []
+      tags:
+        - Field
       parameters:
         - in: path
           style: simple
@@ -5425,7 +5428,8 @@ paths:
     get:
       summary: Retrieve a Field
       description: Retrieves the details of an existing field on an object.
-      tags: []
+      tags:
+        - Field
       parameters:
         - in: path
           style: simple
@@ -5465,7 +5469,8 @@ paths:
 
 
         Please ensure you no longer need the data in a field before deleting it.
-      tags: []
+      tags:
+        - Field
       parameters:
         - in: path
           style: simple
@@ -12213,6 +12218,8 @@ paths:
       x-belongsToResource: note
   "/v1/members/{recipient}/notification_preferences":
     get:
+      tags:
+        - Notification Preferences
       parameters:
         - in: path
           style: simple
@@ -12234,6 +12241,8 @@ paths:
       x-methodName: retrieveForMember
       x-belongsToResource: notification_preferences
     post:
+      tags:
+        - Notification Preferences
       parameters:
         - in: path
           style: simple
@@ -12285,6 +12294,8 @@ paths:
       x-belongsToResource: notification_preferences
   "/v1/users/{recipient}/notification_preferences":
     get:
+      tags:
+        - Notification Preferences
       parameters:
         - in: path
           style: simple
@@ -12306,6 +12317,8 @@ paths:
       x-methodName: retrieveForUser
       x-belongsToResource: notification_preferences
     post:
+      tags:
+        - Notification Preferences
       parameters:
         - in: path
           style: simple
