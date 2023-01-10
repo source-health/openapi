@@ -4657,7 +4657,9 @@ paths:
             type: string
             enum:
               - created_at
+              - name
               - -created_at
+              - -name
             description:
               Sort field for the results. A '-' prefix indicates sorting by that field in descending
               order, otherwise the order will be ascending.
@@ -4697,6 +4699,15 @@ paths:
             Filter encounter types to only those whose archive status matches the provided value. By
             default, this operation return all encounter types. You may pass `archived=true` to show
             archived encounter types, or `archived=false` to show unarchived encounter types.
+        - in: query
+          style: form
+          explode: true
+          name: name
+          schema:
+            type: string
+            description: Limit results to encounters with name containing the given query.
+          required: false
+          description: Limit results to encounters with name containing the given query.
       responses:
         default:
           description: Successful response.
