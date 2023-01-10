@@ -19479,6 +19479,17 @@ components:
             based on the author's responses. If the author reaches an exit during the response, the
             exit screen is specified here.
           nullable: true
+        encounter:
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/encounter"
+          x-expandable:
+            $ref: "#/components/schemas/encounter"
+          description:
+            The identifier of the encounter to which this form response relates.  This field is
+            returned when the form response is related to an undeleted encounter.
+          example: enc_05j8GyFykJwGI5pEyUmY
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -19505,6 +19516,7 @@ components:
         - responses
         - status
         - exit_screen
+        - encounter
         - created_at
         - updated_at
         - completed_at
