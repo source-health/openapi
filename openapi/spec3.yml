@@ -2749,6 +2749,30 @@ paths:
                             required:
                               - type
                               - config
+                          - type: object
+                            properties:
+                              type:
+                                type: string
+                                default: form
+                                enum:
+                                  - form
+                                example: form
+                              config:
+                                type: object
+                                properties:
+                                  form:
+                                    type: string
+                                    minLength: 1
+                                    description:
+                                      The ID or key of the form to use when creating the form
+                                      intent. At the time of creating the care plan, the form must
+                                      have a published version.
+                                    example: form_hSGPOT5BMusNLwDI3Z4N
+                                required:
+                                  - form
+                            required:
+                              - type
+                              - config
                         discriminator:
                           propertyName: type
                         description:
@@ -17747,6 +17771,30 @@ components:
                         required:
                           - task_definition
                           - summary
+                    required:
+                      - type
+                      - config
+                  - type: object
+                    properties:
+                      type:
+                        type: string
+                        default: form
+                        enum:
+                          - form
+                        example: form
+                      config:
+                        type: object
+                        properties:
+                          form:
+                            oneOf:
+                              - type: string
+                              - $ref: "#/components/schemas/form"
+                            x-expandable:
+                              $ref: "#/components/schemas/form"
+                            description: Expandable reference to a Form
+                            example: form_hSGPOT5BMusNLwDI3Z4N
+                        required:
+                          - form
                     required:
                       - type
                       - config
