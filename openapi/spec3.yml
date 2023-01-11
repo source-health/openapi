@@ -21898,30 +21898,57 @@ components:
           enum:
             - cronofy
             - canvas
+            - elation
         enabled:
           type: boolean
         config:
-          type: object
-          properties:
-            type:
-              type: string
-              default: canvas
-              enum:
-                - canvas
-              example: canvas
-            api_base_url:
-              type: string
-              description: The URL of the Canvas instance FHIR API to connect to.
-              example: https://fhir-subdomain.canvas.com
-            web_base_url:
-              type: string
-              description: The URL of the Canvas instance web application to connect to.
-              example: https://subdomain.canvas.com
-          required:
-            - type
-            - api_base_url
-            - web_base_url
+          oneOf:
+            - type: object
+              properties:
+                type:
+                  type: string
+                  default: canvas
+                  enum:
+                    - canvas
+                  example: canvas
+                api_base_url:
+                  type: string
+                  description: The URL of the Canvas instance FHIR API to connect to.
+                  example: https://fhir-subdomain.canvas.com
+                web_base_url:
+                  type: string
+                  description: The URL of the Canvas instance web application to connect to.
+                  example: https://subdomain.canvas.com
+              required:
+                - type
+                - api_base_url
+                - web_base_url
+            - type: object
+              properties:
+                type:
+                  type: string
+                  default: elation
+                  enum:
+                    - elation
+                  example: elation
+                api_base_url:
+                  type: string
+                  description: The URL of the Elation API to connect to.
+                  example: https://sandbox.elationemr.com
+                web_base_url:
+                  type: string
+                  description: The URL of the Elation instance web application to connect to.
+                  example: https://sandbox.elationemr.com
+              required:
+                - type
+                - api_base_url
+                - web_base_url
+          discriminator:
+            propertyName: type
           nullable: true
+          description:
+            Integration-specific configuration. Each integration type requires different config
+            data.
         external_id:
           type: string
           nullable: true
