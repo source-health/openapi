@@ -9270,6 +9270,14 @@ paths:
                     A set of configuration describing the appointment you wish the member to book or
                     form you wish the member to  complete. This parameter's configuration depends on
                     the intent type you specify.
+                send_notification:
+                  type: boolean
+                  description:
+                    Whether or not this intent should generate a notification to the member. If not
+                    specified, by default no notification is generated. Note that the generated
+                    notification is only sent if the member and account notification preferences are
+                    configured to send notifications for intents.
+                  example: false
               required:
                 - member
                 - type
@@ -19444,13 +19452,17 @@ components:
           example: fv_ByJdV5tV3eJf6KRRfoGU
           nullable: true
         encounter_type:
-          type: string
-          example: entp_0IcPhnnAMjWduezNQRaC
-          nullable: true
+          oneOf:
+            - type: string
+            - $ref: "#/components/schemas/encounter_type"
+          x-expandable:
+            $ref: "#/components/schemas/encounter_type"
           description:
             The encounter type for the encounter that Source creates automatically when a response
             to this form is submitted. If this field is null, an encounter is not created
             automatically for each form response.
+          example: entp_Al9BP6ZBzGmJy7A6EMU2
+          nullable: true
         created_at:
           type: string
           format: date-time
@@ -22379,6 +22391,10 @@ components:
             A set of configuration describing the appointment you wish the member to book or form
             you wish the member to  complete. This parameter's configuration depends on the intent
             type you specify.
+        send_notification:
+          type: boolean
+          description: Whether or not this intent should generate a notification to the member.
+          example: false
         outcome:
           anyOf:
             - oneOf:
@@ -22420,6 +22436,7 @@ components:
         - link
         - secret
         - configuration
+        - send_notification
         - outcome
         - created_at
         - updated_at
