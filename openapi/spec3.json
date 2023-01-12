@@ -6203,11 +6203,11 @@
                         "key": {
                           "type": "string"
                         },
-                        "value": {},
-                        "values": {}
+                        "value": {}
                       },
                       "required": [
-                        "key"
+                        "key",
+                        "value"
                       ]
                     },
                     "description": "The individual responses that capture the author's answers to corresponding items within the form version. Each response is associated with the item key of the corresponding question in the form version."
@@ -6518,11 +6518,11 @@
                         "key": {
                           "type": "string"
                         },
-                        "value": {},
-                        "values": {}
+                        "value": {}
                       },
                       "required": [
-                        "key"
+                        "key",
+                        "value"
                       ]
                     },
                     "description": "The individual responses that capture the author's answers to corresponding items within the form version. Each response is associated with the item key of the corresponding question in the form version."
@@ -6620,6 +6620,60 @@
                     "type": "string",
                     "nullable": true,
                     "description": "Description of changes within this form version. You can use the changelog to describe the updates you are making within this form version relative to previous versions. The changelog is not visible to members and responders to the form."
+                  },
+                  "calculations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "type": {
+                          "type": "string",
+                          "default": "calculation",
+                          "enum": [
+                            "calculation"
+                          ],
+                          "example": "calculation"
+                        },
+                        "key": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 255,
+                          "pattern": "^[a-zA-Z0-9_]+$",
+                          "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                          "example": "demographics_name"
+                        },
+                        "title": {
+                          "type": "string",
+                          "description": "Display title of this question in the form, i.e. the question text itself.",
+                          "example": "How do you feel today?"
+                        },
+                        "expression": {
+                          "type": "string",
+                          "description": "Formula that should be evaluated for this calculation",
+                          "example": "IF(yes_no_question, \"True\", \"False\")"
+                        },
+                        "data_type": {
+                          "type": "string",
+                          "enum": [
+                            "number",
+                            "string",
+                            "date",
+                            "date_time"
+                          ],
+                          "description": "Expected data type returned from the formula",
+                          "example": "string"
+                        }
+                      },
+                      "required": [
+                        "type",
+                        "key",
+                        "title",
+                        "expression",
+                        "data_type"
+                      ],
+                      "description": "A calculation to be performed on values within the form. This form node can be used to calculate a value for a field based on the values of questions or even other calculations."
+                    },
+                    "description": "An array of items that describe the form version's content and configuration. Pages form the top-level item and contain additional elements, such as questions, display elements, and groups of items."
                   },
                   "items": {
                     "type": "array",
@@ -7424,6 +7478,9 @@
                                                   "label": {
                                                     "type": "string",
                                                     "description": "Display label for this option. Must be unique within the question."
+                                                  },
+                                                  "score": {
+                                                    "type": "number"
                                                   }
                                                 },
                                                 "required": [
@@ -7464,6 +7521,13 @@
                                               ],
                                               "description": "Control the input type of the single-select question.",
                                               "example": "drop_down"
+                                            },
+                                            "scoring_method": {
+                                              "type": "string",
+                                              "enum": [
+                                                "none",
+                                                "max"
+                                              ]
                                             }
                                           },
                                           "required": [
@@ -7529,6 +7593,9 @@
                                                   "label": {
                                                     "type": "string",
                                                     "description": "Display label for this option. Must be unique within the question."
+                                                  },
+                                                  "score": {
+                                                    "type": "number"
                                                   }
                                                 },
                                                 "required": [
@@ -7568,6 +7635,14 @@
                                               ],
                                               "description": "Control the input type of the multi-select question.",
                                               "example": "checkbox"
+                                            },
+                                            "scoring_method": {
+                                              "type": "string",
+                                              "enum": [
+                                                "none",
+                                                "max",
+                                                "sum"
+                                              ]
                                             }
                                           },
                                           "required": [
@@ -8452,6 +8527,9 @@
                                         "label": {
                                           "type": "string",
                                           "description": "Display label for this option. Must be unique within the question."
+                                        },
+                                        "score": {
+                                          "type": "number"
                                         }
                                       },
                                       "required": [
@@ -8492,6 +8570,13 @@
                                     ],
                                     "description": "Control the input type of the single-select question.",
                                     "example": "drop_down"
+                                  },
+                                  "scoring_method": {
+                                    "type": "string",
+                                    "enum": [
+                                      "none",
+                                      "max"
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -8557,6 +8642,9 @@
                                         "label": {
                                           "type": "string",
                                           "description": "Display label for this option. Must be unique within the question."
+                                        },
+                                        "score": {
+                                          "type": "number"
                                         }
                                       },
                                       "required": [
@@ -8596,6 +8684,14 @@
                                     ],
                                     "description": "Control the input type of the multi-select question.",
                                     "example": "checkbox"
+                                  },
+                                  "scoring_method": {
+                                    "type": "string",
+                                    "enum": [
+                                      "none",
+                                      "max",
+                                      "sum"
+                                    ]
                                   }
                                 },
                                 "required": [
@@ -20369,6 +20465,70 @@
             "description": "The version of the form associated with this form response.  The form version associated with the response cannot be changed after creation. Any updates to this response relate to this same form version.",
             "example": "fv_ByJdV5tV3eJf6KRRfoGU"
           },
+          "calculations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "item": {
+                  "type": "object",
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "default": "calculation",
+                      "enum": [
+                        "calculation"
+                      ],
+                      "example": "calculation"
+                    },
+                    "key": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 255,
+                      "pattern": "^[a-zA-Z0-9_]+$",
+                      "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                      "example": "demographics_name"
+                    },
+                    "title": {
+                      "type": "string",
+                      "description": "Display title of this question in the form, i.e. the question text itself.",
+                      "example": "How do you feel today?"
+                    },
+                    "expression": {
+                      "type": "string",
+                      "description": "Formula that should be evaluated for this calculation",
+                      "example": "IF(yes_no_question, \"True\", \"False\")"
+                    },
+                    "data_type": {
+                      "type": "string",
+                      "enum": [
+                        "number",
+                        "string",
+                        "date",
+                        "date_time"
+                      ],
+                      "description": "Expected data type returned from the formula",
+                      "example": "string"
+                    }
+                  },
+                  "required": [
+                    "type",
+                    "key",
+                    "title",
+                    "expression",
+                    "data_type"
+                  ],
+                  "description": "A calculation to be performed on values within the form. This form node can be used to calculate a value for a field based on the values of questions or even other calculations."
+                },
+                "value": {}
+              },
+              "required": [
+                "item",
+                "value"
+              ]
+            },
+            "description": "The individual responses that capture the author's answers to corresponding items within the form version."
+          },
           "responses": {
             "type": "array",
             "items": {
@@ -20378,15 +20538,20 @@
                   "$ref": "#/components/schemas/Question"
                 },
                 "response": {},
-                "value": {}
+                "value": {},
+                "score": {
+                  "type": "number",
+                  "nullable": true
+                }
               },
               "required": [
                 "item",
                 "response",
-                "value"
+                "value",
+                "score"
               ]
             },
-            "description": "The individual responses that capture the author's answers to corresponding items within the form version.,"
+            "description": "The individual responses that capture the author's answers to corresponding items within the form version."
           },
           "status": {
             "type": "string",
@@ -20485,6 +20650,7 @@
           "member",
           "form",
           "form_version",
+          "calculations",
           "responses",
           "status",
           "exit_screen",
@@ -20554,6 +20720,59 @@
             "description": "The previous form version. You can expand the previous form version to view its contents and configuration without the need to look up the form version separately.",
             "example": "fv_ByJdV5tV3eJf6KRRfoGU",
             "nullable": true
+          },
+          "calculations": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "type": {
+                  "type": "string",
+                  "default": "calculation",
+                  "enum": [
+                    "calculation"
+                  ],
+                  "example": "calculation"
+                },
+                "key": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 255,
+                  "pattern": "^[a-zA-Z0-9_]+$",
+                  "description": "Unique key of this item within the form. Used in responses and conditional logic.",
+                  "example": "demographics_name"
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Display title of this question in the form, i.e. the question text itself.",
+                  "example": "How do you feel today?"
+                },
+                "expression": {
+                  "type": "string",
+                  "description": "Formula that should be evaluated for this calculation",
+                  "example": "IF(yes_no_question, \"True\", \"False\")"
+                },
+                "data_type": {
+                  "type": "string",
+                  "enum": [
+                    "number",
+                    "string",
+                    "date",
+                    "date_time"
+                  ],
+                  "description": "Expected data type returned from the formula",
+                  "example": "string"
+                }
+              },
+              "required": [
+                "type",
+                "key",
+                "title",
+                "expression",
+                "data_type"
+              ],
+              "description": "A calculation to be performed on values within the form. This form node can be used to calculate a value for a field based on the values of questions or even other calculations."
+            }
           },
           "items": {
             "type": "array",
@@ -21358,6 +21577,9 @@
                                           "label": {
                                             "type": "string",
                                             "description": "Display label for this option. Must be unique within the question."
+                                          },
+                                          "score": {
+                                            "type": "number"
                                           }
                                         },
                                         "required": [
@@ -21398,6 +21620,13 @@
                                       ],
                                       "description": "Control the input type of the single-select question.",
                                       "example": "drop_down"
+                                    },
+                                    "scoring_method": {
+                                      "type": "string",
+                                      "enum": [
+                                        "none",
+                                        "max"
+                                      ]
                                     }
                                   },
                                   "required": [
@@ -21463,6 +21692,9 @@
                                           "label": {
                                             "type": "string",
                                             "description": "Display label for this option. Must be unique within the question."
+                                          },
+                                          "score": {
+                                            "type": "number"
                                           }
                                         },
                                         "required": [
@@ -21502,6 +21734,14 @@
                                       ],
                                       "description": "Control the input type of the multi-select question.",
                                       "example": "checkbox"
+                                    },
+                                    "scoring_method": {
+                                      "type": "string",
+                                      "enum": [
+                                        "none",
+                                        "max",
+                                        "sum"
+                                      ]
                                     }
                                   },
                                   "required": [
@@ -22386,6 +22626,9 @@
                                 "label": {
                                   "type": "string",
                                   "description": "Display label for this option. Must be unique within the question."
+                                },
+                                "score": {
+                                  "type": "number"
                                 }
                               },
                               "required": [
@@ -22426,6 +22669,13 @@
                             ],
                             "description": "Control the input type of the single-select question.",
                             "example": "drop_down"
+                          },
+                          "scoring_method": {
+                            "type": "string",
+                            "enum": [
+                              "none",
+                              "max"
+                            ]
                           }
                         },
                         "required": [
@@ -22491,6 +22741,9 @@
                                 "label": {
                                   "type": "string",
                                   "description": "Display label for this option. Must be unique within the question."
+                                },
+                                "score": {
+                                  "type": "number"
                                 }
                               },
                               "required": [
@@ -22530,6 +22783,14 @@
                             ],
                             "description": "Control the input type of the multi-select question.",
                             "example": "checkbox"
+                          },
+                          "scoring_method": {
+                            "type": "string",
+                            "enum": [
+                              "none",
+                              "max",
+                              "sum"
+                            ]
                           }
                         },
                         "required": [
@@ -22750,6 +23011,7 @@
           "changelog",
           "version",
           "previous_version",
+          "calculations",
           "items",
           "exit_screens",
           "created_at",
@@ -25690,6 +25952,9 @@
                     "label": {
                       "type": "string",
                       "description": "Display label for this option. Must be unique within the question."
+                    },
+                    "score": {
+                      "type": "number"
                     }
                   },
                   "required": [
@@ -25730,6 +25995,13 @@
                 ],
                 "description": "Control the input type of the single-select question.",
                 "example": "drop_down"
+              },
+              "scoring_method": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "max"
+                ]
               }
             },
             "required": [
@@ -25795,6 +26067,9 @@
                     "label": {
                       "type": "string",
                       "description": "Display label for this option. Must be unique within the question."
+                    },
+                    "score": {
+                      "type": "number"
                     }
                   },
                   "required": [
@@ -25834,6 +26109,14 @@
                 ],
                 "description": "Control the input type of the multi-select question.",
                 "example": "checkbox"
+              },
+              "scoring_method": {
+                "type": "string",
+                "enum": [
+                  "none",
+                  "max",
+                  "sum"
+                ]
               }
             },
             "required": [
