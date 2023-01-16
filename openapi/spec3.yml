@@ -15139,106 +15139,6 @@ paths:
                 $ref: "#/components/schemas/task_definition"
       x-methodName: retrieve
       x-belongsToResource: task_definition
-  /v1/workflow/queue:
-    get:
-      summary: Get all Task Queue Entries
-      description:
-        Returns a list of Task Queue Entries which are tasks assigned to the provided user, grouped
-        by member, and ordered by priority using the due_at property.
-      tags:
-        - Workflow
-      parameters:
-        - in: query
-          style: form
-          explode: true
-          name: ending_before
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `ending_before` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              starting with obj_bar, your subsequent call can include ending_before=obj_bar in order
-              to fetch the previous page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `ending_before` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, starting
-            with obj_bar, your subsequent call can include ending_before=obj_bar in order to fetch
-            the previous page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: starting_after
-          schema:
-            type: string
-            description:
-              A cursor for use in pagination. `starting_after` is an object ID that defines your
-              place in the list. For instance, if you make a list request and receive 100 objects,
-              ending with obj_foo, your subsequent call can include starting_after=obj_foo in order
-              to fetch the next page of the list.
-          required: false
-          description:
-            A cursor for use in pagination. `starting_after` is an object ID that defines your place
-            in the list. For instance, if you make a list request and receive 100 objects, ending
-            with obj_foo, your subsequent call can include starting_after=obj_foo in order to fetch
-            the next page of the list.
-        - in: query
-          style: form
-          explode: true
-          name: limit
-          schema:
-            type: number
-            minimum: 1
-            maximum: 100
-            description:
-              A limit on the number of objects to be returned. Limit can range between 1 and 100.
-          required: false
-          description:
-            A limit on the number of objects to be returned. Limit can range between 1 and 100.
-        - in: query
-          style: form
-          explode: true
-          name: assignee
-          schema:
-            type: string
-            description:
-              Shows the queue for the provided user. By default when not provided the queue will
-              include all tasks assigned to all users. When authenticated as a user you can specify
-              the value 'current' to show the current users task queue. Providing `unassigned` will
-              show a global queue of all tasks that are unassigned.
-          required: false
-          description:
-            Shows the queue for the provided user. By default when not provided the queue will
-            include all tasks assigned to all users. When authenticated as a user you can specify
-            the value 'current' to show the current users task queue. Providing `unassigned` will
-            show a global queue of all tasks that are unassigned.
-      responses:
-        default:
-          description: Successful response.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  object:
-                    type: string
-                    default: list
-                    enum:
-                      - list
-                    example: list
-                    description: Always `list`.
-                  data:
-                    type: array
-                    items:
-                      $ref: "#/components/schemas/task_queue_entry"
-                    description: Array of results
-                  has_more:
-                    type: boolean
-                    description: Contains `true` if there is another page of results available.
-                required:
-                  - object
-                  - data
-                  - has_more
   /v1/communication/threads:
     post:
       summary: Create a Thread
@@ -25631,29 +25531,6 @@ components:
         tasks.
       x-resourceId: task_definition
       x-package: null
-    task_queue_entry:
-      type: object
-      properties:
-        object:
-          type: string
-          description: Always `task_queue_entry`
-        member:
-          oneOf:
-            - type: string
-            - $ref: "#/components/schemas/member"
-          x-expandable:
-            $ref: "#/components/schemas/member"
-          description: The member to which the tasks belong.
-          example: mem_JAfPRRc59eh2YQ1aeL3D
-        tasks:
-          type: array
-          items:
-            $ref: "#/components/schemas/task"
-          description: List of open tasks outstanding for the member.
-      required:
-        - object
-        - member
-        - tasks
     thread:
       type: object
       properties:
