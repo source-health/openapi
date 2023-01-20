@@ -4569,6 +4569,10 @@
                     "example": "que_6NGuKD4KdMCGXLP6uBda",
                     "nullable": true,
                     "description": "Queue through which tasks related to encounters of this type should be routed in order to find an assignee. This queue overrides any queue specified in the task definition for open encounters. You can always change the queue for a given task once that task has been created."
+                  },
+                  "quick": {
+                    "type": "boolean",
+                    "description": "Whether or not the encounter type is available for users to create ad hoc encounters in the Source Clinical UI without first booking an appointment or receiving a form response. If not specified, by default, the encounter type is not available in the Clinical UI for creating ad hoc encounters."
                   }
                 },
                 "required": [
@@ -4697,6 +4701,18 @@
             },
             "required": false,
             "description": "Limit results to encounters with name containing the given query."
+          },
+          {
+            "in": "query",
+            "style": "form",
+            "explode": true,
+            "name": "quick",
+            "schema": {
+              "type": "boolean",
+              "description": "Filter encounter types to only those whose quick status matches the provided value. By default, this operation return all encounter types. You may pass `quick=true` to show quick encounter types, or `quick=false` to show non quick encounter types."
+            },
+            "required": false,
+            "description": "Filter encounter types to only those whose quick status matches the provided value. By default, this operation return all encounter types. You may pass `quick=true` to show quick encounter types, or `quick=false` to show non quick encounter types."
           }
         ],
         "responses": {
@@ -4790,6 +4806,10 @@
                     "example": "que_6NGuKD4KdMCGXLP6uBda",
                     "nullable": true,
                     "description": "Queue through which tasks related to encounters of this type should be routed in order to find an assignee. This queue overrides any queue specified in the task definition for open encounters. You can always change the queue for a given task once that task has been created."
+                  },
+                  "quick": {
+                    "type": "boolean",
+                    "description": "Whether or not the encounter type is available for users to create ad hoc encounters in the Source Clinical UI without first booking an appointment or receiving a form response. If not specified, by default, the encounter type is not available in the Clinical UI for creating ad hoc encounters."
                   }
                 }
               }
@@ -19146,6 +19166,10 @@
             "example": "que_6NGuKD4KdMCGXLP6uBda",
             "nullable": true
           },
+          "quick": {
+            "type": "boolean",
+            "description": "Whether or not the encounter type is available for users to create ad hoc encounters in the Source Clinical UI without first booking an appointment or receiving a form response. If not specified, by default, the encounter type is not available in the Clinical UI for creating ad hoc encounters."
+          },
           "created_at": {
             "type": "string",
             "format": "date-time",
@@ -19173,6 +19197,7 @@
           "name",
           "description",
           "queue",
+          "quick",
           "created_at",
           "updated_at",
           "archived_at"
