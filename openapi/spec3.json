@@ -1068,8 +1068,18 @@
                   },
                   "bookable": {
                     "type": "boolean",
-                    "description": "Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control. Defaults to true.",
+                    "description": "Deprecated. Use bookability instead. Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control. Defaults to true.",
                     "example": false
+                  },
+                  "bookability": {
+                    "type": "string",
+                    "enum": [
+                      "public",
+                      "member",
+                      "private"
+                    ],
+                    "description": "Determines who can book appointments of this type. By default, this parameter is set to `member` so that appointments can be booked directly by a member.  If set to `public`, appointments can be booked directly by both a member and an anonymous public actor, for example as part of an intake workflow.  If set to `private`, appointments can only be booked by users or API key, or via scheduling intents.  Note that all appointment types are still visible to members, as they may still have an appointment of that type scheduled.  As a result, this does not function as a security or privacy control.",
+                    "example": "member"
                   },
                   "buffer_before": {
                     "type": "number",
@@ -1570,8 +1580,18 @@
                   },
                   "bookable": {
                     "type": "boolean",
-                    "description": "Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control. Defaults to true.",
+                    "description": "Deprecated. Use bookability instead. Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control. Defaults to true.",
                     "example": false
+                  },
+                  "bookability": {
+                    "type": "string",
+                    "enum": [
+                      "public",
+                      "member",
+                      "private"
+                    ],
+                    "description": "Determines who can book appointments of this type. By default, this parameter is set to `member` so that appointments can be booked directly by a member.  If set to `public`, appointments can be booked directly by both a member and an anonymous public actor, for example as part of an intake workflow.  If set to `private`, appointments can only be booked by users or API key, or via scheduling intents.  Note that all appointment types are still visible to members, as they may still have an appointment of that type scheduled.  As a result, this does not function as a security or privacy control.",
+                    "example": "member"
                   },
                   "buffer_before": {
                     "type": "number",
@@ -17728,7 +17748,16 @@
           },
           "bookable": {
             "type": "boolean",
-            "description": "Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control."
+            "description": "Deprecated. Use bookability instead. Whether or not this appointment can be booked directly by a member. If set to false, this appointment can only be scheduled by a user. Note that appointment types with bookable set to false are still visible to members, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control."
+          },
+          "bookability": {
+            "type": "string",
+            "enum": [
+              "public",
+              "member",
+              "private"
+            ],
+            "description": "Describes which type of user can book this appointment. Note members can see all appointment types, as they may still have an appointment of that type scheduled. As a result, this does not function as a security or privacy control."
           },
           "buffer_before": {
             "type": "number",
@@ -17982,6 +18011,7 @@
           "slot_interval",
           "color",
           "bookable",
+          "bookability",
           "buffer_before",
           "buffer_after",
           "planning_horizon",
