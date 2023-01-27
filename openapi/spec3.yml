@@ -22313,12 +22313,31 @@ components:
           anyOf:
             - type: object
               properties:
+                form:
+                  oneOf:
+                    - type: string
+                    - $ref: "#/components/schemas/form"
+                  x-expandable:
+                    $ref: "#/components/schemas/form"
+                  description:
+                    The key or identifier of the form. When the member accesses this intent, the
+                    published version  of the form at that time is used to create the form response.
+                    If the intent type is 'form', this  configuration parameter is required.
+                  example: form_hSGPOT5BMusNLwDI3Z4N
+              required:
+                - form
+            - type: object
+              properties:
                 appointment_type:
-                  type: string
-                  example: aptp_meYUvkuaI2akjnb5Kwt7
+                  oneOf:
+                    - type: string
+                    - $ref: "#/components/schemas/appointment_type"
+                  x-expandable:
+                    $ref: "#/components/schemas/appointment_type"
                   description:
                     The key or identifier of the appointment type. If the intent type is
                     'scheduling', this configuration  parameter is required.
+                  example: aptp_meYUvkuaI2akjnb5Kwt7
                 start_search_at:
                   type: string
                   format: date-time
@@ -22358,17 +22377,6 @@ components:
                     Must be a number between 5 and 360 minutes (6 hours).
               required:
                 - appointment_type
-            - type: object
-              properties:
-                form:
-                  type: string
-                  example: form_hSGPOT5BMusNLwDI3Z4N
-                  description:
-                    The key or identifier of the form. When the member accesses this intent, the
-                    published version  of the form at that time is used to create the form response.
-                    If the intent type is 'form', this  configuration parameter is required.
-              required:
-                - form
           description:
             A set of configuration describing the appointment you wish the member to book or form
             you wish the member to  complete. This parameter's configuration depends on the intent
